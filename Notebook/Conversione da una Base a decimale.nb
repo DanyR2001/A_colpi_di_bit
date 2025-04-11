@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[      4364,        116]
-NotebookOptionsPosition[      2560,         74]
-NotebookOutlinePosition[      2985,         91]
-CellTagsIndexPosition[      2942,         88]
+NotebookDataLength[      6979,        179]
+NotebookOptionsPosition[      4953,        133]
+NotebookOutlinePosition[      5378,        150]
+CellTagsIndexPosition[      5335,        147]
 WindowTitle->Conversione da una Base a decimale
 WindowFrame->Normal*)
 
@@ -21,54 +21,113 @@ WindowFrame->Normal*)
 Notebook[{
 
 Cell[CellGroupData[{
-Cell["Conversione da una Base a decimale", "Title",ExpressionUUID->"7a0a732d-8469-4600-9afc-ce3db06c28c2"],
+Cell["Conversione da una Base a decimale", "Title",ExpressionUUID->"22644d4e-9676-40eb-a075-da9eb3fd5c6c"],
 
 Cell["\<\
 Questo notebook spiega come convertire numeri da una base qualsiasi al \
 sistema decimale. Utilizzeremo la funzione FromDigits per effettuare la \
 conversione. Di seguito vengono riportati alcuni esempi pratici.\
-\>", "Text",ExpressionUUID->"2a39b239-4650-45ea-b59c-869f9e06e650"],
+\>", "Text",ExpressionUUID->"d0abb4d7-aef8-4f02-b693-d820db8ee93c"],
 
 Cell[CellGroupData[{
 
-Cell["Esempio 1 - Conversione da Base 2 (binario) a Decimale:", "Section",ExpressionUUID->"ace31ff6-d158-408f-b334-9bce0ac62776"],
+Cell["Esempio 1 - Conversione da Base 2 (binario) a Decimale:", "Section",ExpressionUUID->"1e4eeec9-700b-41c8-a699-f39ea2041f14"],
 
-Cell["Convertiamo il numero \"1011\" dalla base 2 al decimale.", "Text",ExpressionUUID->"595981e9-3abf-4ab5-ba08-a8a76280d758"],
+Cell["Convertiamo il numero \"1011\" dalla base 2 al decimale.", "Text",ExpressionUUID->"ee3dc230-519b-4e32-a67c-70123055013c"],
 
 Cell[CellGroupData[{
 
-Cell[BoxData["11"], "Input",ExpressionUUID->"12e29ce0-9526-41fe-acf9-f1a0c0340b54"],
+Cell[BoxData["11"], "Input",ExpressionUUID->"c460f8e8-b6d1-4bf6-86d1-5f909379dbe9"],
 
-Cell["Risultato: 11", "Output",ExpressionUUID->"efde9740-004f-4be2-ad62-2ebbc14dc580"]
+Cell["Risultato: 11", "Output",ExpressionUUID->"cafa1f3c-2d29-4540-bda7-1b56f8e37ce0"]
 }, Open  ]]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Esempio 2 - Conversione da Base 16 (esadecimale) a Decimale:", "Section",ExpressionUUID->"cfeb8cf6-9b2c-4dc4-a532-19ccaeaa13bc"],
+Cell["Esempio 2 - Conversione da Base 16 (esadecimale) a Decimale:", "Section",ExpressionUUID->"6e661c55-0fd9-457f-a289-0a5a86db973d"],
 
-Cell["Convertiamo il numero \"A3\" dalla base 16 al decimale.", "Text",ExpressionUUID->"097e1a27-ac5c-4f6b-9825-f3e0b321fec6"],
+Cell["Convertiamo il numero \"A3\" dalla base 16 al decimale.", "Text",ExpressionUUID->"62cc089f-f11a-4e89-8352-a79af7c6028b"],
 
 Cell[CellGroupData[{
 
-Cell[BoxData["163"], "Input",ExpressionUUID->"8381388d-a0ee-4838-b6f2-402a180a01d6"],
+Cell[BoxData["163"], "Input",ExpressionUUID->"db76def6-1cd5-44c4-8d7f-dfc1dffbd061"],
 
-Cell["Risultato: 163", "Output",ExpressionUUID->"32c2c632-60a6-4d86-b74c-67c72d036b80"]
+Cell["Risultato: 163", "Output",ExpressionUUID->"392baa16-6d19-4b88-bd11-ec6903354f90"]
 }, Open  ]]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Esempio 3 - Conversione da Base 8 (ottale) a Decimale:", "Section",ExpressionUUID->"ba23ef0c-8a5c-48f3-a22f-c3dbe601dbec"],
+Cell["Esempio 3 - Conversione da Base 8 (ottale) a Decimale:", "Section",ExpressionUUID->"a9f590d3-c673-4adc-949d-3a3b33222279"],
 
-Cell["Convertiamo il numero \"157\" dalla base 8 al decimale.", "Text",ExpressionUUID->"0c345d01-ad21-4b46-9e76-8dedbe25f1e1"],
+Cell["Convertiamo il numero \"157\" dalla base 8 al decimale.", "Text",ExpressionUUID->"4f67db4a-9477-4a45-8779-d7d297e35dba"],
 
 Cell[CellGroupData[{
 
-Cell[BoxData["111"], "Input",ExpressionUUID->"96bed0a0-ffd8-445a-a50b-57f2ed1f15b5"],
+Cell[BoxData["111"], "Input",ExpressionUUID->"ef5da7dc-e461-481c-95b2-a63c2a7c8f37"],
 
-Cell["Risultato: 111", "Output",ExpressionUUID->"6f7467e7-c7ed-4462-82c8-81eeb33e5211"]
+Cell["Risultato: 111", "Output",ExpressionUUID->"bf615a6e-0f49-4221-a008-6684daf012bd"]
 }, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Iniziamo - iniziamo inserendo il seed:", "Section",ExpressionUUID->"3eae04cc-7764-415f-90d4-5a9318bc7790"],
+
+Cell[BoxData[
+ DynamicModuleBox[{$CellContext`seed$$ = "", $CellContext`base$$ = 
+  "", $CellContext`stages$$ = {1}}, 
+  TagBox[GridBox[{
+     {
+      DynamicBox[ToBoxes[
+        Column[
+         Map[
+          Function[$CellContext`stage$, 
+           Switch[$CellContext`stage$, 1, 
+            Panel[
+             Column[{
+               Style["Perfavore inserisci il Seed:", "Section"], 
+               InputField[
+                Dynamic[$CellContext`seed$$], String, FieldSize -> {20, 1}], 
+               Spacer[10], 
+               Button["Avanti", 
+                If[StringLength[$CellContext`seed$$] > 0, 
+                 If[
+                  Not[
+                   MemberQ[$CellContext`stages$$, 2]], 
+                  AppendTo[$CellContext`stages$$, 2]], 
+                 MessageDialog["Inserisci un seed valido!"]], Method -> 
+                "Queued"]}, FrameMargins -> 20]], 2, 
+            Panel[
+             Column[{
+               Style[
+               "Dimmi la base sulla quale ti va di allenarti", "Section"], 
+               Row[{
+                 Button[
+                 "Binario", $CellContext`base$$ = "binario"; 
+                  MessageDialog["Hai scelto la base binaria"], Method -> 
+                  "Queued", ImageSize -> {100, Automatic}], 
+                 Spacer[20], 
+                 Button[
+                 "Ottale", $CellContext`base$$ = "ottale"; 
+                  MessageDialog["Hai scelto la base ottale"], Method -> 
+                  "Queued", ImageSize -> {100, Automatic}], 
+                 Spacer[20], 
+                 Button[
+                 "Esadecimale", $CellContext`base$$ = "esadecimale"; 
+                  MessageDialog["Hai scelto la base esadecimale"], Method -> 
+                  "Queued", ImageSize -> {120, Automatic}]}]}, FrameMargins -> 
+              20]]]], $CellContext`stages$$]], StandardForm],
+       ImageSizeCache->{
+        329.47999999999996`, {58.33643945312501, 64.068373046875}}]}
+    },
+    DefaultBaseStyle->"Column",
+    GridBoxAlignment->{"Columns" -> {{Left}}},
+    GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+   "Column"],
+  DynamicModuleValues:>{}]], "Input",ExpressionUUID->"6427c139-9814-4bbb-a5d6-\
+21927992b165"]
 }, Open  ]]
 }, Open  ]]
 },
@@ -77,7 +136,7 @@ WindowMargins->Automatic,
 WindowTitle->"Conversione da una Base a decimale",
 FrontEndVersion->"14.2 for Mac OS X ARM (64-bit) (December 26, 2024)",
 StyleDefinitions->"Default.nb",
-ExpressionUUID->"2ae74a96-4f08-4260-a42e-5207977cf8e0"
+ExpressionUUID->"3ca4a016-17ea-4622-825a-13ec389c474b"
 ]
 (* End of Notebook Content *)
 
@@ -91,31 +150,35 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[624, 23, 106, 0, 96, "Title",ExpressionUUID->"7a0a732d-8469-4600-9afc-ce3db06c28c2"],
-Cell[733, 25, 290, 4, 33, "Text",ExpressionUUID->"2a39b239-4650-45ea-b59c-869f9e06e650"],
+Cell[624, 23, 106, 0, 96, "Title",ExpressionUUID->"22644d4e-9676-40eb-a075-da9eb3fd5c6c"],
+Cell[733, 25, 290, 4, 33, "Text",ExpressionUUID->"d0abb4d7-aef8-4f02-b693-d820db8ee93c"],
 Cell[CellGroupData[{
-Cell[1048, 33, 129, 0, 66, "Section",ExpressionUUID->"ace31ff6-d158-408f-b334-9bce0ac62776"],
-Cell[1180, 35, 127, 0, 33, "Text",ExpressionUUID->"595981e9-3abf-4ab5-ba08-a8a76280d758"],
+Cell[1048, 33, 129, 0, 66, "Section",ExpressionUUID->"1e4eeec9-700b-41c8-a699-f39ea2041f14"],
+Cell[1180, 35, 127, 0, 33, "Text",ExpressionUUID->"ee3dc230-519b-4e32-a67c-70123055013c"],
 Cell[CellGroupData[{
-Cell[1332, 39, 83, 0, 29, "Input",ExpressionUUID->"12e29ce0-9526-41fe-acf9-f1a0c0340b54"],
-Cell[1418, 41, 86, 0, 33, "Output",ExpressionUUID->"efde9740-004f-4be2-ad62-2ebbc14dc580"]
+Cell[1332, 39, 83, 0, 29, "Input",ExpressionUUID->"c460f8e8-b6d1-4bf6-86d1-5f909379dbe9"],
+Cell[1418, 41, 86, 0, 33, "Output",ExpressionUUID->"cafa1f3c-2d29-4540-bda7-1b56f8e37ce0"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1553, 47, 134, 0, 66, "Section",ExpressionUUID->"cfeb8cf6-9b2c-4dc4-a532-19ccaeaa13bc"],
-Cell[1690, 49, 126, 0, 33, "Text",ExpressionUUID->"097e1a27-ac5c-4f6b-9825-f3e0b321fec6"],
+Cell[1553, 47, 134, 0, 66, "Section",ExpressionUUID->"6e661c55-0fd9-457f-a289-0a5a86db973d"],
+Cell[1690, 49, 126, 0, 33, "Text",ExpressionUUID->"62cc089f-f11a-4e89-8352-a79af7c6028b"],
 Cell[CellGroupData[{
-Cell[1841, 53, 84, 0, 29, "Input",ExpressionUUID->"8381388d-a0ee-4838-b6f2-402a180a01d6"],
-Cell[1928, 55, 87, 0, 33, "Output",ExpressionUUID->"32c2c632-60a6-4d86-b74c-67c72d036b80"]
+Cell[1841, 53, 84, 0, 29, "Input",ExpressionUUID->"db76def6-1cd5-44c4-8d7f-dfc1dffbd061"],
+Cell[1928, 55, 87, 0, 33, "Output",ExpressionUUID->"392baa16-6d19-4b88-bd11-ec6903354f90"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[2064, 61, 128, 0, 66, "Section",ExpressionUUID->"ba23ef0c-8a5c-48f3-a22f-c3dbe601dbec"],
-Cell[2195, 63, 126, 0, 33, "Text",ExpressionUUID->"0c345d01-ad21-4b46-9e76-8dedbe25f1e1"],
+Cell[2064, 61, 128, 0, 66, "Section",ExpressionUUID->"a9f590d3-c673-4adc-949d-3a3b33222279"],
+Cell[2195, 63, 126, 0, 33, "Text",ExpressionUUID->"4f67db4a-9477-4a45-8779-d7d297e35dba"],
 Cell[CellGroupData[{
-Cell[2346, 67, 84, 0, 29, "Input",ExpressionUUID->"96bed0a0-ffd8-445a-a50b-57f2ed1f15b5"],
-Cell[2433, 69, 87, 0, 33, "Output",ExpressionUUID->"6f7467e7-c7ed-4462-82c8-81eeb33e5211"]
+Cell[2346, 67, 84, 0, 29, "Input",ExpressionUUID->"ef5da7dc-e461-481c-95b2-a63c2a7c8f37"],
+Cell[2433, 69, 87, 0, 33, "Output",ExpressionUUID->"bf615a6e-0f49-4221-a008-6684daf012bd"]
 }, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2569, 75, 112, 0, 66, "Section",ExpressionUUID->"3eae04cc-7764-415f-90d4-5a9318bc7790"],
+Cell[2684, 77, 2241, 52, 135, "Input",ExpressionUUID->"6427c139-9814-4bbb-a5d6-21927992b165"]
 }, Open  ]]
 }, Open  ]]
 }

@@ -1,0 +1,126 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      4364,        116]
+NotebookOptionsPosition[      2560,         74]
+NotebookOutlinePosition[      2985,         91]
+CellTagsIndexPosition[      2942,         88]
+WindowTitle->Conversione da una Base a decimale
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Conversione da una Base a decimale", "Title",ExpressionUUID->"7a0a732d-8469-4600-9afc-ce3db06c28c2"],
+
+Cell["\<\
+Questo notebook spiega come convertire numeri da una base qualsiasi al \
+sistema decimale. Utilizzeremo la funzione FromDigits per effettuare la \
+conversione. Di seguito vengono riportati alcuni esempi pratici.\
+\>", "Text",ExpressionUUID->"2a39b239-4650-45ea-b59c-869f9e06e650"],
+
+Cell[CellGroupData[{
+
+Cell["Esempio 1 - Conversione da Base 2 (binario) a Decimale:", "Section",ExpressionUUID->"ace31ff6-d158-408f-b334-9bce0ac62776"],
+
+Cell["Convertiamo il numero \"1011\" dalla base 2 al decimale.", "Text",ExpressionUUID->"595981e9-3abf-4ab5-ba08-a8a76280d758"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["11"], "Input",ExpressionUUID->"12e29ce0-9526-41fe-acf9-f1a0c0340b54"],
+
+Cell["Risultato: 11", "Output",ExpressionUUID->"efde9740-004f-4be2-ad62-2ebbc14dc580"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Esempio 2 - Conversione da Base 16 (esadecimale) a Decimale:", "Section",ExpressionUUID->"cfeb8cf6-9b2c-4dc4-a532-19ccaeaa13bc"],
+
+Cell["Convertiamo il numero \"A3\" dalla base 16 al decimale.", "Text",ExpressionUUID->"097e1a27-ac5c-4f6b-9825-f3e0b321fec6"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["163"], "Input",ExpressionUUID->"8381388d-a0ee-4838-b6f2-402a180a01d6"],
+
+Cell["Risultato: 163", "Output",ExpressionUUID->"32c2c632-60a6-4d86-b74c-67c72d036b80"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Esempio 3 - Conversione da Base 8 (ottale) a Decimale:", "Section",ExpressionUUID->"ba23ef0c-8a5c-48f3-a22f-c3dbe601dbec"],
+
+Cell["Convertiamo il numero \"157\" dalla base 8 al decimale.", "Text",ExpressionUUID->"0c345d01-ad21-4b46-9e76-8dedbe25f1e1"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["111"], "Input",ExpressionUUID->"96bed0a0-ffd8-445a-a50b-57f2ed1f15b5"],
+
+Cell["Risultato: 111", "Output",ExpressionUUID->"6f7467e7-c7ed-4462-82c8-81eeb33e5211"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{Full, Full},
+WindowMargins->Automatic,
+WindowTitle->"Conversione da una Base a decimale",
+FrontEndVersion->"14.2 for Mac OS X ARM (64-bit) (December 26, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"2ae74a96-4f08-4260-a42e-5207977cf8e0"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[624, 23, 106, 0, 96, "Title",ExpressionUUID->"7a0a732d-8469-4600-9afc-ce3db06c28c2"],
+Cell[733, 25, 290, 4, 33, "Text",ExpressionUUID->"2a39b239-4650-45ea-b59c-869f9e06e650"],
+Cell[CellGroupData[{
+Cell[1048, 33, 129, 0, 66, "Section",ExpressionUUID->"ace31ff6-d158-408f-b334-9bce0ac62776"],
+Cell[1180, 35, 127, 0, 33, "Text",ExpressionUUID->"595981e9-3abf-4ab5-ba08-a8a76280d758"],
+Cell[CellGroupData[{
+Cell[1332, 39, 83, 0, 29, "Input",ExpressionUUID->"12e29ce0-9526-41fe-acf9-f1a0c0340b54"],
+Cell[1418, 41, 86, 0, 33, "Output",ExpressionUUID->"efde9740-004f-4be2-ad62-2ebbc14dc580"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1553, 47, 134, 0, 66, "Section",ExpressionUUID->"cfeb8cf6-9b2c-4dc4-a532-19ccaeaa13bc"],
+Cell[1690, 49, 126, 0, 33, "Text",ExpressionUUID->"097e1a27-ac5c-4f6b-9825-f3e0b321fec6"],
+Cell[CellGroupData[{
+Cell[1841, 53, 84, 0, 29, "Input",ExpressionUUID->"8381388d-a0ee-4838-b6f2-402a180a01d6"],
+Cell[1928, 55, 87, 0, 33, "Output",ExpressionUUID->"32c2c632-60a6-4d86-b74c-67c72d036b80"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2064, 61, 128, 0, 66, "Section",ExpressionUUID->"ba23ef0c-8a5c-48f3-a22f-c3dbe601dbec"],
+Cell[2195, 63, 126, 0, 33, "Text",ExpressionUUID->"0c345d01-ad21-4b46-9e76-8dedbe25f1e1"],
+Cell[CellGroupData[{
+Cell[2346, 67, 84, 0, 29, "Input",ExpressionUUID->"96bed0a0-ffd8-445a-a50b-57f2ed1f15b5"],
+Cell[2433, 69, 87, 0, 33, "Output",ExpressionUUID->"6f7467e7-c7ed-4462-82c8-81eeb33e5211"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+

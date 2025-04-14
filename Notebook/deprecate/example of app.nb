@@ -1,0 +1,128 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      5289,        120]
+NotebookOptionsPosition[      4618,        101]
+NotebookOutlinePosition[      5018,        117]
+CellTagsIndexPosition[      4975,        114]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{"SetDirectory", 
+  "[", "\"\</Users/danielerusso/Documents/GitHub/A_colpi_di_bit/Notebook\>\"",
+   "]"}], "\[IndentingNewLine]", 
+ RowBox[{"AppendTo", "[", 
+  RowBox[{
+  "$Path", ",", \
+"\"\</Users/danielerusso/Documents/GitHub/A_colpi_di_bit/Notebook\>\""}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"<<", "paccotto`"}], "\n", 
+ RowBox[{"BattleshipBaseConversion`generateNotebook", "[", "]"}]}], "Input",
+ CellChangeTimes->{{3.953354816540717*^9, 3.953354835429492*^9}, {
+   3.953355038560185*^9, 3.95335506243039*^9}, {3.953359658780889*^9, 
+   3.953359661284857*^9}, {3.953359709237722*^9, 3.953359730201253*^9}, {
+   3.9533597650107718`*^9, 3.9533598266836033`*^9}, {3.953360597054264*^9, 
+   3.9533606909848833`*^9}, {3.953360727056637*^9, 3.9533607748228073`*^9}, {
+   3.953360818697813*^9, 3.953360837747588*^9}, {3.953360874948656*^9, 
+   3.9533608972845573`*^9}, 3.953363979853647*^9, {3.95336401007241*^9, 
+   3.953364156686184*^9}},
+ CellLabel->
+  "In[111]:=",ExpressionUUID->"e542f90b-d7cf-46f1-978c-df544db0db19"],
+
+Cell[BoxData["\<\"/Users/danielerusso/Documents/GitHub/A_colpi_di_bit/\
+Notebook\"\>"], "Output",
+ CellChangeTimes->{
+  3.953364212924026*^9, {3.953364250667426*^9, 3.953364254449171*^9}, 
+   3.953604339480657*^9},
+ CellLabel->
+  "Out[111]=",ExpressionUUID->"d0486941-d364-41bb-aa9f-730cc350297b"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"\<\"/Users/danielerusso/Library/Wolfram/DocumentationIndices\"\>", 
+   ",", "\<\"/Applications/Wolfram.app/Contents/SystemFiles/Links\"\>", 
+   ",", "\<\"/Users/danielerusso/Library/Wolfram/Kernel\"\>", 
+   ",", "\<\"/Users/danielerusso/Library/Wolfram/Autoload\"\>", 
+   ",", "\<\"/Users/danielerusso/Library/Wolfram/Applications\"\>", 
+   ",", "\<\"/Library/Wolfram/Kernel\"\>", 
+   ",", "\<\"/Library/Wolfram/Autoload\"\>", 
+   ",", "\<\"/Library/Wolfram/Applications\"\>", ",", "\<\".\"\>", 
+   ",", "\<\"/Users/danielerusso\"\>", 
+   ",", "\<\"/Applications/Wolfram.app/Contents/AddOns/Packages\"\>", 
+   ",", "\<\"/Applications/Wolfram.app/Contents/SystemFiles/Autoload\"\>", 
+   ",", "\<\"/Applications/Wolfram.app/Contents/AddOns/Autoload\"\>", 
+   ",", "\<\"/Applications/Wolfram.app/Contents/AddOns/Applications\"\>", 
+   ",", "\<\"/Applications/Wolfram.app/Contents/AddOns/ExtraPackages\"\>", 
+   ",", "\<\"/Applications/Wolfram.app/Contents/SystemFiles/Kernel/Packages\"\
+\>", ",", \
+"\<\"/Applications/Wolfram.app/Contents/Documentation/English/System\"\>", 
+   ",", "\<\"/Applications/Wolfram.app/Contents/SystemFiles/Data/ICC\"\>", 
+   ",", "\<\"/Applications/Wolfram.app/Contents/Documentation/\
+ChineseSimplified/System/\"\>", 
+   ",", "\<\"/Users/danielerusso/Documents/GitHub/A_colpi_di_bit/Notebook\"\>\
+", ",", "\<\"/Users/danielerusso/Documents/GitHub/A_colpi_di_bit/Notebook\"\>\
+", ",", "\<\"/Users/danielerusso/Documents/GitHub/A_colpi_di_bit/Notebook\"\>\
+", ",", "\<\"/Users/danielerusso/Documents/GitHub/A_colpi_di_bit/Notebook\"\>\
+", ",", "\<\"/Users/danielerusso/Documents/GitHub/A_colpi_di_bit/Notebook\"\>\
+", ",", "\<\"/Users/danielerusso/Documents/GitHub/A_colpi_di_bit/Notebook\"\>\
+", ",", "\<\"/Users/danielerusso/Documents/GitHub/A_colpi_di_bit/Notebook\"\>\
+", ",", "\<\"/Users/danielerusso/Documents/GitHub/A_colpi_di_bit/Notebook\"\>\
+", ",", "\<\"/Users/danielerusso/Documents/GitHub/A_colpi_di_bit/Notebook\"\>\
+", ",", "\<\"/Users/danielerusso/Documents/GitHub/A_colpi_di_bit/Notebook\"\>\
+", ",", "\<\"/Users/danielerusso/Documents/GitHub/A_colpi_di_bit/Notebook\"\>\
+"}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.953364212924026*^9, {3.953364250667426*^9, 3.953364254449171*^9}, 
+   3.9536043394817657`*^9},
+ CellLabel->
+  "Out[112]=",ExpressionUUID->"ad22b699-9e9f-4aad-9174-dbe3fb46da1a"],
+
+Cell[BoxData[
+ RowBox[{"BattleshipBaseConversion`generateNotebook", "[", "]"}]], "Output",
+ CellChangeTimes->{
+  3.953364212924026*^9, {3.953364250667426*^9, 3.953364254449171*^9}, 
+   3.953604339483386*^9},
+ CellLabel->
+  "Out[114]=",ExpressionUUID->"e6461c79-4d80-4d44-a116-d3186359c16f"]
+}, Open  ]]
+},
+WindowSize->{Full, Full},
+WindowMargins->{{316, Automatic}, {Automatic, 50}},
+FrontEndVersion->"14.2 for Mac OS X ARM (64-bit) (December 26, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"035524f1-89d6-49b1-a8eb-45f65a5ec468"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 1052, 20, 90, "Input",ExpressionUUID->"e542f90b-d7cf-46f1-978c-df544db0db19"],
+Cell[1631, 44, 297, 6, 33, "Output",ExpressionUUID->"d0486941-d364-41bb-aa9f-730cc350297b"],
+Cell[1931, 52, 2378, 38, 258, "Output",ExpressionUUID->"ad22b699-9e9f-4aad-9174-dbe3fb46da1a"],
+Cell[4312, 92, 290, 6, 52, "Output",ExpressionUUID->"e6461c79-4d80-4d44-a116-d3186359c16f"]
+}, Open  ]]
+}
+]
+*)
+

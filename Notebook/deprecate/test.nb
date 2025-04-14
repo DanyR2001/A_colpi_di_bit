@@ -1,0 +1,1000 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     42645,        992]
+NotebookOptionsPosition[     42030,        971]
+NotebookOutlinePosition[     42685,        994]
+CellTagsIndexPosition[     42642,        991]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"BeginPackage", "[", "\"\<BattleshipBaseConversion`\>\"", "]"}], 
+   ";"}], "\[IndentingNewLine]", "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generateNotebook", "::", "usage"}], 
+    "=", "\"\<generateNotebook[] crea e apre il notebook interattivo.\>\""}], 
+   ";"}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"validateCoordinate", "::", "usage"}], 
+    "=", "\"\<validateCoordinate[coord_Integer, occupied_List] verifica \
+coordinate.\>\""}], ";"}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"placeShip", "::", "usage"}], 
+    "=", "\"\<placeShip[start_, direction_, size_, occupied_] restituisce \
+coordinate nave.\>\""}], ";"}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generateGrid", "::", "usage"}], 
+    "=", "\"\<generateGrid[ships_List] restituisce griglia \
+10\[Times]10.\>\""}], ";"}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"createTutorialNotebook", "::", "usage"}], 
+    "=", "\"\<createTutorialNotebook[] crea un notebook con tutorial e \
+spiegazione della conversione di base.\>\""}], ";"}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], ";"}], 
+  "\[IndentingNewLine]", "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"ClearAll", "[", 
+    RowBox[{
+    "validateCoordinate", ",", "placeShip", ",", "generateGrid", ",", 
+     "generateNotebook", ",", "BoardDisplay", ",", "convertInput", ",", 
+     "createTutorialNotebook"}], "]"}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"Funzioni", " ", "di", " ", "supporto"}], "*)"}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"validateCoordinate", "[", 
+     RowBox[{"coord_Integer", ",", "occupied_List"}], "]"}], ":=", 
+    RowBox[{
+     RowBox[{"0", "<=", "coord", "<=", "99"}], "&&", 
+     RowBox[{"!", 
+      RowBox[{"MemberQ", "[", 
+       RowBox[{"occupied", ",", "coord"}], "]"}]}]}]}], ";"}], 
+  "\[IndentingNewLine]", "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"placeShip", "[", 
+     RowBox[{"start_", ",", "direction_", ",", "size_", ",", "occupied_"}], 
+     "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "coords", "}"}], ",", 
+      RowBox[{
+       RowBox[{"coords", "=", 
+        RowBox[{"Switch", "[", 
+         RowBox[{"direction", ",", "\"\<H\>\"", ",", 
+          RowBox[{"Range", "[", 
+           RowBox[{"start", ",", 
+            RowBox[{"start", "+", "size", "-", "1"}]}], "]"}], 
+          ",", "\"\<V\>\"", ",", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"start", "+", 
+             RowBox[{"10", "*", "i"}]}], ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", "0", ",", 
+              RowBox[{"size", "-", "1"}]}], "}"}]}], "]"}], ",", "_", ",", 
+          RowBox[{"{", "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Verifica", " ", "che", " ", "tutte", " ", "le", " ", "coordinate", " ",
+          "siano", " ", "valide", " ", 
+         RowBox[{"(", 
+          RowBox[{"0", "-", "99"}], ")"}], " ", "e", " ", "che", " ", "non", " ",
+          "siano", " ", "gi\[AGrave]", " ", "occupate"}], "*)"}], 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"AllTrue", "[", 
+           RowBox[{"coords", ",", 
+            RowBox[{
+             RowBox[{"0", "<=", "#", "<=", "99"}], "&"}]}], "]"}], "&&", 
+          RowBox[{"AllTrue", "[", 
+           RowBox[{"coords", ",", 
+            RowBox[{
+             RowBox[{"FreeQ", "[", 
+              RowBox[{"occupied", ",", "#"}], "]"}], "&"}]}], "]"}], "&&", 
+          RowBox[{"(*", 
+           RowBox[{
+           "Verifica", " ", "che", " ", "in", " ", "orizzontale", " ", "la", " ",
+             "nave", " ", "non", " ", "superi", " ", "il", " ", "bordo"}], 
+           "*)"}], 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"direction", "!=", "\"\<H\>\""}], "||", 
+            RowBox[{
+             RowBox[{"Quotient", "[", 
+              RowBox[{"start", ",", "10"}], "]"}], "==", 
+             RowBox[{"Quotient", "[", 
+              RowBox[{
+               RowBox[{"start", "+", "size", "-", "1"}], ",", "10"}], 
+              "]"}]}]}], ")"}]}], ",", "coords", ",", "$Failed"}], "]"}]}]}], 
+     "]"}]}], ";"}], "\[IndentingNewLine]", "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generateGrid", "[", "ships_List", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"grid", "=", 
+        RowBox[{"ConstantArray", "[", 
+         RowBox[{"\"\<-\>\"", ",", 
+          RowBox[{"{", 
+           RowBox[{"10", ",", "10"}], "}"}]}], "]"}]}], "}"}], ",", 
+      RowBox[{
+       RowBox[{"Do", "[", 
+        RowBox[{
+         RowBox[{"Do", "[", 
+          RowBox[{
+           RowBox[{"Module", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"row", ",", "col"}], "}"}], ",", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"row", ",", "col"}], "}"}], "=", 
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"Quotient", "[", 
+                   RowBox[{"coord", ",", "10"}], "]"}], "+", "1"}], ",", 
+                 RowBox[{
+                  RowBox[{"Mod", "[", 
+                   RowBox[{"coord", ",", "10"}], "]"}], "+", "1"}]}], "}"}]}],
+               ";", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"grid", "[", 
+                RowBox[{"[", 
+                 RowBox[{"row", ",", "col"}], "]"}], "]"}], 
+               "=", "\"\<X\>\""}], ";"}]}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"coord", ",", "ship"}], "}"}]}], "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"ship", ",", "ships"}], "}"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", "grid"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]", "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"BoardDisplay", "[", "board_", "]"}], ":=", 
+    RowBox[{"Grid", "[", 
+     RowBox[{
+      RowBox[{"Join", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"Join", "[", 
+          RowBox[{
+           RowBox[{"{", "\"\< \>\"", "}"}], ",", 
+           RowBox[{"Range", "[", 
+            RowBox[{"0", ",", "9"}], "]"}]}], "]"}], "}"}], ",", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"Join", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"i", "-", "1"}], "}"}], ",", 
+            RowBox[{"Table", "[", 
+             RowBox[{
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"board", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"i", ",", "j"}], "]"}], "]"}], "===", "1"}], ",", 
+                RowBox[{"Style", "[", 
+                 RowBox[{"\"\<X\>\"", ",", "Red", ",", "Bold"}], "]"}], 
+                ",", "\"\< \>\""}], "]"}], ",", 
+              RowBox[{"{", 
+               RowBox[{"j", ",", "10"}], "}"}]}], "]"}]}], "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "10"}], "}"}]}], "]"}]}], "]"}], ",", 
+      RowBox[{"Frame", "->", "All"}], ",", 
+      RowBox[{"Spacings", "->", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}]}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]", "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"convertInput", "[", 
+     RowBox[{"s_String", ",", "base_String"}], "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"b", ",", "result"}], "}"}], ",", 
+      RowBox[{
+       RowBox[{"b", "=", 
+        RowBox[{"Switch", "[", 
+         RowBox[{
+         "base", ",", "\"\<binario\>\"", ",", "2", ",", "\"\<ottale\>\"", ",",
+           "8", ",", "\"\<esadecimale\>\"", ",", "16", ",", "_", ",", "10"}], 
+         "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"result", "=", 
+        RowBox[{"Check", "[", 
+         RowBox[{
+          RowBox[{"FromDigits", "[", 
+           RowBox[{"s", ",", "b"}], "]"}], ",", "$Failed"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"result", "===", "$Failed"}], "||", 
+          RowBox[{"!", 
+           RowBox[{"IntegerQ", "[", "result", "]"}]}], "||", 
+          RowBox[{"result", "<", "0"}], "||", 
+          RowBox[{"result", ">", "99"}]}], ",", "$Failed", ",", "result"}], 
+        "]"}]}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Funzione", " ", "per", " ", "creare", " ", "un", " ", "notebook", " ", 
+    "tutorial", " ", "sulla", " ", "conversione", " ", "di", " ", "base"}], 
+   "*)"}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"createTutorialNotebook", "[", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "nb", "}"}], ",", 
+      RowBox[{
+       RowBox[{"nb", "=", 
+        RowBox[{"CreateDocument", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"Cell", "[", 
+             
+             RowBox[{"\"\<Conversione da una Base a decimale\>\"", 
+              ",", "\"\<Title\>\""}], "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             RowBox[{
+              
+              RowBox[{"\"\<Questo notebook spiega come convertire numeri da \
+una base qualsiasi al sistema decimale. \>\"", 
+               "<>", "\"\<Utilizzeremo la funzione FromDigits per effettuare \
+la conversione. \>\"", 
+               "<>", "\"\<Di seguito vengono riportati alcuni esempi pratici.\
+\>\""}], ",", "\"\<Text\>\""}], "]"}], ",", 
+            RowBox[{"(*", 
+             RowBox[{
+              RowBox[{"Esempio", " ", "1"}], ":", 
+              RowBox[{
+              "Conversione", " ", "di", " ", "un", " ", "numero", " ", 
+               "binario"}]}], "*)"}], 
+            RowBox[{"Cell", "[", 
+             
+             RowBox[{"\"\<Esempio 1 - Conversione da Base 2 (binario) a \
+Decimale:\>\"", ",", "\"\<Section\>\""}], "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             
+             RowBox[{"\"\<Convertiamo il numero \\\"1011\\\" dalla base 2 al \
+decimale.\>\"", ",", "\"\<Text\>\""}], "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             RowBox[{
+              RowBox[{"BoxData", "[", 
+               RowBox[{"ToBoxes", "[", 
+                RowBox[{"FromDigits", "[", 
+                 RowBox[{"\"\<1011\>\"", ",", "2"}], "]"}], "]"}], "]"}], 
+              ",", "\"\<Input\>\""}], "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             RowBox[{"\"\<Risultato: 11\>\"", ",", "\"\<Output\>\""}], "]"}], 
+            ",", 
+            RowBox[{"(*", 
+             RowBox[{
+              RowBox[{"Esempio", " ", "2"}], ":", 
+              RowBox[{
+              "Conversione", " ", "di", " ", "un", " ", "numero", " ", 
+               "esadecimale"}]}], "*)"}], 
+            RowBox[{"Cell", "[", 
+             
+             RowBox[{"\"\<Esempio 2 - Conversione da Base 16 (esadecimale) a \
+Decimale:\>\"", ",", "\"\<Section\>\""}], "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             
+             RowBox[{"\"\<Convertiamo il numero \\\"A3\\\" dalla base 16 al \
+decimale.\>\"", ",", "\"\<Text\>\""}], "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             RowBox[{
+              RowBox[{"BoxData", "[", 
+               RowBox[{"ToBoxes", "[", 
+                RowBox[{"FromDigits", "[", 
+                 RowBox[{"\"\<A3\>\"", ",", "16"}], "]"}], "]"}], "]"}], 
+              ",", "\"\<Input\>\""}], "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             RowBox[{"\"\<Risultato: 163\>\"", ",", "\"\<Output\>\""}], "]"}],
+             ",", 
+            RowBox[{"(*", 
+             RowBox[{
+              RowBox[{"Esempio", " ", "3"}], ":", 
+              RowBox[{
+              "Conversione", " ", "di", " ", "un", " ", "numero", " ", "in", " ",
+                "base", " ", "ottale"}]}], "*)"}], 
+            RowBox[{"Cell", "[", 
+             
+             RowBox[{"\"\<Esempio 3 - Conversione da Base 8 (ottale) a \
+Decimale:\>\"", ",", "\"\<Section\>\""}], "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             
+             RowBox[{"\"\<Convertiamo il numero \\\"157\\\" dalla base 8 al \
+decimale.\>\"", ",", "\"\<Text\>\""}], "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             RowBox[{
+              RowBox[{"BoxData", "[", 
+               RowBox[{"ToBoxes", "[", 
+                RowBox[{"FromDigits", "[", 
+                 RowBox[{"\"\<157\>\"", ",", "8"}], "]"}], "]"}], "]"}], 
+              ",", "\"\<Input\>\""}], "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             RowBox[{"\"\<Risultato: 111\>\"", ",", "\"\<Output\>\""}], "]"}],
+             ",", 
+            RowBox[{"(*", 
+             RowBox[{
+             "Sezione", " ", "di", " ", "spiegazione", " ", "teorica"}], 
+             "*)"}], 
+            RowBox[{"Cell", "[", 
+             
+             RowBox[{"\"\<Teoria della conversione di base\>\"", 
+              ",", "\"\<Section\>\""}], "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             RowBox[{
+              
+              RowBox[{"\"\<Per convertire un numero da una base qualsiasi a \
+base 10 (decimale), \>\"", 
+               "<>", "\"\<si moltiplica ogni cifra per la potenza della base \
+corrispondente alla \>\"", 
+               "<>", "\"\<sua posizione, partendo da destra con esponente \
+0.\>\""}], ",", "\"\<Text\>\""}], "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             
+             RowBox[{"\"\<Per esempio, per convertire 1011 (base 2) in base \
+10:\>\"", ",", "\"\<Text\>\""}], "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             
+             RowBox[{"\"\<1\[Times]2^3 + 0\[Times]2^2 + 1\[Times]2^1 + 1\
+\[Times]2^0 = 8 + 0 + 2 + 1 = 11\>\"", ",", "\"\<Text\>\""}], "]"}], ",", 
+            RowBox[{"(*", 
+             RowBox[{"Parte", " ", "teorica", " ", "aggiuntiva"}], "*)"}], 
+            RowBox[{"Cell", "[", 
+             RowBox[{"\"\<Basi comuni\>\"", ",", "\"\<Subsection\>\""}], 
+             "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             
+             RowBox[{"\"\<Le basi pi\[UGrave] utilizzate in informatica sono:\
+\>\"", ",", "\"\<Text\>\""}], "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             RowBox[{
+              RowBox[{"BoxData", "[", 
+               RowBox[{"ToBoxes", "[", 
+                RowBox[{"Grid", "[", 
+                 RowBox[{
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"{", 
+                    
+                    RowBox[{"\"\<Base\>\"", ",", "\"\<Nome\>\"", 
+                    ",", "\"\<Cifre utilizzate\>\""}], "}"}], ",", 
+                    RowBox[{"{", 
+                    
+                    RowBox[{"\"\<2\>\"", ",", "\"\<Binario\>\"", 
+                    ",", "\"\<0, 1\>\""}], "}"}], ",", 
+                    RowBox[{"{", 
+                    
+                    RowBox[{"\"\<8\>\"", ",", "\"\<Ottale\>\"", 
+                    ",", "\"\<0, 1, 2, 3, 4, 5, 6, 7\>\""}], "}"}], ",", 
+                    RowBox[{"{", 
+                    
+                    RowBox[{"\"\<10\>\"", ",", "\"\<Decimale\>\"", 
+                    ",", "\"\<0, 1, 2, 3, 4, 5, 6, 7, 8, 9\>\""}], "}"}], ",", 
+                    RowBox[{"{", 
+                    
+                    RowBox[{"\"\<16\>\"", ",", "\"\<Esadecimale\>\"", 
+                    ",", "\"\<0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, \
+F\>\""}], "}"}]}], "}"}], ",", 
+                  RowBox[{"Frame", "->", "All"}], ",", 
+                  RowBox[{"Alignment", "->", "Left"}]}], "]"}], "]"}], "]"}], 
+              ",", "\"\<Output\>\""}], "]"}], ",", 
+            RowBox[{"(*", 
+             RowBox[{
+             "Parte", " ", "interattiva", " ", "per", " ", "provare", " ", 
+              "le", " ", "conversioni"}], "*)"}], 
+            RowBox[{"Cell", "[", 
+             RowBox[{"\"\<Prova tu stesso\>\"", ",", "\"\<Section\>\""}], 
+             "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             
+             RowBox[{"\"\<Inserisci un numero e la sua base per convertirlo \
+in decimale:\>\"", ",", "\"\<Text\>\""}], "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             RowBox[{
+              RowBox[{"BoxData", "[", 
+               RowBox[{"ToBoxes", "[", 
+                RowBox[{"DynamicModule", "[", 
+                 RowBox[{
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"input", "=", "\"\<\>\""}], ",", 
+                    RowBox[{"base", "=", "2"}], ",", 
+                    RowBox[{"result", "=", "\"\<\>\""}]}], "}"}], ",", 
+                  RowBox[{"Column", "[", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Row", "[", 
+                    RowBox[{"{", 
+                    RowBox[{"\"\<Numero: \>\"", ",", 
+                    RowBox[{"InputField", "[", 
+                    RowBox[{
+                    RowBox[{"Dynamic", "[", "input", "]"}], ",", "String", ",", 
+                    RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"150", ",", "30"}], "}"}]}]}], "]"}], ",", 
+                    RowBox[{"Spacer", "[", "20", "]"}], ",", "\"\<Base: \>\"",
+                     ",", 
+                    RowBox[{"PopupMenu", "[", 
+                    RowBox[{
+                    RowBox[{"Dynamic", "[", "base", "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"2", "->", "\"\<Binario (2)\>\""}], ",", 
+                    RowBox[{"8", "->", "\"\<Ottale (8)\>\""}], ",", 
+                    RowBox[{"16", "->", "\"\<Esadecimale (16)\>\""}]}], 
+                    "}"}]}], "]"}]}], "}"}], "]"}], ",", 
+                    RowBox[{"Button", "[", 
+                    RowBox[{"\"\<Converti\>\"", ",", 
+                    RowBox[{"result", "=", 
+                    RowBox[{"ToString", "@", 
+                    RowBox[{"Check", "[", 
+                    RowBox[{
+                    RowBox[{"FromDigits", "[", 
+                    RowBox[{"input", ",", "base"}], "]"}], 
+                    ",", "\"\<Input non valido\>\""}], "]"}]}]}], ",", 
+                    RowBox[{"Method", "->", "\"\<Queued\>\""}]}], "]"}], ",", 
+                    
+                    RowBox[{"Dynamic", "[", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"result", "=!=", "\"\<\>\""}], ",", 
+                    RowBox[{"Row", "[", 
+                    RowBox[{"{", 
+                    RowBox[{"\"\<Risultato in base 10: \>\"", ",", "result"}],
+                     "}"}], "]"}], ",", "\"\<\>\""}], "]"}], "]"}]}], "}"}], 
+                   "]"}]}], "]"}], "]"}], "]"}], ",", "\"\<Input\>\""}], 
+             "]"}], ",", 
+            RowBox[{"(*", 
+             RowBox[{
+             "Link", " ", "al", " ", "gioco", " ", "della", " ", "battaglia", 
+              " ", "navale"}], "*)"}], 
+            RowBox[{"Cell", "[", 
+             
+             RowBox[{"\"\<Applica le tue conoscenze\>\"", 
+              ",", "\"\<Section\>\""}], "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             RowBox[{
+              
+              RowBox[{"\"\<Ora che hai capito come funziona la conversione di \
+base, \>\"", 
+               "<>", "\"\<puoi mettere alla prova le tue conoscenze con il \
+gioco della Battaglia Navale \>\"", 
+               "<>", "\"\<che utilizza le coordinate espresse in diverse basi \
+numeriche.\>\""}], ",", "\"\<Text\>\""}], "]"}], ",", 
+            RowBox[{"Cell", "[", 
+             RowBox[{
+              RowBox[{"BoxData", "[", 
+               RowBox[{"ToBoxes", "[", 
+                RowBox[{"Button", "[", 
+                 RowBox[{"\"\<Apri Gioco Battaglia Navale\>\"", ",", 
+                  RowBox[{"generateNotebook", "[", "]"}], ",", 
+                  RowBox[{"Method", "->", "\"\<Queued\>\""}], ",", 
+                  RowBox[{"ImageSize", "->", 
+                   RowBox[{"{", 
+                    RowBox[{"200", ",", "40"}], "}"}]}]}], "]"}], "]"}], 
+               "]"}], ",", "\"\<Input\>\""}], "]"}]}], "}"}], ",", 
+          RowBox[{
+          "WindowTitle", "->", "\"\<Tutorial Conversione di Base\>\""}]}], 
+         "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"SetOptions", "[", 
+        RowBox[{"nb", ",", 
+         RowBox[{"WindowMargins", "->", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"Automatic", ",", "Automatic"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"Automatic", ",", "10"}], "}"}]}], "}"}]}]}], "]"}], ";",
+        "\[IndentingNewLine]", "nb"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]", "\n", 
+  RowBox[{"(*", 
+   RowBox[{"Interfaccia", " ", "interattiva", " ", "principale"}], "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"generateNotebook", "[", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "interfacciaInterattiva", "}"}], ",", 
+      RowBox[{
+       RowBox[{"interfacciaInterattiva", "=", 
+        RowBox[{"DynamicModule", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"seed", "=", "\"\<\>\""}], ",", 
+            RowBox[{"base", "=", "\"\<\>\""}], ",", 
+            RowBox[{"stages", "=", 
+             RowBox[{"{", "1", "}"}]}]}], "}"}], ",", 
+          RowBox[{"Column", "[", 
+           RowBox[{"{", 
+            RowBox[{"Dynamic", "@", 
+             RowBox[{"Column", "[", 
+              RowBox[{"Map", "[", 
+               RowBox[{
+                RowBox[{"Function", "[", 
+                 RowBox[{"stage", ",", 
+                  RowBox[{"Switch", "[", 
+                   RowBox[{"stage", ",", "1", ",", 
+                    RowBox[{"Panel", "[", 
+                    RowBox[{"Column", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Style", "[", 
+                    
+                    RowBox[{"\"\<Inserisci il Seed:\>\"", 
+                    ",", "\"\<Section\>\""}], "]"}], ",", 
+                    RowBox[{"InputField", "[", 
+                    RowBox[{
+                    RowBox[{"Dynamic", "[", "seed", "]"}], ",", "String", ",", 
+                    RowBox[{"FieldSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"20", ",", "1"}], "}"}]}]}], "]"}], ",", 
+                    RowBox[{"Spacer", "[", "10", "]"}], ",", 
+                    RowBox[{"Button", "[", 
+                    RowBox[{"\"\<Avanti\>\"", ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"StringLength", "[", "seed", "]"}], ">", "0"}], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"!", 
+                    RowBox[{"MemberQ", "[", 
+                    RowBox[{"stages", ",", "2"}], "]"}]}], ",", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"stages", ",", "2"}], "]"}]}], "]"}], ",", 
+                    RowBox[{
+                    "MessageDialog", "[", "\"\<Inserisci un seed valido!\>\"",
+                     "]"}]}], "]"}], ",", 
+                    RowBox[{"Method", "->", "\"\<Queued\>\""}]}], "]"}]}], 
+                    "}"}], ",", 
+                    RowBox[{"FrameMargins", "->", "20"}]}], "]"}], "]"}], ",",
+                     "2", ",", 
+                    RowBox[{"Panel", "[", 
+                    RowBox[{"Column", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Style", "[", 
+                    
+                    RowBox[{"\"\<Scegli la base:\>\"", 
+                    ",", "\"\<Section\>\""}], "]"}], ",", 
+                    RowBox[{"Row", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Button", "[", 
+                    RowBox[{"\"\<Binario\>\"", ",", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"base", "=", "\"\<binario\>\""}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    "MessageDialog", "[", "\"\<Base binaria selezionata!\>\"",
+                     "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"!", 
+                    RowBox[{"MemberQ", "[", 
+                    RowBox[{"stages", ",", "3"}], "]"}]}], ",", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"stages", ",", "3"}], "]"}]}], "]"}]}], ")"}], ",", 
+                    RowBox[{"Method", "->", "\"\<Queued\>\""}], ",", 
+                    RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"100", ",", "Automatic"}], "}"}]}]}], "]"}], ",", 
+                    
+                    RowBox[{"Spacer", "[", "20", "]"}], ",", 
+                    RowBox[{"Button", "[", 
+                    RowBox[{"\"\<Ottale\>\"", ",", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"base", "=", "\"\<ottale\>\""}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    "MessageDialog", "[", "\"\<Base ottale selezionata!\>\"", 
+                    "]"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"!", 
+                    RowBox[{"MemberQ", "[", 
+                    RowBox[{"stages", ",", "3"}], "]"}]}], ",", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"stages", ",", "3"}], "]"}]}], "]"}]}], ")"}], ",", 
+                    RowBox[{"Method", "->", "\"\<Queued\>\""}], ",", 
+                    RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"100", ",", "Automatic"}], "}"}]}]}], "]"}], ",", 
+                    
+                    RowBox[{"Spacer", "[", "20", "]"}], ",", 
+                    RowBox[{"Button", "[", 
+                    RowBox[{"\"\<Esadecimale\>\"", ",", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"base", "=", "\"\<esadecimale\>\""}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    "MessageDialog", 
+                    "[", "\"\<Base esadecimale selezionata!\>\"", "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"!", 
+                    RowBox[{"MemberQ", "[", 
+                    RowBox[{"stages", ",", "3"}], "]"}]}], ",", 
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"stages", ",", "3"}], "]"}]}], "]"}]}], ")"}], ",", 
+                    RowBox[{"Method", "->", "\"\<Queued\>\""}], ",", 
+                    RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"120", ",", "Automatic"}], "}"}]}]}], "]"}]}], 
+                    "}"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"FrameMargins", "->", "20"}]}], "]"}], "]"}], ",",
+                     "3", ",", 
+                    RowBox[{"Panel", "@", 
+                    RowBox[{"DynamicModule", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"shipSizes", "=", 
+                    RowBox[{"{", 
+                    RowBox[{"5", ",", "4", ",", "3", ",", "2"}], "}"}]}], ",", 
+                    RowBox[{"currentShip", "=", "1"}], ",", 
+                    RowBox[{"board", "=", 
+                    RowBox[{"ConstantArray", "[", 
+                    RowBox[{"0", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"10", ",", "10"}], "}"}]}], "]"}]}], ",", 
+                    RowBox[{"inputStart", "=", "\"\<\>\""}], ",", 
+                    RowBox[{"inputEnd", "=", "\"\<\>\""}], ",", 
+                    RowBox[{"message", "=", "\"\<\>\""}], ",", 
+                    RowBox[{"occupiedCells", "=", 
+                    RowBox[{"{", "}"}]}]}], "}"}], ",", 
+                    RowBox[{"Column", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Style", "[", 
+                    RowBox[{
+                    RowBox[{"\"\<Base: \>\"", "<>", "base"}], 
+                    ",", "\"\<Section\>\""}], "]"}], ",", 
+                    RowBox[{"Button", "[", 
+                    
+                    RowBox[{"\"\<Apri Tutorial sulla Conversione di Base\>\"",
+                     ",", 
+                    RowBox[{"createTutorialNotebook", "[", "]"}], ",", 
+                    RowBox[{"Method", "->", "\"\<Queued\>\""}]}], "]"}], ",", 
+                    
+                    RowBox[{"Spacer", "[", "10", "]"}], ",", 
+                    RowBox[{"Dynamic", "@", 
+                    RowBox[{"BoardDisplay", "[", "board", "]"}]}], ",", 
+                    RowBox[{"Dynamic", "[", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"currentShip", "<=", 
+                    RowBox[{"Length", "[", "shipSizes", "]"}]}], ",", 
+                    RowBox[{"Column", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Style", "[", 
+                    RowBox[{
+                    RowBox[{"\"\<Nave di dimensione \>\"", "<>", 
+                    RowBox[{"ToString", "[", 
+                    RowBox[{"shipSizes", "[", 
+                    RowBox[{"[", "currentShip", "]"}], "]"}], "]"}], 
+                    "<>", "\"\<:\>\""}], ",", "\"\<Subsection\>\""}], "]"}], ",", 
+                    RowBox[{"Row", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Style", "[", 
+                    RowBox[{"\"\<Inizio: \>\"", ",", "Bold"}], "]"}], ",", 
+                    RowBox[{"InputField", "[", 
+                    RowBox[{
+                    RowBox[{"Dynamic", "[", "inputStart", "]"}], ",", 
+                    "String", ",", 
+                    RowBox[{"FieldSize", "->", "10"}]}], "]"}], ",", 
+                    RowBox[{"Spacer", "[", "10", "]"}], ",", 
+                    RowBox[{"Style", "[", 
+                    RowBox[{"\"\<Fine: \>\"", ",", "Bold"}], "]"}], ",", 
+                    RowBox[{"InputField", "[", 
+                    RowBox[{
+                    RowBox[{"Dynamic", "[", "inputEnd", "]"}], ",", "String", 
+                    ",", 
+                    RowBox[{"FieldSize", "->", "10"}]}], "]"}]}], "}"}], 
+                    "]"}], ",", 
+                    RowBox[{"Button", "[", 
+                    RowBox[{"\"\<Verifica\>\"", ",", 
+                    RowBox[{"Module", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    "n1", ",", "n2", ",", "start", ",", "end", ",", 
+                    "orientation", ",", "shipCoordinates", ",", "size", ",", 
+                    "i"}], "}"}], ",", 
+                    RowBox[{
+                    RowBox[{"size", "=", 
+                    RowBox[{"shipSizes", "[", 
+                    RowBox[{"[", "currentShip", "]"}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"n1", "=", 
+                    RowBox[{"convertInput", "[", 
+                    RowBox[{"inputStart", ",", "base"}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"n2", "=", 
+                    RowBox[{"convertInput", "[", 
+                    RowBox[{"inputEnd", ",", "base"}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"n1", "===", "$Failed"}], "||", 
+                    RowBox[{"n2", "===", "$Failed"}]}], ",", 
+                    RowBox[{"message", "=", 
+                    
+                    RowBox[{"\"\<Input non valido! Inserisci un numero nella \
+base \>\"", "<>", "base", "<>", "\"\< tra 0 e 99.\>\""}]}], ",", 
+                    RowBox[{"(*", 
+                    RowBox[{
+                    "Verifico", " ", "se", " ", "le", " ", "coordinate", " ", 
+                    "sono", " ", "per", " ", "una", " ", "nave", " ", 
+                    "orizzontale", " ", "o", " ", "verticale"}], "*)"}], 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Quotient", "[", 
+                    RowBox[{"n1", ",", "10"}], "]"}], "==", 
+                    RowBox[{"Quotient", "[", 
+                    RowBox[{"n2", ",", "10"}], "]"}]}], "&&", 
+                    RowBox[{
+                    RowBox[{"Abs", "[", 
+                    RowBox[{"n1", "-", "n2"}], "]"}], "==", 
+                    RowBox[{"size", "-", "1"}]}]}], ",", 
+                    RowBox[{"(*", 
+                    RowBox[{"Nave", " ", "orizzontale"}], "*)"}], 
+                    RowBox[{
+                    RowBox[{"orientation", "=", "\"\<H\>\""}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"start", ",", "end"}], "}"}], "=", 
+                    RowBox[{"Sort", "[", 
+                    RowBox[{"{", 
+                    RowBox[{"n1", ",", "n2"}], "}"}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"shipCoordinates", "=", 
+                    RowBox[{"placeShip", "[", 
+                    RowBox[{
+                    "start", ",", "orientation", ",", "size", ",", 
+                    "occupiedCells"}], "]"}]}]}], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Mod", "[", 
+                    RowBox[{"n1", ",", "10"}], "]"}], "==", 
+                    RowBox[{"Mod", "[", 
+                    RowBox[{"n2", ",", "10"}], "]"}]}], "&&", 
+                    RowBox[{
+                    RowBox[{"Abs", "[", 
+                    RowBox[{"n1", "-", "n2"}], "]"}], "==", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"size", "-", "1"}], ")"}], "*", "10"}]}]}], ",", 
+                    RowBox[{"(*", 
+                    RowBox[{"Nave", " ", "verticale"}], "*)"}], 
+                    RowBox[{
+                    RowBox[{"orientation", "=", "\"\<V\>\""}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"start", ",", "end"}], "}"}], "=", 
+                    RowBox[{"Sort", "[", 
+                    RowBox[{"{", 
+                    RowBox[{"n1", ",", "n2"}], "}"}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"shipCoordinates", "=", 
+                    RowBox[{"placeShip", "[", 
+                    RowBox[{
+                    "start", ",", "orientation", ",", "size", ",", 
+                    "occupiedCells"}], "]"}]}]}], ",", 
+                    RowBox[{"(*", 
+                    RowBox[{"Coordinate", " ", "non", " ", "valide"}], "*)"}], 
+                    RowBox[{
+                    RowBox[{"message", "=", 
+                    
+                    RowBox[{"\"\<Le coordinate non corrispondono a una nave \
+di dimensione \>\"", "<>", 
+                    RowBox[{"ToString", "[", "size", "]"}], 
+                    "<>", "\"\<!\>\""}]}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Return", "[", "]"}]}]}], "]"}]}], "]"}]}], "]"}],
+                     ";", "\[IndentingNewLine]", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"shipCoordinates", "===", "$Failed"}], ",", 
+                    RowBox[{
+                    "message", 
+                    "=", "\"\<Posizione non valida o nave sovrapposta!\>\""}],
+                     ",", 
+                    RowBox[{"(*", 
+                    RowBox[{
+                    "Aggiorno", " ", "la", " ", "board", " ", "e", " ", "le", 
+                    " ", "celle", " ", "occupate"}], "*)"}], 
+                    RowBox[{
+                    RowBox[{"For", "[", 
+                    RowBox[{
+                    RowBox[{"i", "=", "1"}], ",", 
+                    RowBox[{"i", "<=", 
+                    RowBox[{"Length", "[", "shipCoordinates", "]"}]}], ",", 
+                    RowBox[{"i", "++"}], ",", 
+                    RowBox[{
+                    RowBox[{"AppendTo", "[", 
+                    RowBox[{"occupiedCells", ",", 
+                    RowBox[{"shipCoordinates", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"board", "[", 
+                    RowBox[{"[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Quotient", "[", 
+                    RowBox[{
+                    RowBox[{"shipCoordinates", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "10"}], "]"}], "+", 
+                    "1"}], ",", 
+                    RowBox[{
+                    RowBox[{"Mod", "[", 
+                    RowBox[{
+                    RowBox[{"shipCoordinates", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "10"}], "]"}], "+", 
+                    "1"}]}], "]"}], "]"}], "=", "1"}], ";"}]}], "]"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    "message", 
+                    "=", "\"\<Nave posizionata correttamente!\>\""}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"currentShip", "++"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"inputStart", "=", "\"\<\>\""}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"inputEnd", "=", "\"\<\>\""}], ";"}]}], "]"}]}]}],
+                     "]"}], ",", 
+                    RowBox[{"Method", "->", "\"\<Queued\>\""}]}], "]"}], ",", 
+                    
+                    RowBox[{"Spacer", "[", "5", "]"}], ",", 
+                    RowBox[{"Dynamic", "[", 
+                    RowBox[{"Style", "[", 
+                    RowBox[{"message", ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"StringMatchQ", "[", 
+                    RowBox[{"message", ",", "\"\<Nave posizionata*\>\""}], 
+                    "]"}], ",", "Green", ",", "Red"}], "]"}]}], "]"}], 
+                    "]"}]}], "}"}], "]"}], ",", 
+                    RowBox[{"Style", "[", 
+                    
+                    RowBox[{"\"\<Tutte le navi posizionate! Complimenti!\>\"",
+                     ",", "Bold", ",", "Green"}], "]"}]}], "]"}], "]"}]}], 
+                    "}"}], "]"}]}], "]"}]}]}], "]"}]}], "]"}], ",", 
+                "stages"}], "]"}], "]"}]}], "}"}], "]"}]}], "]"}]}], ";", 
+       "\n", 
+       RowBox[{"CreateDocument", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Cell", "[", 
+            
+            RowBox[{"\"\<Battaglia Navale con Conversione di Base\>\"", 
+             ",", "\"\<Title\>\""}], "]"}], ",", 
+           RowBox[{"Cell", "[", 
+            RowBox[{
+             
+             RowBox[{"\"\<Questo gioco ti aiuta a esercitarti nella \
+conversione di basi numeriche. \>\"", 
+              "<>", "\"\<Inserisci un seed e scegli una base per iniziare. \>\
+\"", "<>", "\"\<Poi posiziona le navi indicando le coordinate di inizio e \
+fine in quella base numerica.\>\""}], ",", "\"\<Text\>\""}], "]"}], ",", 
+           RowBox[{"Cell", "[", 
+            RowBox[{
+             RowBox[{"BoxData", "[", 
+              RowBox[{"ToBoxes", "[", 
+               RowBox[{"Button", "[", 
+                RowBox[{"\"\<Apri Tutorial sulla Conversione di Base\>\"", ",", 
+                 RowBox[{"createTutorialNotebook", "[", "]"}], ",", 
+                 RowBox[{"Method", "->", "\"\<Queued\>\""}], ",", 
+                 RowBox[{"ImageSize", "->", 
+                  RowBox[{"{", 
+                   RowBox[{"250", ",", "40"}], "}"}]}]}], "]"}], "]"}], "]"}],
+              ",", "\"\<Input\>\""}], "]"}], ",", 
+           RowBox[{"Cell", "[", 
+            RowBox[{
+             RowBox[{"BoxData", "[", 
+              RowBox[{"ToBoxes", "[", "interfacciaInterattiva", "]"}], "]"}], 
+             ",", "\"\<Input\>\""}], "]"}]}], "}"}], ",", 
+         RowBox[{"WindowTitle", "->", "\"\<Battaglia Navale\>\""}]}], 
+        "]"}]}]}], "]"}]}], ";"}], "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{"End", "[", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"EndPackage", "[", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.953357723002304*^9, 3.9533577230040493`*^9}, 
+   3.9533578669906263`*^9},
+ CellLabel->
+  "In[165]:=",ExpressionUUID->"cbf582de-8e3a-4bd9-abca-02e46d5a1f0a"]
+},
+WindowSize->{Full, Full},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+DockedCells->FEPrivate`FrontEndResource[
+ "NotebookTemplatingExpressions", "AuthoringDockedCell"],
+TaggingRules->{
+ "NotebookTemplateVersion" -> 2., "NotebookTemplate" -> True, 
+  "GeneratedNotebookOptions" -> {}},
+CellContext->Notebook,
+ShowCellTags->True,
+FrontEndVersion->"14.2 for Mac OS X ARM (64-bit) (December 26, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"c78da9e5-45e4-48d5-abfe-a70fd8221a51"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 41472, 949, 2756, "Input",ExpressionUUID->"cbf582de-8e3a-4bd9-abca-02e46d5a1f0a"]
+}
+]
+*)
+

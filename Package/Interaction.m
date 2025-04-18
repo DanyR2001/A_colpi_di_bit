@@ -17,14 +17,14 @@ con 0 corrispondente in basso a sinistra. Si possono piazzare al massimo 4 navi,
 ResetGame::usage =
   "ResetGame[] svuota tutte le liste e ripristina le variabili globali all'inizio del gioco.";
 
-GetAutomaticShips::usage     = "GetAutomaticShips[] restituisce lista di tutti i blocchi delle navi PC.";
-GetUserShips::usage          = "GetUserShips[] restituisce lista di tutti i blocchi delle navi utente.";
+GetAutomaticShips::usage     = "GetAutomaticShips[] restituisce lista di blocchi delle navi PC.";
+GetUserShips::usage          = "GetUserShips[] restituisce lista di blocchi delle navi utente.";
 GetAutomaticEndpoints::usage = "GetAutomaticEndpoints[] restituisce lista di coppie {start,end} decimali per ciascuna nave PC.";
 GetUserEndpoints::usage      = "GetUserEndpoints[] restituisce lista di coppie {start,end} decimali per ciascuna nave utente.";
 GetAutoGrid::usage           = "GetAutoGrid[] restituisce matrice griglia PC.";
 GetUserGrid::usage           = "GetUserGrid[] restituisce matrice griglia utente.";
-ShowPCGrid::usage            = "ShowPCGrid[] mostra la sola griglia PC.";
-ShowUserGrid::usage          = "ShowUserGrid[] mostra la sola griglia utente.";
+ShowPCGrid::usage            = "ShowPCGrid[] mostra dinamicamente la griglia PC.";
+ShowUserGrid::usage          = "ShowUserGrid[] mostra dinamicamente la griglia utente.";
 ShowState::usage             = "ShowState[] mostra entrambe le griglie e le coordinate di tutte le navi.";
 
 Begin["`Private`"];
@@ -48,14 +48,14 @@ ResetGame[] := (
 );
 
 (* Inizializza contesto PC e utente *)
-InitPhase[base_Integer, gridSize_Integer] /; MemberQ[{2,8,16}, base] && gridSize > 0 := Module[{},
+InitPhase[base_Integer, gridSize_Integer] /; MemberQ[{2,8,16}, base] && gridSize > 0 := (
   $UserBase       = base;
   $GridSize       = gridSize;
   $AutomaticShips = {};
   $UserShips      = {};
   $AutoGrid       = ConstantArray[0, {gridSize, gridSize}];
   $UserGrid       = ConstantArray[0, {gridSize, gridSize}];
-];
+);
 
 (* Genera navi PC *)
 GenerateShips[seed_Integer] := Module[
@@ -136,19 +136,14 @@ GetUserEndpoints[] := Module[{gs = $GridSize},
   ]
 ];
 
-(* Visualizzazione *)
-ShowPCGrid[] := Module[{ag = $AutoGrid},
-  Grid[Map[If[# == 1, "\[FilledSquare]", "\[EmptySquare]"] &, ag, {2}], Frame -> True]
-];
+(* Visualizzazione dinamica *)
+ShowPCGrid[] := Dynamic[Grid[Map[If[# == 1, "\[FilledSquare]", "\[EmptySquare]"] &, $AutoGrid, {2}], Frame -> True]];
 
-ShowUserGrid[] := Module[{ug = $UserGrid},
-  Grid[Map[If[# == 1, "\[FilledSquare]", "\[EmptySquare]"] &, ug, {2}], Frame -> True]
-];
+ShowUserGrid[] := Dynamic[Grid[Map[If[# == 1, "\[FilledSquare]", "\[EmptySquare]"] &, $UserGrid, {2}], Frame -> True]];
 
-ShowState[] := Module[{pc = ShowPCGrid[], us = ShowUserGrid[]},
-  Column[{"PC Grid:", pc, "User Grid:", us,
-    "Automatic Ships:", $AutomaticShips, "User Ships:", $UserShips}]
-];
+(* Stato completo *)
+ShowState[] := Column[{"PC Grid:", ShowPCGrid[], "User Grid:", ShowUserGrid[],
+    "Automatic Ships:", $AutomaticShips, "User Ships:", $UserShips}];
 
 End[];
 EndPackage[];

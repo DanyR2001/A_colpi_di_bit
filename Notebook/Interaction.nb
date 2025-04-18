@@ -25,6 +25,25 @@ FrontEndVersion->"14.2 for Mac OS X ARM (64-bit) (December 26, 2024)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"1648e040-e111-4dbe-ad88-c7fbfb0c03ae"
 ]
+
+(*Test Base 16*)SetDirectory[NotebookDirectory[]];
+Remove["BattagliaNavale`*"];
+Get["Interaction.m"];
+
+BattagliaNavale`InitPhase[16, 8];      (*base 16,griglia 8\[Times]8*)
+BattagliaNavale`GenerateShips[2025];
+BattagliaNavale`PlaceUserShip["1A", 
+  "1C"];     (*da cella 26 a 28 in esadecimale*)
+BattagliaNavale`PlaceUserShip["1E", 
+  "1F"];     (*da cella 26 a 28 in esadecimale*)
+
+BattagliaNavale`ShowUserGrid[]
+BattagliaNavale`ShowPCGrid[]
+GetAutomaticEndpoints[]
+GetUserEndpoints[]
+
+BattagliaNavale`PlaceUserShip["2A", 
+  "2D"];     (*da cella 26 a 28 in esadecimale*)
 (* End of Notebook Content *)
 
 (* Internal cache information *)

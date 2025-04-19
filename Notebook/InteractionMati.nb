@@ -1,41 +1,16 @@
-In[5]:=
 SetDirectory[NotebookDirectory[]];
 <<Interaction.m;
 
-In[8]:= DynamicModule[{input="", seed="", base="", gridSize=9}, 
-Column[{
-AskSeedInput[Function[input,seed=input]],
-AskBaseChoice[Function[input,base=input]],
-Dynamic[If[isSeed[seed]&&isBase[base],
-(InitPhase[seed,base,gridSize];
-GenerateShips[];
-PlaceUserShip["1A","1C"];
-ShowUserGrid[]
-ShowPCGrid[]),
-"io"]]
-}]
+DynamicModule[{input="", seed="", base="", gridSize=9}, 
+ Column[{
+  AskSeedInput[Function[input,seed=input]],
+  AskBaseChoice[Function[input,base=input]],
+  Dynamic[If[isSeed[seed]&&isBase[base],
+   (InitPhase[seed,base,gridSize];
+   GenerateShips[];
+   PlaceUserShip["1A","1C"];
+   ShowUserGrid[]
+   ShowPCGrid[]),
+  "io"]]
+ }]
 ]
-Out[8]= Inserisci seed: 444Imposta
-Inserisci la base su cui ti vuoi esercitare: BoxData[2]Inserisci
-\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[FilledSquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]
-\[EmptySquare]	\[EmptySquare]	\[FilledSquare]	\[FilledSquare]	\[FilledSquare]	\[FilledSquare]	\[EmptySquare]	\[EmptySquare]	\[FilledSquare]
-\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[FilledSquare]
-\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[FilledSquare]
-\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[FilledSquare]
-\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[FilledSquare]
-\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]
-\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]
-\[EmptySquare]	\[FilledSquare]	\[FilledSquare]	\[FilledSquare]	\[FilledSquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]
-
- \[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]
-\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]
-\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]
-\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]
-\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]
-\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]
-\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]
-\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[FilledSquare]	\[FilledSquare]	\[FilledSquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]
-\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]	\[EmptySquare]
-
-
-

@@ -11,6 +11,6 @@ DynamicModule[{input="", seed="", base="", gridSize=9},
    PlaceUserShip["1A","1C"];
    ShowUserGrid[]
    ShowPCGrid[]),
-  "io"]]
+  showError["Inserisci valori di seed e base validi"]]]
  }]
 ]

@@ -1,6 +1,11 @@
 (* file: package.m *)
 
 BeginPackage["BattagliaNavale`"];
+AskSeedInput::usage = "AskSeedInput[inputSeed] chiede all'untete di inserire il seed"
+AskBaseChoice::usage = "AskBasechoice[inputBase] chiede all'utente di inserire la base su cui si vuole esercitare (2, 8, 16)"
+
+isBase::usage="isBase[] controlla che la base sia stata inserita e sia 2, 8 o 16";
+isSeed::usage="isSeed[] controlla che il seed sia stato inserito correttamente (se è un numero intero)";
 
 GenerateShips::usage =
   "GenerateShips[seed] genera 4 navi automatiche (lunghezze 5,4,3,2) in griglia di lato $GridSize senza overlap.";
@@ -23,9 +28,16 @@ GetAutomaticEndpoints::usage = "GetAutomaticEndpoints[] restituisce lista di cop
 GetUserEndpoints::usage      = "GetUserEndpoints[] restituisce lista di coppie {start,end} decimali per ciascuna nave utente.";
 GetAutoGrid::usage           = "GetAutoGrid[] restituisce matrice griglia PC.";
 GetUserGrid::usage           = "GetUserGrid[] restituisce matrice griglia utente.";
+
+GetSeed::usage="GetSeed[] restituisce il valore del seed"
+GetBase::usage="GerBase[] restituisce la base (2, 8, 16)"
+
 ShowPCGrid::usage            = "ShowPCGrid[] mostra dinamicamente la griglia PC.";
 ShowUserGrid::usage          = "ShowUserGrid[] mostra dinamicamente la griglia utente.";
 ShowState::usage             = "ShowState[] mostra entrambe le griglie e le coordinate di tutte le navi.";
+
+showMessage::usage="showMessage[message] stampa un messaggio";
+showError::usage="showError[error] stampa un messaggio di errore (in rosso)";
 
 Begin["`Private`"];
 
@@ -36,7 +48,7 @@ $AutoGrid       = {};
 $UserGrid       = {};
 $UserBase       = 10;
 $GridSize       = 10;
-
+$Seed= ""; 
 (* Reset di tutte le variabili e liste *)
 ResetGame[] := (
   $UserBase       = 10;
@@ -45,10 +57,12 @@ ResetGame[] := (
   $UserShips      = {};
   $AutoGrid       = {};
   $UserGrid       = {};
+  $Seed= ""; 
 );
 
 (* Inizializza contesto PC e utente *)
-InitPhase[base_Integer, gridSize_Integer] /; MemberQ[{2,8,16}, base] && gridSize > 0 := (
+InitPhase[seed_Integer,base_Integer, gridSize_Integer] := (
+  $Seed= seed; 
   $UserBase       = base;
   $GridSize       = gridSize;
   $AutomaticShips = {};
@@ -56,6 +70,32 @@ InitPhase[base_Integer, gridSize_Integer] /; MemberQ[{2,8,16}, base] && gridSize
   $AutoGrid       = ConstantArray[0, {gridSize, gridSize}];
   $UserGrid       = ConstantArray[0, {gridSize, gridSize}];
 );
+
+
+(*richiedi seed e base*)
+AskSeedInput[inputSeed_]:= DynamicModule[{value=""},
+	Row[{
+		"Inserisci seed: ",
+		InputField[Dynamic[value], Number, ImageSize->Small],
+		Button["Imposta", inputSeed[value]]
+	}]
+];
+
+AskBaseChoice[inputBase_]:= DynamicModule[{value=2},
+	Row[{
+		"Inserisci la base su cui ti vuoi esercitare: ",
+		PopupMenu[Dynamic[value], {2,8,16}],
+		Button["Inserisci",inputBase[value]]
+	}]
+];
+
+(*Mostra messaggi e errori*)
+showMessage[message_String]:=Style[message,Blue];
+showError[error_String]:=Style["Attenzione: "<>error, Red];
+
+(*Controlla che i valori di input siano corretti*)
+isBase[base_]:=MemberQ[{2,8,16}, base];
+isSeed[seed_]:=IntegerQ[seed]; 
 
 (* Genera navi PC *)
 GenerateShips[seed_Integer] := Module[

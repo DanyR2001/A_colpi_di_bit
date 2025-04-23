@@ -116,7 +116,7 @@ generateCPUShips[gridSize_Integer, seed_Integer] := Module[
   Do[
     valid = False;
     
-    (* Continua a provare finch\[EAcute] non si trova una posizione valida *)
+    (* Continua a provare fino a quando non si trova una posizione valida *)
     While[!valid,
       (* Sceglie casulmente l'orientamento: orizzontale (1) o verticale (2) *)
       orientation = RandomInteger[{1, 2}];

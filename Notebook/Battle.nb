@@ -10,14 +10,209 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[       821,         34]
-NotebookOptionsPosition[       557,         21]
-NotebookOutlinePosition[       957,         37]
-CellTagsIndexPosition[       914,         34]
+NotebookDataLength[      8993,        235]
+NotebookOptionsPosition[      8314,        216]
+NotebookOutlinePosition[      8714,        232]
+CellTagsIndexPosition[      8671,        229]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"File", ":", " ", 
+    RowBox[{"battle", ".", "nb"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+    "SetDirectory", 
+     "[", "\"\</Users/macbookpro/Documents/GitHub/A_colpi_di_bit/Package\>\"",
+      "]"}], ";"}], "\n", 
+   RowBox[{"<<", "Battle.m"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"**", 
+     RowBox[{"*", " ", "TEST", " ", "della", " ", "funzione", " ", 
+      RowBox[{"convertToDecimal", " ", "**"}], "*", " ", 
+      "\[IndentingNewLine]", 
+      RowBox[{"convertToDecimal", "[", 
+       RowBox[{"\"\<1010\>\"", ",", "2"}], "]"}], "     ", 
+      RowBox[{"(*", "10", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"convertToDecimal", "[", 
+       RowBox[{"\"\<130\>\"", ",", "8"}], "]"}], "       ", 
+      RowBox[{"(*", "88", "*)"}], "\n", 
+      RowBox[{"convertToDecimal", "[", 
+       RowBox[{"\"\<1F\>\"", ",", "16"}], "]"}], "       ", 
+      RowBox[{"(*", "31", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"convertToDecimal", "[", 
+       RowBox[{"\"\<G1\>\"", ",", "16"}], "]"}]}]}], "    ", 
+    RowBox[{"(*", " ", "impossibile", " ", "*)"}], "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"**", 
+       RowBox[{"*", " ", "TEST", " ", "della", " ", "funzione", " ", 
+        RowBox[{"mapCoordinate", " ", "**"}], "*", " ", "\[IndentingNewLine]",
+         "$GridSize"}]}], "=", "10"}], ";", "  ", 
+     RowBox[{"(*", 
+      RowBox[{"griglia", " ", "10", "x10"}], "*)"}], "\n", 
+     RowBox[{
+      RowBox[{"mapCoordinate", "[", "0", "]"}], "    ", 
+      RowBox[{"(*", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0"}], "}"}], "*)"}], "\n", 
+      RowBox[{"mapCoordinate", "[", "9", "]"}], "    ", 
+      RowBox[{"(*", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "9"}], "}"}], "*)"}], "\n", 
+      RowBox[{"mapCoordinate", "[", "10", "]"}], "   ", 
+      RowBox[{"(*", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "0"}], "}"}], "*)"}], "\n", 
+      RowBox[{"mapCoordinate", "[", "99", "]"}], "   ", 
+      RowBox[{"(*", 
+       RowBox[{"{", 
+        RowBox[{"9", ",", "9"}], "}"}], "*)"}], "\n", 
+      RowBox[{"mapCoordinate", "[", "100", "]"}]}]}], "  ", 
+    RowBox[{"(*", 
+     RowBox[{"$Failed", ",", 
+      RowBox[{"fuori", " ", "dalla", " ", 
+       RowBox[{"griglia", "!!"}]}]}], "*)"}], "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"**", 
+     RowBox[{"*", " ", "TEST", " ", "della", " ", "funzione", " ", 
+      RowBox[{"cpuAttack", " ", "**"}], "*", " ", "\[IndentingNewLine]", 
+      RowBox[{"cpuAttack", "[", "10", "]"}]}]}], "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"**", 
+     RowBox[{"*", " ", "TEST", " ", "della", " ", "funzione", " ", 
+      RowBox[{"userAttack", " ", "**"}], "*", "\[IndentingNewLine]", 
+      RowBox[{"userAttack", "[", 
+       RowBox[{"\"\<1010\>\"", ",", "2"}], "]"}], "  ", "\[IndentingNewLine]", 
+      RowBox[{"userAttack", "[", 
+       RowBox[{"\"\<1F\>\"", ",", "16"}], "]"}], " ", "\[IndentingNewLine]", 
+      RowBox[{"userAttack", "[", 
+       RowBox[{"\"\<130\>\"", ",", "8"}], "]"}]}]}], "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"**", 
+     RowBox[{
+     "*", " ", "TEST", " ", "della", " ", "funzione", " ", 
+      "generateCPUShips"}]}], " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"generateCPUShips", "[", 
+    RowBox[{"10", ",", "123"}], "]"}], "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{
+  3.954418741151023*^9, {3.9544188014802856`*^9, 3.954418852618685*^9}, {
+   3.954418896115265*^9, 3.954418914774168*^9}, {3.954420216319625*^9, 
+   3.954420238346431*^9}, {3.954420311535041*^9, 3.95442035735308*^9}, {
+   3.954420391660961*^9, 3.954420392779467*^9}, {3.954420513360256*^9, 
+   3.954420527405673*^9}, 3.9544205946507397`*^9, {3.9544206620161867`*^9, 
+   3.954420679626378*^9}, {3.9544207211597548`*^9, 3.954420777513538*^9}, {
+   3.954420844106885*^9, 3.954420904497719*^9}, {3.954420984424061*^9, 
+   3.9544209886238823`*^9}, {3.954421930446246*^9, 3.9544219381590347`*^9}, {
+   3.954422007194871*^9, 3.9544220258083353`*^9}, {3.954422401666235*^9, 
+   3.954422427484253*^9}, {3.954422962336721*^9, 3.954422990527356*^9}, {
+   3.954423033528417*^9, 3.954423034357895*^9}, {3.9544231206111727`*^9, 
+   3.954423140506072*^9}, {3.9544280707541447`*^9, 3.9544281033608313`*^9}, {
+   3.954428271211232*^9, 3.9544282969196444`*^9}, {3.954428335060845*^9, 
+   3.9544283560384207`*^9}},ExpressionUUID->"3f35b909-9810-4bfd-8683-\
+0851f635a7b9"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Get", "noopen", 
+   "\"Cannot open \\!\\(\\*RowBox[{\\\"\\\\\\\"BattagliaNavale`\\\\\\\"\\\"}]\
+\\).\"", 2, 220, 79, 19262943424875674462, "Local"},
+  "MessageTemplate",
+  BaseStyle->"MSG"]], "Message",
+ CellChangeTimes->{
+  3.954427641868002*^9, {3.954428093677862*^9, 3.954428104613123*^9}, 
+   3.9544281753455353`*^9, 3.954428292868154*^9, {3.954428341848942*^9, 
+   3.954428351892807*^9}},
+ CellLabel->
+  "During evaluation of \
+In[219]:=",ExpressionUUID->"d8776cdf-0556-4a63-a59e-1a1629e9c0ab"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Needs", "nocont", 
+   "\"Context \\!\\(\\*RowBox[{\\\"\\\\\\\"BattagliaNavale`\\\\\\\"\\\"}]\\) \
+was not created when Needs was evaluated.\"", 2, 220, 80, 
+   19262943424875674462, "Local"},
+  "MessageTemplate",
+  BaseStyle->"MSG"]], "Message",
+ CellChangeTimes->{
+  3.954427641868002*^9, {3.954428093677862*^9, 3.954428104613123*^9}, 
+   3.9544281753455353`*^9, 3.954428292868154*^9, {3.954428341848942*^9, 
+   3.954428351896859*^9}},
+ CellLabel->
+  "During evaluation of \
+In[219]:=",ExpressionUUID->"0068d1fe-2da3-47d2-88aa-306435f66715"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"9", ",", "2"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"9", ",", "3"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"9", ",", "4"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"9", ",", "5"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"9", ",", "6"}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"2", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"3", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"5", ",", "0"}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"4", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "7"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "8"}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"6", ",", "3"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"6", ",", "4"}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"2", ",", "9"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"3", ",", "9"}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"6", ",", "2"}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"3", ",", "5"}], "}"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{{3.9544231292401533`*^9, 3.954423142256043*^9}, {
+   3.954427627597031*^9, 3.954427641874645*^9}, {3.954428093684968*^9, 
+   3.954428104620178*^9}, 3.954428175352187*^9, 3.95442829287714*^9, {
+   3.954428341855691*^9, 3.9544283518995028`*^9}},
+ CellLabel->
+  "Out[221]=",ExpressionUUID->"4bac7ba6-371c-461f-87e5-9a73744ca647"]
+}, Open  ]]
 },
 WindowSize->{Full, Full},
 WindowMargins->{{316, Automatic}, {Automatic, 50}},
@@ -36,9 +231,13 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 4836, 102, 723, "Input",ExpressionUUID->"3f35b909-9810-4bfd-8683-0851f635a7b9"],
+Cell[5415, 126, 531, 13, 26, "Message",ExpressionUUID->"d8776cdf-0556-4a63-a59e-1a1629e9c0ab"],
+Cell[5949, 141, 574, 14, 26, "Message",ExpressionUUID->"0068d1fe-2da3-47d2-88aa-306435f66715"],
+Cell[6526, 157, 1772, 56, 53, "Output",ExpressionUUID->"4bac7ba6-371c-461f-87e5-9a73744ca647"]
+}, Open  ]]
 }
 ]
 *)
-
-(* End of internal cache information *)
 

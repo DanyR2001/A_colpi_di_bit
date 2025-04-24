@@ -10,14 +10,16 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[     53220,       1003]
-NotebookOptionsPosition[      6884,        151]
-NotebookOutlinePosition[     53169,       1004]
-CellTagsIndexPosition[     53126,       1001]
+NotebookDataLength[     64588,       1262]
+NotebookOptionsPosition[     18119,        407]
+NotebookOutlinePosition[     64402,       1260]
+CellTagsIndexPosition[     64359,       1257]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
+
+Cell[CellGroupData[{
 Cell[BoxData[
  RowBox[{
   RowBox[{"(*", " ", 
@@ -29,8 +31,7 @@ Cell[BoxData[
     "SetDirectory", 
      "[", "\"\</Users/macbookpro/Documents/GitHub/A_colpi_di_bit/Package\>\"",
       "]"}], ";"}], "\n", 
-   RowBox[{"<<", "Battle.m"}], "\n", "\[IndentingNewLine]", 
-   "\[IndentingNewLine]", 
+   RowBox[{"<<", "Battle.m"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
    RowBox[{"(*", " ", 
     RowBox[{"**", 
      RowBox[{"*", " ", "TEST", " ", "della", " ", "funzione", " ", 
@@ -48,7 +49,7 @@ Cell[BoxData[
       RowBox[{"convertToDecimal", "[", 
        RowBox[{"\"\<G1\>\"", ",", "16"}], "]"}]}]}], "    ", 
     RowBox[{"(*", " ", "impossibile", " ", "*)"}], "*)"}], 
-   "\[IndentingNewLine]", "\[IndentingNewLine]", "\n", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
    RowBox[{"(*", " ", 
     RowBox[{
      RowBox[{
@@ -85,8 +86,8 @@ Cell[BoxData[
     RowBox[{"**", 
      RowBox[{"*", " ", "TEST", " ", "della", " ", "funzione", " ", 
       RowBox[{"cpuAttack", " ", "**"}], "*", " ", "\[IndentingNewLine]", 
-      RowBox[{"cpuAttack", "[", "10", "]"}]}]}], "*)"}], 
-   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"cpuAttack", "[", "10", "]"}]}]}], "*)"}], "\n", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
    RowBox[{"(*", " ", 
     RowBox[{"**", 
      RowBox[{"*", " ", "TEST", " ", "della", " ", "funzione", " ", 
@@ -97,21 +98,46 @@ Cell[BoxData[
        RowBox[{"\"\<1F\>\"", ",", "16"}], "]"}], " ", "\[IndentingNewLine]", 
       RowBox[{"userAttack", "[", 
        RowBox[{"\"\<130\>\"", ",", "8"}], "]"}]}]}], "*)"}], 
-   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\n", 
    RowBox[{"(*", " ", 
     RowBox[{"**", 
      RowBox[{
      "*", " ", "TEST", " ", "della", " ", "funzione", " ", "generateCPUShips",
-       " ", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
       RowBox[{"generateCPUShips", "[", 
-       RowBox[{"10", ",", "123"}], "]"}]}]}], "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"10", ",", "123"}], "]"}]}]}], " ", "*)"}], "\n", 
    "\[IndentingNewLine]", "\[IndentingNewLine]", 
    RowBox[{"(*", " ", 
     RowBox[{"**", 
      RowBox[{
      "*", " ", "TEST", " ", "della", " ", "funzione", " ", "StartGame"}]}], 
-    " ", "*)"}], "\n", "\[IndentingNewLine]", 
-   "\[IndentingNewLine]"}]}]], "Input",
+    " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Imposta", " ", "la", " ", "dimensione", " ", "della", " ", "griglia"}], 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"$GridSize", "=", "10"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Genera", " ", "le", " ", "navi", " ", "della", " ", "CPU"}], 
+    "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"cpuShips", "=", 
+     RowBox[{"generateCPUShips", "[", 
+      RowBox[{"10", ",", "42"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"generateCPUShips", "[", 
+      RowBox[{"10", ",", "42"}], "]"}], " ", "stampa", " ", "le", " ", 
+     "navi"}], "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Avvia", " ", "il", " ", "gioco"}], "*)"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{"StartGame", "[", 
+    RowBox[{"cpuShips", ",", " ", "cpuShips", ",", "2"}], "]"}]}]}]], "Input",\
+
  CellChangeTimes->{
   3.954418741151023*^9, {3.9544188014802856`*^9, 3.954418852618685*^9}, {
    3.954418896115265*^9, 3.954418914774168*^9}, {3.954420216319625*^9, 
@@ -141,16 +167,246 @@ Cell[BoxData[
    3.954469369643787*^9, 3.954469432485981*^9}, 3.954469468792015*^9, {
    3.9544695094429626`*^9, 3.9544695099676113`*^9}, {3.9544711303131332`*^9, 
    3.95447116493182*^9}, {3.9544718372520123`*^9, 3.954471894874878*^9}, 
-   3.954472033010544*^9},ExpressionUUID->"3f35b909-9810-4bfd-8683-\
+   3.954472033010544*^9, {3.9544736924487133`*^9, 3.954473739578437*^9}, {
+   3.9544737719944353`*^9, 3.954473777284247*^9}, 3.954473921500889*^9, {
+   3.954487558867814*^9, 3.954487578934507*^9}, {3.954487641287215*^9, 
+   3.954487642348723*^9}, 3.9544878167774754`*^9, 3.95448845511891*^9, {
+   3.954488530799201*^9, 3.954488533761402*^9}, {3.95448858826131*^9, 
+   3.9544885888177357`*^9}, 3.954488664964612*^9, {3.954488718848125*^9, 
+   3.954488730647193*^9}, {3.954488769248011*^9, 3.954488792374795*^9}, {
+   3.954488874227785*^9, 3.954488879758355*^9}, {3.9544889828214827`*^9, 
+   3.9544889926310387`*^9}, {3.9544892445918303`*^9, 3.954489254228538*^9}, {
+   3.954489346689034*^9, 3.954489347120623*^9}, {3.954489480223469*^9, 
+   3.954489483028208*^9}, {3.954489689800577*^9, 3.9544896911359043`*^9}, {
+   3.9544900924135227`*^9, 3.9544900962900476`*^9}, {3.95449088492209*^9, 
+   3.954490885438155*^9}, {3.954490928171318*^9, 3.954490930047091*^9}, {
+   3.954491287568234*^9, 3.9544912939518967`*^9}, {3.954492274314467*^9, 
+   3.9544923652067223`*^9}, {3.954492436332757*^9, 3.954492439682376*^9}, {
+   3.954493118641098*^9, 3.9544931189890423`*^9}, 3.954493647596663*^9, {
+   3.954496480068309*^9, 3.9544965252261972`*^9}, {3.954496582575685*^9, 
+   3.95449659553974*^9}, {3.9544969392006607`*^9, 3.954496959555687*^9}, {
+   3.95449874761837*^9, 
+   3.954498755891801*^9}},ExpressionUUID->"3f35b909-9810-4bfd-8683-\
 0851f635a7b9"],
 
-Cell[BoxData[""], "Input",
- CellChangeTimes->{{3.9544712889434013`*^9, 
-  3.954471292510169*^9}},ExpressionUUID->"320be808-6b39-4e6f-aeed-\
-65f5a83df7a4"]
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "3"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "4"}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"4", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "2"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "3"}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"7", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"8", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"9", ",", "0"}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"8", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"9", ",", "1"}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", "6"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "6"}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"0", ",", "0"}], "}"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{"3", ",", "3"}], "}"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.9544970630824327`*^9, 3.954497525998*^9},
+ CellLabel->"Out[5]=",ExpressionUUID->"7314c9d7-e9fc-431c-9d66-3e93debdd52f"],
+
+Cell[BoxData[
+ DynamicModuleBox[{BattagliaNavale`Private`input$$ = "000000", 
+  BattagliaNavale`Private`attackResult$$ = "Hai gi\[AGrave] colpito qui!", 
+  BattagliaNavale`Private`gameState$$ = "In corso...", 
+  BattagliaNavale`Private`userGrid$$ = {{1, 0, 0, 0, 0, 0, 1, 0, 0, 0}, {1, 1,
+   1, 1, 1, 0, 1, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 1, 0, 0,
+   0, 0, 0, 0}, {1, 1, 1, 1, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 
+  0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {1, 1, 
+  0, 0, 0, 0, 0, 0, 0, 0}, {1, 1, 0, 0, 0, 0, 0, 0, 0, 0}}, 
+  BattagliaNavale`Private`cpuGrid$$ = CompressedData["
+1:eJxTTMoPymNiYGDggmIQGxuAif8HAhDNiAUjq6MEMBKQQ7eTHoBYu4h1F7Hq
+AK33Bdo=
+  "]}, 
+  TagBox[GridBox[{
+     {
+      StyleBox["\<\"Inizia la battaglia!!!\"\>",
+       StripOnInput->False,
+       LineColor->RGBColor[1, 0, 0],
+       FrontFaceColor->RGBColor[1, 0, 0],
+       BackFaceColor->RGBColor[1, 0, 0],
+       GraphicsColor->RGBColor[1, 0, 0],
+       FontSize->24,
+       FontWeight->Bold,
+       FontColor->RGBColor[1, 0, 0]]},
+     {
+      TemplateBox[{
+        TagBox[
+         GridBox[{{
+            StyleBox["\"Le tue navi\"", Bold, 14, StripOnInput -> False]}, {
+            DynamicBox[
+             ToBoxes[
+              Grid[
+               Table[
+                If[
+                Part[BattagliaNavale`Private`userGrid$$, 
+                   BattagliaNavale`Private`r, BattagliaNavale`Private`c] == 1, 
+                 Style["\[FilledSquare]", Black], "\[EmptySquare]"], {
+                BattagliaNavale`Private`r, 1, BattagliaNavale`$GridSize}, {
+                BattagliaNavale`Private`c, 1, BattagliaNavale`$GridSize}], 
+               Frame -> All, FrameStyle -> GrayLevel[0.5], 
+               Background -> {None, None, {
+                  GrayLevel[0.9], None}}, ItemSize -> {1.5, 1.5}], 
+              StandardForm]]}}, GridBoxAlignment -> {"Columns" -> {{Left}}}, 
+          DefaultBaseStyle -> "Column", 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Column"], 
+        TemplateBox[{30}, "Spacer1"], 
+        TagBox[
+         GridBox[{{
+            StyleBox[
+            "\"Campo d'attacco\"", Bold, 14, StripOnInput -> False]}, {
+            DynamicBox[
+             ToBoxes[
+              Grid[
+               Table[
+                Which[
+                Part[BattagliaNavale`Private`cpuGrid$$, 
+                   BattagliaNavale`Private`r, BattagliaNavale`Private`c] == 2, 
+                 Style["\[FilledSquare]", Red], 
+                 Part[BattagliaNavale`Private`cpuGrid$$, 
+                   BattagliaNavale`Private`r, 
+                   BattagliaNavale`Private`c] == -1, 
+                 Style["\[FilledSquare]", Gray], True, "\[EmptySquare]"], {
+                BattagliaNavale`Private`r, 1, BattagliaNavale`$GridSize}, {
+                BattagliaNavale`Private`c, 1, BattagliaNavale`$GridSize}], 
+               Frame -> All, FrameStyle -> GrayLevel[0.5], 
+               Background -> {None, None, {
+                  GrayLevel[0.9], None}}, ItemSize -> {1.5, 1.5}], 
+              StandardForm]]}}, GridBoxAlignment -> {"Columns" -> {{Left}}}, 
+          DefaultBaseStyle -> "Column", 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Column"]},
+       "RowDefault"]},
+     {
+      TemplateBox[{20},
+       "Spacer1"]},
+     {
+      TagBox[GridBox[{
+         {"\<\"Inserisci la cella da attaccare:\"\>", 
+          InputFieldBox[Dynamic[BattagliaNavale`Private`input$$], String,
+           ImageSize->{150, 30}], 
+          ButtonBox["\<\"Fire!\"\>",
+           Appearance->Automatic,
+           
+           ButtonFunction:>(
+            BattagliaNavale`Private`attackCoords$7700 = 
+             BattagliaNavale`userAttack[BattagliaNavale`Private`input$$, 2]; 
+            If[BattagliaNavale`Private`attackCoords$7700 =!= $Failed, 
+              Module[{BattagliaNavale`Private`r$ = 
+                 Part[BattagliaNavale`Private`attackCoords$7700, 1] + 1, 
+                 BattagliaNavale`Private`c$ = 
+                 Part[BattagliaNavale`Private`attackCoords$7700, 2] + 1}, 
+                Switch[
+                  Part[
+                  BattagliaNavale`Private`cpuGrid$$, 
+                   BattagliaNavale`Private`r$, BattagliaNavale`Private`c$], 1,
+                   Part[BattagliaNavale`Private`cpuGrid$$, 
+                    BattagliaNavale`Private`r$, BattagliaNavale`Private`c$] = 
+                   2; Increment[BattagliaNavale`Private`userHits$7700]; 
+                  Module[{BattagliaNavale`Private`naveAffondata$ = False}, 
+                    Do[
+                    If[
+                    MemberQ[
+                    BattagliaNavale`Private`nave, {
+                    BattagliaNavale`Private`r$ - 1, 
+                    BattagliaNavale`Private`c$ - 1}], If[
+                    AllTrue[
+                    BattagliaNavale`Private`nave, 
+                    Part[BattagliaNavale`Private`cpuGrid$$, Part[#, 1] + 1, 
+                    Part[#, 2] + 1] == 2& ], 
+                    BattagliaNavale`Private`naveAffondata$ = True; Null]; 
+                    Break[]; Null], {
+                    BattagliaNavale`Private`nave, {{{1, 0}, {1, 1}, {1, 2}, {
+                    1, 3}, {1, 4}}, {{4, 0}, {4, 1}, {4, 2}, {4, 3}}, {{7, 
+                    0}, {8, 0}, {9, 0}}, {{8, 1}, {9, 1}}, {{0, 6}, {1, 
+                    6}}, {{0, 0}}, {{3, 3}}}}]; 
+                    If[BattagliaNavale`Private`naveAffondata$, 
+                    BattagliaNavale`Private`attackResult$$ = 
+                    "Colpito e affondato!", 
+                    BattagliaNavale`Private`attackResult$$ = "Colpito!"]; 
+                    Null]; Null, 0, 
+                  Part[BattagliaNavale`Private`cpuGrid$$, 
+                    BattagliaNavale`Private`r$, 
+                    BattagliaNavale`Private`c$] = -1; 
+                  BattagliaNavale`Private`attackResult$$ = "Acqua..."; Null, 
+                  Blank[], BattagliaNavale`Private`attackResult$$ = 
+                  "Hai gi\[AGrave] colpito qui!"]; If[Total[
+                    Flatten[BattagliaNavale`Private`cpuGrid$$]] == Count[
+                    Flatten[BattagliaNavale`Private`cpuGrid$$], 2], 
+                  BattagliaNavale`Private`gameState$$ = "Hai vinto!"; 
+                  BattagliaNavale`Private`gameOver$7700 = True; Null]; Null]; 
+              Null, BattagliaNavale`Private`attackResult$$ = 
+               "Input non valido. Riprova."; Null]; Null),
+           Evaluator->Automatic,
+           ImageSize->{80, 30},
+           Method->"Preemptive"]}
+        },
+        AutoDelete->False,
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"]},
+     {
+      TemplateBox[{10},
+       "Spacer1"]},
+     {
+      DynamicBox[ToBoxes[BattagliaNavale`Private`attackResult$$, StandardForm],
+       ImageSizeCache->{156.00126953125, {2.912, 9.373}}]},
+     {
+      DynamicBox[ToBoxes[
+        Style[BattagliaNavale`Private`gameState$$, Bold, 14, 
+         Darker[Green]], StandardForm],
+       ImageSizeCache->{92.4, {0.168, 9.128}}]}
+    },
+    DefaultBaseStyle->"Column",
+    GridBoxAlignment->{"Columns" -> {{Left}}},
+    GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+   "Column"],
+  DynamicModuleValues:>{}]], "Output",
+ CellChangeTimes->{3.9544970630824327`*^9, 3.9544975259995193`*^9},
+ CellLabel->"Out[6]=",ExpressionUUID->"938a982c-6136-49fb-9f49-869cd97b0d56"]
+}, Open  ]]
 },
 WindowSize->{Full, Full},
-WindowMargins->{{316, Automatic}, {Automatic, 50}},
+WindowMargins->{{0, Automatic}, {Automatic, 50}},
 DockedCells->{
   Cell[
    BoxData[
@@ -1003,8 +1259,11 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[554, 20, 6169, 124, 825, "Input",ExpressionUUID->"3f35b909-9810-4bfd-8683-0851f635a7b9"],
-Cell[6726, 146, 154, 3, 29, "Input",ExpressionUUID->"320be808-6b39-4e6f-aeed-65f5a83df7a4"]
+Cell[CellGroupData[{
+Cell[576, 22, 8434, 167, 948, "Input",ExpressionUUID->"3f35b909-9810-4bfd-8683-0851f635a7b9"],
+Cell[9013, 191, 1567, 52, 33, "Output",ExpressionUUID->"7314c9d7-e9fc-431c-9d66-3e93debdd52f"],
+Cell[10583, 245, 7520, 159, 413, "Output",ExpressionUUID->"938a982c-6136-49fb-9f49-869cd97b0d56"]
+}, Open  ]]
 }
 ]
 *)

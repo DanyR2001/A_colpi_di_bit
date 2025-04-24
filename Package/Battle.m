@@ -10,6 +10,7 @@ $GridSize::usage = "$GridSize \[EGrave] dimensione della griglia di gioco";
 cpuAttack::usage = "converte l'input della CPU in coordinate di attacco";
 userAttack::usage = "converte l'input dell'utente in coordinate di attacco";
 generateCPUShips::usage = "creazione delle navi della CPU";
+StartGame::usage = "avvio del gioco";
 
 Begin["`Private`"];
 
@@ -80,10 +81,12 @@ cpuAttack[gridSize_Integer] := Module[
 userAttack[input_String, base_Integer] := Module[
   {decimal, coordinates},
   
-  (* Verifica che l'input sia valido per la base specificata *)
-  If[!verifyInputField[input, base],
-    Return[$Failed]
-  ];
+  (* 
+	  Verifica che l'input sia valido per la base specificata 
+	  If[!verifyInputField[input, base],
+	    Return[$Failed]
+	  ];
+  *)
   
   (* Conversione dell'input in base 10 *)
   decimal = convertToDecimal[input, base];
@@ -154,6 +157,132 @@ generateCPUShips[gridSize_Integer, seed_Integer] := Module[
 
 
 (* FUNZIONE per fare lo StartGame *)
+StartGame[userShips_, CPUShips_, userBase_] := Module[
+  {userHits = 0, cpuHits = 0,  
+   gameOver = False, 
+   winner = None, 
+   attackCoords, result},
+
+  DynamicModule[{input = "", attackResult = "", gameState = "In corso...", userGrid=ConstantArray[0,{10,10}], cpuGrid=ConstantArray[0,{10,10}]},
+
+	Do[cpuGrid[[coord[[1]]+1,coord[[2]]+1]]=1,{coordList,CPUShips},{coord,coordList}];
+	Do[userGrid[[coord[[1]]+1,coord[[2]]+1]]=1,{coordList,userShips},{coord,coordList}];
+
+    Column[{
+      (* Titolo *)
+      Style["Inizia la battaglia!!!", Bold, 24, Red],
+      
+      Row[{
+        (* Griglia utente *)
+        Column[{
+          Style["Le tue navi", Bold, 14],
+          Dynamic[
+            Grid[
+              Table[
+                If[userGrid[[r, c]] == 1, 
+                  Style["\[FilledSquare]", Black], 
+                  "\[EmptySquare]"
+                ],
+                {r, 1, $GridSize}, {c, 1, $GridSize}
+              ],
+              Frame -> All,
+              FrameStyle -> GrayLevel[0.5],
+              Background -> {None, None, {GrayLevel[0.9], None}},
+              ItemSize -> {1.5, 1.5}
+            ]
+          ]
+        }],
+        
+        Spacer[30],
+        
+        (* Campo d'attacco *)
+        Column[{
+          Style["Campo d'attacco", Bold, 14],
+          Dynamic[
+            Grid[
+              Table[
+                Which[
+                  cpuGrid[[r, c]] == 2, Style["\[FilledSquare]", Red],   (* Colpito *)
+                  cpuGrid[[r, c]] == -1, Style["\[FilledSquare]", Gray],  (* Mancato *)
+                  True, "\[EmptySquare]"
+                ],
+                {r, 1, $GridSize}, {c, 1, $GridSize}
+              ],
+              Frame -> All,
+              FrameStyle -> GrayLevel[0.5],
+              Background -> {None, None, {GrayLevel[0.9], None}},
+              ItemSize -> {1.5, 1.5}
+            ]
+          ]
+        }]
+      }],
+      
+      Spacer[20],
+      
+      (* Controlli di gioco *)
+      Grid[{
+        {
+          "Inserisci la cella da attaccare:", 
+          InputField[Dynamic[input], String, ImageSize -> {150, 30}],
+          Button["Fire!", 
+			  attackCoords = userAttack[input, userBase];
+			  If[attackCoords =!= $Failed,
+			    Module[{r = attackCoords[[1]] + 1, c = attackCoords[[2]] + 1},
+			      
+			      Switch[cpuGrid[[r, c]],
+			        1, (* Colpito *)
+			        cpuGrid[[r, c]] = 2;
+			        userHits++;
+			        
+			        (* Controlla se \[EGrave] affondato *)
+			        Module[{naveAffondata = False},
+					  Do[
+					    If[MemberQ[nave, {r - 1, c - 1}],
+					      If[AllTrue[nave, (cpuGrid[[#[[1]] + 1, #[[2]] + 1]] == 2) &],
+					        naveAffondata = True;
+					      ];
+					      Break[];
+					    ],
+					    {nave, CPUShips}
+					  ];
+					  If[naveAffondata,
+					    attackResult = "Colpito e affondato!",
+					    attackResult = "Colpito!"
+					  ];
+					];
+
+			        
+			        ,
+			        
+			        0, (* Mancato *)
+			        cpuGrid[[r, c]] = -1;
+			        attackResult = "Acqua...";
+			        ,
+			        
+			        _, (* Gi\[AGrave] colpito *)
+			        attackResult = "Hai gi\[AGrave] colpito qui!"
+			      ];
+			      
+			      If[Total[Flatten[cpuGrid]] == Count[Flatten[cpuGrid], 2],
+			        gameState = "Hai vinto!";
+			        gameOver = True;
+			      ];
+			    ];
+			  ,
+			    attackResult = "Input non valido. Riprova.";
+			  ];
+			, ImageSize -> {80, 30}]
+			
+			        }
+      }],
+      
+      Spacer[10],
+      
+      Dynamic[attackResult],
+      Dynamic[Style[gameState, Bold, 14, Darker[Green]]]
+    }]
+  ]
+]
 
 
 

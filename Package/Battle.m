@@ -1,8 +1,8 @@
 (* ::Package:: *)
 
-(* File: battle.m *)
+(* File: Battle.m *)
 
-BeginPackage["BattagliaNavale`Battle`", {"BattagliaNavale`"}];
+BeginPackage["BattagliaNavale`"];
 
 convertToDecimal::usage = "converte una stringa da base specificata a base 10";
 mapCoordinate::usage = "converte un numero decimale in coordinate {riga, colonna}";
@@ -121,7 +121,8 @@ generateCPUShips[gridSize_Integer, seed_Integer] := Module[
       (* Sceglie casulmente l'orientamento: orizzontale (1) o verticale (2) *)
       orientation = RandomInteger[{1, 2}];
       
-      If[orientation == 1, (* Orizzontale *)
+      If[orientation == 1, 
+        (* Orizzontale *)
         startRow = RandomInteger[{0, gridSize - 1}];
         startCol = RandomInteger[{0, gridSize - shipLength}];
         shipCoords = Table[{startRow, startCol + i}, {i, 0, shipLength - 1}],
@@ -152,9 +153,11 @@ generateCPUShips[gridSize_Integer, seed_Integer] := Module[
 ];
 
 
+(* FUNZIONE per fare lo StartGame *)
+
+
+
 End[];
 
 EndPackage[];
-
-
 

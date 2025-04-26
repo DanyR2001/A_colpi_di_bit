@@ -10,16 +10,14 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[     63157,       1252]
-NotebookOptionsPosition[     16688,        397]
-NotebookOutlinePosition[     62971,       1250]
-CellTagsIndexPosition[     62928,       1247]
+NotebookDataLength[     56032,       1058]
+NotebookOptionsPosition[      9791,        207]
+NotebookOutlinePosition[     56074,       1060]
+CellTagsIndexPosition[     56031,       1057]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
-
-Cell[CellGroupData[{
 Cell[BoxData[
  RowBox[{
   RowBox[{"(*", " ", 
@@ -203,197 +201,9 @@ Cell[BoxData[
    3.9546531764407587`*^9, 3.954653181925563*^9}, 3.95465323447777*^9, {
    3.954653431267952*^9, 3.9546534421143103`*^9}, {3.9546534884938507`*^9, 
    3.954653511211032*^9}, {3.954664013685424*^9, 3.954664021551762*^9}, {
-   3.954664368997014*^9, 3.95466437001567*^9}},
- CellLabel->"In[1]:=",ExpressionUUID->"3f35b909-9810-4bfd-8683-0851f635a7b9"],
-
-Cell[BoxData[
- RowBox[{"{", 
-  RowBox[{
-   RowBox[{"{", 
-    RowBox[{
-     RowBox[{"{", 
-      RowBox[{"1", ",", "0"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"1", ",", "1"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"1", ",", "2"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"1", ",", "3"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"1", ",", "4"}], "}"}]}], "}"}], ",", 
-   RowBox[{"{", 
-    RowBox[{
-     RowBox[{"{", 
-      RowBox[{"4", ",", "0"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"4", ",", "1"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"4", ",", "2"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"4", ",", "3"}], "}"}]}], "}"}], ",", 
-   RowBox[{"{", 
-    RowBox[{
-     RowBox[{"{", 
-      RowBox[{"7", ",", "0"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"8", ",", "0"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"9", ",", "0"}], "}"}]}], "}"}], ",", 
-   RowBox[{"{", 
-    RowBox[{
-     RowBox[{"{", 
-      RowBox[{"8", ",", "1"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"9", ",", "1"}], "}"}]}], "}"}], ",", 
-   RowBox[{"{", 
-    RowBox[{
-     RowBox[{"{", 
-      RowBox[{"0", ",", "6"}], "}"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"1", ",", "6"}], "}"}]}], "}"}], ",", 
-   RowBox[{"{", 
-    RowBox[{"{", 
-     RowBox[{"0", ",", "0"}], "}"}], "}"}], ",", 
-   RowBox[{"{", 
-    RowBox[{"{", 
-     RowBox[{"3", ",", "3"}], "}"}], "}"}]}], "}"}]], "Output",
- CellChangeTimes->{3.9546665157859373`*^9},
- CellLabel->"Out[8]=",ExpressionUUID->"4f42fd12-53ec-4570-a6bf-40483be2fd29"],
-
-Cell[BoxData[
- DynamicModuleBox[{Battle`Private`input$$ = "101001", 
-  Battle`Private`gameState$$ = "In corso...", Battle`Private`messageUser$$ = 
-  "Coordinate attaccate{4, 1}. Colpito!", Battle`Private`messageCpu$$ = 
-  "Coordinate attaccate{8, 9}. Mi discpiace. Colpo non andato a segno, tenta \
-di nuovo...", Battle`Private`cpuGrid$$ = CompressedData["
-1:eJxTTMoPymNiYGDggmJmBuyAEUr/BwIYHx0jq6MEYDMD2V4mNDvpAYi1i1h3
-EasOAIQNCdY=
-  "], Battle`Private`userGrid$$ = CompressedData["
-1:eJxTTMoPymNiYGDggmJGBuwAXZwRC8amjhyAzwxsdv6HAgYkPhWcQbSb0NUR
-UgtyHzHqQAAAgwwRyw==
-  "]}, 
-  TagBox[GridBox[{
-     {
-      StyleBox["\<\"Inizia la battaglia!!!\"\>",
-       StripOnInput->False,
-       LineColor->RGBColor[1, 0, 0],
-       FrontFaceColor->RGBColor[1, 0, 0],
-       BackFaceColor->RGBColor[1, 0, 0],
-       GraphicsColor->RGBColor[1, 0, 0],
-       FontSize->24,
-       FontWeight->Bold,
-       FontColor->RGBColor[1, 0, 0]]},
-     {
-      TemplateBox[{
-        TagBox[
-         GridBox[{{
-            StyleBox["\"Le tue navi\"", Bold, 14, StripOnInput -> False]}, {
-            DynamicBox[
-             ToBoxes[
-              Util`showGrid[Battle`Private`userGrid$$, True], 
-              StandardForm]]}}, GridBoxAlignment -> {"Columns" -> {{Left}}}, 
-          DefaultBaseStyle -> "Column", 
-          GridBoxItemSize -> {
-           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Column"], 
-        TemplateBox[{30}, "Spacer1"], 
-        TagBox[
-         GridBox[{{
-            StyleBox[
-            "\"Campo d'attacco\"", Bold, 14, StripOnInput -> False]}, {
-            DynamicBox[
-             ToBoxes[
-              Util`showGrid[Battle`Private`cpuGrid$$, False], 
-              StandardForm]]}}, GridBoxAlignment -> {"Columns" -> {{Left}}}, 
-          DefaultBaseStyle -> "Column", 
-          GridBoxItemSize -> {
-           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], "Column"]},
-       "RowDefault"]},
-     {
-      TemplateBox[{20},
-       "Spacer1"]},
-     {
-      TagBox[GridBox[{
-         {"\<\"Inserisci la cella da attaccare:\"\>", 
-          InputFieldBox[Dynamic[Battle`Private`input$$], String,
-           ImageSize->{150, 30}], 
-          ButtonBox["\<\"Fire!\"\>",
-           Appearance->Automatic,
-           
-           ButtonFunction:>(
-            Battle`Private`attackCoords$7318 = 
-             Util`verifyInput[10, 2, Battle`Private`input$$]; 
-            Battle`Private`userAttack$7318 = 
-             Battle`attack[
-              Battle`Private`attackCoords$7318, 
-               Battle`Private`cpuGrid$$, {{{1, 0}, {1, 1}, {1, 2}, {1, 3}, {1,
-                 4}}, {{4, 0}, {4, 1}, {4, 2}, {4, 3}}, {{7, 0}, {8, 0}, {9, 
-                0}}, {{8, 1}, {9, 1}}, {{0, 6}, {1, 6}}, {{0, 0}}, {{3, 3}}}]; 
-            Battle`Private`messageUser$$ = 
-             "Coordinate attaccate" <> 
-              ToString[Battle`Private`attackCoords$7318] <> ". " <> 
-              Part[Battle`Private`userAttack$7318, 1]; If[
-              Part[Battle`Private`userAttack$7318, 3], 
-              Battle`Private`cpuGrid$$ = 
-               Part[Battle`Private`userAttack$7318, 2]; 
-              Battle`Private`attackCpuCoords$7318 = 
-               Battle`generateCoordinate[10]; 
-              Battle`Private`cpuAttack$7318 = 
-               Battle`attack[
-                Battle`Private`attackCpuCoords$7318, 
-                 Battle`Private`userGrid$$, {{{1, 0}, {1, 1}, {1, 2}, {1, 
-                  3}, {1, 4}}, {{4, 0}, {4, 1}, {4, 2}, {4, 3}}, {{7, 0}, {8, 
-                  0}, {9, 0}}, {{8, 1}, {9, 1}}, {{0, 6}, {1, 6}}, {{0, 
-                  0}}, {{3, 3}}}]; 
-              Battle`Private`userGrid$$ = 
-               Part[Battle`Private`cpuAttack$7318, 2]; 
-              Battle`Private`messageCpu$$ = 
-               "Coordinate attaccate" <> 
-                ToString[Battle`Private`attackCpuCoords$7318] <> ". " <> 
-                Part[Battle`Private`cpuAttack$7318, 1]; Null]; Null),
-           Evaluator->Automatic,
-           ImageSize->{80, 30},
-           Method->"Preemptive"]}
-        },
-        AutoDelete->False,
-        GridBoxItemSize->{
-         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
-       "Grid"]},
-     {
-      TemplateBox[{10},
-       "Spacer1"]},
-     {
-      StyleBox["\<\"Attacco Utente:\"\>",
-       StripOnInput->False,
-       FontSize->12,
-       FontWeight->Bold]},
-     {
-      DynamicBox[ToBoxes[Battle`Private`messageUser$$, StandardForm],
-       ImageSizeCache->{280.80380859375003`, {2.7689999999999997`, 9.269}}]},
-     {
-      TemplateBox[{15},
-       "Spacer1"]},
-     {
-      StyleBox["\<\"Attacco CPU:\"\>",
-       StripOnInput->False,
-       FontSize->12,
-       FontWeight->Bold]},
-     {
-      DynamicBox[ToBoxes[Battle`Private`messageCpu$$, StandardForm],
-       ImageSizeCache->{663.0025390624999, {2.912, 9.269}}]},
-     {
-      DynamicBox[ToBoxes[
-        Style[Battle`Private`gameState$$, Bold, 14, 
-         Darker[Green]], StandardForm],
-       ImageSizeCache->{92.4, {0.168, 9.128}}]}
-    },
-    DefaultBaseStyle->"Column",
-    GridBoxAlignment->{"Columns" -> {{Left}}},
-    GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
-   "Column"],
-  DynamicModuleValues:>{}]], "Output",
- CellChangeTimes->{3.954666515793412*^9},
- CellLabel->"Out[9]=",ExpressionUUID->"0f842d9c-0f90-49ce-a10e-84663a8485e6"]
-}, Open  ]]
+   3.954664368997014*^9, 3.95466437001567*^9}, {3.95466830961898*^9, 
+   3.954668311378036*^9}},ExpressionUUID->"3f35b909-9810-4bfd-8683-\
+0851f635a7b9"]
 },
 WindowSize->{Full, Full},
 WindowMargins->{{-6, Automatic}, {Automatic, 0}},
@@ -1249,11 +1059,7 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[CellGroupData[{
-Cell[576, 22, 9205, 184, 846, "Input",ExpressionUUID->"3f35b909-9810-4bfd-8683-0851f635a7b9"],
-Cell[9784, 208, 1548, 52, 33, "Output",ExpressionUUID->"4f42fd12-53ec-4570-a6bf-40483be2fd29"],
-Cell[11335, 262, 5337, 132, 501, "Output",ExpressionUUID->"0f842d9c-0f90-49ce-a10e-84663a8485e6"]
-}, Open  ]]
+Cell[554, 20, 9233, 185, 846, "Input",ExpressionUUID->"3f35b909-9810-4bfd-8683-0851f635a7b9"]
 }
 ]
 *)

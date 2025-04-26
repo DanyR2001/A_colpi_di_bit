@@ -6,7 +6,7 @@ BeginPackage["BattagliaNavale`"];
 
 convertToDecimal::usage = "converte una stringa da base specificata a base 10";
 mapCoordinate::usage = "converte un numero decimale in coordinate {riga, colonna}";
-
+createGrid::usage="createGrid[ships, gridSize] crea una matrice gridSizexgridSize a partire dalle navi 'ships'!";
 generateCoordinate::usage = "converte l'input della CPU in coordinate di attacco";
 attack::usage = "converte l'input dell'utente in coordinate di attacco";
 generateCPUShips::usage = "creazione delle navi della CPU";
@@ -22,6 +22,11 @@ $Nave=1;
 $Vuota=0;
 $Affondata=3;
 
+
+createGrid[ships_,gridSize_]:=Module[{grid=ConstantArray[$Vuota,{gridSize,gridSize}]},
+	Do[grid[[coord[[1]]+1,coord[[2]]+1]]=1,{coordList,ships},{coord,coordList}];
+	grid
+];
 showGrid[grid_, ships_] := Grid[Map[
 	If[#== $Colpito,
         Style["\[FilledSquare]", Red],      (* colpito *)
@@ -203,16 +208,12 @@ generateCPUShips[gridSize_Integer, seed_Integer] := Module[
 ];
 
 (* FUNZIONE per fare lo StartGame *)
-StartGame[userShips_, CPUShips_, userBase_, gridSize_, seed_] := Module[
+StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_,userBase_, gridSize_] := Module[
   {userHits = 0, cpuHits = 0, gameOver = False, winner = None, 
    attackCoords, attackCpuCoords,result, userAttack,cpuAttack},
 
   DynamicModule[
-  {input = "", gameState = "In corso...",messageUser="", messageCpu="",userGrid=ConstantArray[$Vuota,{gridSize,gridSize}],cpuGrid=ConstantArray[$Vuota,{gridSize,gridSize}]},
-	
-	Do[cpuGrid[[coord[[1]]+1,coord[[2]]+1]]=1,{coordList,CPUShips},{coord,coordList}];
-	Do[userGrid[[coord[[1]]+1,coord[[2]]+1]]=1,{coordList,userShips},{coord,coordList}];
-	
+  {input = "", gameState = "In corso...",messageUser="", messageCpu="",cpuGrid=cpuGridInit, userGrid=userGridInit},
     Column[{
       (* Titolo *)
       Style["Inizia la battaglia!!!", Bold, 24, Red],

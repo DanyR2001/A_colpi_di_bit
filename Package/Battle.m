@@ -6,14 +6,37 @@ BeginPackage["BattagliaNavale`"];
 
 convertToDecimal::usage = "converte una stringa da base specificata a base 10";
 mapCoordinate::usage = "converte un numero decimale in coordinate {riga, colonna}";
-$GridSize::usage = "$GridSize \[EGrave] dimensione della griglia di gioco";
-cpuAttack::usage = "converte l'input della CPU in coordinate di attacco";
-userAttack::usage = "converte l'input dell'utente in coordinate di attacco";
+
+generateCoordinate::usage = "converte l'input della CPU in coordinate di attacco";
+attack::usage = "converte l'input dell'utente in coordinate di attacco";
 generateCPUShips::usage = "creazione delle navi della CPU";
-StartGame::usage = "avvio del gioco";
+StartGame::usage = "StartGame[userShips_, CPUShips_, userBase_, gridSize_, seed_] avvia il gioco";
+showGrid::usage="drawGrid[grid_, gridSize_, ships_Bool] disegna la griglia di gioco mostrando le navi e gli attacchi";
+verifyInput::usage="controlla che l'input sia accettabile secondo la base scelta e la dimensione della griglia";
 
 Begin["`Private`"];
 
+$Colpito=2;
+$Mancato=-1;
+$Nave=1;
+$Vuota=0;
+$Affondata=3;
+
+showGrid[grid_, ships_] := Grid[Map[
+	If[#== $Colpito,
+        Style["\[FilledSquare]", Red],      (* colpito *)
+      If[ #== $Mancato,
+        Style["\[FilledSquare]", Gray],     (* mancato *)
+      If[#== $Affondata,
+        Style["\[FilledSquare]", Blue],     (* affondato *)
+      If[#== $Nave && ships,
+        Style["\[FilledSquare]", Black],    (* nave visibile solo se ships=True *)
+        "\[EmptySquare]"                    (* altrimenti vuoto *)
+      ]]]] &, grid, {2}], 
+    Frame -> All,
+    FrameStyle -> GrayLevel[0.5],
+    Background -> {None, None, {GrayLevel[0.9], None}},
+    ItemSize -> {1.5, 1.5}];
 
 (* FUNZIONE per convertire da una base specificata a base 10 *)
 convertToDecimal[input_String, base_Integer] := Module[
@@ -43,9 +66,8 @@ convertToDecimal[input_String, base_Integer] := Module[
 ];
 
 (* FUNZIONE per mappare un numero decimale in coordinate {riga, colonna} *)
-mapCoordinate[decimal_Integer] := Module[
-  {gridSize = $GridSize, row, col},
-  
+mapCoordinate[decimal_Integer, gridSize_] := Module[
+  {row, col},
   (* Verifica che il numero sia valido per la dimensione della griglia *)
   If[decimal < 0 || decimal >= gridSize^2,
     Return[$Failed]
@@ -61,33 +83,7 @@ mapCoordinate[decimal_Integer] := Module[
   {row, col}
 ];
 
-
-(* FUNZIONE per l'attacco della CPU *)
-cpuAttack[gridSize_Integer] := Module[
-  {decimal, coordinates},
-  
-  (* Genera un numero casuale tra 0 e gridSize^2 - 1 *)
-  decimal = RandomInteger[{0, gridSize^2 - 1}];
-  
-  (* Mappatura del numero decimale in coordinate *)
-  coordinates = mapCoordinate[decimal];
-  
-  (* Return delle coordinate di attacco *)
-  coordinates
-];
-
-
-(* FUNZIONE per l'attacco dell'utente *)
-userAttack[input_String, base_Integer] := Module[
-  {decimal, coordinates},
-  
-  (* 
-	  Verifica che l'input sia valido per la base specificata 
-	  If[!verifyInputField[input, base],
-	    Return[$Failed]
-	  ];
-  *)
-  
+verifyInput[gridSize_, base_, input_]:=Module[{decimal, coordinates},
   (* Conversione dell'input in base 10 *)
   decimal = convertToDecimal[input, base];
   If[decimal === $Failed,
@@ -95,7 +91,7 @@ userAttack[input_String, base_Integer] := Module[
   ];
   
   (* Mappatura del numero decimale in coordinate *)
-  coordinates = mapCoordinate[decimal];
+  coordinates = mapCoordinate[decimal, gridSize];
   If[coordinates === $Failed,
     Return[$Failed]
   ];
@@ -104,6 +100,57 @@ userAttack[input_String, base_Integer] := Module[
   coordinates
 ];
 
+(* FUNZIONE per l'attacco della CPU *)
+generateCoordinate[gridSize_Integer, seed_] := Module[
+  {decimal, coordinates},
+  (*SeedRandom[seed]; --> se si imposta poi ad ogni attacco colpisce sempre la stessa cella*)
+  (* Genera un numero casuale tra 0 e gridSize^2 - 1 *)
+  decimal = RandomInteger[{0, gridSize^2 - 1}];
+  
+  (* Mappatura del numero decimale in coordinate *)
+  coordinates = mapCoordinate[decimal, gridSize];
+  (* Return delle coordinate di attacco *)
+  coordinates
+];
+
+(* FUNZIONE per l'attacco dell'utente *)
+attack[attackCoords_, grid_, ships_]:=Module[
+	{attackResult="", newGrid=grid, r,c, hit=False},
+	If[attackCoords===$Failed, attackResult = "Input non valido. Riprova.",
+	r=attackCoords[[1]]+1;
+	c=attackCoords[[2]]+1;
+	Switch[grid[[r, c]], 
+		$Nave, (* Colpito *)
+			newGrid[[r,c]]=$Colpito;
+			hit=True;
+			(*userHits++;*)
+			(* Controlla se \[EGrave] affondato *)
+			Module[{naveAffondata = False},
+			Do[
+				If[MemberQ[nave, {r - 1, c - 1}],
+					If[AllTrue[nave, (newGrid[[#[[1]] + 1, #[[2]] + 1]] == $Colpito) &], 
+						naveAffondata = True;
+							    Do[
+								    newGrid[[coord[[1]]+1,coord[[2]]+1]]=$Affondata;,
+								{coord, nave}];
+						    ];
+							Break[];],
+					{nave, ships}];
+					
+					If[naveAffondata,
+						attackResult = "Colpito e affondato!",
+						attackResult = "Colpito!"
+					];
+				];,       
+		$Vuota, (* Mancato *)
+			hit=True;
+			newGrid[[r, c]] = $Mancato;
+			attackResult = "Mi discpiace. Colpo non andato a segno, tenta di nuovo...";,
+		_, (* Gi\[AGrave] colpito *)
+			attackResult = "Hai gi\[AGrave] colpito qui!"
+	];];
+	{attackResult,newGrid,hit}
+];
 
 (* FUNZIONE per generare le navi della CPU *)
 generateCPUShips[gridSize_Integer, seed_Integer] := Module[
@@ -113,7 +160,7 @@ generateCPUShips[gridSize_Integer, seed_Integer] := Module[
   SeedRandom[seed];
   
   (* Inizializza la griglia vuota *)
-  grid = ConstantArray[0, {gridSize, gridSize}];
+  grid = ConstantArray[$Vuoto, {gridSize, gridSize}];
   
   (* Genera ogni nave *)
   Do[
@@ -136,12 +183,12 @@ generateCPUShips[gridSize_Integer, seed_Integer] := Module[
       ];
       
       (* Verifica che tutte le coordinate siano libere *)
-      valid = AllTrue[shipCoords, grid[[#[[1]] + 1, #[[2]] + 1]] == 0 &];
+      valid = AllTrue[shipCoords, grid[[#[[1]] + 1, #[[2]] + 1]] == $Vuota &];
     ];
     
     (* Marca le celle occupate dalla nave *)
     Do[
-      grid[[coord[[1]] + 1, coord[[2]] + 1]] = 1,
+      grid[[coord[[1]] + 1, coord[[2]] + 1]] = $Nave,
       {coord, shipCoords}
     ];
     
@@ -155,136 +202,66 @@ generateCPUShips[gridSize_Integer, seed_Integer] := Module[
   ships
 ];
 
-
 (* FUNZIONE per fare lo StartGame *)
-StartGame[userShips_, CPUShips_, userBase_] := Module[
-  {userHits = 0, cpuHits = 0,  
-   gameOver = False, 
-   winner = None, 
-   attackCoords, result},
+StartGame[userShips_, CPUShips_, userBase_, gridSize_, seed_] := Module[
+  {userHits = 0, cpuHits = 0, gameOver = False, winner = None, 
+   attackCoords, attackCpuCoords,result, userAttack,cpuAttack},
 
-  DynamicModule[{input = "", attackResult = "", gameState = "In corso...", userGrid=ConstantArray[0,{10,10}], cpuGrid=ConstantArray[0,{10,10}]},
-
+  DynamicModule[
+  {input = "", gameState = "In corso...",messageUser="", messageCpu="",userGrid=ConstantArray[$Vuota,{gridSize,gridSize}],cpuGrid=ConstantArray[$Vuota,{gridSize,gridSize}]},
+	
 	Do[cpuGrid[[coord[[1]]+1,coord[[2]]+1]]=1,{coordList,CPUShips},{coord,coordList}];
 	Do[userGrid[[coord[[1]]+1,coord[[2]]+1]]=1,{coordList,userShips},{coord,coordList}];
-
+	
     Column[{
       (* Titolo *)
       Style["Inizia la battaglia!!!", Bold, 24, Red],
-      
       Row[{
         (* Griglia utente *)
         Column[{
           Style["Le tue navi", Bold, 14],
-          Dynamic[
-            Grid[
-              Table[
-                If[userGrid[[r, c]] == 1, 
-                  Style["\[FilledSquare]", Black], 
-                  "\[EmptySquare]"
-                ],
-                {r, 1, $GridSize}, {c, 1, $GridSize}
-              ],
-              Frame -> All,
-              FrameStyle -> GrayLevel[0.5],
-              Background -> {None, None, {GrayLevel[0.9], None}},
-              ItemSize -> {1.5, 1.5}
-            ]
-          ]
+          Dynamic[showGrid[userGrid,True]]
         }],
-        
         Spacer[30],
-        
         (* Campo d'attacco *)
         Column[{
           Style["Campo d'attacco", Bold, 14],
-          Dynamic[
-            Grid[
-              Table[
-                Which[
-                  cpuGrid[[r, c]] == 2, Style["\[FilledSquare]", Red],   (* Colpito *)
-                  cpuGrid[[r, c]] == -1, Style["\[FilledSquare]", Gray],  (* Mancato *)
-                  True, "\[EmptySquare]"
-                ],
-                {r, 1, $GridSize}, {c, 1, $GridSize}
-              ],
-              Frame -> All,
-              FrameStyle -> GrayLevel[0.5],
-              Background -> {None, None, {GrayLevel[0.9], None}},
-              ItemSize -> {1.5, 1.5}
-            ]
-          ]
+          Dynamic[showGrid[cpuGrid,False]]
         }]
       }],
-      
       Spacer[20],
-      
       (* Controlli di gioco *)
       Grid[{
-        {
-          "Inserisci la cella da attaccare:", 
+        {"Inserisci la cella da attaccare:", 
           InputField[Dynamic[input], String, ImageSize -> {150, 30}],
           Button["Fire!", 
-			  attackCoords = userAttack[input, userBase];
-			  If[attackCoords =!= $Failed,
-			    Module[{r = attackCoords[[1]] + 1, c = attackCoords[[2]] + 1},
-			      
-			      Switch[cpuGrid[[r, c]],
-			        1, (* Colpito *)
-			        cpuGrid[[r, c]] = 2;
-			        userHits++;
-			        
-			        (* Controlla se \[EGrave] affondato *)
-			        Module[{naveAffondata = False},
-					  Do[
-					    If[MemberQ[nave, {r - 1, c - 1}],
-					      If[AllTrue[nave, (cpuGrid[[#[[1]] + 1, #[[2]] + 1]] == 2) &],
-					        naveAffondata = True;
-					      ];
-					      Break[];
-					    ],
-					    {nave, CPUShips}
-					  ];
-					  If[naveAffondata,
-					    attackResult = "Colpito e affondato!",
-					    attackResult = "Colpito!"
-					  ];
-					];
-
-			        
-			        ,
-			        
-			        0, (* Mancato *)
-			        cpuGrid[[r, c]] = -1;
-			        attackResult = "Acqua...";
-			        ,
-			        
-			        _, (* Gi\[AGrave] colpito *)
-			        attackResult = "Hai gi\[AGrave] colpito qui!"
-			      ];
-			      
-			      If[Total[Flatten[cpuGrid]] == Count[Flatten[cpuGrid], 2],
-			        gameState = "Hai vinto!";
-			        gameOver = True;
-			      ];
-			    ];
-			  ,
-			    attackResult = "Input non valido. Riprova.";
+			  (*Attacco dell'Utente*)
+			  
+			  attackCoords = verifyInput[gridSize, userBase,input];
+			  userAttack = attack[attackCoords,cpuGrid, CPUShips];
+			  messageUser="Coordinate attaccate"<>ToString[attackCoords]<>". "<>userAttack[[1]];
+			  
+			  If[userAttack[[3]], (*input valido e attacco utente effettuato*)
+				  (*Attacco della CPU*)
+				  cpuGrid=userAttack[[2]];
+				  attackCpuCoords=generateCoordinate[gridSize,seed];
+				  cpuAttack=attack[attackCpuCoords,userGrid,userShips];
+				  userGrid=cpuAttack[[2]];
+				  messageCpu="Coordinate attaccate"<>ToString[attackCpuCoords]<>". "<>cpuAttack[[1]];
 			  ];
 			, ImageSize -> {80, 30}]
-			
-			        }
+		}
       }],
-      
       Spacer[10],
-      
-      Dynamic[attackResult],
+      Style["Attacco Utente:", Bold, 12],
+        Dynamic[messageUser],
+        Spacer[15],
+        Style["Attacco CPU:", Bold, 12],
+        Dynamic[messageCpu],
       Dynamic[Style[gameState, Bold, 14, Darker[Green]]]
     }]
   ]
 ]
-
-
 
 End[];
 

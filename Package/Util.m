@@ -1,20 +1,29 @@
 (* ::Package:: *)
 
+(* File: Util.m *)
 BeginPackage["Util`"];
 
 convertToDecimal::usage = "convertToDecimal[input,base] converte una stringa da base specificata a base 10";
 mapCoordinate::usage = "mapCoordinate[decimal, gridSize] converte un numero decimale in coordinate {riga, colonna}";
 verifyInput::usage = "verifyInput[gridSize, base, input]controlla che l'input sia accettabile secondo la base scelta e la dimensione della griglia";
 createGrid::usage="createGrid[ships, gridSize] crea una matrice gridSizexgridSize a partire dalle navi";
-showGrid::usage = "drawGrid[grid, gridSize, ships_Bool] disegna la griglia di gioco mostrando le navi (se ships=True) e gli attacchi";
+showGrid::usage="drawGrid[grid_, gridSize_, ships_Bool] disegna la griglia di gioco mostrando le navi e gli attacchi";
 
-Begin["Private`"];
+$Colpito::usage = "Valore per cella colpita.";
+$Mancato::usage = "Valore per cella mancata.";
+$Nave::usage = "Valore per cella contenente nave.";
+$Vuoto::usage = "Valore per cella vuota.";
+$Affondato::usage = "Valore per cella di nave affondata.";
+
 
 $Colpito=2;
 $Mancato=-1;
 $Nave=1;
-$Vuota=0;
-$Affondata=3;
+$Vuoto=0;
+$Affondato=3;
+
+Begin["Private`"];
+
 
 (* FUNZIONE per convertire da una base specificata a base 10 *)
 convertToDecimal[input_String, base_Integer] := Module[
@@ -79,7 +88,7 @@ verifyInput[gridSize_, base_, input_]:=Module[{decimal, coordinates},
 ];
 
 
-createGrid[ships_,gridSize_]:=Module[{grid=ConstantArray[$Vuota,{gridSize,gridSize}]},
+createGrid[ships_,gridSize_]:=Module[{grid=ConstantArray[$Vuoto,{gridSize,gridSize}]},
 	Do[grid[[coord[[1]]+1,coord[[2]]+1]]=1,{coordList,ships},{coord,coordList}];
 	grid
 ];
@@ -89,16 +98,17 @@ showGrid[grid_, ships_] := Grid[Map[
         Style["\[FilledSquare]", Red],      (* colpito *)
       If[ #== $Mancato,
         Style["\[FilledSquare]", Gray],     (* mancato *)
-      If[#== $Affondata,
+      If[#== $Affondato,
         Style["\[FilledSquare]", Blue],     (* affondato *)
       If[#== $Nave && ships,
         Style["\[FilledSquare]", Black],    (* nave visibile solo se ships=True *)
-        "\[EmptySquare]"                    (* altrimenti vuoto *)
+        "\[EmptySquare]"                   (* altrimenti vuoto *)
       ]]]] &, grid, {2}], 
     Frame -> All,
     FrameStyle -> GrayLevel[0.5],
     Background -> {None, None, {GrayLevel[0.9], None}},
     ItemSize -> {1.5, 1.5}];
+  
 
 
 End[];

@@ -2,16 +2,16 @@
 
 (* file: package.m *)
 
-BeginPackage["Interaction`"];
-AskSeedInput::usage = "AskSeedInput[inputSeed] chiede all'untete di inserire il seed"
-AskBaseChoice::usage = "AskBasechoice[inputBase] chiede all'utente di inserire la base su cui si vuole esercitare (2, 8, 16)"
+BeginPackage["Interaction`", {"Util`"}];
+AskSeedInput::usage = "AskSeedInput[inputSeed] chiede all'untete di inserire il seed";
+AskBaseChoice::usage = "AskBasechoice[inputBase] chiede all'utente di inserire la base su cui si vuole esercitare (2, 8, 16)";
 
-isBase::usage="isBase[] controlla che la base sia stata inserita e sia 2, 8 o 16";
-isSeed::usage="isSeed[] controlla che il seed sia stato inserito correttamente (se \[EGrave] un numero intero)";
-
-GenerateShips::usage =
+isBase::usage="isBase[base] controlla che la base sia stata inserita e sia 2, 8 o 16";
+isSeed::usage="isSeed[seed] controlla che il seed sia stato inserito correttamente (se \[EGrave] un numero intero)";
+helpUser::usage="helpUser[base] apre finestra per mostrare un suggerimento all'utente";
+(*GenerateShips::usage =
   "GenerateShips[seed] genera 4 navi automatiche (lunghezze 5,4,3,2) in griglia di lato $GridSize senza overlap.";
-
+*)
 InitPhase::usage =
   "InitPhase[base, gridSize] inizializza il gioco: base \[Element] {2,8,16}, gridSize \[EGrave] lato griglia.\
 Imposta $UserBase, $GridSize, $AutoGrid e $UserGrid, resetta gli stati.";
@@ -24,7 +24,7 @@ con 0 corrispondente in basso a sinistra. Si possono piazzare al massimo 4 navi,
 ResetGame::usage =
   "ResetGame[] svuota tutte le liste e ripristina le variabili globali all'inizio del gioco.";
 
-GetAutomaticShips::usage     = "GetAutomaticShips[] restituisce lista di blocchi delle navi PC.";
+(*GetAutomaticShips::usage     = "GetAutomaticShips[] restituisce lista di blocchi delle navi PC.";
 GetUserShips::usage          = "GetUserShips[] restituisce lista di blocchi delle navi utente.";
 GetAutomaticEndpoints::usage = "GetAutomaticEndpoints[] restituisce lista di coppie {start,end} decimali per ciascuna nave PC.";
 GetUserEndpoints::usage      = "GetUserEndpoints[] restituisce lista di coppie {start,end} decimali per ciascuna nave utente.";
@@ -37,7 +37,7 @@ GetBase::usage="GerBase[] restituisce la base (2, 8, 16)"
 ShowPCGrid::usage            = "ShowPCGrid[] mostra dinamicamente la griglia PC.";
 ShowUserGrid::usage          = "ShowUserGrid[] mostra dinamicamente la griglia utente.";
 ShowState::usage             = "ShowState[] mostra entrambe le griglie e le coordinate di tutte le navi.";
-
+*)
 showMessage::usage="showMessage[message] stampa un messaggio";
 showError::usage="showError[error] stampa un messaggio di errore (in rosso)";
 
@@ -69,13 +69,13 @@ InitPhase[seed_Integer,base_Integer, gridSize_Integer] := (
   $GridSize       = gridSize;
   $AutomaticShips = {};
   $UserShips      = {};
-  $AutoGrid       = ConstantArray[0, {gridSize, gridSize}];
-  $UserGrid       = ConstantArray[0, {gridSize, gridSize}];
+  $AutoGrid       = ConstantArray[$Vuoto, {gridSize, gridSize}];
+  $UserGrid       = ConstantArray[$Vuoto, {gridSize, gridSize}];
 );
 
 
 (*richiedi seed e base*)
-AskSeedInput[inputSeed_]:= DynamicModule[{value="", message=""},
+AskSeedInput[inputSeed_]:= DynamicModule[{value="", message="", error=False},
 	Column[{
 		Row[{
 			"Inserisci seed: ",
@@ -83,12 +83,16 @@ AskSeedInput[inputSeed_]:= DynamicModule[{value="", message=""},
 			Button["Imposta", 
 				If[isSeed[value], 
 					inputSeed[value];
+					error=False;
 					message="Seed inserito: "<>ToString[value];,
+					error=True;
 					message="Seed non valido. Inserisci un numero intero!";
 				]
 			]
 		}],
-		Dynamic[message]
+		Dynamic[If[error,
+			showError[message],
+			showMessage[message]]]
 	}]
 ];
 
@@ -99,7 +103,7 @@ AskBaseChoice[inputBase_]:= DynamicModule[{value=2, message=""},
 			PopupMenu[Dynamic[value], {2,8,16}],
 			Button["Inserisci",inputBase[value]; message="Base inserita: "<>ToString[value];]
 		}],
-		Dynamic[message]
+		Dynamic[showMessage[message]]
 	}]
 ];
 
@@ -111,7 +115,24 @@ showError[error_String]:=Style["Attenzione: "<>error, Red];
 isBase[base_]:=MemberQ[{2,8,16}, base];
 isSeed[seed_]:=IntegerQ[seed]; 
 
-(* Genera navi PC *)
+helpUser[base_]:=PopupWindow[
+	Button["Suggerimento"],
+	Module[{number=RandomInteger[{0,99}]},
+		Column[{
+			Style["Ripassiamo le conversioni tra basi 10 e "<>ToString[base],Bold,Red],
+			Spacer[10],
+			Style["Da base "<>ToString[base]<>" a base 10:",Underlined,Italic],
+			Style["- convertiamo il numero in base 2,\- raccogliamo le cifre binarie a "<>ToString[If[base==16,4,3]]<>" a "<>ToString[If[base==16,4,3]]<>" partendo dalla posizione pi\[UGrave] a destra (cifra meno significativa),\- convertiamo ogni gruppo in decimale.\Il numero ottenuto \[EGrave] la conversione del numero decimale in base "<>ToString[base]<>".", Black],
+			"Ricorda: ogni numero pu\[OGrave] essere scritto come somma di potenze di potenze di "<>ToString[base]<>".",
+			"Vediamo un esempio.",
+			"Consideriamo il numero: "<>ToString[number]
+			
+			
+		}]
+	]
+, WindowTitle->"Suggerimento", WindowFloating->True]
+
+(* Genera navi PC 
 GenerateShips[seed_Integer] := Module[
   {lengths = {5, 4, 3, 2}, placed = {}, orient, coords, r0, c0, grid},
   SeedRandom[seed];
@@ -137,16 +158,16 @@ GenerateShips[seed_Integer] := Module[
   $AutomaticShips = placed;
   $AutoGrid       = grid;
   grid
-];
+];*)
 
-(* Conversione raw String -> {r,c} *)
+(* Conversione raw String -> {r,c} 
 parseCoord[str_String] := Module[{n, r, c},
   n = Quiet@FromDigits[str, $UserBase];
   If[! IntegerQ[n] || n < 0 || n >= $GridSize^2, Return[$Failed]];
   c = Mod[n, $GridSize] + 1;
   r = $GridSize - Quotient[n, $GridSize];
   {r, c}
-];
+];*)
 
 (* Piazzamento nave utente con vincoli lunghezza e numero *)
 PlaceUserShip[startRaw_String, endRaw_String] := Module[
@@ -173,7 +194,7 @@ GetUserShips[]      := $UserShips;
 GetAutoGrid[]       := $AutoGrid;
 GetUserGrid[]       := $UserGrid;
 
-(* Endpoint come raw decimal *)
+(* Endpoint come raw decimal 
 GetAutomaticEndpoints[] := Module[{gs = $GridSize},
   Map[Function[coords,
     With[{s = First[coords], e = Last[coords]},
@@ -188,16 +209,16 @@ GetUserEndpoints[] := Module[{gs = $GridSize},
       {(gs - s[[1]])*gs + (s[[2]] - 1), (gs - e[[1]])*gs + (e[[2]] - 1)}]],
     $UserShips
   ]
-];
+];*)
 
-(* Visualizzazione dinamica *)
+(* Visualizzazione dinamica 
 ShowPCGrid[] := Dynamic[Grid[Map[If[# == 1, "\[FilledSquare]", "\[EmptySquare]"] &, $AutoGrid, {2}], Frame -> True]];
 
 ShowUserGrid[] := Dynamic[Grid[Map[If[# == 1, "\[FilledSquare]", "\[EmptySquare]"] &, $UserGrid, {2}], Frame -> True]];
-
-(* Stato completo *)
+*)
+(* Stato completo 
 ShowState[] := Column[{"PC Grid:", ShowPCGrid[], "User Grid:", ShowUserGrid[],
     "Automatic Ships:", $AutomaticShips, "User Ships:", $UserShips}];
-
+*)
 End[];
 EndPackage[];

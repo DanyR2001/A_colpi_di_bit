@@ -1,17 +1,19 @@
+(* ::Package:: *)
+
 (* file: package.m *)
 
-BeginPackage["BattagliaNavale`"];
+BeginPackage["Interaction`"];
 AskSeedInput::usage = "AskSeedInput[inputSeed] chiede all'untete di inserire il seed"
 AskBaseChoice::usage = "AskBasechoice[inputBase] chiede all'utente di inserire la base su cui si vuole esercitare (2, 8, 16)"
 
 isBase::usage="isBase[] controlla che la base sia stata inserita e sia 2, 8 o 16";
-isSeed::usage="isSeed[] controlla che il seed sia stato inserito correttamente (se è un numero intero)";
+isSeed::usage="isSeed[] controlla che il seed sia stato inserito correttamente (se \[EGrave] un numero intero)";
 
 GenerateShips::usage =
   "GenerateShips[seed] genera 4 navi automatiche (lunghezze 5,4,3,2) in griglia di lato $GridSize senza overlap.";
 
 InitPhase::usage =
-  "InitPhase[base, gridSize] inizializza il gioco: base ∈ {2,8,16}, gridSize è lato griglia.\
+  "InitPhase[base, gridSize] inizializza il gioco: base \[Element] {2,8,16}, gridSize \[EGrave] lato griglia.\
 Imposta $UserBase, $GridSize, $AutoGrid e $UserGrid, resetta gli stati.";
 
 PlaceUserShip::usage =
@@ -73,19 +75,31 @@ InitPhase[seed_Integer,base_Integer, gridSize_Integer] := (
 
 
 (*richiedi seed e base*)
-AskSeedInput[inputSeed_]:= DynamicModule[{value=""},
+AskSeedInput[inputSeed_]:= DynamicModule[{value="", message=""},
+Column[{
 	Row[{
 		"Inserisci seed: ",
 		InputField[Dynamic[value], Number, ImageSize->Small],
-		Button["Imposta", inputSeed[value]]
-	}]
+		Button["Imposta", 
+			If[isSeed[value], 
+				inputSeed[value];
+				message="Seed inserito: "<>ToString[value];,
+				message="Seed non valido. Inserisci un numero intero!";
+			]
+		]
+	}],
+	Dynamic[message]
+}]
 ];
 
-AskBaseChoice[inputBase_]:= DynamicModule[{value=2},
-	Row[{
-		"Inserisci la base su cui ti vuoi esercitare: ",
-		PopupMenu[Dynamic[value], {2,8,16}],
-		Button["Inserisci",inputBase[value]]
+AskBaseChoice[inputBase_]:= DynamicModule[{value=2, message=""},
+Column[{
+		Row[{
+			"Inserisci la base su cui ti vuoi esercitare: ",
+			PopupMenu[Dynamic[value], {2,8,16}],
+			Button["Inserisci",inputBase[value]; message="Base inserita: "<>ToString[value];]
+		}],
+		Dynamic[message]
 	}]
 ];
 

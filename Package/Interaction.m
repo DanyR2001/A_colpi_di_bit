@@ -76,24 +76,24 @@ InitPhase[seed_Integer,base_Integer, gridSize_Integer] := (
 
 (*richiedi seed e base*)
 AskSeedInput[inputSeed_]:= DynamicModule[{value="", message=""},
-Column[{
-	Row[{
-		"Inserisci seed: ",
-		InputField[Dynamic[value], Number, ImageSize->Small],
-		Button["Imposta", 
-			If[isSeed[value], 
-				inputSeed[value];
-				message="Seed inserito: "<>ToString[value];,
-				message="Seed non valido. Inserisci un numero intero!";
+	Column[{
+		Row[{
+			"Inserisci seed: ",
+			InputField[Dynamic[value], Number, ImageSize->Small],
+			Button["Imposta", 
+				If[isSeed[value], 
+					inputSeed[value];
+					message="Seed inserito: "<>ToString[value];,
+					message="Seed non valido. Inserisci un numero intero!";
+				]
 			]
-		]
-	}],
-	Dynamic[message]
-}]
+		}],
+		Dynamic[message]
+	}]
 ];
 
 AskBaseChoice[inputBase_]:= DynamicModule[{value=2, message=""},
-Column[{
+	Column[{
 		Row[{
 			"Inserisci la base su cui ti vuoi esercitare: ",
 			PopupMenu[Dynamic[value], {2,8,16}],

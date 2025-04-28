@@ -1,16 +1,8 @@
-SetDirectory[NotebookDirectory[]];
+In[10]:= SetDirectory["/Users/utente/Documents/GitHub/A_colpi_di_bit/Package"];
 <<Interaction.m;
 
-DynamicModule[{input="", seed="", base="", gridSize=9}, 
- Column[{
-  AskSeedInput[Function[input,seed=input]],
-  AskBaseChoice[Function[input,base=input]],
-  Dynamic[If[isSeed[seed]&&isBase[base],
-   (InitPhase[seed,base,gridSize];
-   GenerateShips[];
-   PlaceUserShip["1A","1C"];
-   ShowUserGrid[]
-   ShowPCGrid[]),
-  showError["Inserisci valori di seed e base validi"]]]
- }]
+DynamicModule[{input="", seed="", base=2, gridSize=9},
+Column[{
+AskSeedInput[Function[input,seed=input]],AskBaseChoice[Function[input,base=input]],Dynamic[helpUser[16]]
+}]
 ]

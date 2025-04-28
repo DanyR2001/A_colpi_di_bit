@@ -115,22 +115,38 @@ showError[error_String]:=Style["Attenzione: "<>error, Red];
 isBase[base_]:=MemberQ[{2,8,16}, base];
 isSeed[seed_]:=IntegerQ[seed]; 
 
-helpUser[base_]:=PopupWindow[
+helpUser[base_Integer]:=PopupWindow[
 	Button["Suggerimento"],
-	Module[{number=RandomInteger[{0,99}]},
-		Column[{
-			Style["Ripassiamo le conversioni tra basi 10 e "<>ToString[base],Bold,Red],
+	Module[{numberDec,numberBase,digits, digitsGroups,mod,exp,table,colors},
+		numberDec=RandomInteger[{1,300}];
+		numberBase=BaseForm[numberDec,base];
+		digits=IntegerDigits[numberDec,2];
+		exp=Log2[base];
+		mod=Mod[Length[digits],exp];
+		digitsGroups=If[mod===0, Partition[digits,exp,exp],Partition[digits, exp, exp,{-mod,exp}, 0]];
+		table = Table[
+            {Row[digitsGroups[[n]]], "\[RightArrow]", FromDigits[digitsGroups[[n]], 2],"\[RightArrow]",BaseForm[FromDigits[digitsGroups[[n]], 2],base]},
+            {n, Length[digitsGroups]}
+        ];
+        colors = {Blue, Red, Green, Orange, Purple, Brown, Pink};
+        		
+		Style[Column[{
+			Style["Ripassiamo le conversioni tra basi 10 e "<>ToString[base],Bold,Red, 15, TextAlignment->Center],
 			Spacer[10],
-			Style["Da base "<>ToString[base]<>" a base 10:",Underlined,Italic],
-			Style["- convertiamo il numero in base 2,\- raccogliamo le cifre binarie a "<>ToString[If[base==16,4,3]]<>" a "<>ToString[If[base==16,4,3]]<>" partendo dalla posizione pi\[UGrave] a destra (cifra meno significativa),\- convertiamo ogni gruppo in decimale.\Il numero ottenuto \[EGrave] la conversione del numero decimale in base "<>ToString[base]<>".", Black],
-			"Ricorda: ogni numero pu\[OGrave] essere scritto come somma di potenze di potenze di "<>ToString[base]<>".",
-			"Vediamo un esempio.",
-			"Consideriamo il numero: "<>ToString[number]
-			
-			
-		}]
+			Style["Da base 10 a base "<>ToString[base]<>" :",Underlined,Italic,13],
+			Spacer[5],
+			"k",
+			Style["Consideriamo il numero: "<>ToString[numberDec],Bold],
+			" \[Bullet] convertiamolo in base 2 \[RightArrow] "BaseForm[numberDec,2],
+			" \[Bullet] raccogliamo le cifre binarie in gruppi da "<>ToString[exp]<>" partendo dalla posizione pi\[UGrave] a destra (cifra meno significativa),",
+			Row[Table[{Style[Row[digitsGroups[[n]]],colors[[Mod[Length[colors]+n,Length[colors]]]]],Spacer[5]},{n,1,Length[digitsGroups]}]],
+			" \[Bullet] convertiamo ogni gruppo in decimale, ogni numero ottenuto corrisponde ad una cifra in base "<>ToString[base]<>".",
+			Grid[table,Alignment->Center],
+			"RISULTATO: "<>ToString[numberDec]<> "= "<>ToString[numberBase]<>"."
+		}],12, TextAlignment->Center]
+		
 	]
-, WindowTitle->"Suggerimento", WindowFloating->True]
+, WindowTitle->"Suggerimento", WindowFloating->True, WindowMargins -> {{0, Automatic}, {0, Automatic}}]
 
 (* Genera navi PC 
 GenerateShips[seed_Integer] := Module[

@@ -122,7 +122,7 @@ generateCPUShips[gridSize_Integer, seed_Integer] := Module[
 (* FUNZIONE per fare lo StartGame *)
 StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_,userBase_, gridSize_] := Module[
   {userHits = 0, cpuHits = 0, gameOver = False, winner = None, 
-   attackCoords, attackCpuCoords,result, userAttack, cpuAttack, countAffondato = 0},
+   attackCoords, attackCpuCoords,result, userAttack, cpuAttack, countAffondato = 0, cpuAffondato = 0},
 
   DynamicModule[
   {input = "", gameState = "In corso...",messageUser="", messageCpu="",cpuGrid=cpuGridInit, userGrid=userGridInit},
@@ -147,22 +147,30 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_,userBase_, gridSize
       Grid[{
         {"Inserisci la cella da attaccare:", 
           InputField[Dynamic[input], String, ImageSize -> {150, 30}],
-          Button["Fire!", 
+          Button["Fire!",
+           
 			  (*Attacco dell'Utente*)
 			  attackCoords = verifyInput[gridSize, userBase, input];
 			  userAttack = attack[attackCoords, cpuGrid, CPUShips];
 			  
+			  (* Stato del gioco parte utente *)
 			  If[userAttack[[4]], countAffondato++];
 			  If[countAffondato==7, gameState="Complimenti! Hai vinto!"];
 			  
 			  messageUser="Coordinate attaccate"<>ToString[attackCoords]<>". "<>userAttack[[1]];
 			  
 			  If[userAttack[[3]], (*input valido e attacco utente effettuato*)
+				  
 				  (*Attacco della CPU*)
 				  cpuGrid=userAttack[[2]];
 				  attackCpuCoords=generateCoordinate[gridSize];
 				  cpuAttack=attack[attackCpuCoords,userGrid,userShips];
 				  userGrid=cpuAttack[[2]];
+				  
+				  (* Stato del gioco parte CPU *)
+				  If[cpuAttack[[4]], cpuAffondato++];
+                  If[cpuAffondato == 7, gameState = "La CPU ha vinto!"];
+				  
 				  messageCpu="Coordinate attaccate"<>ToString[attackCpuCoords]<>". "<>cpuAttack[[1]];
 			  ];
 			, ImageSize -> {80, 30}]

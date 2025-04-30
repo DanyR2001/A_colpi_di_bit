@@ -6,9 +6,9 @@ BeginPackage["Interaction`", {"Util`"}];
 AskSeedInput::usage = "AskSeedInput[inputSeed] chiede all'untete di inserire il seed";
 AskBaseChoice::usage = "AskBasechoice[inputBase] chiede all'utente di inserire la base su cui si vuole esercitare (2, 8, 16)";
 
-isBase::usage="isBase[base] controlla che la base sia stata inserita e sia 2, 8 o 16";
+isBase::usage="isBase[base] controlla che la base sia inserita sia 2, 8 o 16";
 isSeed::usage="isSeed[seed] controlla che il seed sia stato inserito correttamente (se \[EGrave] un numero intero)";
-helpUser::usage="helpUser[base] apre finestra per mostrare un suggerimento all'utente";
+helpUser::usage="helpUser[base] apre finestra per mostrare un suggerimento all'utente (ripasso conversioni tra basi)";
 (*GenerateShips::usage =
   "GenerateShips[seed] genera 4 navi automatiche (lunghezze 5,4,3,2) in griglia di lato $GridSize senza overlap.";
 *)
@@ -117,36 +117,100 @@ isSeed[seed_]:=IntegerQ[seed];
 
 helpUser[base_Integer]:=PopupWindow[
 	Button["Suggerimento"],
-	Module[{numberDec,numberBase,digits, digitsGroups,mod,exp,table,colors},
-		numberDec=RandomInteger[{1,300}];
-		numberBase=BaseForm[numberDec,base];
-		digits=IntegerDigits[numberDec,2];
-		exp=Log2[base];
-		mod=Mod[Length[digits],exp];
-		digitsGroups=If[mod===0, Partition[digits,exp,exp],Partition[digits, exp, exp,{-mod,exp}, 0]];
-		table = Table[
-            {Row[digitsGroups[[n]]], "\[RightArrow]", FromDigits[digitsGroups[[n]], 2],"\[RightArrow]",BaseForm[FromDigits[digitsGroups[[n]], 2],base]},
-            {n, Length[digitsGroups]}
-        ];
-        colors = {Blue, Red, Green, Orange, Purple, Brown, Pink};
-        		
-		Style[Column[{
+	Module[{numberDec,numberBase,helpDescription,colors},
+		numberDec=RandomInteger[{1,300}]; 
+		colors = {Green,Blue,Orange,Purple,Red,Brown,Pink};
+		If[!isBase[base],"Per favore, prima inserisci una base valida!",
+			If[base==2, 
+				(*Divisioni successive per 2*)
+				Module[{quotients={numberDec},modules={},i},{
+					i=1;
+					(*memorizzo i quozienti e i resti*)
+					While[quotients[[i]]!=0,
+						AppendTo[quotients,Quotient[quotients[[i]],2]];
+						AppendTo[modules,Mod[quotients[[i]],2]];
+						i++;
+					];
+					(*spiegazione della conversione, mostro divisioni successive e resti ottenuti *)
+					helpDescription={" \[Bullet] Dividiamolo per 2 e annotiamo il resto fino ad arrivare a 0",
+						Row[{
+							Panel[Style[ 
+								Grid[
+									Table[{
+										(*divisione*)
+										Style[ToString[quotients[[n]]],colors[[Mod[Length[colors]+n,Length[colors]]+1]]],
+										" \[Divide] 2 = ", 
+										(*quoziente*)
+										Spacer[5],Style[ToString[quotients[[n+1]]],colors[[Mod[Length[colors]+n+1,Length[colors]]+1]]],
+										(*resto*)
+										Spacer[5]," Resto = ",
+										Style[ToString[modules[[n]]],Bold]},
+									{n,1,Length[quotients]-1}]
+								],12]
+							], 
+							(*freccia dal basso verso l'alto, mostra come leggere i resti*)
+							Graphics[{Red,Arrowheads[0.5], Arrow[{{0, 0}, {0, i - 1}}]}, ImageSize -> 20]},
+						Alignment->Center,ImageSize->Full],
+						Row[{" \[Bullet] La conversione in binario si ottiene leggendo i resti dal basso verso l'alto ",Style["(Resti \[UpArrow])",Red]}]
+					}
+				}];,
+				(*conversione in basi 8 o 16, converto in binario, raggruppo e converto in decimale*)
+				Module[{digits, digitsGroups,mod,exp,table},
+					(*lista delle cifre che compongono il numero binario \[RightArrow] usata per la suddivisione in gruppi*)
+	        		digits=IntegerDigits[numberDec,2]; 
+	        		(*potenza di due: 16=2^4, 8=2^3 \[RightArrow] l'esponente indica la dimensione del gruppo in cui raggruppare il numero binario*)
+					exp=Log2[base]; 
+					(*resto \[RightArrow] indica quante cifre a sinistra rimangono escluse dal raggruppamento, serve per sapere quanti 0 aggiungere*)
+					mod=Mod[Length[digits],exp]; 
+					(*suddivisione del numero binario in gruppi da 3 o 4 cifre, se il resto \[EGrave] diverso da 0 vengono aggiunti degli 0 a sx*)
+					digitsGroups=If[mod===0, Partition[digits,exp,exp],Partition[digits, exp, exp,{-mod,exp}, 0]];
+			        
+			        (*spiegazione della conversione*)     
+	        		helpDescription={" \[Bullet] convertiamolo in base 2",
+	        		(*conversione in binario*)
+					Row[{Panel[Style[BaseForm[numberDec,2],12]]},Alignment->Center,ImageSize->Full],
+					" \[Bullet] raccogliamo le cifre binarie in gruppi da "<>ToString[exp]<>" partendo dalla posizione pi\[UGrave] a destra (cifra meno significativa),",
+					(*raggruppamento cifre*)
+					Row[ 
+						Table[
+							Panel[Style[
+								Row[digitsGroups[[n]]],
+								colors[[Mod[Length[colors]+n,Length[colors]]+1]]
+							,12]],
+						{n,1,Length[digitsGroups]}]
+					,Alignment->Center, ImageSize->Full],
+					" \[Bullet] convertiamo ogni gruppo in decimale, ogni numero ottenuto corrisponde ad una cifra in base "<>ToString[base]<>".",
+					(*conversione in decimale*)
+					Row[{Panel[Style[Grid[ 
+						Table[
+							{Style[Row[digitsGroups[[n]]],colors[[Mod[Length[colors]+n,Length[colors]]+1]]], (*gruppo di cifre binarie*)
+							"\[RightArrow]", FromDigits[digitsGroups[[n]], 2], (*conversione in decimale*)
+							"\[RightArrow]",BaseForm[FromDigits[digitsGroups[[n]], 2],base]},(*cifra in base 8/16 corrispondente*)
+						{n, Length[digitsGroups]}]
+					],12]]},Alignment->Center, ImageSize->Full]};
+				]
+			]
+		];
+		
+		(*suggerimento*)
+		Style[
+		Column[{
 			Style["Ripassiamo le conversioni tra basi 10 e "<>ToString[base],Bold,Red, 15, TextAlignment->Center],
 			Spacer[10],
 			Style["Da base 10 a base "<>ToString[base]<>" :",Underlined,Italic,13],
 			Spacer[5],
-			"k",
 			Style["Consideriamo il numero: "<>ToString[numberDec],Bold],
-			" \[Bullet] convertiamolo in base 2 \[RightArrow] "BaseForm[numberDec,2],
-			" \[Bullet] raccogliamo le cifre binarie in gruppi da "<>ToString[exp]<>" partendo dalla posizione pi\[UGrave] a destra (cifra meno significativa),",
-			Row[Table[{Style[Row[digitsGroups[[n]]],colors[[Mod[Length[colors]+n,Length[colors]]]]],Spacer[5]},{n,1,Length[digitsGroups]}]],
-			" \[Bullet] convertiamo ogni gruppo in decimale, ogni numero ottenuto corrisponde ad una cifra in base "<>ToString[base]<>".",
-			Grid[table,Alignment->Center],
-			"RISULTATO: "<>ToString[numberDec]<> "= "<>ToString[numberBase]<>"."
-		}],12, TextAlignment->Center]
+			Column[helpDescription],
+			Spacer[5],
+			Row[{
+				Style["Risultato: ", Italic,13,Bold],
+				numberDec," = ",BaseForm[numberDec,base], (*conversione da decimale a base 8/16*)
+				"."
+			}]
+		}],12]
 		
 	]
-, WindowTitle->"Suggerimento", WindowFloating->True, WindowMargins -> {{0, Automatic}, {0, Automatic}}]
+, WindowTitle->"Suggerimento", WindowFloating->True, WindowMargins -> {{0, Automatic}, {0, Automatic}}];
 
 (* Genera navi PC 
 GenerateShips[seed_Integer] := Module[

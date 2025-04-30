@@ -1,8 +1,11 @@
-In[10]:= SetDirectory["/Users/utente/Documents/GitHub/A_colpi_di_bit/Package"];
+SetDirectory["/Users/utente/Documents/GitHub/A_colpi_di_bit/Package"];
 <<Interaction.m;
 
+
 DynamicModule[{input="", seed="", base=2, gridSize=9},
-Column[{
-AskSeedInput[Function[input,seed=input]],AskBaseChoice[Function[input,base=input]],Dynamic[helpUser[16]]
-}]
+	Column[{
+		AskSeedInput[Function[input,seed=input]],
+		AskBaseChoice[Function[input,base=input]],
+		Dynamic[helpUser[base]]
+	}]
 ]

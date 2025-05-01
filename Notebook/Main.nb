@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[   1186479,      19656]
-NotebookOptionsPosition[   1181920,      19564]
-NotebookOutlinePosition[   1183188,      19601]
-CellTagsIndexPosition[   1183118,      19596]
+NotebookDataLength[   1188171,      19679]
+NotebookOptionsPosition[   1183962,      19593]
+NotebookOutlinePosition[   1185247,      19631]
+CellTagsIndexPosition[   1185177,      19626]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -35,11 +35,11 @@ Cell[BoxData[{
   RowBox[{"Get", "[", "\"\<Interaction.m\>\"", "]"}], ";"}], "\n", 
  RowBox[{
   RowBox[{
-   RowBox[{"Get", "[", "\"\<Battle.m\>\"", "]"}], ";"}], "\n", 
-  "\[IndentingNewLine]", 
+   RowBox[{"Get", "[", "\"\<Battle.m\>\"", "]"}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
   RowBox[{"(*", 
    RowBox[{"Infine", " ", "carica", " ", 
-    RowBox[{"Main", ".", "m"}]}], "*)"}]}], "\[IndentingNewLine]", 
+    RowBox[{"Main", ".", "m"}]}], "*)"}]}], "\n", 
  RowBox[{
   RowBox[{"Get", "[", "\"\<Main.m\>\"", "]"}], ";"}]}], "Input",
  TaggingRules->{
@@ -57,11 +57,13 @@ Cell[BoxData[{
    3.955020426454773*^9}, 3.955020529512577*^9, 3.9550205674768763`*^9, {
    3.9550206381640453`*^9, 3.955020665412602*^9}, 3.955096694026331*^9, {
    3.955097432905099*^9, 3.955097433252261*^9}},
- CellLabel->"In[14]:=",ExpressionUUID->"befc3e8a-201a-46f9-8bc9-ecc238dac408"],
+ CellLabel->
+  "In[118]:=",ExpressionUUID->"befc3e8a-201a-46f9-8bc9-ecc238dac408"],
 
 Cell[BoxData[""], "Input",
  CellChangeTimes->{{3.955097428017071*^9, 3.955097428018622*^9}},
- CellLabel->"In[6]:=",ExpressionUUID->"0f90986d-5f96-4b54-9549-6b2ea493c196"],
+ CellLabel->
+  "In[123]:=",ExpressionUUID->"0f90986d-5f96-4b54-9549-6b2ea493c196"],
 
 Cell[CellGroupData[{
 
@@ -19319,7 +19321,8 @@ lavoro futuro\>\"", ",", "\"\<Text\>\"", ",",
   "\[IndentingNewLine]", "\n"}]], "Input",
  CellChangeTimes->{{3.95501322161303*^9, 3.9550133495344267`*^9}, {
   3.955013868746673*^9, 3.955013873840117*^9}},
- CellLabel->"In[7]:=",ExpressionUUID->"f35e53c6-777b-4c97-802a-b3b576238976"],
+ CellLabel->
+  "In[124]:=",ExpressionUUID->"f35e53c6-777b-4c97-802a-b3b576238976"],
 
 Cell["\<\
 \tIntroduzione
@@ -19367,157 +19370,183 @@ Cell["II. Giochiamo a battaglia navale! ", "Section",
 
 Cell[CellGroupData[{
 
-Cell["II.1 Inseriamo il seed", "Subsection",
- CellChangeTimes->{{3.955013606483264*^9, 
-  3.9550136109625607`*^9}},ExpressionUUID->"82678e76-9205-4eca-9c3a-\
-116aeb1f5399"],
-
-Cell[CellGroupData[{
-
 Cell[BoxData[
  RowBox[{"PlacementUI", "[", "]"}]], "Input",
  CellChangeTimes->{{3.955020673386777*^9, 3.955020681035671*^9}, {
   3.955021695137374*^9, 3.955021696729376*^9}, {3.9550217492512712`*^9, 
   3.955021750555945*^9}},
- CellLabel->"In[19]:=",ExpressionUUID->"5eaaa945-7cb0-4996-a811-7c4e14540d2f"],
+ CellLabel->
+  "In[125]:=",ExpressionUUID->"5eaaa945-7cb0-4996-a811-7c4e14540d2f"],
 
 Cell[BoxData[
- DynamicModuleBox[{Main`Private`input$$ = "", Main`Private`seed$$ = 1234, 
-  Main`Private`base$$ = 2, Main`Private`gridSize$$ = 10, 
-  Main`Private`phase$$ = 2, Main`Private`initDone$$ = True}, 
+ DynamicModuleBox[{Main`Private`seedValue$$ = 129, Main`Private`baseValue$$ = 
+  2, Main`Private`gridSize$$ = 10, Main`Private`phase$$ = 3, 
+  Main`Private`initDone$$ = True, Main`Private`message$$ = 
+  "Impostazioni confermate! Seed: 129, Base: 2", 
+  Main`Private`cpuShips$$ = {{{3, 2}, {3, 3}, {3, 4}, {3, 5}, {3, 6}}, {{5, 
+   8}, {6, 8}, {7, 8}, {8, 8}}, {{7, 0}, {8, 0}, {9, 0}}, {{1, 7}, {2, 7}}, {{
+   6, 9}}}, Main`Private`battleStarted$$ = False, 
+  Main`Private`userShips$$ = {{{10, 1}, {10, 2}, {10, 3}, {10, 4}, {10, 
+   5}}, {{5, 1}, {6, 1}, {7, 1}, {8, 1}}, {{5, 6}}, {{7, 3}, {7, 4}, {7, 
+   5}}, {{2, 9}, {2, 10}}}, Main`Private`userGrid$$ = {{0, 0, 0, 0, 0, 0, 0, 
+  0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 1, 1}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {1, 0, 0, 0, 0, 1, 0, 0, 0, 0}, {1, 0, 0, 0, 
+  0, 0, 0, 0, 0, 0}, {1, 0, 1, 1, 1, 0, 0, 0, 0, 0}, {1, 0, 0, 0, 0, 0, 0, 0, 
+  0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}}, 
+  Main`Private`cpuGrid$$ = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0,
+   0, 1, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 1, 0, 0}, {0, 0, 1, 1, 1, 1, 1, 0, 0, 
+  0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 1, 0}, {0, 0, 
+  0, 0, 0, 0, 0, 0, 1, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 1, 0}, {1, 0, 0, 0, 0, 0, 
+  0, 0, 1, 0}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0}}}, 
   TagBox[GridBox[{
      {
-      TagBox[GridBox[{
-         {
-          
-          DynamicModuleBox[{Interaction`Private`value$$ = 1234, 
-           Interaction`Private`message$$ = "Seed inserito: 1234", 
-           Interaction`Private`error$$ = False}, 
-           TagBox[GridBox[{
-              {
-               TemplateBox[{"\"Inserisci seed: \"", 
-                 InputFieldBox[
-                  Dynamic[Interaction`Private`value$$], Number, ImageSize -> 
-                  Small], 
-                 ButtonBox["\"Imposta\"", ButtonFunction :> If[
-                    Interaction`isSeed[Interaction`Private`value$$], 
-                    Function[
-                    Main`Private`val$, Main`Private`seed$$ = 
-                    Main`Private`val$][Interaction`Private`value$$]; 
-                    Interaction`Private`error$$ = False; 
-                    Interaction`Private`message$$ = 
-                    "Seed inserito: " <> 
-                    ToString[Interaction`Private`value$$]; 
-                    Interaction`Private`seed = Interaction`Private`value$$; 
-                    Null, Interaction`Private`error$$ = True; 
-                    Interaction`Private`message$$ = 
-                    "Seed non valido. Inserisci un numero intero!"; Null], 
-                  Appearance -> Automatic, Evaluator -> Automatic, Method -> 
-                  "Preemptive"]},
-                "RowDefault"]},
-              {
-               DynamicBox[ToBoxes[
-                 If[Interaction`Private`error$$, 
-                  Interaction`showError[Interaction`Private`message$$], 
-                  Interaction`showMessage[Interaction`Private`message$$]], 
-                 StandardForm],
-                ImageSizeCache->{148.2, {0.156, 9.269}}]}
-             },
-             DefaultBaseStyle->"Column",
-             GridBoxAlignment->{"Columns" -> {{Left}}},
-             
-             GridBoxItemSize->{
-              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
-            "Column"],
-           DynamicModuleValues:>{}]},
-         {
-          
-          DynamicModuleBox[{Interaction`Private`value$$ = 2, 
-           Interaction`Private`message$$ = "Base inserita: 2"}, 
-           TagBox[GridBox[{
-              {
-               
-               TemplateBox[{
-                "\"Inserisci la base su cui ti vuoi esercitare: \"", 
-                 PopupMenuBox[
-                  Dynamic[Interaction`Private`value$$], {
-                  2 -> "2", 8 -> "8", 16 -> "16"}], 
-                 ButtonBox[
-                 "\"Inserisci\"", 
-                  ButtonFunction :> (
-                   Function[
-                    Main`Private`val$, Main`Private`base$$ = 
-                    Main`Private`val$][Interaction`Private`value$$]; 
-                   Interaction`Private`message$$ = 
-                    "Base inserita: " <> 
-                    ToString[Interaction`Private`value$$]; Null), Appearance -> 
-                  Automatic, Evaluator -> Automatic, Method -> "Preemptive"]},
-                
-                "RowDefault"]},
-              {
-               DynamicBox[ToBoxes[
-                 Interaction`showMessage[Interaction`Private`message$$], 
-                 StandardForm],
-                ImageSizeCache->{124.79999999999998`, {0.156, 9.269}}]}
-             },
-             DefaultBaseStyle->"Column",
-             GridBoxAlignment->{"Columns" -> {{Left}}},
-             
-             GridBoxItemSize->{
-              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
-            "Column"],
-           DynamicModuleValues:>{}]},
-         {
-          ButtonBox["\<\"Conferma Impostazioni\"\>",
-           Appearance->Automatic,
-           ButtonFunction:>If[
+      DynamicBox[ToBoxes[
+        Which[Main`Private`phase$$ == 1, 
+         Column[{
+           Row[{"Inserisci seed: ", 
+             InputField[
+              Dynamic[Main`Private`seedValue$$], Number, ImageSize -> 
+              Small]}], 
+           Spacer[10], 
+           Row[{"Inserisci la base su cui ti vuoi esercitare: ", 
+             PopupMenu[
+              Dynamic[Main`Private`baseValue$$], {2, 8, 16}]}], 
+           Spacer[10], 
+           Dynamic[Main`Private`message$$], 
+           Spacer[10], 
+           Button["Conferma Impostazioni", 
+            If[
              And[
-              Interaction`isSeed[Main`Private`seed$$], 
-              Interaction`isBase[Main`Private`base$$]], 
+              Interaction`isSeed[Main`Private`seedValue$$], 
+              Interaction`isBase[Main`Private`baseValue$$]], 
              Interaction`InitPhase[
-              Main`Private`seed$$, Main`Private`base$$, 
+              Main`Private`seedValue$$, Main`Private`baseValue$$, 
                Main`Private`gridSize$$]; Main`Private`phase$$ = 2; 
-             Main`Private`initDone$$ = True, 
-             Interaction`showError["Seed o base non validi!"]; Null],
-           Evaluator->Automatic,
-           Method->"Preemptive"]}
-        },
-        DefaultBaseStyle->"Column",
-        GridBoxAlignment->{"Columns" -> {{Left}}},
-        GridBoxItemSize->{
-         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
-       "Column"]},
+             Main`Private`initDone$$ = True; 
+             Main`Private`message$$ = 
+              "Impostazioni confermate! Seed: " <> 
+               ToString[Main`Private`seedValue$$] <> ", Base: " <> 
+               ToString[Main`Private`baseValue$$]; Null, 
+             Main`Private`message$$ = "Seed o base non validi!"; Null]]}], 
+         Main`Private`phase$$ == 2, 
+         Column[{
+           
+           DynamicModule[{
+            Main`Private`currentShip = 1, 
+             Main`Private`shipLengths = {5, 4, 3, 2, 1}, Main`Private`start = 
+             "", Main`Private`end = "", Main`Private`shipPlacementMsg = "", 
+             Main`Private`shipsPlaced = 0, Main`Private`placementDone = 
+             False}, 
+            Column[{
+              Style["Fase di Posizionamento Navi", Bold, 16], 
+              Row[{
+                Column[{
+                  Dynamic[
+                   Row[{"Nave ", Main`Private`currentShip, ":"}]], 
+                  Grid[{{"Inizio:", 
+                    InputField[
+                    Dynamic[Main`Private`start], String, Enabled -> Dynamic[
+                    Not[Main`Private`placementDone]]]}, {"Fine:", 
+                    InputField[
+                    Dynamic[Main`Private`end], String, Enabled -> Dynamic[
+                    Not[Main`Private`placementDone]]]}, {"", 
+                    Button["Conferma", 
+                    
+                    Module[{
+                    Main`Private`result = 
+                    Interaction`PlaceUserShip[
+                    Main`Private`start, Main`Private`end]}, 
+                    If[
+                    Part[Main`Private`result, 1], 
+                    Increment[Main`Private`shipsPlaced]; 
+                    Main`Private`start = ""; Main`Private`end = ""; 
+                    If[Main`Private`shipsPlaced == 
+                    Length[Main`Private`shipLengths], 
+                    Main`Private`placementDone = True; 
+                    Main`Private`shipPlacementMsg = 
+                    "Tutte le navi sono state posizionate!"; Null, 
+                    Increment[Main`Private`currentShip]; 
+                    Main`Private`shipPlacementMsg = 
+                    Part[Main`Private`result, 2]; Null], 
+                    Main`Private`shipPlacementMsg = 
+                    Part[Main`Private`result, 2]; Null]], Enabled -> Dynamic[
+                    Not[Main`Private`placementDone]]]}, {"", 
+                    Button[
+                    "Avvia Battaglia", 
+                    Main`Private`userShips$$ = Interaction`GetUserShips[]; 
+                    Main`Private`userGrid$$ = Interaction`GetUserGrid[]; 
+                    Main`Private`cpuShips$$ = 
+                    Battle`generateCPUShips[Util`$GridSize]; 
+                    Main`Private`cpuGrid$$ = 
+                    Util`createGrid[Main`Private`cpuShips$$, Util`$GridSize]; 
+                    Main`Private`phase$$ = 3; Null, Enabled -> 
+                    Dynamic[Main`Private`placementDone]]}}], 
+                  Dynamic[
+                   Style[Main`Private`shipPlacementMsg, 
+                    If[
+                    StringMatchQ[Main`Private`shipPlacementMsg, 
+                    Alternatives["Nave piazzata*", "Tutte le navi*"]], 
+                    Darker[Green], Red]]]}], 
+                Spacer[30], 
+                Column[{
+                  Style["La tua flotta", Bold, 14], 
+                  Dynamic[
+                   Util`showGrid[
+                    Interaction`GetUserGrid[], True]], 
+                  Style["Navi da posizionare:", Bold, 12], 
+                  Dynamic[
+                   
+                   Module[{
+                    Main`Private`remaining = 
+                    Interaction`GetRemainingShipLengths[]}, 
+                    If[
+                    Length[Main`Private`remaining] > 0, 
+                    "Lunghezze rimanenti: " <> 
+                    ToString[Main`Private`remaining], 
+                    "Tutte le navi sono state posizionate!"]]]}]}]}]], 
+           Button["Reset Game", Main`Private`phase$$ = 1; Null]}], 
+         Main`Private`phase$$ == 3, 
+         Column[{
+           Style[
+           "Battaglia Navale in Base " <> ToString[Main`Private`baseValue$$], 
+            Bold, 20, Red], 
+           Spacer[10], 
+           Dynamic[
+            Battle`StartGame[
+            Main`Private`userShips$$, Main`Private`cpuShips$$, 
+             Main`Private`userGrid$$, Main`Private`cpuGrid$$, 
+             Main`Private`baseValue$$, Util`$GridSize]], 
+           Spacer[10], 
+           Button[
+           "Nuova Partita", Main`Private`phase$$ = 1; Interaction`ResetGame[]; 
+            Null]}]], StandardForm],
+       ImageSizeCache->{
+        663.0025390624999, {286.4579140014648, 292.1898475952148}}]},
      {
       DynamicBox[ToBoxes[
-        Interaction`helpUser[Main`Private`base$$], StandardForm],
-       ImageSizeCache->{101.11572265625, {9.789306640625, 15.521240234375}}]}
+        If[Main`Private`phase$$ == 1, 
+         Interaction`helpUser[Main`Private`baseValue$$], ""], StandardForm],
+       ImageSizeCache->{0., {0., 6.318}}]}
     },
     DefaultBaseStyle->"Column",
     GridBoxAlignment->{"Columns" -> {{Left}}},
     GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
    "Column"],
   DynamicModuleValues:>{}]], "Output",
- CellChangeTimes->{
-  3.955022029671105*^9, 3.955022184238483*^9, 3.9550967263000393`*^9, 
-   3.9550974010653887`*^9, {3.9550974377061787`*^9, 3.95509746185988*^9}},
- CellLabel->"Out[19]=",ExpressionUUID->"94b50428-e74c-457b-97d0-4b80a668dfab"],
+ CellChangeTimes->{3.95510635255031*^9, 3.95510658016744*^9, 
+  3.955107184136159*^9, 3.955107237550419*^9, 3.9551076634949913`*^9},
+ CellLabel->
+  "Out[125]=",ExpressionUUID->"2706bdb6-ae8e-4656-af99-075c22e67206"],
 
 Cell[BoxData[
  InterpretationBox[
   RowBox[{"\<\"Inizializzazione completata! Base: \"\>", "\[InvisibleSpace]", 
-   "2", "\[InvisibleSpace]", "\<\", Seed: \"\>", "\[InvisibleSpace]", "1234"}],
-  SequenceForm["Inizializzazione completata! Base: ", 2, ", Seed: ", 1234],
+   "2", "\[InvisibleSpace]", "\<\", Seed: \"\>", "\[InvisibleSpace]", "129"}],
+  
+  SequenceForm["Inizializzazione completata! Base: ", 2, ", Seed: ", 129],
   Editable->False]], "Print",
- CellChangeTimes->{3.955097467234056*^9},
- CellLabel->"",ExpressionUUID->"d2b38d61-c97c-42b2-a395-0a9cb95fd9a7"]
-}, Open  ]]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell["II.2 esempi", "Subsection",ExpressionUUID->"a25bee96-9ab0-4656-9bd6-f8f71e60c076"],
-
-Cell["Esempi per la sezione II", "Text",ExpressionUUID->"705b9382-b47b-414a-a0c4-8831b31bf49b"]
+ CellChangeTimes->{3.955107665424686*^9},
+ CellLabel->"",ExpressionUUID->"0a39c3c8-5ac6-45c0-875c-c4c8f414803c"]
 }, Open  ]]
 }, Open  ]],
 
@@ -19564,6 +19593,7 @@ Cell["", "Section",
 },
 WindowSize->{Full, Full},
 WindowMargins->{{0, Automatic}, {Automatic, 0}},
+DockedCells->{},
 PrintingStartingPageNumber->1,
 TaggingRules->{
   Join[<|"PaginationCache" -> {{
@@ -19587,78 +19617,73 @@ ExpressionUUID->"17e77165-8fca-43df-823a-a4c9750da695"
 (*CellTagsOutline
 CellTagsIndex->{
  "i:1"->{
-  Cell[2462, 67, 203, 2, 96, "Title",ExpressionUUID->"e289e0fd-ef33-4578-9ac3-881f075578e4",
+  Cell[2471, 69, 203, 2, 96, "Title",ExpressionUUID->"e289e0fd-ef33-4578-9ac3-881f075578e4",
    CellTags->"i:1"],
-  Cell[1168477, 19224, 475, 9, 66, "Section",ExpressionUUID->"ecd42a58-a9d5-4a3d-a91b-75f0e45ac472",
+  Cell[1168486, 19226, 475, 9, 66, "Section",ExpressionUUID->"ecd42a58-a9d5-4a3d-a91b-75f0e45ac472",
    CellTags->"i:1"]}
  }
 *)
 (*CellTagsIndex
 CellTagsIndex->{
- {"i:1", 1182858, 19588}
+ {"i:1", 1184917, 19618}
  }
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[554, 20, 1710, 39, 223, "Input",ExpressionUUID->"befc3e8a-201a-46f9-8bc9-ecc238dac408"],
-Cell[2267, 61, 170, 2, 29, "Input",ExpressionUUID->"0f90986d-5f96-4b54-9549-6b2ea493c196"],
+Cell[554, 20, 1714, 40, 172, "Input",ExpressionUUID->"befc3e8a-201a-46f9-8bc9-ecc238dac408"],
+Cell[2271, 62, 175, 3, 29, "Input",ExpressionUUID->"0f90986d-5f96-4b54-9549-6b2ea493c196"],
 Cell[CellGroupData[{
-Cell[2462, 67, 203, 2, 96, "Title",ExpressionUUID->"e289e0fd-ef33-4578-9ac3-881f075578e4",
+Cell[2471, 69, 203, 2, 96, "Title",ExpressionUUID->"e289e0fd-ef33-4578-9ac3-881f075578e4",
  CellTags->"i:1"],
-Cell[2668, 71, 1165484, 19142, 280, "Subtitle",ExpressionUUID->"c7190f31-433b-46d6-b0bc-92504c0e8a12"],
-Cell[1168155, 19215, 297, 5, 33, "Text",ExpressionUUID->"7198cd02-e486-4f5c-9d61-b65f1bc2d49d"],
+Cell[2677, 73, 1165484, 19142, 280, "Subtitle",ExpressionUUID->"c7190f31-433b-46d6-b0bc-92504c0e8a12"],
+Cell[1168164, 19217, 297, 5, 33, "Text",ExpressionUUID->"7198cd02-e486-4f5c-9d61-b65f1bc2d49d"],
 Cell[CellGroupData[{
-Cell[1168477, 19224, 475, 9, 66, "Section",ExpressionUUID->"ecd42a58-a9d5-4a3d-a91b-75f0e45ac472",
+Cell[1168486, 19226, 475, 9, 66, "Section",ExpressionUUID->"ecd42a58-a9d5-4a3d-a91b-75f0e45ac472",
  CellTags->"i:1"],
-Cell[1168955, 19235, 217, 4, 33, "Text",ExpressionUUID->"de941e21-f2fc-427e-a295-c69fa74b5e55"],
-Cell[1169175, 19241, 3694, 80, 254, "Input",ExpressionUUID->"f35e53c6-777b-4c97-802a-b3b576238976"],
-Cell[1172872, 19323, 414, 13, 114, "Text",ExpressionUUID->"fcc79715-6833-467d-8789-9b8db6ddf7b1"]
+Cell[1168964, 19237, 217, 4, 33, "Text",ExpressionUUID->"de941e21-f2fc-427e-a295-c69fa74b5e55"],
+Cell[1169184, 19243, 3699, 81, 254, "Input",ExpressionUUID->"f35e53c6-777b-4c97-802a-b3b576238976"],
+Cell[1172886, 19326, 414, 13, 114, "Text",ExpressionUUID->"fcc79715-6833-467d-8789-9b8db6ddf7b1"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1173323, 19341, 86, 0, 66, "Section",ExpressionUUID->"1ae33957-adbe-435a-90e9-dfd845786de9"],
-Cell[1173412, 19343, 92, 0, 33, "Text",ExpressionUUID->"e3904722-41a1-42bf-a91e-76839ecb1e73"]
+Cell[1173337, 19344, 86, 0, 66, "Section",ExpressionUUID->"1ae33957-adbe-435a-90e9-dfd845786de9"],
+Cell[1173426, 19346, 92, 0, 33, "Text",ExpressionUUID->"e3904722-41a1-42bf-a91e-76839ecb1e73"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1173541, 19348, 209, 4, 66, "Section",ExpressionUUID->"c502962c-236b-4226-ade3-691138a5b05c"],
-Cell[1173753, 19354, 182, 3, 53, "Subsection",ExpressionUUID->"33a5ed71-40d9-4529-83cc-99b1cbb97dab"]
+Cell[1173555, 19351, 209, 4, 66, "Section",ExpressionUUID->"c502962c-236b-4226-ade3-691138a5b05c"],
+Cell[1173767, 19357, 182, 3, 53, "Subsection",ExpressionUUID->"33a5ed71-40d9-4529-83cc-99b1cbb97dab"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1173972, 19362, 155, 3, 66, "Section",ExpressionUUID->"77efbebc-6b08-4e81-a373-083a0c90c301"],
+Cell[1173986, 19365, 155, 3, 66, "Section",ExpressionUUID->"77efbebc-6b08-4e81-a373-083a0c90c301"],
 Cell[CellGroupData[{
-Cell[1174152, 19369, 172, 3, 53, "Subsection",ExpressionUUID->"82678e76-9205-4eca-9c3a-116aeb1f5399"],
-Cell[CellGroupData[{
-Cell[1174349, 19376, 304, 5, 29, "Input",ExpressionUUID->"5eaaa945-7cb0-4996-a811-7c4e14540d2f"],
-Cell[1174656, 19383, 5229, 119, 189, "Output",ExpressionUUID->"94b50428-e74c-457b-97d0-4b80a668dfab"],
-Cell[1179888, 19504, 411, 7, 23, "Print",ExpressionUUID->"d2b38d61-c97c-42b2-a395-0a9cb95fd9a7"]
+Cell[1174166, 19372, 308, 6, 29, "Input",ExpressionUUID->"5eaaa945-7cb0-4996-a811-7c4e14540d2f"],
+Cell[1174477, 19380, 7684, 158, 631, "Output",ExpressionUUID->"2706bdb6-ae8e-4656-af99-075c22e67206"],
+Cell[1182164, 19540, 412, 8, 23, "Print",ExpressionUUID->"0a39c3c8-5ac6-45c0-875c-c4c8f414803c"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1180348, 19517, 88, 0, 53, "Subsection",ExpressionUUID->"a25bee96-9ab0-4656-9bd6-f8f71e60c076"],
-Cell[1180439, 19519, 95, 0, 33, "Text",ExpressionUUID->"705b9382-b47b-414a-a0c4-8831b31bf49b"]
+Cell[1182625, 19554, 94, 0, 66, "Section",ExpressionUUID->"9df1c724-5093-495f-9dd3-35b495b32758"],
+Cell[CellGroupData[{
+Cell[1182744, 19558, 95, 0, 53, "Subsection",ExpressionUUID->"47c6beb3-b547-4cab-a858-04929870e2fe"],
+Cell[1182842, 19560, 86, 0, 33, "Text",ExpressionUUID->"d65d5751-a78a-4378-892f-d3fa9049ca14"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1182965, 19565, 89, 0, 53, "Subsection",ExpressionUUID->"586c8513-4596-4a3c-9c39-587b021f67c8"],
+Cell[1183057, 19567, 96, 0, 33, "Text",ExpressionUUID->"58aa436e-0cb1-43fb-b29c-b4afd559b41d"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1180583, 19525, 94, 0, 66, "Section",ExpressionUUID->"9df1c724-5093-495f-9dd3-35b495b32758"],
-Cell[CellGroupData[{
-Cell[1180702, 19529, 95, 0, 53, "Subsection",ExpressionUUID->"47c6beb3-b547-4cab-a858-04929870e2fe"],
-Cell[1180800, 19531, 86, 0, 33, "Text",ExpressionUUID->"d65d5751-a78a-4378-892f-d3fa9049ca14"]
+Cell[1183202, 19573, 103, 0, 66, "Section",ExpressionUUID->"a24f3473-b368-42a0-a730-bed08fcae3d8"],
+Cell[1183308, 19575, 104, 0, 33, "Text",ExpressionUUID->"37d72153-2eca-4b78-9c04-4d9511adec6f"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1180923, 19536, 89, 0, 53, "Subsection",ExpressionUUID->"586c8513-4596-4a3c-9c39-587b021f67c8"],
-Cell[1181015, 19538, 96, 0, 33, "Text",ExpressionUUID->"58aa436e-0cb1-43fb-b29c-b4afd559b41d"]
-}, Open  ]]
+Cell[1183449, 19580, 101, 0, 66, "Section",ExpressionUUID->"d812d268-c7a7-4d66-8d61-4e7294ba58aa"],
+Cell[1183553, 19582, 108, 0, 33, "Text",ExpressionUUID->"c855a99b-0b1d-4912-bcc0-eade65be76e4"]
 }, Open  ]],
-Cell[CellGroupData[{
-Cell[1181160, 19544, 103, 0, 66, "Section",ExpressionUUID->"a24f3473-b368-42a0-a730-bed08fcae3d8"],
-Cell[1181266, 19546, 104, 0, 33, "Text",ExpressionUUID->"37d72153-2eca-4b78-9c04-4d9511adec6f"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[1181407, 19551, 101, 0, 66, "Section",ExpressionUUID->"d812d268-c7a7-4d66-8d61-4e7294ba58aa"],
-Cell[1181511, 19553, 108, 0, 33, "Text",ExpressionUUID->"c855a99b-0b1d-4912-bcc0-eade65be76e4"]
-}, Open  ]],
-Cell[1181634, 19556, 270, 5, 66, "Section",ExpressionUUID->"33af3ce4-dd43-483f-afe9-8fb93dc8e4c4"]
+Cell[1183676, 19585, 270, 5, 66, "Section",ExpressionUUID->"33af3ce4-dd43-483f-afe9-8fb93dc8e4c4"]
 }, Open  ]]
 }
 ]
 *)
+
+(* End of internal cache information *)
 

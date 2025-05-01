@@ -10,68 +10,26 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[   1186479,      19656]
-NotebookOptionsPosition[   1181920,      19564]
-NotebookOutlinePosition[   1183188,      19601]
-CellTagsIndexPosition[   1183118,      19596]
+NotebookDataLength[   1167042,      19189]
+NotebookOptionsPosition[   1166449,      19172]
+NotebookOutlinePosition[   1166888,      19189]
+CellTagsIndexPosition[   1166845,      19186]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
-Cell[BoxData[{
- RowBox[{
-  RowBox[{
-   RowBox[{
-   "SetDirectory", 
-    "[", "\"\</Users/danielerusso/Documents/GitHub/A_colpi_di_bit/Package\>\"",
-     "]"}], ";"}], "\[IndentingNewLine]", 
-  RowBox[{"(*", 
-   RowBox[{
-   "Carica", " ", "i", " ", "pacchetti", " ", "dipendenti", " ", "PRIMA", " ",
-     "di", " ", "Main`"}], "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"Get", "[", "\"\<Util.m\>\"", "]"}], ";"}], "\n", 
- RowBox[{
-  RowBox[{"Get", "[", "\"\<Interaction.m\>\"", "]"}], ";"}], "\n", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Get", "[", "\"\<Battle.m\>\"", "]"}], ";"}], "\n", 
-  "\[IndentingNewLine]", 
-  RowBox[{"(*", 
-   RowBox[{"Infine", " ", "carica", " ", 
-    RowBox[{"Main", ".", "m"}]}], "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"Get", "[", "\"\<Main.m\>\"", "]"}], ";"}]}], "Input",
- TaggingRules->{
-   Join[<|"PaginationCache" -> {{
-       2025, 4, 30, 16, 39, 33.621422`8.279191057903047}, {1, 1, 1, 1, 1, 2, 
-       2}, Automatic}|>, {"NextIndexingNumber" -> 1}, {
-    "NextIndexingNumber" -> 2}], "NextIndexingNumber" -> 2, 
-   "IndexEntries" -> {{"i:1", "INDICE"}, {"i:1", 
-      StyleBox["Battaglia Navale", "Title"]}}, 
-   "ExternalEvaluateData" -> <|
-    "System" -> "Python", "ID" -> "DefaultPythonSession"|>},
- CellEvaluationLanguage->"Python",
- CellChangeTimes->{{3.955013693904099*^9, 3.955013740363694*^9}, {
-   3.955013815541761*^9, 3.955013841063532*^9}, {3.9550203983090963`*^9, 
-   3.955020426454773*^9}, 3.955020529512577*^9, 3.9550205674768763`*^9, {
-   3.9550206381640453`*^9, 3.955020665412602*^9}, 3.955096694026331*^9, {
-   3.955097432905099*^9, 3.955097433252261*^9}},
- CellLabel->"In[14]:=",ExpressionUUID->"befc3e8a-201a-46f9-8bc9-ecc238dac408"],
+Cell["Main Contents", "ContentsTitle",ExpressionUUID->"61763594-ab34-4a27-a5c1-5e00e8d24ade"],
 
-Cell[BoxData[""], "Input",
- CellChangeTimes->{{3.955097428017071*^9, 3.955097428018622*^9}},
- CellLabel->"In[6]:=",ExpressionUUID->"0f90986d-5f96-4b54-9549-6b2ea493c196"],
-
-Cell[CellGroupData[{
-
-Cell[TextData[StyleBox["Battaglia Navale", "Title"]], "Title",
- CellChangeTimes->{{3.9550115052986393`*^9, 3.955011508799605*^9}},
- CellTags->"i:1",ExpressionUUID->"e289e0fd-ef33-4578-9ac3-881f075578e4"],
+Cell[TextData[ButtonBox["Open Main.nb",
+ BaseStyle->"Hyperlink",
+ ButtonData->{
+   FrontEnd`FileName[{}, "Main.nb"], None}]], "Text",ExpressionUUID->\
+"730c0151-12f4-4391-89b5-508f459c953d"],
 
 Cell[TextData[{
- "Ripassiamo insieme la conversione binaria\n1234 : A colpi di bit\nMC 2025/ \
-2026\n    ",
+ StyleBox["Battaglia Navale", "Title"],
+ "\nRipassiamo insieme la conversione binaria\n1234 : A colpi di bit\nMC \
+2025/ 2026\n    ",
  Cell[BoxData[
   GraphicsBox[
    TagBox[RasterBox[CompressedData["
@@ -4030,7 +3988,7 @@ z5yfxf3lFahVfcGX138Bp/OJhA==
    DefaultBaseStyle->"ImageGraphics",
    ImageSizeRaw->{132., 134.},
    PlotRange->{{0, 132.}, {0, 134.}}]], "Input",ExpressionUUID->
-  "7b0b6270-de04-4873-89ef-7eb450e69c38"],
+  "69cec885-44c7-491e-a0bc-81ab815005bd"],
  "   -   ",
  Cell[BoxData[
   GraphicsBox[
@@ -7812,7 +7770,7 @@ z5yfxf3lFahVfcGX138Bp/OJhA==
    DefaultBaseStyle->"ImageGraphics",
    ImageSizeRaw->{132., 134.},
    PlotRange->{{0, 132.}, {0, 134.}}]], "Input",ExpressionUUID->
-  "a8e235fd-1952-41ee-b4e3-6db751a7b92b"],
+  "97af41de-c5f5-46c9-be13-9fa8e106d873"],
  "  -   ",
  Cell[BoxData[
   GraphicsBox[
@@ -11641,7 +11599,7 @@ z5yfxf3lFahVfcGX138Bp/OJhA==
    DefaultBaseStyle->"ImageGraphics",
    ImageSizeRaw->{132., 134.},
    PlotRange->{{0, 132.}, {0, 134.}}]], "Input",ExpressionUUID->
-  "636abcfc-c55f-4592-beb5-5ef8e75a1c4c"],
+  "a0082b29-de95-47b4-a505-b9f9004dbb9c"],
  "  -  ",
  Cell[BoxData[
   GraphicsBox[
@@ -15388,7 +15346,7 @@ z5yfxf3lFahVfcGX138Bp/OJhA==
    DefaultBaseStyle->"ImageGraphics",
    ImageSizeRaw->{132., 134.},
    PlotRange->{{0, 132.}, {0, 134.}}]], "Input",ExpressionUUID->
-  "603dca1c-c149-403e-8329-1741036e8d87"],
+  "2af4bad5-2dd8-43a8-8d4f-b76233d5954b"],
  "  -  ",
  Cell[BoxData[
   GraphicsBox[
@@ -19205,459 +19163,34 @@ z5yfxf3lFahVfcGX138Bp/OJhA==
    DefaultBaseStyle->"ImageGraphics",
    ImageSizeRaw->{132., 134.},
    PlotRange->{{0, 132.}, {0, 134.}}]], "Input",ExpressionUUID->
-  "06dadb36-ff87-4bf2-b13c-a571adc230f6"],
+  "e6718eaa-b8d2-4a2a-b485-d98ff8fdb631"],
  "\nNicola Modugno -    Dan Cernei     - Matteo Rontini - Daniele Russo - \
-Matilde Nardi"
-}], "Subtitle",
- CellChangeTimes->{{3.955011526449091*^9, 
-  3.95501155343911*^9}},ExpressionUUID->"c7190f31-433b-46d6-b0bc-\
-92504c0e8a12"],
-
-Cell[TextData[StyleBox["(anno 1 - curriculum A) (anno 1 - curriculum A) (anno \
-1 - curriculum A) (anno 1 - curriculum A) (anno 1 - curriculum A)", "Text"]], \
-"Text",
- CellChangeTimes->{{3.9550115629894533`*^9, 
-  3.9550115658991423`*^9}},ExpressionUUID->"7198cd02-e486-4f5c-9d61-\
-b65f1bc2d49d"],
-
-Cell[CellGroupData[{
-
-Cell["INDICE", "Section",
- CellChangeTimes->CompressedData["
-1:eJxTTMoPSmViYGAQBmIQ7eevM2FK+VvHHdPKwfSZmsSZIHrSveTZIPr86eub
-QHSgov9WEF1knLYLRF8wLd4HogPi+w+D6LxJK0+A6J1B62+CaDOLqrsg+qDs
-5Ucg+kvFuzcg+nm+ykcQvekpy18Q3WPRyTgVSN/z/CcBoi+2LJIF0W48Kgog
-etqNblUQ7f8yTA1E/1sq2Q+iT1UkgulVaalTQHTX0wXTQHTy9vOHQPTJ02Ln
-QPSaEyp3QPS7Z+f/gOiqVTMYpwHpHP0zYNqh7TUPiD51TIkXRFepnhcB0fOM
-l0mAaMdH3Q4gesXFWWAaAKL6p0g=
-  "],
- CellTags->"i:1",ExpressionUUID->"ecd42a58-a9d5-4a3d-a91b-75f0e45ac472"],
-
-Cell["", "Text",
- CellChangeTimes->{{3.955012108996616*^9, 3.955012152975689*^9}, 
-   3.9550132117643623`*^9, {3.955013500504204*^9, 
-   3.955013501114348*^9}},ExpressionUUID->"de941e21-f2fc-427e-a295-\
-c69fa74b5e55"],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"(*", 
-   RowBox[{"NotebookWrite", "[", 
-    RowBox[{
-     RowBox[{"EvaluationNotebook", "[", "]"}], ",", 
-     RowBox[{"{", 
-      RowBox[{
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<Un modo di organizzare Tutorial.nb\>\"", 
-         ",", "\"\<Title\>\""}], "]"}], ",", "\[IndentingNewLine]", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<Indice\\nINTRODUZIONE\\nI. Introduzione\\n \\nII. \
-Ripetiamo la conversione assime\\n \\nIII. Giochiamo a battaglia navale! \
-\\nIV. Approfondimento\\n  \\nV. Bibliografia e Sitografia\\nVI. Commenti e \
-lavoro futuro\>\"", ",", "\"\<Text\>\"", ",", 
-         RowBox[{"FontFamily", "->", "\"\<Helvetica\>\""}], ",", 
-         RowBox[{"FontSize", "->", "14"}], ",", 
-         RowBox[{"FontWeight", "->", "\"\<Bold\>\""}], ",", 
-         RowBox[{"FontColor", "->", "Black"}]}], "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<INTRODUZIONE\>\"", ",", "\"\<Section\>\""}], "]"}], ",", 
-       
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<Testo introduttivo...\>\"", ",", "\"\<Text\>\""}], "]"}],
-        ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<I. Sezione\>\"", ",", "\"\<Section\>\""}], "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<I.1 sottosezione\>\"", ",", "\"\<Subsection\>\""}], 
-        "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<Contenuti della sottosezione I.1\>\"", 
-         ",", "\"\<Text\>\""}], "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<I.2 esempi\>\"", ",", "\"\<Subsection\>\""}], "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<Esempi per la sezione I\>\"", ",", "\"\<Text\>\""}], 
-        "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<II. Sezione\>\"", ",", "\"\<Section\>\""}], "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<II.1 sottosezione\>\"", ",", "\"\<Subsection\>\""}], 
-        "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<Contenuti II.1\>\"", ",", "\"\<Text\>\""}], "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<II.2 esempi\>\"", ",", "\"\<Subsection\>\""}], "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<Esempi per la sezione II\>\"", ",", "\"\<Text\>\""}], 
-        "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<III. Approfondimento\>\"", ",", "\"\<Section\>\""}], 
-        "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<III.1 sottosezione\>\"", ",", "\"\<Subsection\>\""}], 
-        "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<Contenuti III.1\>\"", ",", "\"\<Text\>\""}], "]"}], ",", 
-       
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<III.2 esempi\>\"", ",", "\"\<Subsection\>\""}], "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<Esempi per la sezione III\>\"", ",", "\"\<Text\>\""}], 
-        "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<IV. Bibliografia e Sitografia\>\"", 
-         ",", "\"\<Section\>\""}], "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<Inserire qui fonti e riferimenti.\>\"", 
-         ",", "\"\<Text\>\""}], "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<V. Commenti e lavoro futuro\>\"", 
-         ",", "\"\<Section\>\""}], "]"}], ",", 
-       RowBox[{"Cell", "[", 
-        RowBox[{"\"\<Considerazioni conclusive e proposte.\>\"", 
-         ",", "\"\<Text\>\""}], "]"}]}], "}"}]}], "]"}], "*)"}], 
-  "\[IndentingNewLine]", "\n"}]], "Input",
- CellChangeTimes->{{3.95501322161303*^9, 3.9550133495344267`*^9}, {
-  3.955013868746673*^9, 3.955013873840117*^9}},
- CellLabel->"In[7]:=",ExpressionUUID->"f35e53c6-777b-4c97-802a-b3b576238976"],
-
-Cell["\<\
-\tIntroduzione
-\tI. Ripetiamo la conversione assime
-\tII. Giochiamo a battaglia navale! 
-\tIII. Approfondimento
-\tIV. Bibliografia e Sitografia  
-\tV. Commenti e lavoro futuro \
-\>", "Text",
- CellChangeTimes->{{3.955013435999242*^9, 3.9550135355175457`*^9}},
- FontFamily->"Helvetica",
- FontSize->14,
- FontWeight->"Bold",
- FontColor->GrayLevel[
-  0],ExpressionUUID->"fcc79715-6833-467d-8789-9b8db6ddf7b1"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell["INTRODUZIONE", "Section",ExpressionUUID->"1ae33957-adbe-435a-90e9-dfd845786de9"],
-
-Cell["Testo introduttivo...", "Text",ExpressionUUID->"e3904722-41a1-42bf-a91e-76839ecb1e73"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell["I. Ripetiamo la conversione assime", "Section",
- CellChangeTimes->{
-  3.9550135166203527`*^9, {3.9550135655351467`*^9, 
-   3.955013566925001*^9}},ExpressionUUID->"c502962c-236b-4226-ade3-\
-691138a5b05c"],
-
-Cell["I.1 Qui ci va una merda di tutorial", "Subsection",
- CellChangeTimes->{{3.95501358827243*^9, 
-  3.955013598759098*^9}},ExpressionUUID->"33a5ed71-40d9-4529-83cc-\
-99b1cbb97dab"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell["II. Giochiamo a battaglia navale! ", "Section",
- CellChangeTimes->{
-  3.955013524044276*^9},ExpressionUUID->"77efbebc-6b08-4e81-a373-\
-083a0c90c301"],
-
-Cell[CellGroupData[{
-
-Cell["II.1 Inseriamo il seed", "Subsection",
- CellChangeTimes->{{3.955013606483264*^9, 
-  3.9550136109625607`*^9}},ExpressionUUID->"82678e76-9205-4eca-9c3a-\
-116aeb1f5399"],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- RowBox[{"PlacementUI", "[", "]"}]], "Input",
- CellChangeTimes->{{3.955020673386777*^9, 3.955020681035671*^9}, {
-  3.955021695137374*^9, 3.955021696729376*^9}, {3.9550217492512712`*^9, 
-  3.955021750555945*^9}},
- CellLabel->"In[19]:=",ExpressionUUID->"5eaaa945-7cb0-4996-a811-7c4e14540d2f"],
-
-Cell[BoxData[
- DynamicModuleBox[{Main`Private`input$$ = "", Main`Private`seed$$ = 1234, 
-  Main`Private`base$$ = 2, Main`Private`gridSize$$ = 10, 
-  Main`Private`phase$$ = 2, Main`Private`initDone$$ = True}, 
-  TagBox[GridBox[{
-     {
-      TagBox[GridBox[{
-         {
-          
-          DynamicModuleBox[{Interaction`Private`value$$ = 1234, 
-           Interaction`Private`message$$ = "Seed inserito: 1234", 
-           Interaction`Private`error$$ = False}, 
-           TagBox[GridBox[{
-              {
-               TemplateBox[{"\"Inserisci seed: \"", 
-                 InputFieldBox[
-                  Dynamic[Interaction`Private`value$$], Number, ImageSize -> 
-                  Small], 
-                 ButtonBox["\"Imposta\"", ButtonFunction :> If[
-                    Interaction`isSeed[Interaction`Private`value$$], 
-                    Function[
-                    Main`Private`val$, Main`Private`seed$$ = 
-                    Main`Private`val$][Interaction`Private`value$$]; 
-                    Interaction`Private`error$$ = False; 
-                    Interaction`Private`message$$ = 
-                    "Seed inserito: " <> 
-                    ToString[Interaction`Private`value$$]; 
-                    Interaction`Private`seed = Interaction`Private`value$$; 
-                    Null, Interaction`Private`error$$ = True; 
-                    Interaction`Private`message$$ = 
-                    "Seed non valido. Inserisci un numero intero!"; Null], 
-                  Appearance -> Automatic, Evaluator -> Automatic, Method -> 
-                  "Preemptive"]},
-                "RowDefault"]},
-              {
-               DynamicBox[ToBoxes[
-                 If[Interaction`Private`error$$, 
-                  Interaction`showError[Interaction`Private`message$$], 
-                  Interaction`showMessage[Interaction`Private`message$$]], 
-                 StandardForm],
-                ImageSizeCache->{148.2, {0.156, 9.269}}]}
-             },
-             DefaultBaseStyle->"Column",
-             GridBoxAlignment->{"Columns" -> {{Left}}},
-             
-             GridBoxItemSize->{
-              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
-            "Column"],
-           DynamicModuleValues:>{}]},
-         {
-          
-          DynamicModuleBox[{Interaction`Private`value$$ = 2, 
-           Interaction`Private`message$$ = "Base inserita: 2"}, 
-           TagBox[GridBox[{
-              {
-               
-               TemplateBox[{
-                "\"Inserisci la base su cui ti vuoi esercitare: \"", 
-                 PopupMenuBox[
-                  Dynamic[Interaction`Private`value$$], {
-                  2 -> "2", 8 -> "8", 16 -> "16"}], 
-                 ButtonBox[
-                 "\"Inserisci\"", 
-                  ButtonFunction :> (
-                   Function[
-                    Main`Private`val$, Main`Private`base$$ = 
-                    Main`Private`val$][Interaction`Private`value$$]; 
-                   Interaction`Private`message$$ = 
-                    "Base inserita: " <> 
-                    ToString[Interaction`Private`value$$]; Null), Appearance -> 
-                  Automatic, Evaluator -> Automatic, Method -> "Preemptive"]},
-                
-                "RowDefault"]},
-              {
-               DynamicBox[ToBoxes[
-                 Interaction`showMessage[Interaction`Private`message$$], 
-                 StandardForm],
-                ImageSizeCache->{124.79999999999998`, {0.156, 9.269}}]}
-             },
-             DefaultBaseStyle->"Column",
-             GridBoxAlignment->{"Columns" -> {{Left}}},
-             
-             GridBoxItemSize->{
-              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
-            "Column"],
-           DynamicModuleValues:>{}]},
-         {
-          ButtonBox["\<\"Conferma Impostazioni\"\>",
-           Appearance->Automatic,
-           ButtonFunction:>If[
-             And[
-              Interaction`isSeed[Main`Private`seed$$], 
-              Interaction`isBase[Main`Private`base$$]], 
-             Interaction`InitPhase[
-              Main`Private`seed$$, Main`Private`base$$, 
-               Main`Private`gridSize$$]; Main`Private`phase$$ = 2; 
-             Main`Private`initDone$$ = True, 
-             Interaction`showError["Seed o base non validi!"]; Null],
-           Evaluator->Automatic,
-           Method->"Preemptive"]}
-        },
-        DefaultBaseStyle->"Column",
-        GridBoxAlignment->{"Columns" -> {{Left}}},
-        GridBoxItemSize->{
-         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
-       "Column"]},
-     {
-      DynamicBox[ToBoxes[
-        Interaction`helpUser[Main`Private`base$$], StandardForm],
-       ImageSizeCache->{101.11572265625, {9.789306640625, 15.521240234375}}]}
-    },
-    DefaultBaseStyle->"Column",
-    GridBoxAlignment->{"Columns" -> {{Left}}},
-    GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
-   "Column"],
-  DynamicModuleValues:>{}]], "Output",
- CellChangeTimes->{
-  3.955022029671105*^9, 3.955022184238483*^9, 3.9550967263000393`*^9, 
-   3.9550974010653887`*^9, {3.9550974377061787`*^9, 3.95509746185988*^9}},
- CellLabel->"Out[19]=",ExpressionUUID->"94b50428-e74c-457b-97d0-4b80a668dfab"],
-
-Cell[BoxData[
- InterpretationBox[
-  RowBox[{"\<\"Inizializzazione completata! Base: \"\>", "\[InvisibleSpace]", 
-   "2", "\[InvisibleSpace]", "\<\", Seed: \"\>", "\[InvisibleSpace]", "1234"}],
-  SequenceForm["Inizializzazione completata! Base: ", 2, ", Seed: ", 1234],
-  Editable->False]], "Print",
- CellChangeTimes->{3.955097467234056*^9},
- CellLabel->"",ExpressionUUID->"d2b38d61-c97c-42b2-a395-0a9cb95fd9a7"]
-}, Open  ]]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell["II.2 esempi", "Subsection",ExpressionUUID->"a25bee96-9ab0-4656-9bd6-f8f71e60c076"],
-
-Cell["Esempi per la sezione II", "Text",ExpressionUUID->"705b9382-b47b-414a-a0c4-8831b31bf49b"]
-}, Open  ]]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell["III. Approfondimento", "Section",ExpressionUUID->"9df1c724-5093-495f-9dd3-35b495b32758"],
-
-Cell[CellGroupData[{
-
-Cell["III.1 sottosezione", "Subsection",ExpressionUUID->"47c6beb3-b547-4cab-a858-04929870e2fe"],
-
-Cell["Contenuti III.1", "Text",ExpressionUUID->"d65d5751-a78a-4378-892f-d3fa9049ca14"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell["III.2 esempi", "Subsection",ExpressionUUID->"586c8513-4596-4a3c-9c39-587b021f67c8"],
-
-Cell["Esempi per la sezione III", "Text",ExpressionUUID->"58aa436e-0cb1-43fb-b29c-b4afd559b41d"]
-}, Open  ]]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell["IV. Bibliografia e Sitografia", "Section",ExpressionUUID->"a24f3473-b368-42a0-a730-bed08fcae3d8"],
-
-Cell["Inserire qui fonti e riferimenti.", "Text",ExpressionUUID->"37d72153-2eca-4b78-9c04-4d9511adec6f"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell["V. Commenti e lavoro futuro", "Section",ExpressionUUID->"d812d268-c7a7-4d66-8d61-4e7294ba58aa"],
-
-Cell["Considerazioni conclusive e proposte.", "Text",ExpressionUUID->"c855a99b-0b1d-4912-bcc0-eade65be76e4"]
-}, Open  ]],
-
-Cell["", "Section",
- CellChangeTimes->{{3.955013072177148*^9, 3.955013087342328*^9}, {
-   3.955013177419138*^9, 3.955013178665024*^9}, {3.955013550580798*^9, 
-   3.955013551237414*^9}, 
-   3.9550137966865273`*^9},ExpressionUUID->"33af3ce4-dd43-483f-afe9-\
-8fb93dc8e4c4"]
-}, Open  ]]
+Matilde Nardi\n",
+ StyleBox["(anno 1 - curriculum A) (anno 1 - curriculum A) (anno 1 - \
+curriculum A) (anno 1 - curriculum A) (anno 1 - curriculum A)", "Text"]
+}], "Outline1",ExpressionUUID->"55253e0d-4226-4e5f-8dda-b9fedc7c9929"]
 },
+ScreenStyleEnvironment->"Brackets",
 WindowSize->{Full, Full},
-WindowMargins->{{0, Automatic}, {Automatic, 0}},
-PrintingStartingPageNumber->1,
-TaggingRules->{
-  Join[<|"PaginationCache" -> {{
-      2025, 4, 30, 16, 39, 33.621422`8.279191057903047}, {1, 1, 1, 1, 1, 2, 
-      2}, Automatic}|>, {"NextIndexingNumber" -> 1}, {
-   "NextIndexingNumber" -> 2}], "NextIndexingNumber" -> 2, 
-  "IndexEntries" -> {{"i:1", "INDICE"}, {"i:1", 
-     StyleBox["Battaglia Navale", "Title"]}}},
-Magnification->1.,
+WindowMargins->{{12, Automatic}, {Automatic, 24}},
 FrontEndVersion->"14.2 for Mac OS X ARM (64-bit) (December 26, 2024)",
-StyleDefinitions->Notebook[{
-   Cell[
-    StyleData[StyleDefinitions -> "Default.nb"]]}, Visible -> False, 
-  FrontEndVersion -> "14.2 for Mac OS X ARM (64-bit) (December 26, 2024)", 
-  StyleDefinitions -> "PrivateStylesheetFormatting.nb"],
-ExpressionUUID->"17e77165-8fca-43df-823a-a4c9750da695"
+StyleDefinitions->"HelpBrowser.nb",
+ExpressionUUID->"01b04905-7add-4046-b394-ced6797c9ff2"
 ]
 (* End of Notebook Content *)
 
 (* Internal cache information *)
 (*CellTagsOutline
-CellTagsIndex->{
- "i:1"->{
-  Cell[2462, 67, 203, 2, 96, "Title",ExpressionUUID->"e289e0fd-ef33-4578-9ac3-881f075578e4",
-   CellTags->"i:1"],
-  Cell[1168477, 19224, 475, 9, 66, "Section",ExpressionUUID->"ecd42a58-a9d5-4a3d-a91b-75f0e45ac472",
-   CellTags->"i:1"]}
- }
+CellTagsIndex->{}
 *)
 (*CellTagsIndex
-CellTagsIndex->{
- {"i:1", 1182858, 19588}
- }
+CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[554, 20, 1710, 39, 223, "Input",ExpressionUUID->"befc3e8a-201a-46f9-8bc9-ecc238dac408"],
-Cell[2267, 61, 170, 2, 29, "Input",ExpressionUUID->"0f90986d-5f96-4b54-9549-6b2ea493c196"],
-Cell[CellGroupData[{
-Cell[2462, 67, 203, 2, 96, "Title",ExpressionUUID->"e289e0fd-ef33-4578-9ac3-881f075578e4",
- CellTags->"i:1"],
-Cell[2668, 71, 1165484, 19142, 280, "Subtitle",ExpressionUUID->"c7190f31-433b-46d6-b0bc-92504c0e8a12"],
-Cell[1168155, 19215, 297, 5, 33, "Text",ExpressionUUID->"7198cd02-e486-4f5c-9d61-b65f1bc2d49d"],
-Cell[CellGroupData[{
-Cell[1168477, 19224, 475, 9, 66, "Section",ExpressionUUID->"ecd42a58-a9d5-4a3d-a91b-75f0e45ac472",
- CellTags->"i:1"],
-Cell[1168955, 19235, 217, 4, 33, "Text",ExpressionUUID->"de941e21-f2fc-427e-a295-c69fa74b5e55"],
-Cell[1169175, 19241, 3694, 80, 254, "Input",ExpressionUUID->"f35e53c6-777b-4c97-802a-b3b576238976"],
-Cell[1172872, 19323, 414, 13, 114, "Text",ExpressionUUID->"fcc79715-6833-467d-8789-9b8db6ddf7b1"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[1173323, 19341, 86, 0, 66, "Section",ExpressionUUID->"1ae33957-adbe-435a-90e9-dfd845786de9"],
-Cell[1173412, 19343, 92, 0, 33, "Text",ExpressionUUID->"e3904722-41a1-42bf-a91e-76839ecb1e73"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[1173541, 19348, 209, 4, 66, "Section",ExpressionUUID->"c502962c-236b-4226-ade3-691138a5b05c"],
-Cell[1173753, 19354, 182, 3, 53, "Subsection",ExpressionUUID->"33a5ed71-40d9-4529-83cc-99b1cbb97dab"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[1173972, 19362, 155, 3, 66, "Section",ExpressionUUID->"77efbebc-6b08-4e81-a373-083a0c90c301"],
-Cell[CellGroupData[{
-Cell[1174152, 19369, 172, 3, 53, "Subsection",ExpressionUUID->"82678e76-9205-4eca-9c3a-116aeb1f5399"],
-Cell[CellGroupData[{
-Cell[1174349, 19376, 304, 5, 29, "Input",ExpressionUUID->"5eaaa945-7cb0-4996-a811-7c4e14540d2f"],
-Cell[1174656, 19383, 5229, 119, 189, "Output",ExpressionUUID->"94b50428-e74c-457b-97d0-4b80a668dfab"],
-Cell[1179888, 19504, 411, 7, 23, "Print",ExpressionUUID->"d2b38d61-c97c-42b2-a395-0a9cb95fd9a7"]
-}, Open  ]]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[1180348, 19517, 88, 0, 53, "Subsection",ExpressionUUID->"a25bee96-9ab0-4656-9bd6-f8f71e60c076"],
-Cell[1180439, 19519, 95, 0, 33, "Text",ExpressionUUID->"705b9382-b47b-414a-a0c4-8831b31bf49b"]
-}, Open  ]]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[1180583, 19525, 94, 0, 66, "Section",ExpressionUUID->"9df1c724-5093-495f-9dd3-35b495b32758"],
-Cell[CellGroupData[{
-Cell[1180702, 19529, 95, 0, 53, "Subsection",ExpressionUUID->"47c6beb3-b547-4cab-a858-04929870e2fe"],
-Cell[1180800, 19531, 86, 0, 33, "Text",ExpressionUUID->"d65d5751-a78a-4378-892f-d3fa9049ca14"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[1180923, 19536, 89, 0, 53, "Subsection",ExpressionUUID->"586c8513-4596-4a3c-9c39-587b021f67c8"],
-Cell[1181015, 19538, 96, 0, 33, "Text",ExpressionUUID->"58aa436e-0cb1-43fb-b29c-b4afd559b41d"]
-}, Open  ]]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[1181160, 19544, 103, 0, 66, "Section",ExpressionUUID->"a24f3473-b368-42a0-a730-bed08fcae3d8"],
-Cell[1181266, 19546, 104, 0, 33, "Text",ExpressionUUID->"37d72153-2eca-4b78-9c04-4d9511adec6f"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[1181407, 19551, 101, 0, 66, "Section",ExpressionUUID->"d812d268-c7a7-4d66-8d61-4e7294ba58aa"],
-Cell[1181511, 19553, 108, 0, 33, "Text",ExpressionUUID->"c855a99b-0b1d-4912-bcc0-eade65be76e4"]
-}, Open  ]],
-Cell[1181634, 19556, 270, 5, 66, "Section",ExpressionUUID->"33af3ce4-dd43-483f-afe9-8fb93dc8e4c4"]
-}, Open  ]]
+Cell[554, 20, 93, 0, 60, "ContentsTitle",ExpressionUUID->"61763594-ab34-4a27-a5c1-5e00e8d24ade"],
+Cell[650, 22, 190, 4, 20, "Text",ExpressionUUID->"730c0151-12f4-4391-89b5-508f459c953d"],
+Cell[843, 28, 1165602, 19142, 282, "Outline1",ExpressionUUID->"55253e0d-4226-4e5f-8dda-b9fedc7c9929"]
 }
 ]
 *)

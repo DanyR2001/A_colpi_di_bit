@@ -3,6 +3,7 @@
 (* File: Util.m *)
 BeginPackage["Util`"];
 
+initSeed::usage="initSeed[seed] serve per inizializzare il PRNG prima di richimare le varie random"
 convertToDecimal::usage = "convertToDecimal[input,base] converte una stringa da base specificata a base 10";
 mapCoordinate::usage = "mapCoordinate[decimal, gridSize] converte un numero decimale in coordinate {riga, colonna}";
 verifyInput::usage = "verifyInput[gridSize, base, input]controlla che l'input sia accettabile secondo la base scelta e la dimensione della griglia";
@@ -16,11 +17,12 @@ $Vuoto::usage = "Valore per cella vuota.";
 $Affondato::usage = "Valore per cella di nave affondata.";
 
 
-$Colpito=2;
-$Mancato=-1;
-$Nave=1;
-$Vuoto=0;
-$Affondato=3;
+$Colpito = 2;
+$Mancato = -1;
+$Nave = 1;
+$Vuoto = 0;
+$Affondato = 3;
+$GridSize=10;
 
 Begin["Private`"];
 
@@ -51,6 +53,13 @@ convertToDecimal[input_String, base_Integer] := Module[
     result
   ]
 ];
+
+(* FUNZIONE per inizializzare il PRNG la prima volta*)
+initSeed[seed_Integer?NonNegative] := Module[{},
+  SeedRandom[seed];
+  (* restituiamo Null, l’importante è che il generatore sia resettato *)
+  Null
+]
 
 (* FUNZIONE per mappare un numero decimale in coordinate {riga, colonna} *)
 mapCoordinate[decimal_Integer, gridSize_] := Module[
@@ -93,21 +102,52 @@ createGrid[ships_,gridSize_]:=Module[{grid=ConstantArray[$Vuoto,{gridSize,gridSi
 	grid
 ];
 
-showGrid[grid_, ships_] := Grid[Map[
-	If[#== $Colpito,
+showGrid[grid_, ships_] := Module[{
+    gridSize = Length[grid],
+    gridWithLabels
+  },
+  (* Crea una nuova griglia con spazio per le etichette *)
+  gridWithLabels = ConstantArray["", {gridSize + 1, gridSize + 1}];
+  
+  (* Aggiungi gli indici riga (0-9) sul lato sinistro *)
+  Do[
+    gridWithLabels[[i + 1, 1]] = ToString[gridSize - i],
+    {i, 1, gridSize}
+  ];
+  
+  (* Aggiungi gli indici colonna (0-9) in alto *)
+  Do[
+    gridWithLabels[[1, j + 1]] = ToString[j - 1],
+    {j, 1, gridSize}
+  ];
+  
+  (* Copia i contenuti della griglia *)
+  Do[
+    gridWithLabels[[i + 1, j + 1]] = 
+      If[grid[[i, j]] == $Colpito,
         Style["\[FilledSquare]", Red],      (* colpito *)
-      If[ #== $Mancato,
+      If[grid[[i, j]] == $Mancato,
         Style["\[FilledSquare]", Gray],     (* mancato *)
-      If[#== $Affondato,
+      If[grid[[i, j]] == $Affondato,
         Style["\[FilledSquare]", Blue],     (* affondato *)
-      If[#== $Nave && ships,
+      If[grid[[i, j]] == $Nave && ships,
         Style["\[FilledSquare]", Black],    (* nave visibile solo se ships=True *)
         "\[EmptySquare]"                   (* altrimenti vuoto *)
-      ]]]] &, grid, {2}], 
+      ]]]],
+    {i, 1, gridSize}, {j, 1, gridSize}
+  ];
+  
+  Grid[gridWithLabels, 
     Frame -> All,
     FrameStyle -> GrayLevel[0.5],
-    Background -> {None, None, {GrayLevel[0.9], None}},
-    ItemSize -> {1.5, 1.5}];
+    Background -> {
+      {GrayLevel[0.9], None, None, None, None, None, None, None, None, None, None},  (* Prima colonna in grigio *)
+      {GrayLevel[0.9], None, None, None, None, None, None, None, None, None, None},  (* Prima riga in grigio *)
+      {None, None}
+    },
+    ItemSize -> {1.5, 1.5}
+  ]
+];
   
 
 

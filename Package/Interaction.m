@@ -9,9 +9,7 @@ AskBaseChoice::usage = "AskBasechoice[inputBase] chiede all'utente di inserire l
 isBase::usage="isBase[base] controlla che la base sia inserita sia 2, 8 o 16";
 isSeed::usage="isSeed[seed] controlla che il seed sia stato inserito correttamente (se \[EGrave] un numero intero)";
 helpUser::usage="helpUser[base] apre finestra per mostrare un suggerimento all'utente (ripasso conversioni tra basi)";
-(*GenerateShips::usage =
-  "GenerateShips[seed] genera 4 navi automatiche (lunghezze 5,4,3,2) in griglia di lato $GridSize senza overlap.";
-*)
+
 InitPhase::usage =
   "InitPhase[base, gridSize] inizializza il gioco: base \[Element] {2,8,16}, gridSize \[EGrave] lato griglia.\
 Imposta $UserBase, $GridSize, $AutoGrid e $UserGrid, resetta gli stati.";
@@ -19,25 +17,17 @@ Imposta $UserBase, $GridSize, $AutoGrid e $UserGrid, resetta gli stati.";
 PlaceUserShip::usage =
   "PlaceUserShip[startRaw, endRaw] piazza in $UserGrid una nave.\
 startRaw e endRaw sono stringhe di un intero in base $UserBase (0..gridSize^2-1),\
-con 0 corrispondente in basso a sinistra. Si possono piazzare al massimo 4 navi, una per ciascuna lunghezza 5,4,3,2.";
+con 0 corrispondente in basso a sinistra. Si possono piazzare al massimo 4 navi, una per ciascuna lunghezza 5,4,3,2.\
+Restituisce {True, grid} in caso di successo o {False, errorMsg} in caso di errore.";
 
 ResetGame::usage =
   "ResetGame[] svuota tutte le liste e ripristina le variabili globali all'inizio del gioco.";
 
-(*GetAutomaticShips::usage     = "GetAutomaticShips[] restituisce lista di blocchi delle navi PC.";
-GetUserShips::usage          = "GetUserShips[] restituisce lista di blocchi delle navi utente.";
-GetAutomaticEndpoints::usage = "GetAutomaticEndpoints[] restituisce lista di coppie {start,end} decimali per ciascuna nave PC.";
-GetUserEndpoints::usage      = "GetUserEndpoints[] restituisce lista di coppie {start,end} decimali per ciascuna nave utente.";
-GetAutoGrid::usage           = "GetAutoGrid[] restituisce matrice griglia PC.";
-GetUserGrid::usage           = "GetUserGrid[] restituisce matrice griglia utente.";
+(* Aggiungiamo esplicitamente questi getter mancanti *)
+GetUserShips::usage = "GetUserShips[] restituisce lista di blocchi delle navi utente.";
+GetUserGrid::usage = "GetUserGrid[] restituisce matrice griglia utente.";
+GetRemainingShipLengths::usage = "GetRemainingShipLengths[] restituisce le lunghezze delle navi ancora da piazzare.";
 
-GetSeed::usage="GetSeed[] restituisce il valore del seed"
-GetBase::usage="GerBase[] restituisce la base (2, 8, 16)"
-
-ShowPCGrid::usage            = "ShowPCGrid[] mostra dinamicamente la griglia PC.";
-ShowUserGrid::usage          = "ShowUserGrid[] mostra dinamicamente la griglia utente.";
-ShowState::usage             = "ShowState[] mostra entrambe le griglie e le coordinate di tutte le navi.";
-*)
 showMessage::usage="showMessage[message] stampa un messaggio";
 showError::usage="showError[error] stampa un messaggio di errore (in rosso)";
 
@@ -51,6 +41,8 @@ $UserGrid       = {};
 $UserBase       = 10;
 $GridSize       = 10;
 $Seed= ""; 
+$ShipLengths = {5, 4, 3, 2, 1};  (* Lunghezze disponibili delle navi *)
+
 (* Reset di tutte le variabili e liste *)
 ResetGame[] := (
   $UserBase       = 10;
@@ -60,40 +52,47 @@ ResetGame[] := (
   $AutoGrid       = {};
   $UserGrid       = {};
   $Seed= ""; 
+  $ShipLengths = {5, 4, 3, 2, 1};
 );
 
 (* Inizializza contesto PC e utente *)
-InitPhase[seed_Integer,base_Integer, gridSize_Integer] := (
-  $Seed= seed; 
-  $UserBase       = base;
-  $GridSize       = gridSize;
+InitPhase[seed_Integer, base_Integer, gridSize_Integer] := (
+  If[!isBase[base] || !isSeed[seed], 
+    showError["Parametri non validi!"];
+    Return[];
+  ];
+  $Seed = seed; 
+  $UserBase = base;
+  $GridSize = gridSize;
   $AutomaticShips = {};
-  $UserShips      = {};
-  $AutoGrid       = ConstantArray[$Vuoto, {gridSize, gridSize}];
-  $UserGrid       = ConstantArray[$Vuoto, {gridSize, gridSize}];
+  $UserShips = {};
+  $AutoGrid = ConstantArray[$Vuoto, {gridSize, gridSize}];
+  $UserGrid = ConstantArray[$Vuoto, {gridSize, gridSize}];
+  $ShipLengths = {5, 4, 3, 2, 1};
+  Print["Inizializzazione completata! Base: ", base, ", Seed: ", seed];
 );
 
 
 (*richiedi seed e base*)
-AskSeedInput[inputSeed_]:= DynamicModule[{value="", message="", error=False},
-	Column[{
-		Row[{
-			"Inserisci seed: ",
-			InputField[Dynamic[value], Number, ImageSize->Small],
-			Button["Imposta", 
-				If[isSeed[value], 
-					inputSeed[value];
-					error=False;
-					message="Seed inserito: "<>ToString[value];,
-					error=True;
-					message="Seed non valido. Inserisci un numero intero!";
-				]
-			]
-		}],
-		Dynamic[If[error,
-			showError[message],
-			showMessage[message]]]
-	}]
+AskSeedInput[inputSeed_] := DynamicModule[{value = "", message = "", error = False},
+  Column[{
+    Row[{
+      "Inserisci seed: ",
+      InputField[Dynamic[value], Number, ImageSize -> Small],
+      Button["Imposta", 
+        If[isSeed[value], 
+          inputSeed[value];
+          error = False;
+          message = "Seed inserito: " <> ToString[value];
+          (* Forza l'aggiornamento del seed nel modulo principale *)
+          seed = value;,
+          error = True;
+          message = "Seed non valido. Inserisci un numero intero!";
+        ]
+      ]
+    }],
+    Dynamic[If[error, showError[message], showMessage[message]]]
+  }]
 ];
 
 AskBaseChoice[inputBase_]:= DynamicModule[{value=2, message=""},
@@ -212,93 +211,137 @@ helpUser[base_Integer]:=PopupWindow[
 	]
 , WindowTitle->"Suggerimento", WindowFloating->True, WindowMargins -> {{0, Automatic}, {0, Automatic}}];
 
-(* Genera navi PC 
-GenerateShips[seed_Integer] := Module[
-  {lengths = {5, 4, 3, 2}, placed = {}, orient, coords, r0, c0, grid},
-  SeedRandom[seed];
-  grid = ConstantArray[0, {$GridSize, $GridSize}];
-  Do[
-    While[True,
-      orient = RandomChoice[{"H","V"}];
-      If[orient === "H",
-        r0 = RandomInteger[{1, $GridSize}];
-        c0 = RandomInteger[{1, $GridSize + 1 - shipLen}];
-        coords = Table[{r0, c0 + i}, {i, 0, shipLen - 1}],
-        (* verticale *)
-        r0 = RandomInteger[{1, $GridSize + 1 - shipLen}];
-        c0 = RandomInteger[{1, $GridSize}];
-        coords = Table[{r0 + i, c0}, {i, 0, shipLen - 1}]
-      ];
-      If[AllTrue[coords, (1 <= #[[1]] <= $GridSize && 1 <= #[[2]] <= $GridSize && grid[[Sequence @@ #]] == 0) &], Break[]];
-    ];
-    Scan[(grid[[Sequence @@ #]] = 1) &, coords];
-    AppendTo[placed, coords],
-    {shipLen, lengths}
-  ];
-  $AutomaticShips = placed;
-  $AutoGrid       = grid;
-  grid
-];*)
 
-(* Conversione raw String -> {r,c} 
+(* Helper di debug per parseCoord - versione senza Print *)
 parseCoord[str_String] := Module[{n, r, c},
+  (* Convertiamo la stringa in numero decimale *)
   n = Quiet@FromDigits[str, $UserBase];
-  If[! IntegerQ[n] || n < 0 || n >= $GridSize^2, Return[$Failed]];
+  
+  (* Verifichiamo se la conversione è valida *)
+  If[! IntegerQ[n] || n < 0 || n >= $GridSize^2, 
+    Return[$Failed]
+  ];
+  
+  (* Calcoliamo le coordinate *)
   c = Mod[n, $GridSize] + 1;
   r = $GridSize - Quotient[n, $GridSize];
+  
   {r, c}
-];*)
-
-(* Piazzamento nave utente con vincoli lunghezza e numero *)
-PlaceUserShip[startRaw_String, endRaw_String] := Module[
-  {start, end, r1, c1, r2, c2, len, coords, usedLens},
-  If[Length[$UserShips] >= 4, Return[$Failed]];
-  start = parseCoord[startRaw];  end   = parseCoord[endRaw];
-  If[start === $Failed || end === $Failed, Return[$Failed]];
-  {r1, c1} = start; {r2, c2} = end;
-  If[Not[r1 == r2 || c1 == c2], Return[$Failed]];
-  len = Max[Abs[r2 - r1], Abs[c2 - c1]] + 1;
-  usedLens = Length /@ $UserShips;
-  If[! MemberQ[{5, 4, 3, 2}, len] || MemberQ[usedLens, len], Return[$Failed]];
-  coords = Table[{r1 + i Sign[r2 - r1], c1 + i Sign[c2 - c1]}, {i, 0, len - 1}];
-  If[Not[AllTrue[coords, 1 <= #[[1]] <= $GridSize && 1 <= #[[2]] <= $GridSize &]], Return[$Failed]];
-  If[Not[AllTrue[coords, $UserGrid[[Sequence @@ #]] == 0 &]], Return[$Failed]];
-  $UserGrid = ReplacePart[$UserGrid, Thread[coords -> 1]];
-  AppendTo[$UserShips, coords];
-  $UserGrid
 ];
+
+(* Versione modificata della funzione PlaceUserShip che restituisce un messaggio di errore invece di usare Print *)
+PlaceUserShip[startRaw_String, endRaw_String] := Module[
+  {start, end, r1, c1, r2, c2, len, coords, usedLens, surroundingCells, isValid = True, errorMsg = ""},
+  
+  (* Controllo numero navi *)
+  If[Length[$UserShips] >= 5, 
+    Return[{False, "Hai già posizionato tutte le navi permesse!"}]
+  ];
+  
+  (* Conversione coordinate *)
+  start = parseCoord[startRaw];  
+  end = parseCoord[endRaw];
+  
+  If[start === $Failed || end === $Failed, 
+    Return[{False, "Coordinate non valide per la base corrente!"}]
+  ];
+  
+  {r1, c1} = start; {r2, c2} = end;
+  
+  (* Controllo allineamento *)
+  If[Not[r1 == r2 || c1 == c2], 
+    Return[{False, "La nave deve essere allineata orizzontalmente o verticalmente!"}]
+  ];
+  
+  (* Calcolo lunghezza *)
+  len = Max[Abs[r2 - r1], Abs[c2 - c1]] + 1;
+  
+  (* Controllo lunghezze usate *)
+  usedLens = Length /@ $UserShips;
+  
+  (* Controllo vincoli sulle lunghezze *)
+  If[! MemberQ[$ShipLengths, len], 
+    Return[{False, "Lunghezza non valida! Le navi devono essere di lunghezza " <> 
+        StringJoin[Riffle[ToString /@ $ShipLengths, ", "]] <> "."}]
+  ];
+  
+  If[MemberQ[usedLens, len], 
+    (* Calcola e mostra le lunghezze mancanti *)
+    errorMsg = "Hai già piazzato una nave di lunghezza " <> ToString[len] <> "!";
+    
+    (* Aggiungi informazioni sulle navi mancanti *)
+    If[Length[$ShipLengths] > 0,
+      errorMsg = errorMsg <> " Mancano ancora le navi di lunghezza: " <> 
+                ToString[Complement[$ShipLengths, usedLens]]
+    ];
+    
+    Return[{False, errorMsg}]
+  ];
+  
+  (* Calcolo coordinate della nave *)
+  coords = If[r1 == r2,
+    (* Nave orizzontale *)
+    Table[{r1, Min[c1, c2] + i}, {i, 0, Abs[c1 - c2]}],
+    (* Nave verticale *)
+    Table[{Min[r1, r2] + i, c1}, {i, 0, Abs[r1 - r2]}]
+  ];
+  
+  (* Controllo limiti griglia *)
+  If[Not[AllTrue[coords, 1 <= #[[1]] <= $GridSize && 1 <= #[[2]] <= $GridSize &]], 
+    Return[{False, "La nave uscirebbe dalla griglia!"}]
+  ];
+  
+  (* Calcolo celle circostanti per ogni cella della nave *)
+  surroundingCells = Flatten[
+    Table[
+      (* Per ogni cella della nave, genera le 8 celle circostanti *)
+      Table[
+        {coords[[i, 1]] + dr, coords[[i, 2]] + dc}, 
+        {dr, -1, 1}, {dc, -1, 1}
+      ],
+      {i, 1, Length[coords]}
+    ], 2];
+  
+  (* Filtriamo le celle circostanti per rimuovere le celle effettive della nave 
+     e quelle fuori dalla griglia *)
+  surroundingCells = Select[surroundingCells, 
+    !MemberQ[coords, #] && 
+    1 <= #[[1]] <= $GridSize && 
+    1 <= #[[2]] <= $GridSize &
+  ];
+  
+  (* Controlliamo prima tutte le celle della nave *)
+  isValid = AllTrue[coords, $UserGrid[[Sequence @@ #]] == $Vuoto &];
+  If[!isValid,
+    Return[{False, "La nave si sovrappone a una nave già posizionata!"}]
+  ];
+  
+  (* Verifichiamo che non ci siano navi adiacenti *)
+  isValid = AllTrue[surroundingCells, $UserGrid[[Sequence @@ #]] != $Nave &];
+  If[!isValid,
+    Return[{False, "Non puoi posizionare una nave adiacente ad un'altra nave!"}]
+  ];
+  
+  (* Solo se arriviamo qui, aggiorniamo la griglia inserendo le navi *)
+  Do[
+    $UserGrid[[coords[[i, 1]], coords[[i, 2]]]] = $Nave,
+    {i, 1, Length[coords]}
+  ];
+  
+  AppendTo[$UserShips, coords];
+  
+  (* Rimuovi la lunghezza della nave appena posizionata dall'elenco disponibile *)
+  $ShipLengths = DeleteCases[$ShipLengths, len];
+  
+  {True, "Nave piazzata con successo!"}
+];
+
 
 (* Getters *)
-GetAutomaticShips[] := $AutomaticShips;
-GetUserShips[]      := $UserShips;
-GetAutoGrid[]       := $AutoGrid;
-GetUserGrid[]       := $UserGrid;
+GetUserShips[] := $UserShips;
+GetUserGrid[] := $UserGrid;
+GetRemainingShipLengths[] := $ShipLengths;
 
-(* Endpoint come raw decimal 
-GetAutomaticEndpoints[] := Module[{gs = $GridSize},
-  Map[Function[coords,
-    With[{s = First[coords], e = Last[coords]},
-      {(gs - s[[1]])*gs + (s[[2]] - 1), (gs - e[[1]])*gs + (e[[2]] - 1)}]],
-    $AutomaticShips
-  ]
-];
 
-GetUserEndpoints[] := Module[{gs = $GridSize},
-  Map[Function[coords,
-    With[{s = First[coords], e = Last[coords]},
-      {(gs - s[[1]])*gs + (s[[2]] - 1), (gs - e[[1]])*gs + (e[[2]] - 1)}]],
-    $UserShips
-  ]
-];*)
-
-(* Visualizzazione dinamica 
-ShowPCGrid[] := Dynamic[Grid[Map[If[# == 1, "\[FilledSquare]", "\[EmptySquare]"] &, $AutoGrid, {2}], Frame -> True]];
-
-ShowUserGrid[] := Dynamic[Grid[Map[If[# == 1, "\[FilledSquare]", "\[EmptySquare]"] &, $UserGrid, {2}], Frame -> True]];
-*)
-(* Stato completo 
-ShowState[] := Column[{"PC Grid:", ShowPCGrid[], "User Grid:", ShowUserGrid[],
-    "Automatic Ships:", $AutomaticShips, "User Ships:", $UserShips}];
-*)
 End[];
 EndPackage[];

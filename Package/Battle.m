@@ -69,11 +69,9 @@ attack[attackCoords_, grid_, ships_]:=Module[
 ];
 
 (* FUNZIONE per generare le navi della CPU *)
-generateCPUShips[gridSize_Integer, seed_Integer] := Module[
-  {ships = {}, shipLengths = {5, 4, 3, 2, 2, 1, 1}, grid, orientation, startRow, startCol, shipCoords, valid},
+generateCPUShips[gridSize_Integer] := Module[
+  {ships = {}, shipLengths = {5, 4, 3, 2, 1}, grid, orientation, startRow, startCol, shipCoords, valid},
   
-  (* Inizializza il generatore di numeri casuali con il seed fornito *)
-  SeedRandom[seed];
   
   (* Inizializza la griglia vuota *)
   grid = ConstantArray[$Vuoto, {gridSize, gridSize}];
@@ -137,7 +135,7 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_,userBase_, gridSize
         (* Campo d'attacco *)
         Column[{
           Style["Campo d'attacco", Bold, 14],
-          Dynamic[showGrid[cpuGrid,False]]
+          Dynamic[showGrid[cpuGrid,True]]
         }]
       }],
       Spacer[20],

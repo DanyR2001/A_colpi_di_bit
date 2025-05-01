@@ -1,0 +1,67 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      1674,         57]
+NotebookOptionsPosition[      1117,         40]
+NotebookOutlinePosition[      1531,         57]
+CellTagsIndexPosition[      1488,         54]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["Main Index", "ContentsTitle",ExpressionUUID->"7d479495-48d9-45db-8f26-3295bf4b1863"],
+
+Cell[TextData[{
+ "INDICE",
+ ", ",
+ ButtonBox["Main.nb (i:1)",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    FrontEnd`FileName[{}, "Main.nb"], "i:1"}]
+}], "Index",ExpressionUUID->"378776cd-399c-42b9-b274-e499711edc8c"],
+
+Cell[TextData[{
+ StyleBox["Battaglia Navale", "Title"],
+ ", ",
+ ButtonBox["Main.nb (i:1)",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    FrontEnd`FileName[{}, "Main.nb"], "i:1"}]
+}], "Index",ExpressionUUID->"e642eba2-0738-4c9a-b2ba-3843d533b7dd"]
+},
+ScreenStyleEnvironment->"Brackets",
+WindowSize->{Full, Full},
+WindowMargins->Automatic,
+FrontEndVersion->"14.2 for Mac OS X ARM (64-bit) (December 26, 2024)",
+StyleDefinitions->"HelpBrowser.nb",
+ExpressionUUID->"9493faa4-cc1a-46ab-9494-93f72d84fbc2"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 90, 0, 60, "ContentsTitle",ExpressionUUID->"7d479495-48d9-45db-8f26-3295bf4b1863"],
+Cell[647, 22, 217, 7, 12, "Index",ExpressionUUID->"378776cd-399c-42b9-b274-e499711edc8c"],
+Cell[867, 31, 246, 7, 36, "Index",ExpressionUUID->"e642eba2-0738-4c9a-b2ba-3843d533b7dd"]
+}
+]
+*)
+
+(* End of internal cache information *)
+

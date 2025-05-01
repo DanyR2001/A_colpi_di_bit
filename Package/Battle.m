@@ -4,10 +4,10 @@
 
 BeginPackage["Battle`", {"Util`"}];
 
-generateCoordinate::usage = "converte l'input della CPU in coordinate di attacco";
-attack::usage = "converte l'input dell'utente in coordinate di attacco";
-generateCPUShips::usage = "creazione delle navi della CPU";
-StartGame::usage = "avvia il gioco";
+generateCoordinate::usage = "generateCoordinate[gridSize] genera casualmente una coppia di coordinate(x,y)";
+attack::usage = "attack[attackCoords, grid, ships] attacca alle coordinate specificate, restituisce: attackResult \[RightArrow] messaggio, newGrid \[RightArrow] griglia aggiornata, hit\[RightArrow]booleano, indica se l'attacco \[EGrave] andato a buon fine, naveAffondata \[RightArrow] booleano, indica se l'attacco ha affondato una nave";
+generateCPUShips::usage = "generateCPUShips[gridSize, seed] genera casualmente le navi della CPU";
+StartGame::usage = "StartGame[userShips, CPUShips, userGridInit, cpuGridInit,userBase, gridSize] avvia il gioco (battaglia)";
 
 Begin["`Private`"];
 
@@ -22,7 +22,6 @@ Begin["`Private`"];
 (* FUNZIONE per l'attacco della CPU *)
 generateCoordinate[gridSize_Integer] := Module[
   {decimal, coordinates},
-  (*SeedRandom[seed]; --> se si imposta poi ad ogni attacco colpisce sempre la stessa cella*)
   (* Genera un numero casuale tra 0 e gridSize^2 - 1 *)
   decimal = RandomInteger[{0, gridSize^2 - 1}];
   
@@ -121,8 +120,7 @@ generateCPUShips[gridSize_Integer, seed_Integer] := Module[
 
 (* FUNZIONE per fare lo StartGame *)
 StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_,userBase_, gridSize_] := Module[
-  {userHits = 0, cpuHits = 0, gameOver = False, winner = None, 
-   attackCoords, attackCpuCoords,result, userAttack, cpuAttack, countAffondato = 0, cpuAffondato = 0},
+  {attackCoords, attackCpuCoords,result, userAttack, cpuAttack, countAffondato = 0, cpuAffondato = 0},
 
   DynamicModule[
   {input = "", gameState = "In corso...",messageUser="", messageCpu="",cpuGrid=cpuGridInit, userGrid=userGridInit},

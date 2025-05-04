@@ -10,20 +10,581 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[       795,         34]
-NotebookOptionsPosition[       557,         21]
-NotebookOutlinePosition[       931,         37]
-CellTagsIndexPosition[       888,         34]
+NotebookDataLength[     26350,        599]
+NotebookOptionsPosition[     25856,        582]
+NotebookOutlinePosition[     26261,        598]
+CellTagsIndexPosition[     26218,        595]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"CreateDocument", "[", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"TextCell", "[", 
+      RowBox[{"\"\<Tutorial su Conversioni di Base\>\"", 
+       ",", "\"\<Section\>\"", ",", 
+       RowBox[{"FontSize", "->", "24"}], ",", 
+       RowBox[{"FontWeight", "->", "\"\<Bold\>\""}], ",", 
+       RowBox[{"FontColor", "->", 
+        RowBox[{"RGBColor", "[", 
+         RowBox[{"1", ",", "0", ",", "0"}], "]"}]}], ",", 
+       RowBox[{"TextAlignment", "->", "Left"}]}], "]"}], ",", 
+     RowBox[{"Spacer", "[", "12", "]"}], ",", 
+     RowBox[{"Pane", "[", 
+      RowBox[{
+       RowBox[{
+       "TextCell", 
+        "[", "\"\<Sommario:\\n- Binario \[RightArrow] Decimale\\n- Ottale \
+\[RightArrow] Decimale\\n- Esadecimale \[RightArrow] Decimale\>\"", "]"}], ",", 
+       RowBox[{"Background", "->", 
+        RowBox[{"Lighter", "[", 
+         RowBox[{"Gray", ",", "0.95"}], "]"}]}]}], "]"}], ",", 
+     RowBox[{"Spacer", "[", "12", "]"}], ",", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{"--", 
+        RowBox[{"-", 
+         RowBox[{"BINARIO", "--"}]}]}], "-"}], "*)"}], 
+     RowBox[{"TextCell", "[", 
+      RowBox[{"\"\<Conversione da Binario a Decimale\>\"", 
+       ",", "\"\<Subsection\>\"", ",", 
+       RowBox[{"FontSize", "->", "18"}], ",", 
+       RowBox[{"FontWeight", "->", "\"\<Bold\>\""}], ",", 
+       RowBox[{"FontColor", "->", 
+        RowBox[{"RGBColor", "[", 
+         RowBox[{"1", ",", "0", ",", "0"}], "]"}]}], ",", 
+       RowBox[{"TextAlignment", "->", "Left"}]}], "]"}], ",", 
+     RowBox[{"Spacer", "[", "10", "]"}], ",", 
+     RowBox[{"Framed", "[", 
+      RowBox[{
+       RowBox[{"TextCell", "[", 
+        RowBox[{"\"\<Per convertire un numero binario in decimale, moltiplica \
+ciascuna cifra binaria per 2 elevato alla posizione (da destra verso \
+sinistra, a partire da 0) e somma i risultati.\>\"", ",", 
+         RowBox[{"FontSize", "->", "12"}]}], "]"}], ",", 
+       RowBox[{"Background", "->", 
+        RowBox[{"Lighter", "[", 
+         RowBox[{"Gray", ",", "0.9"}], "]"}]}]}], "]"}], ",", 
+     RowBox[{"Spacer", "[", "10", "]"}], ",", 
+     RowBox[{"Framed", "[", 
+      RowBox[{
+       RowBox[{"DynamicModule", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"b", "=", "\"\<\>\""}], "}"}], ",", 
+         RowBox[{"Column", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"TextCell", "[", 
+             RowBox[{"\"\<Esempio interattivo\>\"", ",", 
+              RowBox[{"FontSize", "->", "14"}], ",", 
+              RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], ",", 
+            RowBox[{"Grid", "[", 
+             RowBox[{"{", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{
+                "TextCell", "[", "\"\<Inserisci un numero binario:\>\"", 
+                 "]"}], ",", 
+                RowBox[{"InputField", "[", 
+                 RowBox[{
+                  RowBox[{"Dynamic", "[", "b", "]"}], ",", "String"}], 
+                 "]"}]}], "}"}], "}"}], "]"}], ",", 
+            RowBox[{"Dynamic", "[", 
+             RowBox[{"TextCell", "[", 
+              RowBox[{
+               RowBox[{"\"\<Valore decimale: \>\"", "<>", 
+                RowBox[{"ToString", "[", 
+                 RowBox[{"FromDigits", "[", 
+                  RowBox[{"b", ",", "2"}], "]"}], "]"}]}], ",", 
+               RowBox[{"FontSize", "->", "12"}]}], "]"}], "]"}]}], "}"}], 
+          "]"}]}], "]"}], ",", 
+       RowBox[{"Background", "->", 
+        RowBox[{"Lighter", "[", 
+         RowBox[{"Gray", ",", "0.95"}], "]"}]}]}], "]"}], ",", 
+     RowBox[{"Spacer", "[", "10", "]"}], ",", 
+     RowBox[{"Framed", "[", 
+      RowBox[{
+       RowBox[{"DynamicModule", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"n", "=", 
+            RowBox[{"RandomInteger", "[", 
+             RowBox[{"{", 
+              RowBox[{"1", ",", "127"}], "}"}], "]"}]}], ",", 
+           RowBox[{"risposta", "=", "\"\<\>\""}], ",", 
+           RowBox[{"esito", "=", "Null"}], ",", 
+           RowBox[{"showReplay", "=", "False"}]}], "}"}], ",", 
+         RowBox[{"Column", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"TextCell", "[", 
+             
+             RowBox[{"\"\<Mini-esercizio: Converti in decimale il seguente \
+numero binario\>\"", ",", 
+              RowBox[{"FontSize", "->", "14"}], ",", 
+              RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], ",", 
+            RowBox[{"Framed", "[", 
+             RowBox[{
+              RowBox[{"Dynamic", "[", 
+               RowBox[{"TextCell", "[", 
+                RowBox[{
+                 RowBox[{"IntegerString", "[", 
+                  RowBox[{"n", ",", "2"}], "]"}], ",", 
+                 RowBox[{"FontSize", "->", "16"}], ",", 
+                 RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], "]"}],
+               ",", 
+              RowBox[{"Background", "->", 
+               RowBox[{"Lighter", "[", 
+                RowBox[{"Gray", ",", "0.85"}], "]"}]}]}], "]"}], ",", 
+            RowBox[{"Grid", "[", 
+             RowBox[{"{", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"TextCell", "[", "\"\<Risposta:\>\"", "]"}], ",", 
+                RowBox[{"InputField", "[", 
+                 RowBox[{
+                  RowBox[{"Dynamic", "[", "risposta", "]"}], ",", "Number"}], 
+                 "]"}]}], "}"}], "}"}], "]"}], ",", 
+            RowBox[{"Row", "[", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"Button", "[", 
+                RowBox[{"\"\<Verifica\>\"", ",", 
+                 RowBox[{"If", "[", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"ToExpression", "[", "risposta", "]"}], "===", 
+                    "n"}], ",", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"esito", "=", 
+                    RowBox[{"TextCell", "[", 
+                    RowBox[{"\"\<\:2705 Corretto!\>\"", ",", 
+                    RowBox[{"FontSize", "->", "14"}], ",", 
+                    RowBox[{"FontColor", "->", "DarkGreen"}]}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"showReplay", "=", "True"}], ";"}], ")"}], ",", 
+                   RowBox[{"esito", "=", 
+                    RowBox[{"TextCell", "[", 
+                    RowBox[{"\"\<\:274c Riprovare\[Ellipsis]\>\"", ",", 
+                    RowBox[{"FontSize", "->", "14"}], ",", 
+                    RowBox[{"FontColor", "->", "Red"}]}], "]"}]}]}], "]"}], ",", 
+                 RowBox[{"ImageSize", "->", "Large"}], ",", 
+                 RowBox[{"Appearance", "->", "\"\<Frameless\>\""}], ",", 
+                 RowBox[{"Background", "->", "LightGray"}], ",", 
+                 RowBox[{"FrameMargins", "->", "6"}], ",", 
+                 RowBox[{"FrameStyle", "->", "Black"}], ",", 
+                 RowBox[{"RoundingRadius", "->", "5"}]}], "]"}], ",", 
+               RowBox[{"Spacer", "[", "10", "]"}], ",", 
+               RowBox[{"Dynamic", "[", 
+                RowBox[{"If", "[", 
+                 RowBox[{"showReplay", ",", 
+                  RowBox[{"Button", "[", 
+                   RowBox[{"\"\<Rigioca\>\"", ",", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"n", "=", 
+                    RowBox[{"RandomInteger", "[", 
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "127"}], "}"}], "]"}]}], ";", 
+                    RowBox[{"risposta", "=", "\"\<\>\""}], ";", 
+                    RowBox[{"esito", "=", "Null"}], ";", 
+                    RowBox[{"showReplay", "=", "False"}], ";"}], ")"}], ",", 
+                    RowBox[{"ImageSize", "->", "Large"}], ",", 
+                    RowBox[{"Appearance", "->", "\"\<Frameless\>\""}], ",", 
+                    RowBox[{"Background", "->", "LightBlue"}], ",", 
+                    RowBox[{"FrameMargins", "->", "6"}], ",", 
+                    RowBox[{"FrameStyle", "->", "Black"}], ",", 
+                    RowBox[{"RoundingRadius", "->", "5"}]}], "]"}], ",", 
+                  RowBox[{"Spacer", "[", "0", "]"}]}], "]"}], "]"}]}], "}"}], 
+             "]"}], ",", 
+            RowBox[{"Dynamic", "[", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"esito", "===", "Null"}], ",", 
+               RowBox[{"Spacer", "[", "0", "]"}], ",", "esito"}], "]"}], 
+             "]"}]}], "}"}], "]"}]}], "]"}], ",", 
+       RowBox[{"Background", "->", 
+        RowBox[{"Lighter", "[", 
+         RowBox[{"Gray", ",", "0.95"}], "]"}]}]}], "]"}], ",", 
+     RowBox[{"Spacer", "[", "12", "]"}], ",", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{"--", 
+        RowBox[{"-", 
+         RowBox[{"OTTALE", "--"}]}]}], "-"}], "*)"}], 
+     RowBox[{"TextCell", "[", 
+      RowBox[{"\"\<Conversione da Ottale a Decimale\>\"", 
+       ",", "\"\<Subsection\>\"", ",", 
+       RowBox[{"FontSize", "->", "18"}], ",", 
+       RowBox[{"FontWeight", "->", "\"\<Bold\>\""}], ",", 
+       RowBox[{"FontColor", "->", 
+        RowBox[{"RGBColor", "[", 
+         RowBox[{"1", ",", "0", ",", "0"}], "]"}]}], ",", 
+       RowBox[{"TextAlignment", "->", "Left"}]}], "]"}], ",", 
+     RowBox[{"Spacer", "[", "10", "]"}], ",", 
+     RowBox[{"Framed", "[", 
+      RowBox[{
+       RowBox[{"TextCell", "[", 
+        RowBox[{"\"\<Ogni cifra di un numero ottale rappresenta una potenza \
+di 8. Per convertire in decimale, moltiplica ogni cifra per 8 elevato alla \
+sua posizione e somma i risultati.\>\"", ",", 
+         RowBox[{"FontSize", "->", "12"}]}], "]"}], ",", 
+       RowBox[{"Background", "->", 
+        RowBox[{"Lighter", "[", 
+         RowBox[{"Gray", ",", "0.9"}], "]"}]}]}], "]"}], ",", 
+     RowBox[{"Spacer", "[", "10", "]"}], ",", 
+     RowBox[{"Framed", "[", 
+      RowBox[{
+       RowBox[{"DynamicModule", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"o", "=", "\"\<\>\""}], "}"}], ",", 
+         RowBox[{"Column", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"TextCell", "[", 
+             RowBox[{"\"\<Esempio interattivo\>\"", ",", 
+              RowBox[{"FontSize", "->", "14"}], ",", 
+              RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], ",", 
+            RowBox[{"Grid", "[", 
+             RowBox[{"{", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{
+                "TextCell", "[", "\"\<Inserisci un numero ottale:\>\"", "]"}],
+                 ",", 
+                RowBox[{"InputField", "[", 
+                 RowBox[{
+                  RowBox[{"Dynamic", "[", "o", "]"}], ",", "String"}], 
+                 "]"}]}], "}"}], "}"}], "]"}], ",", 
+            RowBox[{"Dynamic", "[", 
+             RowBox[{"TextCell", "[", 
+              RowBox[{
+               RowBox[{"\"\<Valore decimale: \>\"", "<>", 
+                RowBox[{"ToString", "[", 
+                 RowBox[{"FromDigits", "[", 
+                  RowBox[{"o", ",", "8"}], "]"}], "]"}]}], ",", 
+               RowBox[{"FontSize", "->", "12"}]}], "]"}], "]"}]}], "}"}], 
+          "]"}]}], "]"}], ",", 
+       RowBox[{"Background", "->", 
+        RowBox[{"Lighter", "[", 
+         RowBox[{"Gray", ",", "0.95"}], "]"}]}]}], "]"}], ",", 
+     RowBox[{"Spacer", "[", "10", "]"}], ",", 
+     RowBox[{"Framed", "[", 
+      RowBox[{
+       RowBox[{"DynamicModule", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"n", "=", 
+            RowBox[{"RandomInteger", "[", 
+             RowBox[{"{", 
+              RowBox[{"1", ",", "127"}], "}"}], "]"}]}], ",", 
+           RowBox[{"risposta", "=", "\"\<\>\""}], ",", 
+           RowBox[{"esito", "=", "Null"}], ",", 
+           RowBox[{"showReplay", "=", "False"}]}], "}"}], ",", 
+         RowBox[{"Column", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"TextCell", "[", 
+             
+             RowBox[{"\"\<Mini-esercizio: Converti in decimale il seguente \
+numero ottale\>\"", ",", 
+              RowBox[{"FontSize", "->", "14"}], ",", 
+              RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], ",", 
+            RowBox[{"Framed", "[", 
+             RowBox[{
+              RowBox[{"Dynamic", "[", 
+               RowBox[{"TextCell", "[", 
+                RowBox[{
+                 RowBox[{"IntegerString", "[", 
+                  RowBox[{"n", ",", "8"}], "]"}], ",", 
+                 RowBox[{"FontSize", "->", "16"}], ",", 
+                 RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], "]"}],
+               ",", 
+              RowBox[{"Background", "->", 
+               RowBox[{"Lighter", "[", 
+                RowBox[{"Gray", ",", "0.85"}], "]"}]}]}], "]"}], ",", 
+            RowBox[{"Grid", "[", 
+             RowBox[{"{", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"TextCell", "[", "\"\<Risposta:\>\"", "]"}], ",", 
+                RowBox[{"InputField", "[", 
+                 RowBox[{
+                  RowBox[{"Dynamic", "[", "risposta", "]"}], ",", "Number"}], 
+                 "]"}]}], "}"}], "}"}], "]"}], ",", 
+            RowBox[{"Row", "[", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"Button", "[", 
+                RowBox[{"\"\<Verifica\>\"", ",", 
+                 RowBox[{"If", "[", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"ToExpression", "[", "risposta", "]"}], "===", 
+                    "n"}], ",", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"esito", "=", 
+                    RowBox[{"TextCell", "[", 
+                    RowBox[{"\"\<\:2705 Corretto!\>\"", ",", 
+                    RowBox[{"FontSize", "->", "14"}], ",", 
+                    RowBox[{"FontColor", "->", "DarkGreen"}]}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"showReplay", "=", "True"}], ";"}], ")"}], ",", 
+                   RowBox[{"esito", "=", 
+                    RowBox[{"TextCell", "[", 
+                    RowBox[{"\"\<\:274c Riprovare\[Ellipsis]\>\"", ",", 
+                    RowBox[{"FontSize", "->", "14"}], ",", 
+                    RowBox[{"FontColor", "->", "Red"}]}], "]"}]}]}], "]"}], ",", 
+                 RowBox[{"ImageSize", "->", "Large"}], ",", 
+                 RowBox[{"Appearance", "->", "\"\<Frameless\>\""}], ",", 
+                 RowBox[{"Background", "->", "LightGray"}], ",", 
+                 RowBox[{"FrameMargins", "->", "6"}], ",", 
+                 RowBox[{"FrameStyle", "->", "Black"}], ",", 
+                 RowBox[{"RoundingRadius", "->", "5"}]}], "]"}], ",", 
+               RowBox[{"Spacer", "[", "10", "]"}], ",", 
+               RowBox[{"Dynamic", "[", 
+                RowBox[{"If", "[", 
+                 RowBox[{"showReplay", ",", 
+                  RowBox[{"Button", "[", 
+                   RowBox[{"\"\<Rigioca\>\"", ",", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"n", "=", 
+                    RowBox[{"RandomInteger", "[", 
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "127"}], "}"}], "]"}]}], ";", 
+                    RowBox[{"risposta", "=", "\"\<\>\""}], ";", 
+                    RowBox[{"esito", "=", "Null"}], ";", 
+                    RowBox[{"showReplay", "=", "False"}], ";"}], ")"}], ",", 
+                    RowBox[{"ImageSize", "->", "Large"}], ",", 
+                    RowBox[{"Appearance", "->", "\"\<Frameless\>\""}], ",", 
+                    RowBox[{"Background", "->", "LightBlue"}], ",", 
+                    RowBox[{"FrameMargins", "->", "6"}], ",", 
+                    RowBox[{"FrameStyle", "->", "Black"}], ",", 
+                    RowBox[{"RoundingRadius", "->", "5"}]}], "]"}], ",", 
+                  RowBox[{"Spacer", "[", "0", "]"}]}], "]"}], "]"}]}], "}"}], 
+             "]"}], ",", 
+            RowBox[{"Dynamic", "[", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"esito", "===", "Null"}], ",", 
+               RowBox[{"Spacer", "[", "0", "]"}], ",", "esito"}], "]"}], 
+             "]"}]}], "}"}], "]"}]}], "]"}], ",", 
+       RowBox[{"Background", "->", 
+        RowBox[{"Lighter", "[", 
+         RowBox[{"Gray", ",", "0.95"}], "]"}]}]}], "]"}], ",", 
+     RowBox[{"Spacer", "[", "12", "]"}], ",", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{"--", 
+        RowBox[{"-", 
+         RowBox[{"ESADECIMALE", "--"}]}]}], "-"}], "*)"}], 
+     RowBox[{"TextCell", "[", 
+      RowBox[{"\"\<Conversione da Esadecimale a Decimale\>\"", 
+       ",", "\"\<Subsection\>\"", ",", 
+       RowBox[{"FontSize", "->", "18"}], ",", 
+       RowBox[{"FontWeight", "->", "\"\<Bold\>\""}], ",", 
+       RowBox[{"FontColor", "->", 
+        RowBox[{"RGBColor", "[", 
+         RowBox[{"1", ",", "0", ",", "0"}], "]"}]}], ",", 
+       RowBox[{"TextAlignment", "->", "Left"}]}], "]"}], ",", 
+     RowBox[{"Spacer", "[", "10", "]"}], ",", 
+     RowBox[{"Framed", "[", 
+      RowBox[{
+       RowBox[{"TextCell", "[", 
+        RowBox[{"\"\<Il sistema esadecimale usa 16 simboli (0\[Dash]9 e A\
+\[Dash]F). Per convertire in decimale, sostituisci le lettere con i valori 10\
+\[Dash]15, poi moltiplica ciascuna cifra per 16 elevato alla sua posizione e \
+somma.\>\"", ",", 
+         RowBox[{"FontSize", "->", "12"}]}], "]"}], ",", 
+       RowBox[{"Background", "->", 
+        RowBox[{"Lighter", "[", 
+         RowBox[{"Gray", ",", "0.9"}], "]"}]}]}], "]"}], ",", 
+     RowBox[{"Spacer", "[", "10", "]"}], ",", 
+     RowBox[{"Framed", "[", 
+      RowBox[{
+       RowBox[{"DynamicModule", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"h", "=", "\"\<\>\""}], "}"}], ",", 
+         RowBox[{"Column", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"TextCell", "[", 
+             RowBox[{"\"\<Esempio interattivo\>\"", ",", 
+              RowBox[{"FontSize", "->", "14"}], ",", 
+              RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], ",", 
+            RowBox[{"Grid", "[", 
+             RowBox[{"{", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{
+                "TextCell", "[", "\"\<Inserisci un numero esadecimale:\>\"", 
+                 "]"}], ",", 
+                RowBox[{"InputField", "[", 
+                 RowBox[{
+                  RowBox[{"Dynamic", "[", "h", "]"}], ",", "String"}], 
+                 "]"}]}], "}"}], "}"}], "]"}], ",", 
+            RowBox[{"Dynamic", "[", 
+             RowBox[{"TextCell", "[", 
+              RowBox[{
+               RowBox[{"\"\<Valore decimale: \>\"", "<>", 
+                RowBox[{"ToString", "[", 
+                 RowBox[{"FromDigits", "[", 
+                  RowBox[{
+                   RowBox[{"ToUpperCase", "[", "h", "]"}], ",", "16"}], "]"}],
+                  "]"}]}], ",", 
+               RowBox[{"FontSize", "->", "12"}]}], "]"}], "]"}]}], "}"}], 
+          "]"}]}], "]"}], ",", 
+       RowBox[{"Background", "->", 
+        RowBox[{"Lighter", "[", 
+         RowBox[{"Gray", ",", "0.95"}], "]"}]}]}], "]"}], ",", 
+     RowBox[{"Spacer", "[", "10", "]"}], ",", 
+     RowBox[{"Framed", "[", 
+      RowBox[{
+       RowBox[{"DynamicModule", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"n", "=", 
+            RowBox[{"RandomInteger", "[", 
+             RowBox[{"{", 
+              RowBox[{"1", ",", "127"}], "}"}], "]"}]}], ",", 
+           RowBox[{"risposta", "=", "\"\<\>\""}], ",", 
+           RowBox[{"esito", "=", "Null"}], ",", 
+           RowBox[{"showReplay", "=", "False"}]}], "}"}], ",", 
+         RowBox[{"Column", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"TextCell", "[", 
+             
+             RowBox[{"\"\<Mini-esercizio: Converti in decimale il seguente \
+numero esadecimale\>\"", ",", 
+              RowBox[{"FontSize", "->", "14"}], ",", 
+              RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], ",", 
+            RowBox[{"Framed", "[", 
+             RowBox[{
+              RowBox[{"Dynamic", "[", 
+               RowBox[{"TextCell", "[", 
+                RowBox[{
+                 RowBox[{"IntegerString", "[", 
+                  RowBox[{"n", ",", "16"}], "]"}], ",", 
+                 RowBox[{"FontSize", "->", "16"}], ",", 
+                 RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], "]"}],
+               ",", 
+              RowBox[{"Background", "->", 
+               RowBox[{"Lighter", "[", 
+                RowBox[{"Gray", ",", "0.85"}], "]"}]}]}], "]"}], ",", 
+            RowBox[{"Grid", "[", 
+             RowBox[{"{", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"TextCell", "[", "\"\<Risposta:\>\"", "]"}], ",", 
+                RowBox[{"InputField", "[", 
+                 RowBox[{
+                  RowBox[{"Dynamic", "[", "risposta", "]"}], ",", "Number"}], 
+                 "]"}]}], "}"}], "}"}], "]"}], ",", 
+            RowBox[{"Row", "[", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"Button", "[", 
+                RowBox[{"\"\<Verifica\>\"", ",", 
+                 RowBox[{"If", "[", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"ToExpression", "[", "risposta", "]"}], "===", 
+                    "n"}], ",", 
+                   RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"esito", "=", 
+                    RowBox[{"TextCell", "[", 
+                    RowBox[{"\"\<\:2705 Corretto!\>\"", ",", 
+                    RowBox[{"FontSize", "->", "14"}], ",", 
+                    RowBox[{"FontColor", "->", "DarkGreen"}]}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"showReplay", "=", "True"}], ";"}], ")"}], ",", 
+                   RowBox[{"esito", "=", 
+                    RowBox[{"TextCell", "[", 
+                    RowBox[{"\"\<\:274c Riprovare\[Ellipsis]\>\"", ",", 
+                    RowBox[{"FontSize", "->", "14"}], ",", 
+                    RowBox[{"FontColor", "->", "Red"}]}], "]"}]}]}], "]"}], ",", 
+                 RowBox[{"ImageSize", "->", "Large"}], ",", 
+                 RowBox[{"Appearance", "->", "\"\<Frameless\>\""}], ",", 
+                 RowBox[{"Background", "->", "LightGray"}], ",", 
+                 RowBox[{"FrameMargins", "->", "6"}], ",", 
+                 RowBox[{"FrameStyle", "->", "Black"}], ",", 
+                 RowBox[{"RoundingRadius", "->", "5"}]}], "]"}], ",", 
+               RowBox[{"Spacer", "[", "10", "]"}], ",", 
+               RowBox[{"Dynamic", "[", 
+                RowBox[{"If", "[", 
+                 RowBox[{"showReplay", ",", 
+                  RowBox[{"Button", "[", 
+                   RowBox[{"\"\<Rigioca\>\"", ",", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"n", "=", 
+                    RowBox[{"RandomInteger", "[", 
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "127"}], "}"}], "]"}]}], ";", 
+                    RowBox[{"risposta", "=", "\"\<\>\""}], ";", 
+                    RowBox[{"esito", "=", "Null"}], ";", 
+                    RowBox[{"showReplay", "=", "False"}], ";"}], ")"}], ",", 
+                    RowBox[{"ImageSize", "->", "Large"}], ",", 
+                    RowBox[{"Appearance", "->", "\"\<Frameless\>\""}], ",", 
+                    RowBox[{"Background", "->", "LightBlue"}], ",", 
+                    RowBox[{"FrameMargins", "->", "6"}], ",", 
+                    RowBox[{"FrameStyle", "->", "Black"}], ",", 
+                    RowBox[{"RoundingRadius", "->", "5"}]}], "]"}], ",", 
+                  RowBox[{"Spacer", "[", "0", "]"}]}], "]"}], "]"}]}], "}"}], 
+             "]"}], ",", 
+            RowBox[{"Dynamic", "[", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"esito", "===", "Null"}], ",", 
+               RowBox[{"Spacer", "[", "0", "]"}], ",", "esito"}], "]"}], 
+             "]"}]}], "}"}], "]"}]}], "]"}], ",", 
+       RowBox[{"Background", "->", 
+        RowBox[{"Lighter", "[", 
+         RowBox[{"Gray", ",", "0.95"}], "]"}]}]}], "]"}]}], "}"}], "]"}], 
+  "\n"}]], "Input",
+ CellChangeTimes->{{3.9553357577104263`*^9, 3.955335759192833*^9}, 
+   3.9553359253778934`*^9, 3.9553363143576736`*^9, {3.9553365512304*^9, 
+   3.9553365564101486`*^9}, {3.9553369704541416`*^9, 
+   3.9553370000263767`*^9}, {3.9553372543012505`*^9, 
+   3.9553372707533264`*^9}, {3.955337394047268*^9, 3.9553373953355465`*^9}, 
+   3.955337594143553*^9, 3.95533793256929*^9, 3.955338421602627*^9, 
+   3.9553385216684875`*^9, 3.955338670178171*^9},
+ CellLabel->"In[12]:=",ExpressionUUID->"e1211e0e-13f4-7a4c-8799-25b68c7a2737"],
+
+Cell[BoxData[
+ TemplateBox[<|
+  "obj" -> NotebookObject[
+    "96dc30ec-3464-4d4e-913c-403126c7ceb5", 
+     "1e1f0597-eb3e-6d47-9d70-9e82cf885fc6"], "label" -> "\"Untitled-13\""|>,
+  "NotebookObjectUUIDsUnsaved"]], "Output",
+ CellChangeTimes->{3.955335762783636*^9, 3.9553359280572433`*^9, 
+  3.955336330669754*^9, 3.9553365597674217`*^9, 3.955336976176653*^9, 
+  3.9553372838463364`*^9, 3.955337398693865*^9, 3.9553375973298187`*^9, 
+  3.955337935156193*^9, 3.9553384247199097`*^9, 3.9553386732106457`*^9},
+ CellLabel->"Out[12]=",ExpressionUUID->"72a5b87d-ff96-954e-b2b7-ca4483f17ad2"]
+}, Open  ]]
 },
-WindowSize->{Full, Full},
-WindowMargins->Automatic,
-FrontEndVersion->"14.2 for Mac OS X ARM (64-bit) (December 26, 2024)",
+WindowSize->{1141.2, 585.6},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"14.2 for Microsoft Windows (64-bit) (December 26, 2024)",
 StyleDefinitions->"Default.nb",
-ExpressionUUID->"2398359d-5095-4dad-8d8a-574b138b265f"
+ExpressionUUID->"26c96b9f-8d5e-4641-a101-2f60650d9ebf"
 ]
 (* End of Notebook Content *)
 
@@ -36,9 +597,11 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 24676, 545, 1498, "Input",ExpressionUUID->"e1211e0e-13f4-7a4c-8799-25b68c7a2737"],
+Cell[25255, 569, 585, 10, 43, "Output",ExpressionUUID->"72a5b87d-ff96-954e-b2b7-ca4483f17ad2"]
+}, Open  ]]
 }
 ]
 *)
-
-(* End of internal cache information *)
 

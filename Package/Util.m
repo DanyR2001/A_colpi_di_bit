@@ -63,10 +63,10 @@ initSeed[seed_Integer?NonNegative] := Module[{},
 
 (* FUNZIONE per mappare un numero decimale in coordinate {riga, colonna} *)
 mapCoordinate[decimal_Integer, gridSize_] := Module[
-  {row, col},
+  {row, col,errorMsg=""},
   (* Verifica che il numero sia valido per la dimensione della griglia *)
   If[decimal < 0 || decimal >= gridSize^2,
-    Return[$Failed]
+    Return[{$Failed,errorMsg="Nave fuori dai bordi! Ritenta!"}]
   ];
   
   (* Calcolo della colonna (0-based) *)
@@ -79,22 +79,33 @@ mapCoordinate[decimal_Integer, gridSize_] := Module[
   {row, col}
 ];
 
-verifyInput[gridSize_, base_, input_]:=Module[{decimal, coordinates},
+verifyInput[gridSize_, base_, input_] := Module[{decimal, coordinates, errorMsg = ""},
   (* Conversione dell'input in base 10 *)
   decimal = convertToDecimal[input, base];
+  
   If[decimal === $Failed,
-    Return[$Failed]
+    (* Messaggio di errore specifico per conversione fallita *)
+    errorMsg = "Input non valido! Inserisci un numero corretto in base " <> ToString[base] <> 
+               " (range: 0 - " <> IntegerString[gridSize^2 - 1, base] <> ")";
+    Return[{$Failed, errorMsg}]  (* Restituisce una tupla con $Failed e il messaggio *)
   ];
   
   (* Mappatura del numero decimale in coordinate *)
-  coordinates = mapCoordinate[decimal, gridSize];
-  If[coordinates === $Failed,
-    Return[$Failed]
+  If[decimal < 0 || decimal >= gridSize^2,
+    (* Messaggio di errore specifico per valore fuori range *)
+    errorMsg = "Valore fuori range! Il numero deve essere compreso tra 0 e " <> 
+               ToString[gridSize^2 - 1] <> " (" <> "0 - " <> IntegerString[gridSize^2 - 1, base] <> 
+               " in base " <> ToString[base] <> ")";
+    Return[{$Failed, errorMsg}]
   ];
   
+  (* Calcolo delle coordinate *)
+  coordinates = mapCoordinate[decimal, gridSize];
+  
   (* Return delle coordinate di attacco *)
-  coordinates
+  {coordinates, ""}  (* Restituisce le coordinate e un messaggio vuoto in caso di successo *)
 ];
+
 
 
 createGrid[ships_,gridSize_]:=Module[{grid=ConstantArray[$Vuoto,{gridSize,gridSize}]},
@@ -111,7 +122,7 @@ showGrid[grid_, ships_] := Module[{
   
   (* Aggiungi gli indici riga (0-9) sul lato sinistro *)
   Do[
-    gridWithLabels[[i + 1, 1]] = ToString[gridSize - i],
+    gridWithLabels[[i + 1, 1]] = ToString[i - 1],
     {i, 1, gridSize}
   ];
   

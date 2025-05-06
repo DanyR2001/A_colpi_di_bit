@@ -2,7 +2,7 @@
 
 (* :Title: Util *)
 (* :Context: Util` *)
-(* :Author: Matilde Nardi *)
+(* :Author: Dan Cernei *)
 (* :Version: 1.0 *)
 (* :Date: 2025-05-06 *)
 

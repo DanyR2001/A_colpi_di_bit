@@ -161,9 +161,10 @@ PlacementUI[] := DynamicModule[
                       ,
                         Enabled -> Dynamic[placementDone]
                       ]
-                    }
+                    },
+                    {"",helpUser[baseValue]}
                   }],
-                  Dynamic[Style[shipPlacementMsg, If[StringMatchQ[shipPlacementMsg, "Nave piazzata*" | "Tutte le navi*"], Darker[Green], Red]]]
+                  Dynamic[Style[shipPlacementMsg, If[StringMatchQ[shipPlacementMsg, "Nave piazzata*" | "Tutte le navi*"], Darker[Green], Red]]
                 }],
                 
                 Spacer[30],
@@ -201,8 +202,7 @@ PlacementUI[] := DynamicModule[
           Spacer[10],
           Button["Nuova Partita", phase = 1; ResetGame[];]
         }]
-    ]],
-    Dynamic[If[phase == 1, helpUser[baseValue], ""]]
+    ]]
   }]
 ];
 

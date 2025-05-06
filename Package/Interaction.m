@@ -116,7 +116,7 @@ isSeed[seed_]:=IntegerQ[seed];
 
 (* Versione corretta di helpUser con gestione corretta dei colori e indici *)
 helpUser[base_Integer]:=PopupWindow[
-	Button["Suggerimento"],
+	Button["Visualizza un suggerimento"],
 	Module[{numberDec, numberBase, helpDescription, colors},
 		numberDec = RandomInteger[{1,300}]; 
 		colors = {Green, Blue, Orange, Purple, Red, Brown, Pink};

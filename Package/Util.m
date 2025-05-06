@@ -140,10 +140,10 @@ showGrid[grid_, ships_] := Module[{
       If[grid[[i, j]] == $Mancato,
         Style["\[FilledSquare]", Gray],     (* mancato *)
       If[grid[[i, j]] == $Affondato,
-        Style["\[FilledSquare]", Blue],     (* affondato *)
+        Style["\[Dagger]", Blue, Bold, 18],     (* affondato *)
       If[grid[[i, j]] == $Nave && ships,
         Style["\[FilledSquare]", Black],    (* nave visibile solo se ships=True *)
-        "\[EmptySquare]"                   (* altrimenti vuoto *)
+        ""                   (* altrimenti vuoto *)
       ]]]],
     {i, 1, gridSize}, {j, 1, gridSize}
   ];

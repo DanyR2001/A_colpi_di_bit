@@ -267,6 +267,7 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
           , ImageSize -> {80, 30}, Enabled -> Dynamic[!gameOver]]
         }
       }],
+      helpUser[UserBase],
       Spacer[10],
       Style["Attacco Utente:", Bold, 12],
         Dynamic[messageUser],

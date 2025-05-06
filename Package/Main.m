@@ -100,7 +100,10 @@ StartPlacementPhase[userBase_] := DynamicModule[
 
 
 (* Interfaccia utente principale *)
-PlacementUI[] := DynamicModule[
+PlacementUI[] := Print["Starting game..."];
+(*
+	THIS IS BROKEN
+DynamicModule[
   {seedValue = RandomInteger[1024], baseValue = 2, gridSize = 10, phase = 1, initDone = False, message = "", 
    cpuShips, battleStarted = False, userShips, userGrid, cpuGrid}, 
   
@@ -223,34 +226,8 @@ PlacementUI[] := DynamicModule[
         }]
     ]]
   }]
-];
+];*)
+
 
 End[];
 EndPackage[];
-
-
-(* Funzione per caricare tutti i pacchetti necessari *)
-LoadAllPackages[] := Module[
-  {packagePath, currentDir, requiredPackages},
-  
-  (* Determina il percorso corrente del file *)
-  currentDir = DirectoryName[$InputFileName];
-  
-  (* Lista dei pacchetti da caricare *)
-  requiredPackages = {"Util.m", "Battle.m", "Interaction.m", "Main.m"};
-  
-  (* Carica ogni pacchetto *)
-  Do[
-    packagePath = FileNameJoin[{currentDir, package}];
-    If[FileExistsQ[packagePath],
-      Get[packagePath];
-      Print["Caricato: ", package],
-      Print["Errore: pacchetto non trovato: ", packagePath]
-    ],
-    {package, requiredPackages}
-  ];
-  
-  (* Imposta la directory di lavoro *)
-  SetDirectory[currentDir];
-  Print["Directory di lavoro impostata a: ", currentDir];
-];

@@ -1,5 +1,20 @@
 (* ::Package:: *)
 
+(* :Title: Battle *)
+(* :Context: Battle` *)
+(* :Author: Dan Cernei *)
+(* :Version: 1.0 *)
+(* :Date: 2025-05-06 *)
+
+(* :Summary: 
+   Questo pacchetto implementa la logica di gioco della battaglia navale,
+   inclusa la generazione delle navi, il sistema di attacco e la gestione del turno.
+*)
+
+(* :Copyright: A colpi di Bit (C) 2025 *)
+(* :Keywords: battaglia navale, attacco, navi, CPU *)
+(* :Requirements: Mathematica 12.0+, Util` *)
+
 (* File: Battle.m *)
 
 BeginPackage["Battle`", {"Util`"}];
@@ -11,7 +26,7 @@ StartGame::usage = "StartGame[userShips, CPUShips, userGridInit, cpuGridInit,use
 
 Begin["`Private`"];
 
-(* Utilizziamo un insieme per tenere traccia delle coordinate già utilizzate dalla CPU *)
+(* Utilizziamo un insieme per tenere traccia delle coordinate gi\[AGrave] utilizzate dalla CPU *)
 $CPUAttackedCoordinates = {};
 
 (* FIXED: generateCoordinate per gli attacchi della CPU *)
@@ -23,7 +38,7 @@ generateCoordinate[gridSize_Integer] := Module[
     (* Genera direttamente riga e colonna casuali *)
     coordinates = {RandomInteger[{0, gridSize - 1}], RandomInteger[{0, gridSize - 1}]};
     
-    (* Verifica se queste coordinate sono già state usate *)
+    (* Verifica se queste coordinate sono gi\[AGrave] state usate *)
     If[!MemberQ[$CPUAttackedCoordinates, coordinates],
       (* Aggiunge le coordinate all'insieme per non riutilizzarle *)
       AppendTo[$CPUAttackedCoordinates, coordinates];
@@ -54,16 +69,16 @@ generateCoordinate[gridSize_Integer] := Module[
 attack[attackCoordsWithMsg_, grid_, ships_] := Module[
   {attackResult = "", newGrid = grid, r, c, hit = False, naveAffondata = False, attackCoords},
   
-  (* Se l'input è una tupla {$Failed, errorMsg}, estraiamo il messaggio di errore specifico *)
+  (* Se l'input \[EGrave] una tupla {$Failed, errorMsg}, estraiamo il messaggio di errore specifico *)
   If[ListQ[attackCoordsWithMsg] && Length[attackCoordsWithMsg] == 2 && attackCoordsWithMsg[[1]] === $Failed, 
     Return[{attackCoordsWithMsg[[2]], grid, False, False}]
   ];
   
-  (* Se è valido, estrai le coordinate corrette *)
+  (* Se \[EGrave] valido, estrai le coordinate corrette *)
   If[ListQ[attackCoordsWithMsg] && Length[attackCoordsWithMsg] == 2 && Head[attackCoordsWithMsg[[1]]] =!= List,
-    (* Se attackCoordsWithMsg è nella forma {coordinate, messaggio} *)
+    (* Se attackCoordsWithMsg \[EGrave] nella forma {coordinate, messaggio} *)
     attackCoords = attackCoordsWithMsg,
-    (* Se attackCoordsWithMsg è già direttamente le coordinate *)
+    (* Se attackCoordsWithMsg \[EGrave] gi\[AGrave] direttamente le coordinate *)
     attackCoords = attackCoordsWithMsg[[1]]
   ];
   
@@ -85,7 +100,7 @@ attack[attackCoordsWithMsg_, grid_, ships_] := Module[
     $Nave, (* Colpito *)
       newGrid[[r, c]] = $Colpito;
       hit = True;
-      (* Controlla se è affondato *)
+      (* Controlla se \[EGrave] affondato *)
       Do[
         If[MemberQ[nave, {r - 1, c - 1}],
           If[AllTrue[nave, (newGrid[[#[[1]] + 1, #[[2]] + 1]] == $Colpito) &], 
@@ -108,8 +123,8 @@ attack[attackCoordsWithMsg_, grid_, ships_] := Module[
       hit = True;
       newGrid[[r, c]] = $Mancato;
       attackResult = "Mi dispiace. Colpo non andato a segno, tenta di nuovo...";,
-    _, (* Già colpito *)
-      attackResult = "Hai già colpito qui!"
+    _, (* Gi\[AGrave] colpito *)
+      attackResult = "Hai gi\[AGrave] colpito qui!"
   ];
   
   {attackResult, newGrid, hit, naveAffondata}
@@ -224,7 +239,7 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
             (* Gestione dei messaggi di errore di verifyInput *)
             If[ListQ[attackCoordsResult] && Length[attackCoordsResult] == 2 && attackCoordsResult[[1]] === $Failed,
               messageUser = attackCoordsResult[[2]],
-              (* Esegui l'attacco se l'input è valido *)
+              (* Esegui l'attacco se l'input \[EGrave] valido *)
               userAttack = attack[attackCoordsResult[[1]], cpuGrid, CPUShips];
               
               (* Stato del gioco parte utente *)
@@ -241,7 +256,7 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
                 gameOver = True;
               ];
               
-              (* Solo se l'attacco dell'utente è andato a buon fine, la CPU attacca *)
+              (* Solo se l'attacco dell'utente \[EGrave] andato a buon fine, la CPU attacca *)
               If[userAttack[[3]], (*input valido e attacco utente effettuato*)
                 (*Attacco della CPU*)
                 cpuGrid = userAttack[[2]];

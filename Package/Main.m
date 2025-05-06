@@ -1,11 +1,30 @@
+(* ::Package:: *)
+
+(* :Title: Main *)
+(* :Context: Main` *)
+(* :Author: Daniele Russo, Nicola Modugno *)
+(* :Version: 1.0 *)
+(* :Date: 2025-05-06 *)
+
+(* :Summary: 
+   Questo pacchetto coordina le diverse fasi del gioco, dall'inizializzazione
+   alla battaglia, e gestisce l'interfaccia utente principale.
+*)
+
+(* :Copyright: A colpi di Bit (C) 2025 *)
+(* :Keywords: battaglia navale, gioco, interfaccia *)
+(* :Requirements: Mathematica 12.0+, Util`, Battle`, Interaction` *)
+
+(* File: Main.m *)
+
 BeginPackage["Main`", {"Util`", "Battle`", "Interaction`"}]; 
 PlacementUI::usage = "PlacementUI[] interfaccia per il posizionamento navi";
 
 Begin["`Private`"];
 
-(* Questa funzione non è più necessaria perché il suo contenuto è stato integrato
+(* Questa funzione non \[EGrave] pi\[UGrave] necessaria perch\[EAcute] il suo contenuto \[EGrave] stato integrato
    direttamente nella PlacementUI come DynamicModule interno. La mantengo commentata
-   per riferimento ma non viene più chiamata.*)
+   per riferimento ma non viene pi\[UGrave] chiamata.*)
 
 StartPlacementPhase[userBase_] := DynamicModule[
   {currentShip = 1, shipLengths = {5, 4, 3, 2, 1}, start = "", end = "", 

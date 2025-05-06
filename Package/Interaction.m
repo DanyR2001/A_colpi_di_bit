@@ -1,6 +1,21 @@
 (* ::Package:: *)
 
-(* file: package.m *)
+(* :Title: Interaction *)
+(* :Context: Interaction` *)
+(* :Author: Dan Cernei, Matilde Nardi *)
+(* :Version: 1.0 *)
+(* :Date: 2025-05-06 *)
+
+(* :Summary: 
+   Questo pacchetto gestisce l'interazione con l'utente, incluso l'input del seed,
+   la scelta della base numerica e il posizionamento delle navi.
+*)
+
+(* :Copyright: A colpi di Bit (C) 2025 *)
+(* :Keywords: battaglia navale, interazione, posizionamento, input *)
+(* :Requirements: Mathematica 12.0+, Util` *)
+
+(* File: Interaction.m *)
 
 BeginPackage["Interaction`", {"Util`"}];
 AskSeedInput::usage = "AskSeedInput[inputSeed] chiede all'untete di inserire il seed";
@@ -245,7 +260,7 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
   
   (* Controllo numero navi *)
   If[Length[$UserShips] >= 5, 
-    Return[{False, "Hai già posizionato tutte le navi permesse!"}]
+    Return[{False, "Hai gi\[AGrave] posizionato tutte le navi permesse!"}]
   ];
   
   (* Conversione coordinate *)
@@ -282,7 +297,7 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
   
   If[MemberQ[usedLens, len], 
     (* Calcola e mostra le lunghezze mancanti *)
-    errorMsg = "Hai già piazzato una nave di lunghezza " <> ToString[len] <> "!";
+    errorMsg = "Hai gi\[AGrave] piazzato una nave di lunghezza " <> ToString[len] <> "!";
     
     (* Aggiungi informazioni sulle navi mancanti *)
     If[Length[$ShipLengths] > 0,
@@ -328,7 +343,7 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
   (* Controlliamo prima tutte le celle della nave *)
   isValid = AllTrue[coords, $UserGrid[[#[[1]] + 1, #[[2]] + 1]] == $Vuoto &];
   If[!isValid,
-    Return[{False, "La nave si sovrappone a una nave già posizionata!"}]
+    Return[{False, "La nave si sovrappone a una nave gi\[AGrave] posizionata!"}]
   ];
   
   (* Verifichiamo che non ci siano navi adiacenti *)

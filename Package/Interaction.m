@@ -2,7 +2,7 @@
 
 (* :Title: Interaction *)
 (* :Context: Interaction` *)
-(* :Author: Dan Cernei, Matilde Nardi, Daniele Russo *)
+(* :Author: Matteo Rontini, Matilde Nardi, Daniele Russo *)
 (* :Version: 2.0 *)
 (* :Date: 2025-05-06 *)
 
@@ -21,11 +21,11 @@ BeginPackage["Interaction`", {"Util`"}];
 AskSeedInput::usage = "AskSeedInput[inputSeed] chiede all'untete di inserire il seed";
 AskBaseChoice::usage = "AskBasechoice[inputBase] chiede all'utente di inserire la base su cui si vuole esercitare (2, 8, 16)";
 
-isBase::usage="isBase[base] controlla che la base sia inserita sia 2, 8 o 16";
-isSeed::usage="isSeed[seed] controlla che il seed sia stato inserito correttamente (se \[EGrave] un numero intero)";
-helpUser::usage="helpUser[base] apre finestra per mostrare un suggerimento all'utente (ripasso conversioni tra basi)";
-helpUserPersonalized::usage="helpUserPersonalized[base] apre finestra per chiedere all'utente di inserire un numero decimale e mostra la sua conversione in base scelta";
-exercise::usage="exercise[base,numberDec] mostra come avviene la conversione del numero da base 10 a base scelta";
+isBase::usage="isBase[base] controlla che base sia 2, 8 o 16";
+isSeed::usage="isSeed[seed] controlla che seed sia un numero intero";
+helpUser::usage="helpUser[base] mostra in una nuova finestra la conversione in base scelta di un numero decimale casuale";
+helpUserPersonalized::usage="helpUserPersonalized[base] chiede in una nuova finestra all'utente di inserire un numero decimale e mostra la sua conversione in base scelta";
+conversionFromDec::usage="conversionFromDec[base,numberDec] mostra i passaggi della conversione di un numero da base 10 a base scelta";
 
 PlaceUserShip::usage =
   "PlaceUserShip[startRaw, endRaw] piazza in $UserGrid una nave.\
@@ -34,14 +34,14 @@ con 0 corrispondente in basso a sinistra. Si possono piazzare al massimo 4 navi,
 Restituisce {True, grid} in caso di successo o {False, errorMsg} in caso di errore.";
 
 
-(* Aggiungiamo esplicitamente questi getter mancanti *)
+(*Getters delle variabili globali *)
 GetUserShips::usage = "GetUserShips[] restituisce lista di blocchi delle navi utente.";
 GetUserGrid::usage = "GetUserGrid[] restituisce matrice griglia utente.";
 GetRemainingShipLengths::usage = "GetRemainingShipLengths[] restituisce le lunghezze delle navi ancora da piazzare.";
 GetDifficultyLevels::usage = "GetDifficultyLevels[] restituisce i livelli di difficolt\[AGrave] disponibili";
 GetCpuShip::usage="GetCpuShip[] restituisce le navi della CPU";
 GetCpuGrid::usage="GetCpuGrid[] resitiruisce la griglia delle CPU";
-
+(*Setters delle variabili globali*)
 SetShipLengths::unsage="SetShipLengths[shipLengths_List] := $ShipLengths = shipLengths";
 SetUserBase::usage="SetUserBase[base_Integer] := If[isBase[base], $UserBase = base, $UserBase]";
 SetGridSize::usega="SetGridSize[size_Integer] := If[size > 0, $GridSize = size, $GridSize]";
@@ -50,9 +50,6 @@ SetUserShips::usage="SetUserShips[ships_List] := $UserShips = ships";
 SetAutomaticGrid::usage="SetAutomaticGrid[grid_List] := $AutomaticGrid = grid";
 SetUserGrid::usage="SetUserGrid[grid_List] := $UserGrid = grid";
 SetSeed::usage="SetSeed[seed_] := If[isSeed[seed], $Seed = seed, $Seed]";
-
-showMessage::usage="showMessage[message] stampa un messaggio";
-showError::usage="showError[error] stampa un messaggio di errore (in rosso)";
 
 Begin["`Private`"];
 
@@ -65,143 +62,184 @@ $DifficultyLevels = {
 
 
 (* Stati globali *)
-$AutomaticShips = {};
-$UserShips      = {};
-$AutomaticGrid  = {};
-$UserGrid       = {};
-$UserBase       = 10;
-$GridSize       = 10;
-$Seed= ""; 
-$ShipLengths = {5, 4, 3, 2, 1}; 
+$AutomaticShips = {}; (*lista delle navi della cpu \[RightArrow] ogni nave \[EGrave] a sua volta una lista delle coordinate delle celle occupate dalla nave stessa *)
+(*esempio a scopo puramente illustrativo (per mostrare la gestione delle navi): 
+{1,2} coordinate di una cella
+{{1,2},{1,3},{1,4}} nave (lista delle coordinate di tre celle)
+{ {{1,2},{1,3},{1,4}} , {{2,1},{2,3},{2,4}} } lista di navi (lista di due navi, entrambe occupano 3 celle)
+*)
 
-(*richiedi seed e base*)
+$UserShips      = {}; (*lista delle navi dell'utente*)
+$AutomaticGrid  = {}; (*griglia di gioco con le navi della cpu*)
+$UserGrid       = {}; (*griglia di gioco con le navi dell'utente*)
+$UserBase       = 10; (*base di conversione scelta dall'utente, sar\[AGrave] la base su cui si eserciter\[AGrave] a fare le conversioni*)
+$GridSize       = 10; (*dimensione della griglia di gioco (rappresenta sia il numero di righe che di colonne)*)
+$Seed= "";  (*seed inserito dall'utente, cos\[IGrave] che l'utente possa ripetere una stessa partita pi\[UGrave] volte*)
+$ShipLengths = {5, 4, 3, 2, 1}; (*lista delle lunghezze possibili, quante celle una nave pu\[OGrave] occupare*)
+
+(* SEED E BASE *)
+(*richiedi seed*)
 AskSeedInput[inputSeed_] := DynamicModule[{value = RandomInteger[1024]},
   Row[{
     "Inserisci seed: ",
+    (*Tramite InputField si richiede all'utente di inserire un numero*)
+    (*il valore inserito viene assegnato a value dinamicamente 
+    e passato alla funzione inputSeed[value] ricevuta come parametro di AskSeedInput *)
     InputField[Dynamic[value, (value = #; inputSeed[value])&], Number, ImageSize -> Small]
+    (*Number \[RightArrow] non permette di inserire lettere o caratteri speciali, 
+	permette esclusivamente di inserire valori numerici:
+	- positivi (+),
+	- negativi (-)
+	- e con la virgola (.) *)
   }]
 ];
 
-(* Funzione AskBaseChoice modificata *)
-AskBaseChoice[inputBase_]:= DynamicModule[{value = 2},
+(* richiedi base *)
+AskBaseChoice[inputBase_]:= DynamicModule[{value = 2}, (*il valore della variabile \[EGrave] impostato di default a 2*)
   Row[{
     "Inserisci la base su cui ti vuoi esercitare: ",
+    (*Mostra un menu a tendina (PopUpMenu) che permette di selezionare solo uno tra i valori 2,8 e 16.
+    Questi rappresentano le tre basi possibili su cui l'utente pu\[OGrave] esercitarsi*)
     PopupMenu[Dynamic[value, (value = #; inputBase[value])&], {2, 8, 16}]
+    (*come in AskSeedInput (vedi funzione sopra) il valore selezionato viene dinamicamente assegnato a value 
+    e passato in input alla funzione inputBase[value], ricevuta come parametro di AskBaseChoice*)
   }]
 ];
 
-(*Mostra messaggi e errori*)
-showMessage[message_String]:=Style[message,Blue];
-showError[error_String]:=Style["Attenzione: "<>error, Red];
+(*controlli per la base e il seed*)
+isBase[base_]:=MemberQ[{2,8,16}, base]; (*restituisce vero se base \[EGrave] un numero tra 2,8 e 16, falso altrimenti*)
+isSeed[seed_]:=IntegerQ[seed];  (*restutisce vero se seed \[EGrave] un numero intero, falso altrimenti*)
 
-(*Controlla che i valori di input siano corretti*)
-isBase[base_]:=MemberQ[{2,8,16}, base];
-isSeed[seed_]:=IntegerQ[seed]; 
-
+(*SUGGERIMENTO*)
+(*funzione di suggerimento personalizzata*)
 helpUserPersonalized[base_Integer]:=PopupWindow[
-	Button["Chiedi una cella"],
-	DynamicModule[{numberDec=0,error="",ex=""},
-		Style[
-			Column[{
+	Button["Chiedi una cella"], 
+	(*al click del bottone viene aperta una finestra 
+		che chiede all'utente di inserire un numero decimale,
+		poi mostra la conversione in base scelta del numero inserito*)
+	DynamicModule[{numberDec=0,error="",ex=""}, (*numero da convertire, messaggio di errore, esercizio (conversione passaggio per passaggio del numero)*)
+		Style[ (*imposto uno stesso stile di base per tutti i testi nella finestra*)
+			Column[{ (*uno di seguito all'altro (in colonna) vengono mostrati:
+						- inserimento del numero e bottone, 
+						- eventuale messaggio di errore,
+						- conversione del numero se inserito *)
 				"Inserisci un numero intero positivo da convertire in base "<>ToString[base],
 				Row[{
-					InputField[Dynamic[numberDec], Number, ImageSize -> Small],
+					(*viene mostrato in una sola riga:
+					- il campo per l'inserimento del numero
+					- e il bottone per mostrare la conversione*)
+					InputField[Dynamic[numberDec], Number, ImageSize -> Small], (*permette di inserire solo valori numerici*)
 					Button["Converti in base "<>ToString[base],
+						(*al click del bottone viene controllato che il valore sia un numero intero positivo*)
 						If[IntegerQ[numberDec]&&numberDec>=0,
-							error="";
+							error=""; (*se i controlli vanno a buon fine non c'\[EGrave] nessun messaggio di errore*)
+							(*aggiorno la variabile ex assegnandogli i passaggi per la conversione del numero*)
 							ex=Column[{
-								Style["Conversione del numero: "<>ToString[numberDec],15,Red,Bold],
+								Style["Conversione del numero: "<>ToString[numberDec],15,Red,Bold], (*indico numero da convertire*)
 								Spacer[5],
-								exercise[base,numberDec]
+								conversionFromDec[base,numberDec] (*richiamo conversionFromDec[base, numberDec] che si trova in questo package
+									 e restituisce i passaggi per convertire un numero (numberDec) da decimale a base scelta*)
 							}];,
+							(*se i controlli non vanno a buon fine, cio\[EGrave] il numero inserito non \[EGrave] accettabile (con la virgola o negativo)
+							imposto un messaggio di errore e non faccio nessuna conversione*)
 							ex="";
-							error=showError["Inserisci un numero intero positivo"];]
+							error=Style["Attenzione: Inserisci un numero intero negativo!", Red];
+						]
 					]
 				}],
-				Dynamic[error],
-				Dynamic[ex]
+				Dynamic[error], (*mostro dinamicamente un messaggio di errore*)
+				Dynamic[ex] (*mostro dinamicamente i passaggi per effettuare la converisione del numero*)
 			}]
-		,12]
+		,12] (*dimensione del testo*)
 	]
+, WindowTitle -> "Suggerimento" (*titolo della finestra*), WindowFloating -> True, WindowMargins -> {{0, Automatic}, {0, Automatic}}];
 
-, WindowTitle -> "Suggerimento", WindowFloating -> True, WindowMargins -> {{0, Automatic}, {0, Automatic}}];
-
-exercise[base_, numberDec_]:=Module[{numberBase, helpDescription, colors},
+(*indica i passagi per effettuare una conversione da base 10 a base scelta*)
+conversionFromDec[base_, numberDec_]:=Module[{numberBase, colors}, (*numero convertito, lista di colori usati per mostrare i passaggi della converione*)
 		colors = {Blue, Orange, Purple, Red, Brown, Pink,Green};
 		
-		If[!isBase[base], 
-			"Per favore, prima inserisci una base valida!",
+		If[!isBase[base], (*se la base non \[EGrave] tra quelle accettate non viene fatta nessuna conversione 
+		e non viene dato nessun suggerimeto*)
+			"Per favore, prima inserisci una base valida!", (*messaggio di errore*)
 			Column[{
-				If[base == 2, 
+				If[base == 2, (*se la base \[EGrave] 2 procedo con il metodo delle divisioni successive*)
+					
 					(*Divisioni successive per 2*)
-					Module[{quotients, modules, i},
-						quotients = {numberDec};
-						modules = {};
-						i = 1;
-						
+					Module[{quotients, modules, i}, 
+						quotients={numberDec};(*iste dei risultati delle divisioni, il primo elemento \[EGrave] il numero da convertire*)
+						modules={};(*lista dei resti ottenuti dalle divisioni*)
+						i=1(*numero di passaggi effettuati (usato per sapere qual'\[EGrave] l'indice dell'ultimo quoziente ottenuto)*)
+								
 						(*memorizzo i quozienti e i resti*)
-						While[quotients[[i]] != 0,
-							AppendTo[quotients, Quotient[quotients[[i]], 2]];
-							AppendTo[modules, Mod[quotients[[i]], 2]];
-							i++;
+						While[quotients[[i]] != 0, (*procedo con le divisioni finch\[EGrave] non arrivo a 0*)
+							AppendTo[quotients, Quotient[quotients[[i]], 2]]; (*memorizzo i quozienti per la divisione successiva*)
+							AppendTo[modules, Mod[quotients[[i]], 2]]; (*memorizzo i resti per ottenere il numero in binario*)
+							i++; (*incremento il numero di passaggi effettuati, elementi in quotients*)
 						];
 						
-						(*spiegazione della conversione, mostro divisioni successive e resti ottenuti *)
-						Column[{" \[Bullet] Dividiamolo per 2 e annotiamo il resto fino ad arrivare a 0",
-						 Row[{
+						(*spiegazione della conversione, mostro le divisioni successive e i resti ottenuti *)
+						Column[{" \[Bullet] Dividiamolo per 2 e annotiamo il resto fino ad arrivare a 0", (*spiegazione del metodo*)
+						 Row[{ (*Raggruppo la spiegazione in Panel in una riga cos\[IGrave] da posizionare tutto al centro*)
 							Panel[Style[ 
-								Grid[
-									Table[{
+								Grid[ (*griglia dove ogni riga rappresenta un passaggio delle divisioni successive*)
+									Table[{ (*tabella delle descrizioni di tutti i passaggi*)
+									(*un passaggio \[EGrave] descritto come:*)
 										(*divisione*)
 										Style[ToString[quotients[[n]]], colors[[Mod[n-1, Length[colors]]+1]]],
 										" \[Divide] 2 = ", 
 										(*quoziente*)
 										Spacer[5], Style[ToString[quotients[[n+1]]], colors[[Mod[n, Length[colors]]+1]]],
 										(*resto*)
-										Spacer[5], " Resto = ",
-										Style[ToString[modules[[n]]], Bold]
+										Spacer[5], " Resto = ", Style[ToString[modules[[n]]], Bold]
 									}, {n, 1, Length[quotients]-1}]
 								], 12]
 							], 
-							(*freccia dal basso verso l'alto, mostra come leggere i resti*)
+							(*freccia dal basso verso l'alto posizionata a destra della griglia con i passaggi, mostra in che direzione leggere i resti*)
 							Graphics[{Red, Arrowheads[0.5], Arrow[{{0, 0}, {0, i - 1}}]}, ImageSize -> 20]
-						 }, Alignment -> Center, ImageSize -> Full],
+						 }, Alignment -> Center, ImageSize -> Full], (*allineo Panel al centro*)
+						 (*spiegazione di come ottenere il numero binario dalle divisioni*)
 						 Row[{" \[Bullet] La conversione in binario si ottiene leggendo i resti dal basso verso l'alto ", Style["(Resti \[UpArrow])", Red]}]
 						}]
 					],
-					(*conversione in basi 8 o 16, converto in binario, raggruppo e converto in decimale*)
-					Module[{digits, digitsGroups, mod, exp, table},
+					(*se la base \[EGrave] 8 o 16 \[RightArrow] converto in binario, raggruppo le cifre e converto ogni gruppo in decimale*)
+					Module[{digits, digitsGroups, mod, exp},
 						(*lista delle cifre che compongono il numero binario \[RightArrow] usata per la suddivisione in gruppi*)
 						digits = IntegerDigits[numberDec, 2]; 
 						(*potenza di due: 16=2^4, 8=2^3 \[RightArrow] l'esponente indica la dimensione del gruppo in cui raggruppare il numero binario*)
 						exp = Log2[base]; 
-						(*resto \[RightArrow] indica quante cifre a sinistra rimangono escluse dal raggruppamento, serve per sapere quanti 0 aggiungere*)
+						(*la suddivisione in gruppe parte dalle cifre a destra e potrebbe capitare che a sinistra si debbano aggiungere degli 0 se 
+						il numero totale di cifre non \[EGrave] multiplo di exp*)
+						(*resto (mod) \[RightArrow] indica quante cifre a sinistra rimangono escluse dal raggruppamento, 
+						serve poi per sapere quanti 0 aggiungere per formare un nuovo gruppo con le cifre escluse*)
 						mod = Mod[Length[digits], exp]; 
-						(*suddivisione del numero binario in gruppi da 3 o 4 cifre, se il resto \[EGrave] diverso da 0 vengono aggiunti degli 0 a sx*)
+						
+						(*lista dei gruppi*)
 						digitsGroups = If[mod === 0, 
-	                        Partition[digits, exp], 
-	                        Partition[Flatten[{Table[0, {mod, exp - mod}], digits}], exp]
+							(*suddivisione del numero binario in gruppi da 3 o 4 cifre (exp)*)
+	                        Partition[digits, exp], (*se resto \[EGrave] 0 suddivido senza aggiungere 0*)
+	                        Partition[Flatten[{Table[0, {mod, exp - mod}], digits}], exp] (*se resto diverso da 0, con Table aggiungo gli 0 necessari per formare un gruppo *)
 	                    ];
 						
-						(*spiegazione della conversione*)     
+						(*spiegazione della conversione in base 8 o 16*)     
 						Column[{" \[Bullet] convertiamolo in base 2",
-							(*conversione in binario*)
+							(*indico la conversione in binario*)
 							Row[{Panel[Style[BaseForm[numberDec, 2], 12]]}, Alignment -> Center, ImageSize -> Full],
 							" \[Bullet] raccogliamo le cifre binarie in gruppi da " <> ToString[exp] <> " partendo dalla posizione pi\[UGrave] a destra (cifra meno significativa),",
-							(*raggruppamento cifre*)
+							(*mostro come raggruppare le cifre*)
 							Row[
+								(*i gruppi vengono mostrati in sequenza in una singola riga*)
 								Table[
-									Panel[Style[
-										Row[digitsGroups[[n]]],
-										colors[[Mod[n-1, Length[colors]]+1]]
-									]], {n, 1, Length[digitsGroups]}
-								]
+									Panel[(*ogni gruppo viene scritto con colore diverso dentro a un pannello grigio (Panel)*)
+										Style[Row[digitsGroups[[n]]],colors[[Mod[n-1, Length[colors]]+1]]]
+									]
+								, {n, 1, Length[digitsGroups]}]
 							, Alignment -> Center, ImageSize -> Full],
 							" \[Bullet] convertiamo ogni gruppo in decimale, ogni numero ottenuto corrisponde ad una cifra in base " <> ToString[base] <> ".",
-							(*conversione in decimale*)
+							(*mostro la conversione in decimale*)
 							Row[{Panel[Style[Grid[ 
 								Table[
-									{
+									{(*per ogni gruppo indico:
+									cifre binarie \[RightArrow] conversione in decimale \[RightArrow] cifra in base 8/16 corrispondente *)
 		                                Style[Row[digitsGroups[[n]]], colors[[Mod[n-1, Length[colors]]+1]]], (*gruppo di cifre binarie*)
 									    "\[RightArrow]", 
 		                                FromDigits[digitsGroups[[n]], 2], (*conversione in decimale*)
@@ -214,37 +252,40 @@ exercise[base_, numberDec_]:=Module[{numberBase, helpDescription, colors},
 						}]
 					]
 				],
+				(*indipendentemente dalla base se 2,8 o 16 per ultimo mostro il risultato della conversione*)
 				Spacer[5],
 				Row[{
 					Style["Risultato: ", Italic, 13, Bold],
-					numberDec, " = ", BaseForm[numberDec, base], (*conversione da decimale a base 8/16*)
+					numberDec, " = ", BaseForm[numberDec, base], (*conversione da decimale a base scelta*)
 					"."
 				}]
 			}]
 		]
 	];
 		
-(* Versione corretta di helpUser con gestione corretta dei colori e indici *)
+(* suggerimento non personalizzato, esempio di conversione*)
 helpUser[base_Integer]:=PopupWindow[
-	Button["Suggerimento"],
-		Module[{numberDec=RandomInteger[{1,300}]},
+	Button["Suggerimento"], (*al click del pulsante viene aperta una finestra che mostra
+	tutti i passagi per fare la conversione di un numero casuale tra 1 e 300 in base scelta*)
+		Module[{numberDec=RandomInteger[{1,300}]},(*numero casuale da convertire*)
 			(*suggerimento*)
-			Style[
+			Style[ (*imposta stile di base per il testo*)
 			Column[{
-				Style["Ripassiamo le conversioni tra basi 10 e " <> ToString[base], Bold, Red, 15, TextAlignment -> Center],
+				Style["Ripassiamo le conversioni tra basi 10 e "<>ToString[base],Bold,Red,15,TextAlignment->Center], (*titolo*)
 				Spacer[10],
-				Style["Da base 10 a base " <> ToString[base] <> " :", Underlined, Italic, 13],
+				Style["Da base 10 a base "<>ToString[base]<>" :",Underlined,Italic,13], (*sottotitolo*)
 				Spacer[5],
-				Style["Consideriamo il numero: " <> ToString[numberDec], Bold],
-				exercise[base,numberDec]
-			}], 12]
+				Style["Consideriamo il numero: "<>ToString[numberDec],Bold], (*indico il numero da convertire*)
+				(*conversionFromDec[base,numberDec] \[EGrave] una funzione definita in questo package*)
+				conversionFromDec[base,numberDec] (*richiamo conversionFromDec[base,numberDec] per mostrare i passaggi della conversione del numero in base scelta*)
+			}],12] (*dimensione del testo*)
 		]
-, WindowTitle -> "Suggerimento", WindowFloating -> True, WindowMargins -> {{0, Automatic}, {0, Automatic}}];
+,WindowTitle->"Suggerimento", WindowFloating->True,WindowMargins->{{0,Automatic},{0,Automatic}}];
 
 
 
 (* Funzione per generare una rappresentazione del numero massimo nel sistema numerico corrente *)
-getMaxNumberInBase[base_, gridSize_] := Module[{maxDecimal, result},
+getMaxNumberInBase[base_, gridSize_] := Module[{maxDecimal, result},(*\[RightArrow] QUESTA FUNZIONE LA ELIMINEREI*)
   maxDecimal = gridSize^2 - 1;
   result = IntegerString[maxDecimal, base];
   result
@@ -256,8 +297,9 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
   
   (* Valore massimo per la griglia attuale *)
   maxDecimal = $GridSize^2 - 1;
-  maxInBase = getMaxNumberInBase[$UserBase, $GridSize];
-  
+  maxInBase = getMaxNumberInBase[$UserBase, $GridSize];(* SCRIVEREI INVECE:
+  maxInBase = IntegerString[maxDecimal, $UserBase];*)
+   
   (* Controllo numero navi *)
   If[Length[$ShipLengths] == 0, 
     Return[{False, "Hai gi\[AGrave] posizionato tutte le navi permesse!"}]

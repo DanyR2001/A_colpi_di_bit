@@ -1,3 +1,4 @@
+In[1]:=
 SetDirectory["/Users/utente/Documents/GitHub/A_colpi_di_bit/Package"];
 <<Interaction.m;
 
@@ -6,6 +7,12 @@ DynamicModule[{input="", seed="", base=2, gridSize=9},
 	Column[{
 		AskSeedInput[Function[input,seed=input]],
 		AskBaseChoice[Function[input,base=input]],
-		Dynamic[helpUser[base]]
+		Dynamic[helpUser[base]],
+		Dynamic[helpUserPersonalized[base]]
 	}]
 ]
+Out[5]= Inserisci seed: 291
+Inserisci la base su cui ti vuoi esercitare: BoxData[16]
+Visualizza un suggerimento
+Chiedi Aiuto
+

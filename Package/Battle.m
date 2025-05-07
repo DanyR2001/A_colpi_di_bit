@@ -2,7 +2,8 @@
 
 (* File: Battle.m *)
 
-BeginPackage["Battle`", {"Util`"}];
+BeginPackage["Battle`", {"Util`", "Interaction`"}]; 
+
 
 generateCoordinate::usage = "generateCoordinate[gridSize] genera casualmente una coppia di coordinate(x,y)";
 attack::usage = "attack[attackCoords, grid, ships] attacca alle coordinate specificate, restituisce: attackResult \[RightArrow] messaggio, newGrid \[RightArrow] griglia aggiornata, hit\[RightArrow]booleano, indica se l'attacco \[EGrave] andato a buon fine, naveAffondata \[RightArrow] booleano, indica se l'attacco ha affondato una nave";
@@ -50,7 +51,7 @@ generateCoordinate[gridSize_Integer] := Module[
   {0, 0}
 ];
 
-(* PROBLEMA RISOLTO: Funzione attack corretta che gestisce correttamente il formato delle coordinate *)
+(* Funzione attack che gestisce il formato delle coordinate *)
 attack[attackCoordsWithMsg_, grid_, ships_] := Module[
   {attackResult = "", newGrid = grid, r, c, hit = False, naveAffondata = False, attackCoords},
   
@@ -117,15 +118,27 @@ attack[attackCoordsWithMsg_, grid_, ships_] := Module[
 
 (* FUNZIONE per generare le navi della CPU *)
 generateCPUShips[gridSize_Integer] := Module[
-  {ships = {}, shipLengths = {5, 4, 3, 2, 1}, grid, orientation, startRow, startCol, shipCoords, valid, surroundingCells},
+  {ships = {}, shipLengths, grid, orientation, startRow, startCol, shipCoords, valid, surroundingCells},
   
   (* Inizializza la griglia vuota *)
   grid = ConstantArray[$Vuoto, {gridSize, gridSize}];
+
+  (* Utilizza le lunghezze delle navi definite dalla variabile globale $ShipLengths *)
+  shipLengths = GetRemainingShipLengths[];
   
-  (* Genera ogni nave *)
+  (* Debug - stampa le lunghezze delle navi 
+  Print["Generating CPU ships with lengths: ", shipLengths];*)
+  
+  (* Genera ogni nave - iteriamo su ogni lunghezza di nave *)
   Do[
     valid = False;
     
+    (* Verifica che la nave corrente possa entrare nella griglia *)
+    If[shipLength > gridSize, 
+      Print["Ship too long: ", shipLength, " > ", gridSize];
+      Continue[];
+    ];
+
     (* Continua a provare fino a quando non si trova una posizione valida *)
     While[!valid,
       (* Sceglie casualmente l'orientamento: orizzontale (1) o verticale (2) *)
@@ -135,10 +148,12 @@ generateCPUShips[gridSize_Integer] := Module[
         (* Orizzontale *)
         startRow = RandomInteger[{0, gridSize - 1}];
         startCol = RandomInteger[{0, gridSize - shipLength}];
+        (* Crea le coordinate per una nave orizzontale *)
         shipCoords = Table[{startRow, startCol + i}, {i, 0, shipLength - 1}],
         (* Verticale *)
         startRow = RandomInteger[{0, gridSize - shipLength}];
         startCol = RandomInteger[{0, gridSize - 1}];
+        (* Crea le coordinate per una nave verticale *)
         shipCoords = Table[{startRow + i, startCol}, {i, 0, shipLength - 1}]
       ];
       
@@ -177,15 +192,18 @@ generateCPUShips[gridSize_Integer] := Module[
     ];
     
     (* Aggiunta della nave alla lista *)
-    AppendTo[ships, shipCoords],
+    AppendTo[ships, shipCoords];
+    (* Debug - visualizzazione della lunghezza e delle coordinate
+    Print["Added ship of length: ", shipLength, " at coordinates: ", shipCoords];*)
     
-    {shipLength, shipLengths}
-  ];
+  , {shipLength, shipLengths}]; (* <-- Qui è la correzione principale: iteriamo su ogni elemento di shipLengths *)
+  
+  (* Debug - stampa il numero finale di navi generate 
+  Print["Total ships generated: ", Length[ships]];*)
   
   (* Return della lista delle navi *)
   ships
 ];
-
 (* FUNZIONE per fare lo StartGame *)
 StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSize_] := Module[
   {attackCoordsResult, attackCpuCoords, result, userAttack, cpuAttack},
@@ -236,13 +254,15 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
                 countAffondato = countAffondato + 1
               ];
               
-              If[countAffondato >= 5, 
+              If[userAttack[[3]] && countAffondato >= Length[CPUShips] && Length[CPUShips]>0, 
                 gameState = "Complimenti! Hai vinto!";
                 gameOver = True;
+                cpuGrid = userAttack[[2]];
               ];
               
               (* Solo se l'attacco dell'utente è andato a buon fine, la CPU attacca *)
-              If[userAttack[[3]], (*input valido e attacco utente effettuato*)
+              If[userAttack[[3]] && !gameOver, (*input valido e attacco utente effettuato*)
+              
                 (*Attacco della CPU*)
                 cpuGrid = userAttack[[2]];
                 (* Genera nuove coordinate CPU fino a trovare una cella non attaccata *)
@@ -256,7 +276,7 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
                   cpuAffondato = cpuAffondato + 1
                 ];
                 
-                If[cpuAffondato >= 5, 
+                If[cpuAffondato >= Length[userShips], 
                   gameState = "La CPU ha vinto!";
                   gameOver = True;
                 ];
@@ -267,7 +287,7 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
           , ImageSize -> {80, 30}, Enabled -> Dynamic[!gameOver]]
         }
       }],
-      helpUser[UserBase],
+      helpUser[userBase],
       Spacer[10],
       Style["Attacco Utente:", Bold, 12],
         Dynamic[messageUser],

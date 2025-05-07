@@ -61,49 +61,32 @@ initSeed[seed_Integer?NonNegative] := Module[{},
   Null
 ]
 
-(* FUNZIONE per mappare un numero decimale in coordinate {riga, colonna} *)
-mapCoordinate[decimal_Integer, gridSize_] := Module[
-  {row, col,errorMsg=""},
-  (* Verifica che il numero sia valido per la dimensione della griglia *)
-  If[decimal < 0 || decimal >= gridSize^2,
-    Return[{$Failed,errorMsg="Nave fuori dai bordi! Ritenta!"}]
-  ];
-  
-  (* Calcolo della colonna (0-based) *)
-  col = Mod[decimal, gridSize];
-  
-  (* Calcolo della riga (0-based) *)
-  row = Quotient[decimal, gridSize];
-  
-  (* Return delle coordinate come {riga, colonna} *)
-  {row, col}
-];
 
-verifyInput[gridSize_, base_, input_] := Module[{decimal, coordinates, errorMsg = ""},
+verifyInput[gridSize_, base_, input_] := Module[{decimal, coordinates, row, col, errorMsg = ""},
   (* Conversione dell'input in base 10 *)
   decimal = convertToDecimal[input, base];
   
   If[decimal === $Failed,
     (* Messaggio di errore specifico per conversione fallita *)
-    errorMsg = "Input non valido! Inserisci un numero corretto in base " <> ToString[base] <> 
-               " (range: 0 - " <> IntegerString[gridSize^2 - 1, base] <> ")";
+    errorMsg = "Input non valido! Inserisci un numero corretto in base " <> ToString[base];
     Return[{$Failed, errorMsg}]  (* Restituisce una tupla con $Failed e il messaggio *)
   ];
   
-  (* Mappatura del numero decimale in coordinate *)
-  If[decimal < 0 || decimal >= gridSize^2,
-    (* Messaggio di errore specifico per valore fuori range *)
-    errorMsg = "Valore fuori range! Il numero deve essere compreso tra 0 e " <> 
-               ToString[gridSize^2 - 1] <> " (" <> "0 - " <> IntegerString[gridSize^2 - 1, base] <> 
-               " in base " <> ToString[base] <> ")";
+  (* Calcolo della riga e colonna direttamente qui *)
+  col = Mod[decimal, 10];
+  row = Quotient[decimal, 10];
+  
+  
+  (* Verifica che sia riga che colonna siano all'interno dei limiti della griglia *)
+  If[row < 0 || row >= gridSize || col < 0 || col >= gridSize,
+    (* Messaggio di errore specifico per coordinate fuori griglia *)
+    errorMsg = "Coordinate fuori dalla griglia! Riga e colonna devono essere comprese tra 0 e " <> 
+               ToString[gridSize - 1];
     Return[{$Failed, errorMsg}]
   ];
   
-  (* Calcolo delle coordinate *)
-  coordinates = mapCoordinate[decimal, gridSize];
-  
-  (* Return delle coordinate di attacco *)
-  {coordinates, ""}  (* Restituisce le coordinate e un messaggio vuoto in caso di successo *)
+  (* Se arriva qui, le coordinate sono valide *)
+  {{row, col}, ""}  (* Restituisce le coordinate e un messaggio vuoto in caso di successo *)
 ];
 
 

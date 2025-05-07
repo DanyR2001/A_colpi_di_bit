@@ -12,7 +12,7 @@ helpUser::usage="helpUser[base] apre finestra per mostrare un suggerimento all'u
 
 InitPhase::usage =
   "InitPhase[base, gridSize] inizializza il gioco: base \[Element] {2,8,16}, gridSize \[EGrave] lato griglia.\
-Imposta $UserBase, $GridSize, $AutoGrid e $UserGrid, resetta gli stati.";
+Imposta $UserBase, $GridSize, $AutomaticGrid e $UserGrid, resetta gli stati.";
 
 PlaceUserShip::usage =
   "PlaceUserShip[startRaw, endRaw] piazza in $UserGrid una nave.\
@@ -27,21 +27,32 @@ ResetGame::usage =
 GetUserShips::usage = "GetUserShips[] restituisce lista di blocchi delle navi utente.";
 GetUserGrid::usage = "GetUserGrid[] restituisce matrice griglia utente.";
 GetRemainingShipLengths::usage = "GetRemainingShipLengths[] restituisce le lunghezze delle navi ancora da piazzare.";
+GetDifficultyLevels::usage = "GetDifficultyLevels[] restituisce i livelli di difficoltà disponibili";
+GetCpuShip::usage="GetCpuShip[] restituisce le navi della CPU";
+GetCpuGrid::usage="GetCpuGrid[] resitiruisce la griglia delle CPU";
 
 showMessage::usage="showMessage[message] stampa un messaggio";
 showError::usage="showError[error] stampa un messaggio di errore (in rosso)";
 
 Begin["`Private`"];
 
+(*livelli di difficoltà*)
+$DifficultyLevels = {
+  {"Facile", 3, {1}},         (* Livello facile: griglia 3x3, 1 nave di lunghezza 1 *)
+  {"Medio", 6, {3, 2, 1}},    (* Livello medio: griglia 6x6, 3 navi di lunghezza 3,2,1 *)
+  {"Difficile", 10, {5, 4, 3, 2, 1}}  (* Livello difficile: griglia 10x10, 5 navi di lunghezza 5,4,3,2,1 *)
+};
+
+
 (* Stati globali *)
 $AutomaticShips = {};
 $UserShips      = {};
-$AutoGrid       = {};
+$AutomaticGrid  = {};
 $UserGrid       = {};
 $UserBase       = 10;
 $GridSize       = 10;
 $Seed= ""; 
-$ShipLengths = {5, 4, 3, 2, 1};  (* Lunghezze disponibili delle navi *)
+$ShipLengths = {5, 4, 3, 2, 1}; 
 
 (* Reset di tutte le variabili e liste *)
 ResetGame[] := (
@@ -49,61 +60,51 @@ ResetGame[] := (
   $GridSize       = 10;
   $AutomaticShips = {};
   $UserShips      = {};
-  $AutoGrid       = {};
+  $AutomaticGrid  = {};
   $UserGrid       = {};
   $Seed= ""; 
   $ShipLengths = {5, 4, 3, 2, 1};
 );
 
 (* Inizializza contesto PC e utente *)
-InitPhase[seed_Integer, base_Integer, gridSize_Integer] := (
-  If[!isBase[base] || !isSeed[seed], 
+InitPhase[seed_Integer, base_Integer, difficultyLevel_Integer] := Module[
+  {gridSize, shipLengths},
+  
+  If[!isBase[base] || !isSeed[seed] || difficultyLevel < 1 || difficultyLevel > Length[$DifficultyLevels], 
     showError["Parametri non validi!"];
     Return[];
   ];
-  $Seed = seed; 
+  
+  (* Ottieni gridSize e shipLengths in base al livello di difficoltà *)
+  gridSize = $DifficultyLevels[[difficultyLevel, 2]];
+  shipLengths = $DifficultyLevels[[difficultyLevel, 3]];
+  $ShipLengths = shipLengths;
+  initSeed[seed];
+  (*$Seed = seed;*)
   $UserBase = base;
   $GridSize = gridSize;
-  $AutomaticShips = {};
+  Needs["Battle`"]; (*Per evitare ricorsioni*)
+  $AutomaticShips = Battle`generateCPUShips[$GridSize];
   $UserShips = {};
-  $AutoGrid = ConstantArray[$Vuoto, {gridSize, gridSize}];
+  $AutomaticGrid =createGrid[$AutomaticShips,gridSize];
   $UserGrid = ConstantArray[$Vuoto, {gridSize, gridSize}];
-  $ShipLengths = {5, 4, 3, 2, 1};
-  Print["Inizializzazione completata! Base: ", base, ", Seed: ", seed];
-);
+];
 
 
 (*richiedi seed e base*)
-AskSeedInput[inputSeed_] := DynamicModule[{value = "", message = "", error = False},
-  Column[{
-    Row[{
-      "Inserisci seed: ",
-      InputField[Dynamic[value], Number, ImageSize -> Small],
-      Button["Imposta", 
-        If[isSeed[value], 
-          inputSeed[value];
-          error = False;
-          message = "Seed inserito: " <> ToString[value];
-          (* Forza l'aggiornamento del seed nel modulo principale *)
-          seed = value;,
-          error = True;
-          message = "Seed non valido. Inserisci un numero intero!";
-        ]
-      ]
-    }],
-    Dynamic[If[error, showError[message], showMessage[message]]]
+AskSeedInput[inputSeed_] := DynamicModule[{value = RandomInteger[1024]},
+  Row[{
+    "Inserisci seed: ",
+    InputField[Dynamic[value, (value = #; inputSeed[value])&], Number, ImageSize -> Small]
   }]
 ];
 
-AskBaseChoice[inputBase_]:= DynamicModule[{value=2, message=""},
-	Column[{
-		Row[{
-			"Inserisci la base su cui ti vuoi esercitare: ",
-			PopupMenu[Dynamic[value], {2,8,16}],
-			Button["Inserisci",inputBase[value]; message="Base inserita: "<>ToString[value];]
-		}],
-		Dynamic[showMessage[message]]
-	}]
+(* Funzione AskBaseChoice modificata *)
+AskBaseChoice[inputBase_]:= DynamicModule[{value = 2},
+  Row[{
+    "Inserisci la base su cui ti vuoi esercitare: ",
+    PopupMenu[Dynamic[value, (value = #; inputBase[value])&], {2, 8, 16}]
+  }]
 ];
 
 (*Mostra messaggi e errori*)
@@ -244,7 +245,7 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
   maxInBase = getMaxNumberInBase[$UserBase, $GridSize];
   
   (* Controllo numero navi *)
-  If[Length[$UserShips] >= 5, 
+  If[Length[$ShipLengths] == 0, 
     Return[{False, "Hai già posizionato tutte le navi permesse!"}]
   ];
   
@@ -356,7 +357,10 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
 GetUserShips[] := $UserShips;
 GetUserGrid[] := $UserGrid;
 GetRemainingShipLengths[] := $ShipLengths;
-
+GetShipSize[] := $ShipSize;
+GetDifficultyLevels[] := $DifficultyLevels;
+GetCpuShip[]:=$AutomaticShips;
+GetCpuGrid[]:=$AutomaticGrid;
 
 End[];
 EndPackage[];

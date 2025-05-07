@@ -100,10 +100,8 @@ StartPlacementPhase[userBase_] := DynamicModule[
 
 
 (* Interfaccia utente principale *)
-PlacementUI[] := Print["Starting game..."];
-(*
-	THIS IS BROKEN
-DynamicModule[
+
+PlacementUI[] := DynamicModule[
   {seedValue = RandomInteger[1024], baseValue = 2, gridSize = 10, phase = 1, initDone = False, message = "", 
    cpuShips, battleStarted = False, userShips, userGrid, cpuGrid}, 
   
@@ -111,7 +109,6 @@ DynamicModule[
     Dynamic[Which[
       phase == 1,
         Column[{
-          (* Qui modifichiamo l'approccio per ottenere e salvare i valori *)
           Row[{
             "Inserisci seed: ",
             InputField[Dynamic[seedValue], Number, ImageSize -> Small]
@@ -137,7 +134,6 @@ DynamicModule[
       
       phase == 2,
         Column[{
-          (* Modifica per consentire a StartPlacementPhase di impostare la fase 3 *)
           DynamicModule[
             {currentShip = 1, shipLengths = {5, 4, 3, 2, 1}, start = "", end = "", 
              shipPlacementMsg = "", shipsPlaced = 0, placementDone = False},
@@ -145,36 +141,29 @@ DynamicModule[
             Column[{
               Style["Fase di Posizionamento Navi", Bold, 16],
               Row[{
-                (* Parte sinistra: input e comandi *)
                 Column[{
                   Dynamic[Row[{"Nave ", currentShip, ":"}]],
                   Grid[{
                     {"Inizio:", InputField[Dynamic[start], String, Enabled -> Dynamic[!placementDone]]},
                     {"Fine:", InputField[Dynamic[end], String, Enabled -> Dynamic[!placementDone]]},
                     {"", Button["Conferma",
-                      (* Chiamiamo PlaceUserShip che ora ritorna {success, message} *)
                       Module[{result = PlaceUserShip[start, end]},
-                        If[result[[1]], (* Success = True *)
-                          (* Nave piazzata con successo *)
+                        If[result[[1]],
                           shipsPlaced++;
                           start = ""; end = "";
-                          
                           If[shipsPlaced == Length[shipLengths],
                             placementDone = True;
-                            shipPlacementMsg = "Tutte le navi sono state posizionate!";
-                          ,
+                            shipPlacementMsg = "Tutte le navi sono state posizionate!";,
                             currentShip++;
-                            shipPlacementMsg = result[[2]]; (* Messaggio di successo *)
+                            shipPlacementMsg = result[[2]];
                           ]
                         ,
-                          (* Errore - mostriamo il messaggio specifico ritornato *)
                           shipPlacementMsg = result[[2]];
                         ]
                       ],
                       Enabled -> Dynamic[!placementDone]
                     ]},
                     {"", Button["Avvia Battaglia",
-                        (* Salva i dati necessari e passa alla fase 3 *)
                         userShips = GetUserShips[];
                         userGrid = GetUserGrid[];
                         cpuShips = generateCPUShips[$GridSize];
@@ -184,20 +173,16 @@ DynamicModule[
                         Enabled -> Dynamic[placementDone]
                       ]
                     },
-                    {"",helpUser[baseValue]}
+                    {"", helpUser[baseValue]}
                   }],
-                  Dynamic[Style[shipPlacementMsg, If[StringMatchQ[shipPlacementMsg, "Nave piazzata*" | "Tutte le navi*"], Darker[Green], Red]]
+                  Dynamic[Style[shipPlacementMsg, If[
+                    StringMatchQ[shipPlacementMsg, "Nave piazzata*" | "Tutte le navi*"],
+                    Darker[Green], Red]]]
                 }],
-                
                 Spacer[30],
-                
-                (* Parte destra: visualizzazione griglia *)
                 Column[{
                   Style["La tua flotta", Bold, 14],
-                  (* Utilizziamo un Dynamic qui per assicurarci che la griglia si aggiorni *)
                   Dynamic[Util`showGrid[GetUserGrid[], True]],
-                  
-                  (* Mostra le navi rimanenti da posizionare *)
                   Style["Navi da posizionare:", Bold, 12],
                   Dynamic[
                     Module[{remaining = GetRemainingShipLengths[]},
@@ -216,17 +201,15 @@ DynamicModule[
       
       phase == 3,
         Column[{
-          (* Fase di battaglia *)
           Style["Battaglia Navale in Base " <> ToString[baseValue], Bold, 20, Red],
           Spacer[10],
-          (* Chiamiamo StartGame con tutti i parametri salvati *)
           Dynamic[StartGame[userShips, cpuShips, userGrid, cpuGrid, baseValue, $GridSize]],
           Spacer[10],
           Button["Nuova Partita", phase = 1; ResetGame[];]
         }]
     ]]
   }]
-];*)
+];
 
 
 End[];

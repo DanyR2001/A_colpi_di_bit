@@ -1,12 +1,30 @@
+(* ::Package:: *)
+
+(* :Title: Tutorial *)
+(* :Context: Tutorial` *)
+(* :Author: Matteo Rontini, Daniele Russo *)
+(* :Version: 1.3 *)
+(* :Date: 2025-05-06 *)
+
+(* :Summary: 
+   Questo pacchetto crea il tutorial per ripassare le conversioni in varie basi prima di giocare.
+*)
+
+(* :Copyright: A colpi di Bit (C) 2025 *)
+(* :Keywords: battaglia navale, gioco, interfaccia *)
+(* :Requirements: Mathematica 12.0+, Util`, Battle`, Interaction` *)
+
+(* File: Main.m *)
+
 BeginPackage["Tutorial`"]
 
+CreateTutorial::usage = "CreateTutorial[] inserisce il tutorial nel notebook corrente."
+
+Begin["`Private`"]
 IntroSection::usage = "IntroSection[] crea l'intestazione e il sommario."
 BinarySection::usage = "BinarySection[] crea la sezione sul sistema binario."
 OctalSection::usage = "OctalSection[] crea la sezione sul sistema ottale."
 HexSection::usage = "HexSection[] crea la sezione sul sistema esadecimale."
-CreaTutorialNotebook::usage = "CreaTutorialNotebook[] inserisce il tutorial nel notebook corrente."
-
-Begin["`Private`"]
 
 IntroSection[] := {
   TextCell["Tutorial su Conversioni di Base", "Section", FontSize -> 24, 
@@ -140,14 +158,15 @@ HexSection[] := {
   ], Background -> Lighter[Gray, 0.95]]
 }
 
-CreaTutorialNotebook[] := Module[{nb = EvaluationNotebook[], sezioni},
+CreateTutorial[] := Module[{sezioni},
   sezioni = Join[
     IntroSection[],
     BinarySection[],
     OctalSection[],
     HexSection[]
   ];
-  NotebookWrite[nb, Cell[BoxData@ToBoxes[#], "Output"] & /@ sezioni];
+  
+  Column[sezioni, Alignment -> Left]
 ]
 
 End[]

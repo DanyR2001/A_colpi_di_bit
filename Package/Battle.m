@@ -1,7 +1,21 @@
 (* ::Package:: *)
 
-(* File: Battle.m *)
+(* :Title: Battle *)
+(* :Context: Battle` *)
+(* :Author: Dan Cernei, Daniele Russo *)
+(* :Version: 2.1 *)
+(* :Date: 2025-05-06 *)
 
+(* :Summary: 
+   Questo pacchetto implementa la logica di gioco della battaglia navale,
+   inclusa la generazione delle navi, il sistema di attacco e la gestione del turno.
+*)
+
+(* :Copyright: A colpi di Bit (C) 2025 *)
+(* :Keywords: battaglia navale, attacco, navi, CPU *)
+(* :Requirements: Mathematica 12.0+, Util` *)
+
+(* File: Battle.m *)
 BeginPackage["Battle`", {"Util`", "Interaction`"}]; 
 
 
@@ -9,8 +23,58 @@ generateCoordinate::usage = "generateCoordinate[gridSize] genera casualmente una
 attack::usage = "attack[attackCoords, grid, ships] attacca alle coordinate specificate, restituisce: attackResult \[RightArrow] messaggio, newGrid \[RightArrow] griglia aggiornata, hit\[RightArrow]booleano, indica se l'attacco \[EGrave] andato a buon fine, naveAffondata \[RightArrow] booleano, indica se l'attacco ha affondato una nave";
 generateCPUShips::usage = "generateCPUShips[gridSize, seed] genera casualmente le navi della CPU";
 StartGame::usage = "StartGame[userShips, CPUShips, userGridInit, cpuGridInit,userBase, gridSize] avvia il gioco (battaglia)";
+InitPhase::usage =
+  "InitPhase[base, gridSize] inizializza il gioco: base \[Element] {2,8,16}, gridSize \[EGrave] lato griglia.\
+Imposta $UserBase, $GridSize, $AutomaticGrid e $UserGrid, resetta gli stati.";
+ResetGame::usage =
+  "ResetGame[] svuota tutte le liste e ripristina le variabili globali all'inizio del gioco.";
 
 Begin["`Private`"];
+
+(* Inizializza contesto PC e utente *)
+InitPhase[seed_Integer, base_Integer, difficultyLevel_Integer] := Module[
+  {gridSize, shipLengths},
+  
+  (* Reset variabili per sicurezza *)
+  ResetGame[];
+  
+  (* Ottieni gridSize e shipLengths in base al livello di difficoltà *)
+  gridSize = GetDifficultyLevels[][[difficultyLevel, 2]];
+  shipLengths = GetDifficultyLevels[][[difficultyLevel, 3]];
+  
+  (* Inizializza tutti i valori necessari *)
+  SetShipLengths[shipLengths];
+  SetSeed[seed];
+  initSeed[seed];
+  SetUserBase[base];
+  SetGridSize[gridSize];
+  
+  (* Genera navi CPU *)
+  Block[{cpuShips = generateCPUShips[gridSize]},
+    SetAutomaticShips[cpuShips];
+    SetAutomaticGrid[createGrid[cpuShips, gridSize]];
+  ];
+  
+  (* Inizializza griglia utente vuota *)
+  SetUserShips[{}];
+  SetUserGrid[ConstantArray[$Vuoto, {gridSize, gridSize}]];
+  
+  True (* Segnala successo *)
+];
+
+(* Reset di tutte le variabili e liste *)
+ResetGame[] := Module[{},
+  SetUserBase[10];
+  SetGridSize[10];
+  SetAutomaticShips[{}];
+  SetUserShips[{}];
+  SetAutomaticGrid[{}];
+  SetUserGrid[{}];
+  SetSeed[0];
+  SetShipLengths[{5, 4, 3, 2, 1}];
+  $CPUAttackedCoordinates = {};
+];
+
 
 (* Utilizziamo un insieme per tenere traccia delle coordinate già utilizzate dalla CPU *)
 $CPUAttackedCoordinates = {};

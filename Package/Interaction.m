@@ -1,6 +1,21 @@
 (* ::Package:: *)
 
-(* file: package.m *)
+(* :Title: Interaction *)
+(* :Context: Interaction` *)
+(* :Author: Dan Cernei, Matilde Nardi, Daniele Russo *)
+(* :Version: 2.0 *)
+(* :Date: 2025-05-06 *)
+
+(* :Summary: 
+   Questo pacchetto gestisce l'interazione con l'utente, incluso l'input del seed,
+   la scelta della base numerica e il posizionamento delle navi.
+*)
+
+(* :Copyright: A colpi di Bit (C) 2025 *)
+(* :Keywords: battaglia navale, interazione, posizionamento, input *)
+(* :Requirements: Mathematica 12.0+, Util` *)
+
+(* File: Interaction.m *)
 
 BeginPackage["Interaction`", {"Util`"}];
 AskSeedInput::usage = "AskSeedInput[inputSeed] chiede all'untete di inserire il seed";
@@ -9,19 +24,12 @@ AskBaseChoice::usage = "AskBasechoice[inputBase] chiede all'utente di inserire l
 isBase::usage="isBase[base] controlla che la base sia inserita sia 2, 8 o 16";
 isSeed::usage="isSeed[seed] controlla che il seed sia stato inserito correttamente (se \[EGrave] un numero intero)";
 helpUser::usage="helpUser[base] apre finestra per mostrare un suggerimento all'utente (ripasso conversioni tra basi)";
-
-InitPhase::usage =
-  "InitPhase[base, gridSize] inizializza il gioco: base \[Element] {2,8,16}, gridSize \[EGrave] lato griglia.\
-Imposta $UserBase, $GridSize, $AutomaticGrid e $UserGrid, resetta gli stati.";
-
 PlaceUserShip::usage =
   "PlaceUserShip[startRaw, endRaw] piazza in $UserGrid una nave.\
 startRaw e endRaw sono stringhe di un intero in base $UserBase (0..gridSize^2-1),\
 con 0 corrispondente in basso a sinistra. Si possono piazzare al massimo 4 navi, una per ciascuna lunghezza 5,4,3,2.\
 Restituisce {True, grid} in caso di successo o {False, errorMsg} in caso di errore.";
 
-ResetGame::usage =
-  "ResetGame[] svuota tutte le liste e ripristina le variabili globali all'inizio del gioco.";
 
 (* Aggiungiamo esplicitamente questi getter mancanti *)
 GetUserShips::usage = "GetUserShips[] restituisce lista di blocchi delle navi utente.";
@@ -30,6 +38,15 @@ GetRemainingShipLengths::usage = "GetRemainingShipLengths[] restituisce le lungh
 GetDifficultyLevels::usage = "GetDifficultyLevels[] restituisce i livelli di difficoltà disponibili";
 GetCpuShip::usage="GetCpuShip[] restituisce le navi della CPU";
 GetCpuGrid::usage="GetCpuGrid[] resitiruisce la griglia delle CPU";
+
+SetShipLengths::unsage="SetShipLengths[shipLengths_List] := $ShipLengths = shipLengths";
+SetUserBase::usage="SetUserBase[base_Integer] := If[isBase[base], $UserBase = base, $UserBase]";
+SetGridSize::usega="SetGridSize[size_Integer] := If[size > 0, $GridSize = size, $GridSize]";
+SetAutomaticShips::usage="SetAutomaticShips[ships_List] := $AutomaticShips = ships";
+SetUserShips::usage="SetUserShips[ships_List] := $UserShips = ships";
+SetAutomaticGrid::usage="SetAutomaticGrid[grid_List] := $AutomaticGrid = grid";
+SetUserGrid::usage="SetUserGrid[grid_List] := $UserGrid = grid";
+SetSeed::usage="SetSeed[seed_] := If[isSeed[seed], $Seed = seed, $Seed]";
 
 showMessage::usage="showMessage[message] stampa un messaggio";
 showError::usage="showError[error] stampa un messaggio di errore (in rosso)";
@@ -53,43 +70,6 @@ $UserBase       = 10;
 $GridSize       = 10;
 $Seed= ""; 
 $ShipLengths = {5, 4, 3, 2, 1}; 
-
-(* Reset di tutte le variabili e liste *)
-ResetGame[] := (
-  $UserBase       = 10;
-  $GridSize       = 10;
-  $AutomaticShips = {};
-  $UserShips      = {};
-  $AutomaticGrid  = {};
-  $UserGrid       = {};
-  $Seed= ""; 
-  $ShipLengths = {5, 4, 3, 2, 1};
-);
-
-(* Inizializza contesto PC e utente *)
-InitPhase[seed_Integer, base_Integer, difficultyLevel_Integer] := Module[
-  {gridSize, shipLengths},
-  
-  If[!isBase[base] || !isSeed[seed] || difficultyLevel < 1 || difficultyLevel > Length[$DifficultyLevels], 
-    showError["Parametri non validi!"];
-    Return[];
-  ];
-  
-  (* Ottieni gridSize e shipLengths in base al livello di difficoltà *)
-  gridSize = $DifficultyLevels[[difficultyLevel, 2]];
-  shipLengths = $DifficultyLevels[[difficultyLevel, 3]];
-  $ShipLengths = shipLengths;
-  initSeed[seed];
-  (*$Seed = seed;*)
-  $UserBase = base;
-  $GridSize = gridSize;
-  Needs["Battle`"]; (*Per evitare ricorsioni*)
-  $AutomaticShips = Battle`generateCPUShips[$GridSize];
-  $UserShips = {};
-  $AutomaticGrid =createGrid[$AutomaticShips,gridSize];
-  $UserGrid = ConstantArray[$Vuoto, {gridSize, gridSize}];
-];
-
 
 (*richiedi seed e base*)
 AskSeedInput[inputSeed_] := DynamicModule[{value = RandomInteger[1024]},
@@ -361,6 +341,17 @@ GetShipSize[] := $ShipSize;
 GetDifficultyLevels[] := $DifficultyLevels;
 GetCpuShip[]:=$AutomaticShips;
 GetCpuGrid[]:=$AutomaticGrid;
+
+(*Setter*)
+SetShipLengths[shipLengths_List] := $ShipLengths = shipLengths;
+SetUserBase[base_Integer] := If[isBase[base], $UserBase = base, $UserBase];
+SetGridSize[size_Integer] := If[size > 0, $GridSize = size, $GridSize];
+SetAutomaticShips[ships_List] := $AutomaticShips = ships;
+SetUserShips[ships_List] := $UserShips = ships;
+SetAutomaticGrid[grid_List] := $AutomaticGrid = grid;
+SetUserGrid[grid_List] := $UserGrid = grid;
+SetSeed[seed_] := If[isSeed[seed], $Seed = seed, $Seed];
+
 
 End[];
 EndPackage[];

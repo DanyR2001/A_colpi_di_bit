@@ -1,3 +1,22 @@
+(* ::Package:: *)
+
+(* :Title: Main *)
+(* :Context: Main` *)
+(* :Author: Daniele Russo, Nicola Modugno *)
+(* :Version: 3.4 *)
+(* :Date: 2025-05-06 *)
+
+(* :Summary: 
+   Questo pacchetto coordina le diverse fasi del gioco, dall'inizializzazione
+   alla battaglia, e gestisce l'interfaccia utente principale.
+*)
+
+(* :Copyright: A colpi di Bit (C) 2025 *)
+(* :Keywords: battaglia navale, gioco, interfaccia *)
+(* :Requirements: Mathematica 12.0+, Util`, Battle`, Interaction` *)
+
+(* File: Main.m *)
+
 BeginPackage["Main`", {"Util`", "Battle`", "Interaction`"}]; 
 PlacementUI::usage = "PlacementUI[] interfaccia per il posizionamento navi";
 
@@ -29,9 +48,11 @@ PlacementUI[] := DynamicModule[
           Spacer[10],
           Button["Conferma Impostazioni",
             If[isSeed[seedValue] && isBase[baseValue],
-              InitPhase[seedValue, baseValue, difficultyLevel];
+              If[InitPhase[seedValue, baseValue, difficultyLevel],
               phase = 2;
               initDone = True;,
+               message = "Errore durante l'inizializzazione. Riprova.";
+              ],
               message = "Seed o base non validi!";
             ]
           ],
@@ -124,9 +145,15 @@ PlacementUI[] := DynamicModule[
           Style["Battaglia Navale in Base " <> ToString[baseValue], Bold, 20, Red],
           Spacer[10],
           (* Chiamiamo StartGame con tutti i parametri salvati *)
-          Dynamic[StartGame[userShips, GetCpuShip[], userGrid, GetCpuGrid[], baseValue, $GridSize]],
+          Dynamic[StartGame[GetUserShips[], 
+                            GetCpuShip[], 
+                            GetUserGrid[], 
+                            GetCpuGrid[], 
+                            baseValue, 
+                            $GridSize]
+                            ],
           Spacer[10],
-          Button["Reset Game", phase = 1; ResetGame[];]
+          Button["Reset Game",  ResetGame[];phase = 1;]
         }]
     ]]
   }]

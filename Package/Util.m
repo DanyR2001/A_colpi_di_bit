@@ -1,6 +1,23 @@
 (* ::Package:: *)
 
+(* :Title: Util *)
+(* :Context: Util` *)
+(* :Author: Dan Cernei, Daniele Russo *)
+(* :Version: 2.0 *)
+(* :Date: 2025-05-06 *)
+
+(* :Summary: 
+   Questo pacchetto fornisce funzioni di utility per il gioco della battaglia navale,
+   incluse funzioni per la conversione di coordinate, la visualizzazione della griglia e
+   la gestione dell'input dell'utente.
+*)
+
+(* :Copyright: A colpi di Bit (C) 2025 *)
+(* :Keywords: battaglia navale, utility, griglia, conversione *)
+(* :Requirements: Mathematica 12.0+ *)
+
 (* File: Util.m *)
+
 BeginPackage["Util`"];
 
 initSeed::usage="initSeed[seed] serve per inizializzare il PRNG prima di richimare le varie random"

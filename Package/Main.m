@@ -109,7 +109,7 @@ PlacementUI[] := DynamicModule[
                         Enabled -> Dynamic[placementDone]
                       ]
                     },
-                    {"",helpUser[baseValue]}
+                    {"",Row[{helpUser[baseValue],Spacer[30],helpUserPersonalized[baseValue]}]}
                   }],
                   Dynamic[Style[shipPlacementMsg, If[StringMatchQ[shipPlacementMsg, "Nave piazzata*" | "Tutte le navi*"], Darker[Green], Red]]]
                 }],

@@ -109,7 +109,10 @@ verifyInput[gridSize_, base_, input_] := Module[{decimal, coordinates, row, col,
 
 
 createGrid[ships_,gridSize_]:=Module[{grid=ConstantArray[$Vuoto,{gridSize,gridSize}]},
-	Do[grid[[coord[[1]]+1,coord[[2]]+1]]=1,{coordList,ships},{coord,coordList}];
+	Do[grid[[coord[[1]]+1,
+    coord[[2]]+1]]=1,
+    {coordList,ships},
+    {coord,coordList}];
 	grid
 ];
 

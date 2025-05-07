@@ -10,328 +10,105 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[   1220327,      20369]
-NotebookOptionsPosition[   1214307,      20252]
-NotebookOutlinePosition[   1216368,      20308]
-CellTagsIndexPosition[   1216136,      20298]
+NotebookDataLength[   1238969,      20891]
+NotebookOptionsPosition[   1232863,      20770]
+NotebookOutlinePosition[   1234924,      20826]
+CellTagsIndexPosition[   1234692,      20816]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
-Cell[BoxData[""], "Input",
- ShowCellLabel->False,
- CellChangeTimes->{
-  3.955445597310104*^9, 3.955445685469026*^9, {3.955445915446762*^9, 
-   3.9554459253969297`*^9}, {3.9554460020883427`*^9, 
-   3.9554460342917223`*^9}, {3.955446094501412*^9, 3.9554461703461246`*^9}, 
-   3.9554464565455914`*^9, {3.955595746260128*^9, 3.95559575392583*^9}, {
-   3.955611473526482*^9, 3.955611488732177*^9}, 3.955611551906021*^9, 
-   3.955611782992889*^9, 3.955611976474684*^9, 3.955612015563334*^9, 
-   3.95561216229807*^9, {3.9556122753281612`*^9, 3.955612282036708*^9}, {
-   3.955612315103771*^9, 3.955612337542314*^9}, {3.9556124578890247`*^9, 
-   3.9556124640485363`*^9}, {3.955612597063249*^9, 3.9556125978445272`*^9}, 
-   3.955612666575533*^9},
- CellLabel->"In[7]:=",ExpressionUUID->"2b247ebc-5f51-47ea-8a92-0ec55b13cb5f"],
-
-Cell[CellGroupData[{
-
 Cell[BoxData[
- RowBox[{"DynamicModule", "[", 
-  RowBox[{
-   RowBox[{"{", 
-    RowBox[{
-     RowBox[{"statusMessage", "=", "\"\<\>\""}], ",", 
-     RowBox[{"statusColor", "=", "Gray"}]}], "}"}], ",", 
-   RowBox[{"Column", "[", 
-    RowBox[{
-     RowBox[{"{", 
-      RowBox[{
-       RowBox[{"Button", "[", 
-        RowBox[{"\"\<Avvia Battaglia Navale\>\"", ",", 
-         RowBox[{"Module", "[", 
-          RowBox[{
-           RowBox[{"{", 
-            RowBox[{"path", ",", "nb"}], "}"}], ",", 
-           RowBox[{"(*", 
-            RowBox[{"Ottieni", " ", "il", " ", "notebook", " ", "corrente"}], 
-            "*)"}], 
-           RowBox[{
-            RowBox[{"nb", "=", 
-             RowBox[{"EvaluationNotebook", "[", "]"}]}], ";", 
-            "\[IndentingNewLine]", 
-            RowBox[{"path", "=", 
-             RowBox[{"ParentDirectory", "[", 
-              RowBox[{"NotebookDirectory", "[", "]"}], "]"}]}], ";", 
-            "\[IndentingNewLine]", 
-            RowBox[{"(*", 
-             RowBox[{
-             "Verifica", " ", "se", " ", "la", " ", "directory", " ", 
-              "\[EGrave]", " ", "corretta"}], "*)"}], 
-            RowBox[{"If", "[", 
-             RowBox[{
-              RowBox[{
-               RowBox[{"FileNameTake", "[", "path", "]"}], 
-               "==", "\"\<A_colpi_di_bit\>\""}], ",", 
-              RowBox[{"(*", 
-               RowBox[{
-               "Imposta", " ", "la", " ", "directory", " ", "corretta", " ", 
-                "e", " ", "tenta", " ", "di", " ", "caricare", " ", "i", " ", 
-                "pacchetti"}], "*)"}], 
-              RowBox[{
-               RowBox[{"SetDirectory", "[", 
-                RowBox[{"FileNameJoin", "[", 
-                 RowBox[{"{", 
-                  RowBox[{"path", ",", "\"\<Package\>\""}], "}"}], "]"}], 
-                "]"}], ";", "\[IndentingNewLine]", 
-               RowBox[{"(*", 
-                RowBox[{
-                "Carica", " ", "i", " ", "pacchetti", " ", "principali", " ", 
-                 "con", " ", "gestione", " ", "degli", " ", "errori"}], 
-                "*)"}], 
-               RowBox[{"Check", "[", 
-                RowBox[{
-                 RowBox[{
-                  RowBox[{"Needs", "[", "\"\<Main`\>\"", "]"}], ";", 
-                  "\[IndentingNewLine]", 
-                  RowBox[{"Needs", "[", "\"\<Tutorial`\>\"", "]"}], ";", 
-                  "\[IndentingNewLine]", 
-                  RowBox[{"(*", 
-                   RowBox[{
-                   "Mostra", " ", "messaggio", " ", "di", " ", "successo", " ",
-                     "in", " ", "giallo"}], "*)"}], 
-                  RowBox[{
-                  "statusMessage", 
-                   "=", "\"\<Pacchetti caricati con successo!\>\""}], ";", 
-                  "\[IndentingNewLine]", 
-                  RowBox[{"statusColor", "=", "Yellow"}], ";", 
-                  "\[IndentingNewLine]", 
-                  RowBox[{"(*", 
-                   RowBox[{"Esegui", " ", 
-                    RowBox[{"l", "'"}], "inizializzazione", " ", "SENZA", " ",
-                     "spostare", " ", "la", " ", "vista"}], "*)"}], 
-                  RowBox[{
-                  "FrontEndTokenExecute", 
-                   "[", "\"\<EvaluateInitialization\>\"", "]"}], ";"}], 
-                 "\[IndentingNewLine]", ",", 
-                 RowBox[{"(*", 
-                  RowBox[{
-                  "In", " ", "caso", " ", "di", " ", "errore", " ", "mostra", 
-                   " ", "messaggio", " ", "rosso", " ", "e", " ", "apri", " ",
-                    "selettore", " ", "file"}], "*)"}], 
-                 RowBox[{
-                  RowBox[{
-                  "statusMessage", 
-                   "=", "\"\<Errore nel caricamento dei pacchetti!\>\""}], ";",
-                   "\[IndentingNewLine]", 
-                  RowBox[{"statusColor", "=", "Red"}], ";", 
-                  "\[IndentingNewLine]", 
-                  RowBox[{"(*", 
-                   RowBox[{
-                   "Apri", " ", "il", " ", "selettore", " ", "di", " ", 
-                    "file", " ", "per", " ", "scegliere", " ", "manualmente", 
-                    " ", "il", " ", "pacchetto"}], "*)"}], 
-                  RowBox[{"Module", "[", 
-                   RowBox[{
-                    RowBox[{"{", "selectedDir", "}"}], ",", 
-                    RowBox[{
-                    RowBox[{"selectedDir", "=", 
-                    RowBox[{"SystemDialogInput", "[", 
-                    RowBox[{"\"\<Directory\>\"", ",", 
-                    RowBox[{
-                    "WindowTitle", 
-                    "->", "\"\<Seleziona la cartella 'Package'\>\""}]}], 
-                    "]"}]}], ";", "\[IndentingNewLine]", 
-                    RowBox[{"If", "[", 
-                    RowBox[{
-                    RowBox[{"selectedDir", "=!=", "$Canceled"}], ",", 
-                    RowBox[{
-                    RowBox[{"SetDirectory", "[", "selectedDir", "]"}], ";", 
-                    "\[IndentingNewLine]", 
-                    RowBox[{"Check", "[", 
-                    RowBox[{
-                    RowBox[{
-                    RowBox[{"Needs", "[", "\"\<Main`\>\"", "]"}], ";", 
-                    "\[IndentingNewLine]", 
-                    RowBox[{"Needs", "[", "\"\<Tutorial`\>\"", "]"}], ";", 
-                    "\[IndentingNewLine]", 
-                    RowBox[{
-                    "statusMessage", 
-                    "=", "\"\<Pacchetti caricati manualmente con \
-successo!\>\""}], ";", "\[IndentingNewLine]", 
-                    RowBox[{"statusColor", "=", "Yellow"}], ";"}], ",", 
-                    RowBox[{
-                    RowBox[{
-                    "statusMessage", 
-                    "=", "\"\<Impossibile caricare i pacchetti!\>\""}], ";", 
-                    "\[IndentingNewLine]", 
-                    RowBox[{"statusColor", "=", "Red"}], ";"}]}], "]"}]}]}], 
-                    "]"}]}]}], "]"}]}]}], "]"}]}], ",", 
-              RowBox[{"(*", 
-               RowBox[{
-                RowBox[{
-                "Se", " ", "la", " ", "directory", " ", "non", " ", 
-                 "\[EGrave]", " ", "corretta"}], ",", 
-                RowBox[{
-                "mostra", " ", "errore", " ", "e", " ", "apri", " ", 
-                 "selettore", " ", "file"}]}], "*)"}], 
-              RowBox[{
-               RowBox[{
-               "statusMessage", 
-                "=", "\"\<Directory 'A_colpi_di_bit' non trovata!\>\""}], ";",
-                "\[IndentingNewLine]", 
-               RowBox[{"statusColor", "=", "Red"}], ";", 
-               "\[IndentingNewLine]", 
-               RowBox[{"(*", 
-                RowBox[{
-                "Apri", " ", "il", " ", "selettore", " ", "di", " ", "file", " ",
-                  "per", " ", "scegliere", " ", "manualmente", " ", "il", " ",
-                  "pacchetto"}], "*)"}], 
-               RowBox[{"Module", "[", 
-                RowBox[{
-                 RowBox[{"{", "selectedDir", "}"}], ",", 
-                 RowBox[{
-                  RowBox[{"selectedDir", "=", 
-                   RowBox[{"SystemDialogInput", "[", 
-                    RowBox[{"\"\<Directory\>\"", ",", 
-                    RowBox[{
-                    "WindowTitle", 
-                    "->", "\"\<Seleziona la cartella 'Package'\>\""}]}], 
-                    "]"}]}], ";", "\[IndentingNewLine]", 
-                  RowBox[{"If", "[", 
-                   RowBox[{
-                    RowBox[{"selectedDir", "=!=", "$Canceled"}], ",", 
-                    RowBox[{
-                    RowBox[{"SetDirectory", "[", "selectedDir", "]"}], ";", 
-                    "\[IndentingNewLine]", 
-                    RowBox[{"Check", "[", 
-                    RowBox[{
-                    RowBox[{
-                    RowBox[{"Needs", "[", "\"\<Main`\>\"", "]"}], ";", 
-                    "\[IndentingNewLine]", 
-                    RowBox[{"Needs", "[", "\"\<Tutorial`\>\"", "]"}], ";", 
-                    "\[IndentingNewLine]", 
-                    RowBox[{
-                    "statusMessage", 
-                    "=", "\"\<Pacchetti caricati manualmente con \
-successo!\>\""}], ";", "\[IndentingNewLine]", 
-                    RowBox[{"statusColor", "=", "Yellow"}], ";"}], ",", 
-                    RowBox[{
-                    RowBox[{
-                    "statusMessage", 
-                    "=", "\"\<Impossibile caricare i pacchetti!\>\""}], ";", 
-                    "\[IndentingNewLine]", 
-                    RowBox[{"statusColor", "=", "Red"}], ";"}]}], "]"}]}]}], 
-                   "]"}]}]}], "]"}]}]}], "]"}]}]}], "]"}], ",", 
-         RowBox[{"(*", 
-          RowBox[{
-          "Stile", " ", "e", " ", "aspetto", " ", "del", " ", "bottone", " ", 
-           "standard"}], "*)"}], 
-         RowBox[{"ImageSize", "->", 
-          RowBox[{"{", 
-           RowBox[{"250", ",", "60"}], "}"}]}], ",", 
-         RowBox[{"BaseStyle", "->", 
-          RowBox[{"{", 
-           RowBox[{"\"\<Panel\>\"", ",", "18", ",", "Bold", ",", 
-            RowBox[{"FontFamily", "->", "\"\<Helvetica\>\""}]}], "}"}]}], ",", 
-         RowBox[{"Background", "->", 
-          RowBox[{"RGBColor", "[", 
-           RowBox[{"0.2", ",", "0.6", ",", "0.8"}], "]"}]}], ",", 
-         RowBox[{"(*", 
-          RowBox[{"Colore", " ", "originale", " ", "del", " ", "bottone"}], 
-          "*)"}], 
-         RowBox[{"ButtonStyle", "->", "\"\<Palette\>\""}], ",", 
-         RowBox[{"Method", "->", "\"\<Preemptive\>\""}], ",", 
-         RowBox[{"Appearance", "->", "\"\<Frameless\>\""}]}], "]"}], ",", 
-       RowBox[{"(*", 
-        RowBox[{
-         RowBox[{
-         "Messaggio", " ", "di", " ", "stato", " ", "dinamico", " ", "che", " ",
-           "cambia", " ", "colore"}], "-", 
-         RowBox[{"inizialmente", " ", "vuoto"}]}], "*)"}], 
-       RowBox[{"Dynamic", "[", 
-        RowBox[{"If", "[", 
-         RowBox[{
-          RowBox[{"statusMessage", "!=", "\"\<\>\""}], ",", 
-          RowBox[{"Style", "[", 
-           RowBox[{
-           "statusMessage", ",", "statusColor", ",", "Bold", ",", "20", ",", 
-            RowBox[{"FontFamily", "->", "\"\<Helvetica\>\""}]}], "]"}], 
-          ",", "\"\<\>\""}], "]"}], "]"}]}], "}"}], ",", 
-     RowBox[{"Alignment", "->", "Center"}], ",", 
-     RowBox[{"Spacings", "->", "10"}]}], "]"}]}], "]"}]], "Input",
- CellChangeTimes->{{3.955612831991736*^9, 3.9556128319960623`*^9}, 
-   3.955612948214113*^9},
- CellLabel->"In[12]:=",ExpressionUUID->"ef65eec3-e3e5-4a1c-8373-5a1ec8e5bab7"],
-
-Cell[BoxData[
- DynamicModuleBox[{$CellContext`statusMessage$$ = 
-  "Pacchetti caricati con successo!", $CellContext`statusColor$$ = RGBColor[
-  1, 1, 0]}, 
+ DynamicModuleBox[{$CellContext`feedback$$ = 
+  "", $CellContext`setupComplete$$ = False}, 
   TagBox[GridBox[{
      {
-      ButtonBox["\<\"Avvia Battaglia Navale\"\>",
-       Appearance->"Frameless",
-       Background->RGBColor[0.2, 0.6, 0.8],
-       BaseStyle->{"Panel", 18, Bold, FontFamily -> "Helvetica"},
-       ButtonFunction:>
-        Module[{$CellContext`path$, $CellContext`nb$}, $CellContext`nb$ = 
-          EvaluationNotebook[]; $CellContext`path$ = ParentDirectory[
-            NotebookDirectory[]]; 
-         If[FileNameTake[$CellContext`path$] == "A_colpi_di_bit", SetDirectory[
-             FileNameJoin[{$CellContext`path$, "Package"}]]; 
-           Check[Needs["Main`"]; 
-             Needs["Tutorial`"]; $CellContext`statusMessage$$ = 
-              "Pacchetti caricati con successo!"; $CellContext`statusColor$$ = 
-              Yellow; FrontEndTokenExecute["EvaluateInitialization"]; 
-             Null, $CellContext`statusMessage$$ = 
-              "Errore nel caricamento dei pacchetti!"; \
-$CellContext`statusColor$$ = Red; 
-             Module[{$CellContext`selectedDir$}, $CellContext`selectedDir$ = 
-                SystemDialogInput[
-                 "Directory", WindowTitle -> 
-                  "Seleziona la cartella 'Package'"]; 
-               If[$CellContext`selectedDir$ =!= $Canceled, 
-                 SetDirectory[$CellContext`selectedDir$]; 
-                 Check[Needs["Main`"]; 
-                   Needs["Tutorial`"]; $CellContext`statusMessage$$ = 
-                    "Pacchetti caricati manualmente con successo!"; \
-$CellContext`statusColor$$ = Yellow; 
-                   Null, $CellContext`statusMessage$$ = 
-                    "Impossibile caricare i pacchetti!"; \
-$CellContext`statusColor$$ = Red; Null]]]], $CellContext`statusMessage$$ = 
-            "Directory 'A_colpi_di_bit' non trovata!"; \
-$CellContext`statusColor$$ = Red; 
-           Module[{$CellContext`selectedDir$}, $CellContext`selectedDir$ = 
-              SystemDialogInput[
-               "Directory", WindowTitle -> "Seleziona la cartella 'Package'"]; 
-             If[$CellContext`selectedDir$ =!= $Canceled, 
-               SetDirectory[$CellContext`selectedDir$]; 
-               Check[Needs["Main`"]; 
-                 Needs["Tutorial`"]; $CellContext`statusMessage$$ = 
-                  "Pacchetti caricati manualmente con successo!"; \
-$CellContext`statusColor$$ = Yellow; 
-                 Null, $CellContext`statusMessage$$ = 
-                  "Impossibile caricare i pacchetti!"; \
-$CellContext`statusColor$$ = Red; Null]]]]],
+      ButtonBox[
+       FrameBox[
+        DynamicBox[ToBoxes[
+          If[$CellContext`setupComplete$$, 
+           Style["Setup completato", FontWeight -> Bold], 
+           Style["Esegui Setup", FontWeight -> Bold]], StandardForm],
+         ImageSizeCache->{84.484130859375, {2.45654296875, 10.12451171875}}],
+        FrameMargins->8,
+        FrameStyle->GrayLevel[0.7],
+        RoundingRadius->8,
+        StripOnInput->False],
+       Appearance->None,
+       ButtonFunction:>If[
+         Not[$CellContext`setupComplete$$], $CellContext`feedback$$ = 
+          "1) Imposto la directory del notebook\[Ellipsis]"; SetDirectory[
+           NotebookDirectory[
+            EvaluationNotebook[]]]; Pause[1]; $CellContext`loadOrAsk[
+            Pattern[$CellContext`file$, 
+             Blank[]]] := 
+          Module[{$CellContext`pathPkg$, $CellContext`pathCur$, \
+$CellContext`sel$}, $CellContext`pathPkg$ = 
+             FileNameJoin[{
+               "Package", $CellContext`file$}]; $CellContext`pathCur$ = \
+$CellContext`file$; Which[
+              
+              FileExistsQ[$CellContext`pathPkg$], $CellContext`feedback$$ = \
+$CellContext`file$ <> " trovato in Packege/ \[Dash] tutto ok!"; 
+              Get[$CellContext`pathPkg$]; Pause[1], 
+              
+              FileExistsQ[$CellContext`pathCur$], $CellContext`feedback$$ = \
+$CellContext`file$ <> " trovato nella directory corrente \[Dash] tutto ok!"; 
+              Get[$CellContext`pathCur$]; Pause[1], 
+              True, $CellContext`sel$ = 
+               SystemDialogInput[
+                "FileOpen", WindowTitle -> 
+                 "Seleziona " <> $CellContext`file$]; If[
+                
+                StringQ[$CellContext`sel$], $CellContext`feedback$$ = \
+$CellContext`file$ <> " caricato da: " <> $CellContext`sel$ <> 
+                  " \[Dash] tutto ok!"; Get[$CellContext`sel$]; 
+                Pause[1], $CellContext`feedback$$ = 
+                 "Operazione annullata per " <> $CellContext`file$; 
+                Return[$Failed]; Null]]]; $CellContext`feedback$$ = 
+          "2) Carico util.m\[Ellipsis]"; 
+         If[$CellContext`loadOrAsk["util.m"] === $Failed, 
+           Return[]]; $CellContext`feedback$$ = 
+          "3) Carico Interaction.m\[Ellipsis]"; 
+         If[$CellContext`loadOrAsk["Interaction.m"] === $Failed, 
+           Return[]]; $CellContext`feedback$$ = 
+          "4) Carico Battle.m\[Ellipsis]"; 
+         If[$CellContext`loadOrAsk["Battle.m"] === $Failed, 
+           Return[]]; $CellContext`feedback$$ = 
+          "5) Carico tutorial.m\[Ellipsis]"; 
+         If[$CellContext`loadOrAsk["tutorial.m"] === $Failed, 
+           Return[]]; $CellContext`feedback$$ = "6) Carico Main.m\[Ellipsis]"; 
+         If[$CellContext`loadOrAsk["Main.m"] === $Failed, 
+           Return[]]; $CellContext`feedback$$ = 
+          "7) Eseguo tutte le celle\[Ellipsis]"; FrontEndTokenExecute[
+           EvaluationNotebook[], "EvaluateNotebook"]; $CellContext`feedback$$ = 
+          "\:2705 Completato con successo!"; 
+         Pause[4]; $CellContext`setupComplete$$ = True; Null],
+       Enabled->Dynamic[
+         Not[$CellContext`setupComplete$$]],
        Evaluator->Automatic,
-       ImageSize->{250, 60},
-       Method->"Preemptive"]},
+       Method->"Queued"]},
      {
       DynamicBox[ToBoxes[
-        If[$CellContext`statusMessage$$ != "", 
-         Style[$CellContext`statusMessage$$, $CellContext`statusColor$$, Bold,
-           20, FontFamily -> "Helvetica"], ""], StandardForm],
-       ImageSizeCache->{309.033203125, {0.37109375, 14.482421875}}]}
+        Pane[
+         Style[$CellContext`feedback$$, Italic, FontColor -> Darker[Gray]], {
+         Automatic, 60}, Alignment -> {Left, Top}, 
+         ImageMargins -> {{10, 10}, {5, 5}}], StandardForm],
+       ImageSizeCache->{21., {32.134033203125, 37.865966796875}},
+       TrackedSymbols:>{$CellContext`feedback$$}]}
     },
     DefaultBaseStyle->"Column",
-    GridBoxAlignment->{"Columns" -> {{Center}}},
-    GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
-    GridBoxSpacings->{"Columns" -> {{Automatic}}, "Rows" -> {{10}}}],
+    GridBoxAlignment->{"Columns" -> {{Left}}},
+    GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
    "Column"],
   DynamicModuleValues:>{}]], "Output",
- CellChangeTimes->{3.955612961235371*^9},
- CellLabel->"Out[12]=",ExpressionUUID->"a530cb98-353c-4738-ac54-9b65e7f5da8c"]
-}, Open  ]],
+ ShowCellBracket->False,
+ ShowCellLabel->False,
+ CellChangeTimes->{
+  3.95562733871806*^9, 3.95562746325036*^9, {3.955627807641718*^9, 
+   3.9556278402717457`*^9}, {3.955627939687361*^9, 3.955627951108363*^9}, {
+   3.955627988627707*^9, 3.9556279918217697`*^9}},
+ CellLabel->"Out[14]=",ExpressionUUID->"38a578f2-a25d-49e1-95f8-e7b6ca17f00f"],
 
 Cell[CellGroupData[{
 
@@ -19541,6 +19318,7 @@ z5yfxf3lFahVfcGX138Bp/OJhA==
    "Grid"]],ExpressionUUID->"63ff1001-6570-b94a-8789-dae976db3d3f"],
  StyleBox["                        ", "Text"]
 }], "Title",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.9550983149867325`*^9, 3.9550983507241993`*^9}, {
   3.9550983920128956`*^9, 3.9550984490013313`*^9}, {3.955098900017681*^9, 
@@ -19550,6 +19328,7 @@ z5yfxf3lFahVfcGX138Bp/OJhA==
 Cell[CellGroupData[{
 
 Cell["INDICE", "Section",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.955444513175931*^9, 
   3.955444514473092*^9}},ExpressionUUID->"baa8d25f-e6ae-4acd-89b8-\
@@ -19685,6 +19464,7 @@ Cell[BoxData[
    GridBoxAlignment->{"Columns" -> {{Left}}},
    GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
   "Column"]], "Text",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.9550986903928585`*^9, 3.9550986951574802`*^9}, {
    3.9550987680614395`*^9, 3.955098816045038*^9}, {3.9550988471198597`*^9, 
@@ -19699,6 +19479,7 @@ Cell[BoxData[
 Cell[CellGroupData[{
 
 Cell["INTRODUZIONE", "Section",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  FontFamily->"Arial",
  CellTags->"intro",ExpressionUUID->"ed267561-31a9-6148-af01-4d5aff7ea50a"],
@@ -19726,6 +19507,7 @@ verificare l\[CloseCurlyQuote]esito. Questo meccanismo trasforma la battaglia \
 navale in un\[CloseCurlyQuote]esperienza ludica che stimola la pratica attiva \
 delle conversioni tra sistemi numerici.\
 \>", "Text",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.955444397705298*^9, 3.955444400907036*^9}},
  FontFamily->"Arial",ExpressionUUID->"43e3925c-090d-d24a-9f59-25ef89becc93"]
@@ -19734,13 +19516,20 @@ delle conversioni tra sistemi numerici.\
 Cell[CellGroupData[{
 
 Cell["I. Ripetiamo la conversione assime", "Section",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.9550984651549606`*^9, 3.9550984788699417`*^9}},
  FontFamily->"Arial",
  CellTags->"sezione1",ExpressionUUID->"32953120-9e0c-1a4a-a968-b01cdde33b50"],
 
+Cell[CellGroupData[{
+
 Cell[BoxData[
  RowBox[{"CreateTutorial", "[", "]"}]], "Input",
+ Editable->False,
+ Selectable->False,
+ ShowCellBracket->False,
+ CellOpen->False,
  ShowCellLabel->False,
  CellChangeTimes->{
   3.9550985694554806`*^9, {3.955384916220593*^9, 3.95538492715882*^9}, {
@@ -19748,30 +19537,736 @@ Cell[BoxData[
    3.9555956630605516`*^9}, {3.955595728912221*^9, 3.955595742399761*^9}, 
    3.9555965864414253`*^9},
  FontFamily->"Arial",
- CellLabel->"In[9]:=",ExpressionUUID->"02c14098-f3e7-fa49-86ae-6b3f819777bd"]
+ CellLabel->"In[15]:=",ExpressionUUID->"02c14098-f3e7-fa49-86ae-6b3f819777bd"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     InterpretationBox[Cell["Tutorial su Conversioni di Base", "Section",
+       TextAlignment->Left,
+       FontSize->24,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "42b43d2c-0584-4144-b2ed-6c21c5816b13"],
+      TextCell[
+      "Tutorial su Conversioni di Base", "Section", FontSize -> 24, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{12},
+      "Spacer1"]},
+    {
+     PaneBox[
+      InterpretationBox[Cell["\<\
+Sommario:
+- Binario \[RightArrow] Decimale
+- Ottale \[RightArrow] Decimale
+- Esadecimale \[RightArrow] Decimale\
+\>",ExpressionUUID->"48fae0ef-68de-4976-baa9-034b491047df"],
+       TextCell[
+       "Sommario:\n- Binario \[RightArrow] Decimale\n- Ottale \[RightArrow] \
+Decimale\n- Esadecimale \[RightArrow] Decimale"]],
+      Background->RGBColor[0.975, 0.975, 0.975]]},
+    {
+     TemplateBox[{12},
+      "Spacer1"]},
+    {
+     InterpretationBox[Cell[
+      "Conversione da Binario a Decimale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "bc158b65-0863-4a89-a0d9-b5893cd0df76"],
+      TextCell[
+      "Conversione da Binario a Decimale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Per convertire un numero binario in decimale, moltiplica ciascuna cifra \
+binaria per 2 elevato alla posizione (da destra verso sinistra, a partire da \
+0) e somma i risultati.\
+\>",
+        FontSize->12,ExpressionUUID->"ddd4d4e5-e85e-4ae3-9806-457d6a4e7ccd"],
+       TextCell[
+       "Per convertire un numero binario in decimale, moltiplica ciascuna \
+cifra binaria per 2 elevato alla posizione (da destra verso sinistra, a \
+partire da 0) e somma i risultati.", FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`b$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           InterpretationBox[Cell["Esempio interattivo",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "668a3d28-edf6-43ae-81aa-9465c14d6c9c"],
+            TextCell[
+            "Esempio interattivo", FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero binario:",ExpressionUUID->
+                 "c8d83c4b-bc54-4f34-8d4f-426afb35f064"],
+                TextCell["Inserisci un numero binario:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`b$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             TextCell["Valore decimale: " <> ToString[
+                FromDigits[Tutorial`Private`b$$, 2]], FontSize -> 12], 
+             StandardForm],
+            
+            ImageSizeCache->{
+             130.60000000000002`, {3.27593994140625, 11.80792236328125}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`n$$ = 28, 
+       Tutorial`Private`risposta$$ = "", Tutorial`Private`esito$$ = Null, 
+       Tutorial`Private`showReplay$$ = False}, 
+       TagBox[GridBox[{
+          {
+           InterpretationBox[Cell["\<\
+Mini-esercizio: Converti in decimale il seguente numero binario\
+\>",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "80785c93-4d39-4139-bdb0-cb1126d1e55a"],
+            TextCell[
+            "Mini-esercizio: Converti in decimale il seguente numero binario",
+              FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           FrameBox[
+            DynamicBox[ToBoxes[
+              TextCell[
+               IntegerString[Tutorial`Private`n$$, 2], FontSize -> 16, 
+               FontWeight -> "Bold"], StandardForm],
+             ImageSizeCache->{49., {4.367919921875, 15.743896484375}}],
+            Background->RGBColor[0.925, 0.925, 0.925],
+            StripOnInput->False]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Risposta:",ExpressionUUID->
+                 "519a785c-2ff1-4ad8-87f9-70f22329bb10"],
+                TextCell["Risposta:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`risposta$$], Number]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           TemplateBox[{
+             ButtonBox[
+             "\"Verifica\"", ButtonFunction :> 
+              If[ToExpression[Tutorial`Private`risposta$$] === 
+                Tutorial`Private`n$$, 
+                Tutorial`Private`esito$$ = 
+                 TextCell[
+                  "\:2705 Corretto!", FontSize -> 14, FontColor -> 
+                   Tutorial`Private`DarkGreen]; 
+                Tutorial`Private`showReplay$$ = True; Null, 
+                Tutorial`Private`esito$$ = 
+                TextCell[
+                 "\:274c Riprovare\[Ellipsis]", FontSize -> 14, FontColor -> 
+                  Red]], ImageSize -> Large, Appearance -> "Frameless", 
+              Background -> GrayLevel[0.85], FrameMargins -> 6, FrameStyle -> 
+              GrayLevel[0], RoundingRadius -> 5, Evaluator -> Automatic, 
+              Method -> "Preemptive"], 
+             TemplateBox[{10}, "Spacer1"], 
+             DynamicBox[
+              ToBoxes[
+               If[Tutorial`Private`showReplay$$, 
+                Button[
+                "Rigioca", Tutorial`Private`n$$ = RandomInteger[{1, 127}]; 
+                 Tutorial`Private`risposta$$ = ""; 
+                 Tutorial`Private`esito$$ = Null; 
+                 Tutorial`Private`showReplay$$ = False; Null, ImageSize -> 
+                 Large, Appearance -> "Frameless", Background -> LightBlue, 
+                 FrameMargins -> 6, FrameStyle -> Black, RoundingRadius -> 5], 
+                Spacer[0]], StandardForm]]},
+            "RowDefault"]},
+          {
+           DynamicBox[ToBoxes[
+             If[Tutorial`Private`esito$$ === Null, 
+              Spacer[0], Tutorial`Private`esito$$], StandardForm],
+            ImageSizeCache->{0., {0., 0.}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     InterpretationBox[Cell["Conversione da Ottale a Decimale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "76fb1add-971f-449b-860d-829c354e4742"],
+      TextCell[
+      "Conversione da Ottale a Decimale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Ogni cifra di un numero ottale rappresenta una potenza di 8. Per convertire \
+in decimale, moltiplica ogni cifra per 8 elevato alla sua posizione e somma i \
+risultati.\
+\>",
+        FontSize->12,ExpressionUUID->"5bec8c9a-0c03-4a4a-8210-f9b629e6e89b"],
+       TextCell[
+       "Ogni cifra di un numero ottale rappresenta una potenza di 8. Per \
+convertire in decimale, moltiplica ogni cifra per 8 elevato alla sua \
+posizione e somma i risultati.", FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`o$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           InterpretationBox[Cell["Esempio interattivo",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "be25b933-bd05-4400-8740-2ae6be16969c"],
+            TextCell[
+            "Esempio interattivo", FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero ottale:",ExpressionUUID->
+                 "8f5e15bf-0652-4c20-bd03-7fbf294bca03"],
+                TextCell["Inserisci un numero ottale:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`o$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             TextCell["Valore decimale: " <> ToString[
+                FromDigits[Tutorial`Private`o$$, 8]], FontSize -> 12], 
+             StandardForm],
+            
+            ImageSizeCache->{
+             130.60000000000002`, {3.27593994140625, 11.80792236328125}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`n$$ = 98, 
+       Tutorial`Private`risposta$$ = "", Tutorial`Private`esito$$ = Null, 
+       Tutorial`Private`showReplay$$ = False}, 
+       TagBox[GridBox[{
+          {
+           InterpretationBox[Cell["\<\
+Mini-esercizio: Converti in decimale il seguente numero ottale\
+\>",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "dd973971-01b3-4e36-b53f-4ebc559879d2"],
+            TextCell[
+            "Mini-esercizio: Converti in decimale il seguente numero ottale", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           FrameBox[
+            DynamicBox[ToBoxes[
+              TextCell[
+               IntegerString[Tutorial`Private`n$$, 8], FontSize -> 16, 
+               FontWeight -> "Bold"], StandardForm],
+             
+             ImageSizeCache->{
+              29.799999999999997`, {4.367919921875, 15.743896484375}}],
+            Background->RGBColor[0.925, 0.925, 0.925],
+            StripOnInput->False]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Risposta:",ExpressionUUID->
+                 "6b05e4bd-5c3e-4984-9f3e-a23358096a00"],
+                TextCell["Risposta:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`risposta$$], Number]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           TemplateBox[{
+             ButtonBox[
+             "\"Verifica\"", ButtonFunction :> 
+              If[ToExpression[Tutorial`Private`risposta$$] === 
+                Tutorial`Private`n$$, 
+                Tutorial`Private`esito$$ = 
+                 TextCell[
+                  "\:2705 Corretto!", FontSize -> 14, FontColor -> 
+                   Tutorial`Private`DarkGreen]; 
+                Tutorial`Private`showReplay$$ = True; Null, 
+                Tutorial`Private`esito$$ = 
+                TextCell[
+                 "\:274c Riprovare\[Ellipsis]", FontSize -> 14, FontColor -> 
+                  Red]], ImageSize -> Large, Appearance -> "Frameless", 
+              Background -> GrayLevel[0.85], FrameMargins -> 6, FrameStyle -> 
+              GrayLevel[0], RoundingRadius -> 5, Evaluator -> Automatic, 
+              Method -> "Preemptive"], 
+             TemplateBox[{10}, "Spacer1"], 
+             DynamicBox[
+              ToBoxes[
+               If[Tutorial`Private`showReplay$$, 
+                Button[
+                "Rigioca", Tutorial`Private`n$$ = RandomInteger[{1, 127}]; 
+                 Tutorial`Private`risposta$$ = ""; 
+                 Tutorial`Private`esito$$ = Null; 
+                 Tutorial`Private`showReplay$$ = False; Null, ImageSize -> 
+                 Large, Appearance -> "Frameless", Background -> LightBlue, 
+                 FrameMargins -> 6, FrameStyle -> Black, RoundingRadius -> 5], 
+                Spacer[0]], StandardForm]]},
+            "RowDefault"]},
+          {
+           DynamicBox[ToBoxes[
+             If[Tutorial`Private`esito$$ === Null, 
+              Spacer[0], Tutorial`Private`esito$$], StandardForm],
+            ImageSizeCache->{0., {0., 0.}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     InterpretationBox[Cell[
+      "Conversione da Esadecimale a Decimale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "fdfc98b6-890f-4dbe-a225-408cdd503fa9"],
+      TextCell[
+      "Conversione da Esadecimale a Decimale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Il sistema esadecimale usa 16 simboli (0\[Dash]9 e A\[Dash]F). Per convertire \
+in decimale, sostituisci le lettere con i valori 10\[Dash]15, poi moltiplica \
+ciascuna cifra per 16 elevato alla sua posizione e somma.\
+\>",
+        FontSize->12,ExpressionUUID->"2d6c4aeb-34e5-4907-a7e7-1d9dacaf7eeb"],
+       TextCell[
+       "Il sistema esadecimale usa 16 simboli (0\[Dash]9 e A\[Dash]F). Per \
+convertire in decimale, sostituisci le lettere con i valori 10\[Dash]15, poi \
+moltiplica ciascuna cifra per 16 elevato alla sua posizione e somma.", 
+        FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`h$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           InterpretationBox[Cell["Esempio interattivo",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "c3d39c6f-da42-4dec-b65c-f79166e7833b"],
+            TextCell[
+            "Esempio interattivo", FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero esadecimale:",ExpressionUUID->
+                 "abc261b3-7b30-446d-9bf5-5a3483a32125"],
+                TextCell["Inserisci un numero esadecimale:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`h$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             TextCell["Valore decimale: " <> ToString[
+                FromDigits[
+                 ToUpperCase[Tutorial`Private`h$$], 16]], FontSize -> 12], 
+             StandardForm],
+            
+            ImageSizeCache->{
+             130.60000000000002`, {3.27593994140625, 11.80792236328125}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`n$$ = 61, 
+       Tutorial`Private`risposta$$ = "", Tutorial`Private`esito$$ = Null, 
+       Tutorial`Private`showReplay$$ = False}, 
+       TagBox[GridBox[{
+          {
+           InterpretationBox[Cell["\<\
+Mini-esercizio: Converti in decimale il seguente numero esadecimale\
+\>",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "9164fa22-fada-43e2-9591-e85f2f351f8b"],
+            TextCell[
+            
+            "Mini-esercizio: Converti in decimale il seguente numero \
+esadecimale", FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           FrameBox[
+            DynamicBox[ToBoxes[
+              TextCell[
+               IntegerString[Tutorial`Private`n$$, 16], FontSize -> 16, 
+               FontWeight -> "Bold"], StandardForm],
+             ImageSizeCache->{20.2, {4.367919921875, 15.743896484375}}],
+            Background->RGBColor[0.925, 0.925, 0.925],
+            StripOnInput->False]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Risposta:",ExpressionUUID->
+                 "d42f3cad-4c99-4555-b1dd-81bc19eabc25"],
+                TextCell["Risposta:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`risposta$$], Number]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           TemplateBox[{
+             ButtonBox[
+             "\"Verifica\"", ButtonFunction :> 
+              If[ToExpression[Tutorial`Private`risposta$$] === 
+                Tutorial`Private`n$$, 
+                Tutorial`Private`esito$$ = 
+                 TextCell[
+                  "\:2705 Corretto!", FontSize -> 14, FontColor -> 
+                   Tutorial`Private`DarkGreen]; 
+                Tutorial`Private`showReplay$$ = True; Null, 
+                Tutorial`Private`esito$$ = 
+                TextCell[
+                 "\:274c Riprovare\[Ellipsis]", FontSize -> 14, FontColor -> 
+                  Red]], ImageSize -> Large, Appearance -> "Frameless", 
+              Background -> GrayLevel[0.85], FrameMargins -> 6, FrameStyle -> 
+              GrayLevel[0], RoundingRadius -> 5, Evaluator -> Automatic, 
+              Method -> "Preemptive"], 
+             TemplateBox[{10}, "Spacer1"], 
+             DynamicBox[
+              ToBoxes[
+               If[Tutorial`Private`showReplay$$, 
+                Button[
+                "Rigioca", Tutorial`Private`n$$ = RandomInteger[{1, 127}]; 
+                 Tutorial`Private`risposta$$ = ""; 
+                 Tutorial`Private`esito$$ = Null; 
+                 Tutorial`Private`showReplay$$ = False; Null, ImageSize -> 
+                 Large, Appearance -> "Frameless", Background -> LightBlue, 
+                 FrameMargins -> 6, FrameStyle -> Black, RoundingRadius -> 5], 
+                Spacer[0]], StandardForm]]},
+            "RowDefault"]},
+          {
+           DynamicBox[ToBoxes[
+             If[Tutorial`Private`esito$$ === Null, 
+              Spacer[0], Tutorial`Private`esito$$], StandardForm],
+            ImageSizeCache->{0., {0., 0.}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]}
+   },
+   DefaultBaseStyle->"Column",
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Column"]], "Output",
+ ShowCellBracket->False,
+ ShowCellLabel->False,
+ CellChangeTimes->{
+  3.955617534038939*^9, 3.955617623699874*^9, 3.955617769682414*^9, {
+   3.955626311980907*^9, 3.955626354479521*^9}, {3.955627819876441*^9, 
+   3.9556278403232822`*^9}, 3.9556279511609373`*^9, 3.955628123860743*^9},
+ CellLabel->"Out[15]=",ExpressionUUID->"6e942a62-3368-4c09-9c0e-9cc210c0e65d"]
+}, Open  ]]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell["II. Giochiamo a battaglia navale!", "Section",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{3.955098552977276*^9, 3.9550986990072994`*^9},
  FontFamily->"Arial",
  CellTags->"sezione2",ExpressionUUID->"5d35aaea-ef26-8f42-9196-e5143c0fbaed"],
 
+Cell[CellGroupData[{
+
 Cell[BoxData[
  RowBox[{"PlacementUI", "[", "]"}]], "Input",
+ Editable->False,
+ Selectable->False,
+ ShowCellBracket->False,
+ Copyable->False,
+ CellOpen->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.955020673386777*^9, 3.955020681035671*^9}, {
   3.955021695137374*^9, 3.955021696729376*^9}, {3.9550217492512712`*^9, 
   3.955021750555945*^9}},
  FontFamily->"Arial",
- CellLabel->"In[10]:=",ExpressionUUID->"8f3e5417-4717-eb47-b2b2-be6cd23ab37b"]
+ CellLabel->"In[16]:=",ExpressionUUID->"8f3e5417-4717-eb47-b2b2-be6cd23ab37b"],
+
+Cell[BoxData[
+ DynamicModuleBox[{Main`Private`seedValue$$ = 188, Main`Private`baseValue$$ = 
+  2, Main`Private`difficultyLevel$$ = 3, Main`Private`phase$$ = 1, 
+  Main`Private`initDone$$ = False, Main`Private`message$$ = "", 
+  Main`Private`cpuShips$$, Main`Private`battleStarted$$ = False, 
+  Main`Private`userShips$$, Main`Private`userGrid$$, Main`Private`cpuGrid$$, 
+  Main`Private`difficultyLevels$$ = {{"Facile", 3, {1}}, {
+   "Medio", 6, {3, 2, 1}}, {"Difficile", 10, {5, 4, 3, 2, 1}}}}, 
+  TagBox[GridBox[{
+     {
+      DynamicBox[ToBoxes[
+        Which[Main`Private`phase$$ == 1, 
+         Column[{
+           Interaction`AskSeedInput[
+            Function[
+            Main`Private`input$, Main`Private`seedValue$$ = 
+             Main`Private`input$]], 
+           Spacer[10], 
+           Interaction`AskBaseChoice[
+            Function[
+            Main`Private`input$, Main`Private`baseValue$$ = 
+             Main`Private`input$]], 
+           Spacer[10], 
+           Row[{"Livello di difficolt\[AGrave]: ", 
+             PopupMenu[
+              Dynamic[Main`Private`difficultyLevel$$], 
+              Table[
+              Main`Private`i -> 
+               Part[Main`Private`difficultyLevels$$, Main`Private`i, 1], {
+               Main`Private`i, 
+                Length[Main`Private`difficultyLevels$$]}]]}], 
+           Spacer[10], 
+           Button["Conferma Impostazioni", 
+            If[
+             And[
+              Interaction`isSeed[Main`Private`seedValue$$], 
+              Interaction`isBase[Main`Private`baseValue$$]], 
+             If[
+              Battle`InitPhase[
+              Main`Private`seedValue$$, Main`Private`baseValue$$, 
+               Main`Private`difficultyLevel$$], Main`Private`phase$$ = 2; 
+              Main`Private`initDone$$ = True; Null, 
+              Main`Private`message$$ = 
+               "Errore durante l'inizializzazione. Riprova."; Null], 
+             Main`Private`message$$ = "Seed o base non validi!"; Null]], 
+           Spacer[10], 
+           Dynamic[Main`Private`message$$]}], Main`Private`phase$$ == 2, 
+         Column[{
+           
+           DynamicModule[{
+            Main`Private`currentShip = 1, Main`Private`start = "", 
+             Main`Private`end = "", Main`Private`shipPlacementMsg = "", 
+             Main`Private`placementDone = False, Main`Private`gridSize = 
+             Util`$GridSize}, 
+            Column[{
+              Style["Fase di Posizionamento Navi", Bold, 16], 
+              Style[
+              "Livello di difficolt\[AGrave]: " <> 
+               Part[Main`Private`difficultyLevels$$, 
+                 Main`Private`difficultyLevel$$, 1] <> " - Griglia " <> 
+               ToString[Main`Private`gridSize] <> "\[Times]" <> 
+               ToString[Main`Private`gridSize], Italic], 
+              Row[{
+                Column[{
+                  Dynamic[
+                   Row[{"Nave ", Main`Private`currentShip, ":"}]], 
+                  Grid[{{"Inizio:", 
+                    InputField[
+                    Dynamic[Main`Private`start], String, Enabled -> Dynamic[
+                    Not[Main`Private`placementDone]]]}, {"Fine:", 
+                    InputField[
+                    Dynamic[Main`Private`end], String, Enabled -> Dynamic[
+                    Not[Main`Private`placementDone]]]}, {"", 
+                    Button["Conferma", 
+                    
+                    Module[{
+                    Main`Private`result = 
+                    Interaction`PlaceUserShip[
+                    Main`Private`start, Main`Private`end]}, 
+                    If[
+                    Part[Main`Private`result, 1], Main`Private`start = ""; 
+                    Main`Private`end = ""; If[Length[
+                    Interaction`GetRemainingShipLengths[]] == 0, 
+                    Main`Private`placementDone = True; 
+                    Main`Private`shipPlacementMsg = 
+                    "Tutte le navi sono state posizionate!"; Null, 
+                    Increment[Main`Private`currentShip]; 
+                    Main`Private`shipPlacementMsg = 
+                    Part[Main`Private`result, 2]; Null], 
+                    Main`Private`shipPlacementMsg = 
+                    Part[Main`Private`result, 2]; Null]], Enabled -> Dynamic[
+                    Not[Main`Private`placementDone]]]}, {"", 
+                    Button[
+                    "Avvia Battaglia", 
+                    Main`Private`userShips$$ = Interaction`GetUserShips[]; 
+                    Main`Private`userGrid$$ = Interaction`GetUserGrid[]; 
+                    Main`Private`phase$$ = 3; Null, Enabled -> 
+                    Dynamic[Main`Private`placementDone]]}, {"", 
+                    Row[{
+                    Interaction`helpUser[Main`Private`baseValue$$], 
+                    Spacer[30], 
+                    Interaction`helpUserPersonalized[
+                    Main`Private`baseValue$$]}]}}], 
+                  Dynamic[
+                   Style[Main`Private`shipPlacementMsg, 
+                    If[
+                    StringMatchQ[Main`Private`shipPlacementMsg, 
+                    Alternatives["Nave piazzata*", "Tutte le navi*"]], 
+                    Darker[Green], Red]]]}], 
+                Spacer[30], 
+                Column[{
+                  Style["La tua flotta", Bold, 14], 
+                  Dynamic[
+                   Util`showGrid[
+                    Interaction`GetUserGrid[], True]], 
+                  Style["Navi da posizionare:", Bold, 12], 
+                  Dynamic[
+                   
+                   Module[{
+                    Main`Private`remaining = 
+                    Interaction`GetRemainingShipLengths[]}, 
+                    If[
+                    Length[Main`Private`remaining] > 0, 
+                    "Lunghezze rimanenti: " <> 
+                    ToString[Main`Private`remaining], 
+                    "Tutte le navi sono state posizionate!"]]]}]}]}]], 
+           Button["Reset Game", Main`Private`phase$$ = 1; Null]}], 
+         Main`Private`phase$$ == 3, 
+         Column[{
+           Style[
+           "Battaglia Navale in Base " <> ToString[Main`Private`baseValue$$], 
+            Bold, 20, Red], 
+           Spacer[10], 
+           Dynamic[
+            Battle`StartGame[
+             Interaction`GetUserShips[], 
+             Interaction`GetCpuShip[], 
+             Interaction`GetUserGrid[], 
+             Interaction`GetCpuGrid[], Main`Private`baseValue$$, 
+             Util`$GridSize]], 
+           Spacer[10], 
+           Button[
+           "Reset Game", Battle`ResetGame[]; Main`Private`phase$$ = 1; 
+            Null]}]], StandardForm],
+       ImageSizeCache->{
+        398.1552734375, {98.65999023437502, 104.39192382812502`}}]}
+    },
+    DefaultBaseStyle->"Column",
+    GridBoxAlignment->{"Columns" -> {{Left}}},
+    GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+   "Column"],
+  DynamicModuleValues:>{}]], "Output",
+ ShowCellBracket->False,
+ ShowCellLabel->False,
+ CellChangeTimes->{{3.955627819910837*^9, 3.9556278403564777`*^9}, 
+   3.955627951195868*^9, 3.955628123915176*^9},
+ CellLabel->"Out[16]=",ExpressionUUID->"038c07c3-6e21-4a73-a10f-452d1aa5f781"]
+}, Open  ]]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell["III. Approfondimento", "Section",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  FontFamily->"Arial",
  CellTags->
@@ -19780,6 +20275,7 @@ Cell["III. Approfondimento", "Section",
 Cell[CellGroupData[{
 
 Cell["III.1 Ruolo delle basi posizionali", "Subsection",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.95544185188316*^9, 3.955441853215838*^9}},
  FontFamily->"Arial",ExpressionUUID->"a689870c-ce5a-494b-862c-b2b35e341c63"],
@@ -19794,6 +20290,7 @@ etc. Questo concetto si generalizza per qualunque base b.\n",
  "\nSe abbiamo un numero N e una base b, insegniamo a determinare la cifra in \
 posizione k:"
 }], "Text",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.95544189204906*^9, 3.95544191230196*^9}, {
   3.955442020384513*^9, 3.955442066925953*^9}, {3.955442132603079*^9, 
@@ -20031,6 +20528,7 @@ z5yfxf3lFahVfcGX138Bp/OJhA==
   PlotRange->{{0, 214.}, {
     0, 73.}}]],ExpressionUUID->"98073673-50d4-48cc-903e-87cbff090413"]], \
 "Text",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{3.955442748206339*^9},
  TextAlignment->Center,
@@ -20040,11 +20538,13 @@ z5yfxf3lFahVfcGX138Bp/OJhA==
 Cell[CellGroupData[{
 
 Cell["III.2 Esempi di calcoli in altre basi", "Subsection",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{3.9554428312494907`*^9},
  FontFamily->"Arial",ExpressionUUID->"34d61634-33f2-7f4b-94eb-edfc20a92d22"],
 
 Cell[" Somma in binario: 1011\:2082 + 1101\:2082:", "Item",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.955442832897241*^9, 3.955442836654533*^9}, {
   3.9554428786998863`*^9, 3.9554429207595263`*^9}, {3.955443480516892*^9, 
@@ -20091,6 +20591,7 @@ Cell[TextData[Cell[BoxData[
    "TeXAssistantTemplate"], 
   TraditionalForm]],ExpressionUUID->"88965f5d-e584-4501-9bf4-a4ba3f5762dd"]], \
 "Text",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.955442832897241*^9, 3.955442836654533*^9}, {
   3.9554428786998863`*^9, 3.9554429207595263`*^9}, {3.955443480516892*^9, 
@@ -20125,6 +20626,7 @@ Cell[TextData[{
     "TeXAssistantTemplate"], TraditionalForm]],ExpressionUUID->
   "53e1fb29-b324-4660-a4cb-80442a396fdc"]
 }], "Item",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.955442832897241*^9, 3.955442836654533*^9}, {
   3.9554428786998863`*^9, 3.9554429197566032`*^9}, {3.955443474183196*^9, 
@@ -20136,6 +20638,7 @@ Cell[TextData[{
 Cell[CellGroupData[{
 
 Cell["IV. Bibliografia e Sitografia", "Section",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  FontFamily->"Arial",
  CellTags->"biblio",ExpressionUUID->"9921667b-a710-3e4e-9ffc-2378e5cb2629"],
@@ -20143,6 +20646,7 @@ Cell["IV. Bibliografia e Sitografia", "Section",
 Cell["\<\
 Battaglia Navale: https://it.wikipedia.org/wiki/Battaglia_navale_(gioco)\
 \>", "ItemNumbered",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.955444262330546*^9, 3.955444269547714*^9}, {
   3.955444304109625*^9, 3.955444315266899*^9}},
@@ -20153,6 +20657,7 @@ Conversione base Binario->Decimale: \
 https://it.wikipedia.org/wiki/Binary-coded_decimal#:~:text=Codice%20binario%\
 20di%20Wikipedia.,essere%20usate%20per%20rappresentare%20simboli.\
 \>", "ItemNumbered",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.955444262330546*^9, 3.955444269547714*^9}, {
   3.955444304109625*^9, 3.955444321627308*^9}},
@@ -20162,6 +20667,7 @@ Cell["\<\
 Conversione base Ottale->Decimale: \
 https://it.wikipedia.org/wiki/Sistema_numerico_ottale\
 \>", "ItemNumbered",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.955444262330546*^9, 3.955444269547714*^9}, {
   3.955444304109625*^9, 3.9554443306814632`*^9}},
@@ -20171,6 +20677,7 @@ Cell["\<\
 Conversione base Esadecimale->Decimale: \
 https://it.wikipedia.org/wiki/Sistema_numerico_esadecimale\
 \>", "ItemNumbered",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.955444262330546*^9, 3.955444269547714*^9}, {
   3.955444304109625*^9, 3.955444343417411*^9}},
@@ -20179,6 +20686,7 @@ https://it.wikipedia.org/wiki/Sistema_numerico_esadecimale\
 Cell["\<\
 Concetto di Gamification : https://it.wikipedia.org/wiki/Gamification\
 \>", "ItemNumbered",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.955444262330546*^9, 3.955444269547714*^9}, {
   3.955444304109625*^9, 3.955444348704303*^9}},
@@ -20189,6 +20697,7 @@ Notazione Numerica: \
 https://it.wikipedia.org/wiki/Notazione_numerica#:~:text=La%20notazione%\
 20numerica%20%C3%A8%20una,Correspondence%20Chess%20Federation%20(ICCF).\
 \>", "ItemNumbered",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.955444262330546*^9, 3.955444269547714*^9}, {
   3.955444304109625*^9, 3.955444348913168*^9}},
@@ -20198,11 +20707,13 @@ https://it.wikipedia.org/wiki/Notazione_numerica#:~:text=La%20notazione%\
 Cell[CellGroupData[{
 
 Cell["V. Commenti e lavoro futuro", "Section",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  FontFamily->"Arial",
  CellTags->"commenti",ExpressionUUID->"48c18ade-1beb-ab4f-a27f-5ada0a8633f0"],
 
 Cell["Questo progetto pu\[OGrave] essere esteso aggiungendo:", "Text",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.955441762506061*^9, 3.955441794116808*^9}, {
   3.955443681752575*^9, 3.955443702459385*^9}},
@@ -20210,16 +20721,19 @@ Cell["Questo progetto pu\[OGrave] essere esteso aggiungendo:", "Text",
 
 Cell["Modalit\[AGrave] multigiocatore online per sfidarsi in tempo reale.", \
 "Item",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.95544371791614*^9, 3.955443721391934*^9}},
  FontFamily->"Arial",ExpressionUUID->"0ae31f5f-d97d-485f-a915-a8105a90be8d"],
 
 Cell["Altre basi, ad esempio base 3 o base 12.", "Item",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.95544371791614*^9, 3.955443723202033*^9}},
  FontFamily->"Arial",ExpressionUUID->"6690153e-6f27-46e7-a2a8-0324e818de48"],
 
 Cell["Supporto per conversioni con virgola (numeri reali).", "Item",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.95544371791614*^9, 3.95544372818701*^9}},
  FontFamily->"Arial",ExpressionUUID->"2d31fb0e-f8bb-4791-9fc1-2096f744481f"],
@@ -20228,22 +20742,26 @@ Cell["\<\
 Modalit\[AGrave] tutorial guidato con spiegazioni passo passo integrate \
 direttamente nell\[CloseCurlyQuote]interfaccia.\
 \>", "Item",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.95544371791614*^9, 3.9554437326363363`*^9}},
  FontFamily->"Arial",ExpressionUUID->"44b542de-658a-4211-bd04-6b8f85da984b"],
 
 Cell["Per migliorare l\[CloseCurlyQuote]accessibilit\[AGrave], si potrebbero \
 implementare:", "Text",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.955443740204824*^9, 3.955443746061092*^9}},
  FontFamily->"Arial",ExpressionUUID->"0399233b-69f3-4709-b68a-e53d1439ca65"],
 
 Cell["Traduzioni in altre lingue.", "Item",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{{3.955443754706072*^9, 3.955443773839356*^9}},
  FontFamily->"Arial",ExpressionUUID->"823c0074-e194-4475-bb32-b20887b7d0e7"],
 
 Cell["Buon divertimento e buon apprendimento!", "Text",
+ ShowCellBracket->False,
  ShowCellLabel->False,
  CellChangeTimes->{3.955443803600932*^9},
  FontFamily->"Arial",ExpressionUUID->"4e694483-2ec5-4f3a-99c2-2a168a05089b"]
@@ -20275,100 +20793,104 @@ ExpressionUUID->"bafa5f73-fb81-4183-9663-91d852a0db89"
 (* Internal cache information *)
 (*CellTagsOutline
 CellTagsIndex->{
- "approfondimento"->{
-  Cell[1190990, 19773, 172, 4, 62, "Section",ExpressionUUID->"c192db24-400e-244f-bc9d-6d77c919d7d6",
-   CellTags->"approfondimento"]},
- "biblio"->{
-  Cell[1209725, 20137, 169, 3, 62, "Section",ExpressionUUID->"9921667b-a710-3e4e-9ffc-2378e5cb2629",
-   CellTags->"biblio"]},
- "commenti"->{
-  Cell[1212112, 20199, 169, 3, 62, "Section",ExpressionUUID->"48c18ade-1beb-ab4f-a27f-5ada0a8633f0",
-   CellTags->"commenti"]},
  "intro"->{
-  Cell[1187758, 19700, 151, 3, 62, "Section",ExpressionUUID->"ed267561-31a9-6148-af01-4d5aff7ea50a",
+  Cell[1177402, 19480, 176, 4, 62, "Section",ExpressionUUID->"ed267561-31a9-6148-af01-4d5aff7ea50a",
    CellTags->"intro"]},
  "sezione1"->{
-  Cell[1189619, 19735, 246, 4, 62, "Section",ExpressionUUID->"32953120-9e0c-1a4a-a968-b01cdde33b50",
+  Cell[1179313, 19517, 271, 5, 62, "Section",ExpressionUUID->"32953120-9e0c-1a4a-a968-b01cdde33b50",
    CellTags->"sezione1"]},
  "sezione2"->{
-  Cell[1190360, 19755, 241, 4, 62, "Section",ExpressionUUID->"5d35aaea-ef26-8f42-9196-e5143c0fbaed",
-   CellTags->"sezione2"]}
+  Cell[1201004, 20082, 266, 5, 62, "Section",ExpressionUUID->"5d35aaea-ef26-8f42-9196-e5143c0fbaed",
+   CellTags->"sezione2"]},
+ "approfondimento"->{
+  Cell[1208946, 20267, 197, 5, 62, "Section",ExpressionUUID->"c192db24-400e-244f-bc9d-6d77c919d7d6",
+   CellTags->"approfondimento"]},
+ "biblio"->{
+  Cell[1227881, 20639, 194, 4, 62, "Section",ExpressionUUID->"9921667b-a710-3e4e-9ffc-2378e5cb2629",
+   CellTags->"biblio"]},
+ "commenti"->{
+  Cell[1230443, 20708, 194, 4, 62, "Section",ExpressionUUID->"48c18ade-1beb-ab4f-a27f-5ada0a8633f0",
+   CellTags->"commenti"]}
  }
 *)
 (*CellTagsIndex
 CellTagsIndex->{
- {"approfondimento", 1215273, 20277},
- {"biblio", 1215421, 20280},
- {"commenti", 1215562, 20283},
- {"intro", 1215702, 20286},
- {"sezione1", 1215842, 20289},
- {"sezione2", 1215985, 20292}
+ {"intro", 1233819, 20795},
+ {"sezione1", 1233959, 20798},
+ {"sezione2", 1234102, 20801},
+ {"approfondimento", 1234252, 20804},
+ {"biblio", 1234400, 20807},
+ {"commenti", 1234541, 20810}
  }
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[554, 20, 814, 13, 29, "Input",ExpressionUUID->"2b247ebc-5f51-47ea-8a92-0ec55b13cb5f"],
+Cell[554, 20, 4254, 90, 125, "Output",ExpressionUUID->"38a578f2-a25d-49e1-95f8-e7b6ca17f00f"],
 Cell[CellGroupData[{
-Cell[1393, 37, 10420, 226, 662, "Input",ExpressionUUID->"ef65eec3-e3e5-4a1c-8373-5a1ec8e5bab7"],
-Cell[11816, 265, 3411, 67, 243, "Output",ExpressionUUID->"a530cb98-353c-4738-ac54-9b65e7f5da8c"]
+Cell[4833, 114, 1168013, 19211, 448, "Title",ExpressionUUID->"7510df0b-fdf3-b34f-a047-dfa3e9f2ee92"],
+Cell[CellGroupData[{
+Cell[1172871, 19329, 199, 5, 66, "Section",ExpressionUUID->"baa8d25f-e6ae-4acd-89b8-911147585e9e"],
+Cell[1173073, 19336, 4292, 139, 205, "Text",ExpressionUUID->"11789c85-9d17-e343-bb28-27e9ade5beb9"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[15264, 337, 1167988, 19210, 448, "Title",ExpressionUUID->"7510df0b-fdf3-b34f-a047-dfa3e9f2ee92"],
-Cell[CellGroupData[{
-Cell[1183277, 19551, 174, 4, 66, "Section",ExpressionUUID->"baa8d25f-e6ae-4acd-89b8-911147585e9e"],
-Cell[1183454, 19557, 4267, 138, 205, "Text",ExpressionUUID->"11789c85-9d17-e343-bb28-27e9ade5beb9"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[1187758, 19700, 151, 3, 62, "Section",ExpressionUUID->"ed267561-31a9-6148-af01-4d5aff7ea50a",
+Cell[1177402, 19480, 176, 4, 62, "Section",ExpressionUUID->"ed267561-31a9-6148-af01-4d5aff7ea50a",
  CellTags->"intro"],
-Cell[1187912, 19705, 1670, 25, 150, "Text",ExpressionUUID->"43e3925c-090d-d24a-9f59-25ef89becc93"]
+Cell[1177581, 19486, 1695, 26, 150, "Text",ExpressionUUID->"43e3925c-090d-d24a-9f59-25ef89becc93"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1189619, 19735, 246, 4, 62, "Section",ExpressionUUID->"32953120-9e0c-1a4a-a968-b01cdde33b50",
+Cell[1179313, 19517, 271, 5, 62, "Section",ExpressionUUID->"32953120-9e0c-1a4a-a968-b01cdde33b50",
  CellTags->"sezione1"],
-Cell[1189868, 19741, 455, 9, 27, "Input",ExpressionUUID->"02c14098-f3e7-fa49-86ae-6b3f819777bd"]
-}, Open  ]],
 Cell[CellGroupData[{
-Cell[1190360, 19755, 241, 4, 62, "Section",ExpressionUUID->"5d35aaea-ef26-8f42-9196-e5143c0fbaed",
- CellTags->"sezione2"],
-Cell[1190604, 19761, 349, 7, 27, "Input",ExpressionUUID->"8f3e5417-4717-eb47-b2b2-be6cd23ab37b"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[1190990, 19773, 172, 4, 62, "Section",ExpressionUUID->"c192db24-400e-244f-bc9d-6d77c919d7d6",
- CellTags->"approfondimento"],
-Cell[CellGroupData[{
-Cell[1191187, 19781, 221, 3, 50, "Subsection",ExpressionUUID->"a689870c-ce5a-494b-862c-b2b35e341c63"],
-Cell[1191411, 19786, 853, 15, 91, "Text",ExpressionUUID->"8a10471e-307a-5f4a-8bdd-f8f72dee3bf6"],
-Cell[1192267, 19803, 13760, 233, 88, "Text",ExpressionUUID->"7b3ad6d0-4898-4002-bc20-7b7a74adb609"]
-}, Open  ]],
-Cell[CellGroupData[{
-Cell[1206064, 20041, 203, 3, 50, "Subsection",ExpressionUUID->"34d61634-33f2-7f4b-94eb-edfc20a92d22"],
-Cell[1206270, 20046, 329, 5, 30, "Item",ExpressionUUID->"a241f603-f1f2-4517-89c5-a6ae388a8f0e"],
-Cell[1206602, 20053, 1651, 44, 89, "Text",ExpressionUUID->"3cfbafb6-fa70-4e89-b8a2-ed8b0dfcfb0d"],
-Cell[1208256, 20099, 1420, 32, 86, "Item",ExpressionUUID->"15844020-bc7b-471b-9145-de80c128facc"]
+Cell[1179609, 19526, 537, 13, 19, "Input",ExpressionUUID->"02c14098-f3e7-fa49-86ae-6b3f819777bd",
+ CellOpen->False],
+Cell[1180149, 19541, 20806, 535, 1266, "Output",ExpressionUUID->"6e942a62-3368-4c09-9c0e-9cc210c0e65d"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1209725, 20137, 169, 3, 62, "Section",ExpressionUUID->"9921667b-a710-3e4e-9ffc-2378e5cb2629",
- CellTags->"biblio"],
-Cell[1209897, 20142, 319, 6, 28, "ItemNumbered",ExpressionUUID->"e4256778-fac2-6840-a418-20f31e83df6e"],
-Cell[1210219, 20150, 428, 8, 28, "ItemNumbered",ExpressionUUID->"e26edab5-1cdf-47d7-b8d6-e6693fae0fdb"],
-Cell[1210650, 20160, 339, 7, 28, "ItemNumbered",ExpressionUUID->"67070d74-7836-4208-8bdb-0e1ffe04d2ef"],
-Cell[1210992, 20169, 347, 7, 28, "ItemNumbered",ExpressionUUID->"716f68a9-8b7f-4673-b601-dfb985d0d3ea"],
-Cell[1211342, 20178, 316, 6, 28, "ItemNumbered",ExpressionUUID->"15d02db5-3c8e-4c2d-aae5-2558c2a5fe46"],
-Cell[1211661, 20186, 414, 8, 28, "ItemNumbered",ExpressionUUID->"01d467fa-4c7d-416b-b06b-74aea0a778f6"]
+Cell[1201004, 20082, 266, 5, 62, "Section",ExpressionUUID->"5d35aaea-ef26-8f42-9196-e5143c0fbaed",
+ CellTags->"sezione2"],
+Cell[CellGroupData[{
+Cell[1201295, 20091, 448, 12, 19, "Input",ExpressionUUID->"8f3e5417-4717-eb47-b2b2-be6cd23ab37b",
+ CellOpen->False],
+Cell[1201746, 20105, 7151, 156, 220, "Output",ExpressionUUID->"038c07c3-6e21-4a73-a10f-452d1aa5f781"]
+}, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1212112, 20199, 169, 3, 62, "Section",ExpressionUUID->"48c18ade-1beb-ab4f-a27f-5ada0a8633f0",
+Cell[1208946, 20267, 197, 5, 62, "Section",ExpressionUUID->"c192db24-400e-244f-bc9d-6d77c919d7d6",
+ CellTags->"approfondimento"],
+Cell[CellGroupData[{
+Cell[1209168, 20276, 246, 4, 50, "Subsection",ExpressionUUID->"a689870c-ce5a-494b-862c-b2b35e341c63"],
+Cell[1209417, 20282, 878, 16, 91, "Text",ExpressionUUID->"8a10471e-307a-5f4a-8bdd-f8f72dee3bf6"],
+Cell[1210298, 20300, 13785, 234, 88, "Text",ExpressionUUID->"7b3ad6d0-4898-4002-bc20-7b7a74adb609"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1224120, 20539, 228, 4, 50, "Subsection",ExpressionUUID->"34d61634-33f2-7f4b-94eb-edfc20a92d22"],
+Cell[1224351, 20545, 354, 6, 30, "Item",ExpressionUUID->"a241f603-f1f2-4517-89c5-a6ae388a8f0e"],
+Cell[1224708, 20553, 1676, 45, 89, "Text",ExpressionUUID->"3cfbafb6-fa70-4e89-b8a2-ed8b0dfcfb0d"],
+Cell[1226387, 20600, 1445, 33, 86, "Item",ExpressionUUID->"15844020-bc7b-471b-9145-de80c128facc"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1227881, 20639, 194, 4, 62, "Section",ExpressionUUID->"9921667b-a710-3e4e-9ffc-2378e5cb2629",
+ CellTags->"biblio"],
+Cell[1228078, 20645, 344, 7, 28, "ItemNumbered",ExpressionUUID->"e4256778-fac2-6840-a418-20f31e83df6e"],
+Cell[1228425, 20654, 453, 9, 28, "ItemNumbered",ExpressionUUID->"e26edab5-1cdf-47d7-b8d6-e6693fae0fdb"],
+Cell[1228881, 20665, 364, 8, 28, "ItemNumbered",ExpressionUUID->"67070d74-7836-4208-8bdb-0e1ffe04d2ef"],
+Cell[1229248, 20675, 372, 8, 28, "ItemNumbered",ExpressionUUID->"716f68a9-8b7f-4673-b601-dfb985d0d3ea"],
+Cell[1229623, 20685, 341, 7, 28, "ItemNumbered",ExpressionUUID->"15d02db5-3c8e-4c2d-aae5-2558c2a5fe46"],
+Cell[1229967, 20694, 439, 9, 28, "ItemNumbered",ExpressionUUID->"01d467fa-4c7d-416b-b06b-74aea0a778f6"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1230443, 20708, 194, 4, 62, "Section",ExpressionUUID->"48c18ade-1beb-ab4f-a27f-5ada0a8633f0",
  CellTags->"commenti"],
-Cell[1212284, 20204, 285, 4, 31, "Text",ExpressionUUID->"62b56074-ab2a-4f4e-9639-63260a7967ea"],
-Cell[1212572, 20210, 250, 4, 29, "Item",ExpressionUUID->"0ae31f5f-d97d-485f-a915-a8105a90be8d"],
-Cell[1212825, 20216, 221, 3, 29, "Item",ExpressionUUID->"6690153e-6f27-46e7-a2a8-0324e818de48"],
-Cell[1213049, 20221, 232, 3, 29, "Item",ExpressionUUID->"2d31fb0e-f8bb-4791-9fc1-2096f744481f"],
-Cell[1213284, 20226, 312, 6, 29, "Item",ExpressionUUID->"44b542de-658a-4211-bd04-6b8f85da984b"],
-Cell[1213599, 20234, 268, 4, 31, "Text",ExpressionUUID->"0399233b-69f3-4709-b68a-e53d1439ca65"],
-Cell[1213870, 20240, 209, 3, 29, "Item",ExpressionUUID->"823c0074-e194-4475-bb32-b20887b7d0e7"],
-Cell[1214082, 20245, 197, 3, 31, "Text",ExpressionUUID->"4e694483-2ec5-4f3a-99c2-2a168a05089b"]
+Cell[1230640, 20714, 310, 5, 31, "Text",ExpressionUUID->"62b56074-ab2a-4f4e-9639-63260a7967ea"],
+Cell[1230953, 20721, 275, 5, 29, "Item",ExpressionUUID->"0ae31f5f-d97d-485f-a915-a8105a90be8d"],
+Cell[1231231, 20728, 246, 4, 29, "Item",ExpressionUUID->"6690153e-6f27-46e7-a2a8-0324e818de48"],
+Cell[1231480, 20734, 257, 4, 29, "Item",ExpressionUUID->"2d31fb0e-f8bb-4791-9fc1-2096f744481f"],
+Cell[1231740, 20740, 337, 7, 29, "Item",ExpressionUUID->"44b542de-658a-4211-bd04-6b8f85da984b"],
+Cell[1232080, 20749, 293, 5, 31, "Text",ExpressionUUID->"0399233b-69f3-4709-b68a-e53d1439ca65"],
+Cell[1232376, 20756, 234, 4, 29, "Item",ExpressionUUID->"823c0074-e194-4475-bb32-b20887b7d0e7"],
+Cell[1232613, 20762, 222, 4, 31, "Text",ExpressionUUID->"4e694483-2ec5-4f3a-99c2-2a168a05089b"]
 }, Open  ]]
 }, Open  ]]
 }

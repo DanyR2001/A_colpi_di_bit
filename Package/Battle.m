@@ -39,8 +39,8 @@ InitPhase[seed_Integer, base_Integer, difficultyLevel_Integer] := Module[
   ResetGame[];
   
   (* Ottieni gridSize e shipLengths in base al livello di difficoltà *)
-  gridSize = GetDifficultyLevels[][[difficultyLevel, 2]];
-  shipLengths = GetDifficultyLevels[][[difficultyLevel, 3]];
+  gridSize = Interaction`GetDifficultyLevels[][[difficultyLevel, 2]];
+  shipLengths = Interaction`GetDifficultyLevels[][[difficultyLevel, 3]];
   
   (* Inizializza tutti i valori necessari *)
   SetShipLengths[shipLengths];
@@ -291,7 +291,7 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
         (* Campo d'attacco *)
         Column[{
           Style["Campo d'attacco", Bold, 14],
-          Dynamic[showGrid[cpuGrid, True]]
+          Dynamic[showGrid[cpuGrid, False]]
         }]
       }],
       Spacer[20],
@@ -351,7 +351,7 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
           , ImageSize -> {80, 30}, Enabled -> Dynamic[!gameOver]]
         }
       }],
-      helpUser[userBase],
+      Row[{helpUser[userBase],Spacer[10],helpUserPersonalized[userBase]}],
       Spacer[10],
       Style["Attacco Utente:", Bold, 12],
         Dynamic[messageUser],

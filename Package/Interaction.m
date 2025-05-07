@@ -99,7 +99,7 @@ isBase[base_]:=MemberQ[{2,8,16}, base];
 isSeed[seed_]:=IntegerQ[seed]; 
 
 helpUserPersonalized[base_Integer]:=PopupWindow[
-	Button["Chiedi Aiuto"],
+	Button["Chiedi una cella"],
 	DynamicModule[{numberDec=0,error="",ex=""},
 		Style[
 			Column[{
@@ -226,7 +226,7 @@ exercise[base_, numberDec_]:=Module[{numberBase, helpDescription, colors},
 		
 (* Versione corretta di helpUser con gestione corretta dei colori e indici *)
 helpUser[base_Integer]:=PopupWindow[
-	Button["Visualizza un suggerimento"],
+	Button["Suggerimento"],
 		Module[{numberDec=RandomInteger[{1,300}]},
 			(*suggerimento*)
 			Style[

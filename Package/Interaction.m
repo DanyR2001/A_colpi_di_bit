@@ -12,7 +12,7 @@ helpUser::usage="helpUser[base] apre finestra per mostrare un suggerimento all'u
 
 InitPhase::usage =
   "InitPhase[base, gridSize] inizializza il gioco: base \[Element] {2,8,16}, gridSize \[EGrave] lato griglia.\
-Imposta $UserBase, $GridSize, $AutoGrid e $UserGrid, resetta gli stati.";
+Imposta $UserBase, $GridSize, $AutomaticGrid e $UserGrid, resetta gli stati.";
 
 PlaceUserShip::usage =
   "PlaceUserShip[startRaw, endRaw] piazza in $UserGrid una nave.\
@@ -27,21 +27,32 @@ ResetGame::usage =
 GetUserShips::usage = "GetUserShips[] restituisce lista di blocchi delle navi utente.";
 GetUserGrid::usage = "GetUserGrid[] restituisce matrice griglia utente.";
 GetRemainingShipLengths::usage = "GetRemainingShipLengths[] restituisce le lunghezze delle navi ancora da piazzare.";
+GetDifficultyLevels::usage = "GetDifficultyLevels[] restituisce i livelli di difficoltà disponibili";
+GetCpuShip::usage="GetCpuShip[] restituisce le navi della CPU";
+GetCpuGrid::usage="GetCpuGrid[] resitiruisce la griglia delle CPU";
 
 showMessage::usage="showMessage[message] stampa un messaggio";
 showError::usage="showError[error] stampa un messaggio di errore (in rosso)";
 
 Begin["`Private`"];
 
+(*livelli di difficoltà*)
+$DifficultyLevels = {
+  {"Facile", 3, {1}},         (* Livello facile: griglia 3x3, 1 nave di lunghezza 1 *)
+  {"Medio", 6, {3, 2, 1}},    (* Livello medio: griglia 6x6, 3 navi di lunghezza 3,2,1 *)
+  {"Difficile", 10, {5, 4, 3, 2, 1}}  (* Livello difficile: griglia 10x10, 5 navi di lunghezza 5,4,3,2,1 *)
+};
+
+
 (* Stati globali *)
 $AutomaticShips = {};
 $UserShips      = {};
-$AutoGrid       = {};
+$AutomaticGrid  = {};
 $UserGrid       = {};
 $UserBase       = 10;
 $GridSize       = 10;
 $Seed= ""; 
-$ShipLengths = {5, 4, 3, 2, 1};  (* Lunghezze disponibili delle navi *)
+$ShipLengths = {5, 4, 3, 2, 1}; 
 
 (* Reset di tutte le variabili e liste *)
 ResetGame[] := (
@@ -49,61 +60,51 @@ ResetGame[] := (
   $GridSize       = 10;
   $AutomaticShips = {};
   $UserShips      = {};
-  $AutoGrid       = {};
+  $AutomaticGrid  = {};
   $UserGrid       = {};
   $Seed= ""; 
   $ShipLengths = {5, 4, 3, 2, 1};
 );
 
 (* Inizializza contesto PC e utente *)
-InitPhase[seed_Integer, base_Integer, gridSize_Integer] := (
-  If[!isBase[base] || !isSeed[seed], 
+InitPhase[seed_Integer, base_Integer, difficultyLevel_Integer] := Module[
+  {gridSize, shipLengths},
+  
+  If[!isBase[base] || !isSeed[seed] || difficultyLevel < 1 || difficultyLevel > Length[$DifficultyLevels], 
     showError["Parametri non validi!"];
     Return[];
   ];
-  $Seed = seed; 
+  
+  (* Ottieni gridSize e shipLengths in base al livello di difficoltà *)
+  gridSize = $DifficultyLevels[[difficultyLevel, 2]];
+  shipLengths = $DifficultyLevels[[difficultyLevel, 3]];
+  $ShipLengths = shipLengths;
+  initSeed[seed];
+  (*$Seed = seed;*)
   $UserBase = base;
   $GridSize = gridSize;
-  $AutomaticShips = {};
+  Needs["Battle`"]; (*Per evitare ricorsioni*)
+  $AutomaticShips = Battle`generateCPUShips[$GridSize];
   $UserShips = {};
-  $AutoGrid = ConstantArray[$Vuoto, {gridSize, gridSize}];
+  $AutomaticGrid =createGrid[$AutomaticShips,gridSize];
   $UserGrid = ConstantArray[$Vuoto, {gridSize, gridSize}];
-  $ShipLengths = {5, 4, 3, 2, 1};
-  Print["Inizializzazione completata! Base: ", base, ", Seed: ", seed];
-);
+];
 
 
 (*richiedi seed e base*)
-AskSeedInput[inputSeed_] := DynamicModule[{value = "", message = "", error = False},
-  Column[{
-    Row[{
-      "Inserisci seed: ",
-      InputField[Dynamic[value], Number, ImageSize -> Small],
-      Button["Imposta", 
-        If[isSeed[value], 
-          inputSeed[value];
-          error = False;
-          message = "Seed inserito: " <> ToString[value];
-          (* Forza l'aggiornamento del seed nel modulo principale *)
-          seed = value;,
-          error = True;
-          message = "Seed non valido. Inserisci un numero intero!";
-        ]
-      ]
-    }],
-    Dynamic[If[error, showError[message], showMessage[message]]]
+AskSeedInput[inputSeed_] := DynamicModule[{value = RandomInteger[1024]},
+  Row[{
+    "Inserisci seed: ",
+    InputField[Dynamic[value, (value = #; inputSeed[value])&], Number, ImageSize -> Small]
   }]
 ];
 
-AskBaseChoice[inputBase_]:= DynamicModule[{value=2, message=""},
-	Column[{
-		Row[{
-			"Inserisci la base su cui ti vuoi esercitare: ",
-			PopupMenu[Dynamic[value], {2,8,16}],
-			Button["Inserisci",inputBase[value]; message="Base inserita: "<>ToString[value];]
-		}],
-		Dynamic[showMessage[message]]
-	}]
+(* Funzione AskBaseChoice modificata *)
+AskBaseChoice[inputBase_]:= DynamicModule[{value = 2},
+  Row[{
+    "Inserisci la base su cui ti vuoi esercitare: ",
+    PopupMenu[Dynamic[value, (value = #; inputBase[value])&], {2, 8, 16}]
+  }]
 ];
 
 (*Mostra messaggi e errori*)
@@ -114,79 +115,95 @@ showError[error_String]:=Style["Attenzione: "<>error, Red];
 isBase[base_]:=MemberQ[{2,8,16}, base];
 isSeed[seed_]:=IntegerQ[seed]; 
 
+(* Versione corretta di helpUser con gestione corretta dei colori e indici *)
 helpUser[base_Integer]:=PopupWindow[
-	Button["Suggerimento"],
-	Module[{numberDec,numberBase,helpDescription,colors},
-		numberDec=RandomInteger[{1,300}]; 
-		colors = {Green,Blue,Orange,Purple,Red,Brown,Pink};
-		If[!isBase[base],"Per favore, prima inserisci una base valida!",
-			If[base==2, 
+	Button["Visualizza un suggerimento"],
+	Module[{numberDec, numberBase, helpDescription, colors},
+		numberDec = RandomInteger[{1,300}]; 
+		colors = {Green, Blue, Orange, Purple, Red, Brown, Pink};
+		
+		helpDescription = If[!isBase[base], 
+			"Per favore, prima inserisci una base valida!",
+			If[base == 2, 
 				(*Divisioni successive per 2*)
-				Module[{quotients={numberDec},modules={},i},{
-					i=1;
+				Module[{quotients, modules, i},
+					quotients = {numberDec};
+					modules = {};
+					i = 1;
+					
 					(*memorizzo i quozienti e i resti*)
-					While[quotients[[i]]!=0,
-						AppendTo[quotients,Quotient[quotients[[i]],2]];
-						AppendTo[modules,Mod[quotients[[i]],2]];
+					While[quotients[[i]] != 0,
+						AppendTo[quotients, Quotient[quotients[[i]], 2]];
+						AppendTo[modules, Mod[quotients[[i]], 2]];
 						i++;
 					];
+					
 					(*spiegazione della conversione, mostro divisioni successive e resti ottenuti *)
-					helpDescription={" \[Bullet] Dividiamolo per 2 e annotiamo il resto fino ad arrivare a 0",
-						Row[{
-							Panel[Style[ 
-								Grid[
-									Table[{
-										(*divisione*)
-										Style[ToString[quotients[[n]]],colors[[Mod[Length[colors]+n,Length[colors]]+1]]],
-										" \[Divide] 2 = ", 
-										(*quoziente*)
-										Spacer[5],Style[ToString[quotients[[n+1]]],colors[[Mod[Length[colors]+n+1,Length[colors]]+1]]],
-										(*resto*)
-										Spacer[5]," Resto = ",
-										Style[ToString[modules[[n]]],Bold]},
-									{n,1,Length[quotients]-1}]
-								],12]
-							], 
-							(*freccia dal basso verso l'alto, mostra come leggere i resti*)
-							Graphics[{Red,Arrowheads[0.5], Arrow[{{0, 0}, {0, i - 1}}]}, ImageSize -> 20]},
-						Alignment->Center,ImageSize->Full],
-						Row[{" \[Bullet] La conversione in binario si ottiene leggendo i resti dal basso verso l'alto ",Style["(Resti \[UpArrow])",Red]}]
+					{" \[Bullet] Dividiamolo per 2 e annotiamo il resto fino ad arrivare a 0",
+					 Row[{
+						Panel[Style[ 
+							Grid[
+								Table[{
+									(*divisione*)
+									Style[ToString[quotients[[n]]], colors[[Mod[n-1, Length[colors]]+1]]],
+									" \[Divide] 2 = ", 
+									(*quoziente*)
+									Spacer[5], Style[ToString[quotients[[n+1]]], colors[[Mod[n, Length[colors]]+1]]],
+									(*resto*)
+									Spacer[5], " Resto = ",
+									Style[ToString[modules[[n]]], Bold]
+								}, {n, 1, Length[quotients]-1}]
+							], 12]
+						], 
+						(*freccia dal basso verso l'alto, mostra come leggere i resti*)
+						Graphics[{Red, Arrowheads[0.5], Arrow[{{0, 0}, {0, i - 1}}]}, ImageSize -> 20]
+					 }, Alignment -> Center, ImageSize -> Full],
+					 Row[{" \[Bullet] La conversione in binario si ottiene leggendo i resti dal basso verso l'alto ", Style["(Resti \[UpArrow])", Red]}]
 					}
-				}];,
+				],
 				(*conversione in basi 8 o 16, converto in binario, raggruppo e converto in decimale*)
-				Module[{digits, digitsGroups,mod,exp,table},
+				Module[{digits, digitsGroups, mod, exp, table},
 					(*lista delle cifre che compongono il numero binario \[RightArrow] usata per la suddivisione in gruppi*)
-	        		digits=IntegerDigits[numberDec,2]; 
-	        		(*potenza di due: 16=2^4, 8=2^3 \[RightArrow] l'esponente indica la dimensione del gruppo in cui raggruppare il numero binario*)
-					exp=Log2[base]; 
+					digits = IntegerDigits[numberDec, 2]; 
+					(*potenza di due: 16=2^4, 8=2^3 \[RightArrow] l'esponente indica la dimensione del gruppo in cui raggruppare il numero binario*)
+					exp = Log2[base]; 
 					(*resto \[RightArrow] indica quante cifre a sinistra rimangono escluse dal raggruppamento, serve per sapere quanti 0 aggiungere*)
-					mod=Mod[Length[digits],exp]; 
+					mod = Mod[Length[digits], exp]; 
 					(*suddivisione del numero binario in gruppi da 3 o 4 cifre, se il resto \[EGrave] diverso da 0 vengono aggiunti degli 0 a sx*)
-					digitsGroups=If[mod===0, Partition[digits,exp,exp],Partition[digits, exp, exp,{-mod,exp}, 0]];
-			        
-			        (*spiegazione della conversione*)     
-	        		helpDescription={" \[Bullet] convertiamolo in base 2",
-	        		(*conversione in binario*)
-					Row[{Panel[Style[BaseForm[numberDec,2],12]]},Alignment->Center,ImageSize->Full],
-					" \[Bullet] raccogliamo le cifre binarie in gruppi da "<>ToString[exp]<>" partendo dalla posizione pi\[UGrave] a destra (cifra meno significativa),",
+					digitsGroups = If[mod === 0, 
+                        Partition[digits, exp], 
+                        Partition[Flatten[{Table[0, {mod, exp - mod}], digits}], exp]
+                    ];
+					
+					(*spiegazione della conversione*)     
+					{" \[Bullet] convertiamolo in base 2",
+					(*conversione in binario*)
+					Row[{Panel[Style[BaseForm[numberDec, 2], 12]]}, Alignment -> Center, ImageSize -> Full],
+					" \[Bullet] raccogliamo le cifre binarie in gruppi da " <> ToString[exp] <> " partendo dalla posizione pi\[UGrave] a destra (cifra meno significativa),",
 					(*raggruppamento cifre*)
-					Row[ 
+					Row[
 						Table[
 							Panel[Style[
 								Row[digitsGroups[[n]]],
-								colors[[Mod[Length[colors]+n,Length[colors]]+1]]
-							,12]],
-						{n,1,Length[digitsGroups]}]
-					,Alignment->Center, ImageSize->Full],
-					" \[Bullet] convertiamo ogni gruppo in decimale, ogni numero ottenuto corrisponde ad una cifra in base "<>ToString[base]<>".",
+								colors[[Mod[n-1, Length[colors]]+1]]
+							]], {n, 1, Length[digitsGroups]}
+						]
+					, Alignment -> Center, ImageSize -> Full],
+					" \[Bullet] convertiamo ogni gruppo in decimale, ogni numero ottenuto corrisponde ad una cifra in base " <> ToString[base] <> ".",
 					(*conversione in decimale*)
 					Row[{Panel[Style[Grid[ 
 						Table[
-							{Style[Row[digitsGroups[[n]]],colors[[Mod[Length[colors]+n,Length[colors]]+1]]], (*gruppo di cifre binarie*)
-							"\[RightArrow]", FromDigits[digitsGroups[[n]], 2], (*conversione in decimale*)
-							"\[RightArrow]",BaseForm[FromDigits[digitsGroups[[n]], 2],base]},(*cifra in base 8/16 corrispondente*)
-						{n, Length[digitsGroups]}]
-					],12]]},Alignment->Center, ImageSize->Full]};
+							{
+                                Style[Row[digitsGroups[[n]]], colors[[Mod[n-1, Length[colors]]+1]]], (*gruppo di cifre binarie*)
+							    "\[RightArrow]", 
+                                FromDigits[digitsGroups[[n]], 2], (*conversione in decimale*)
+							    "\[RightArrow]",
+                                BaseForm[FromDigits[digitsGroups[[n]], 2], base] (*cifra in base 8/16 corrispondente*)
+                            },
+						    {n, 1, Length[digitsGroups]}
+						]
+					], 12]]}, Alignment -> Center, ImageSize -> Full]
+					}
 				]
 			]
 		];
@@ -194,59 +211,58 @@ helpUser[base_Integer]:=PopupWindow[
 		(*suggerimento*)
 		Style[
 		Column[{
-			Style["Ripassiamo le conversioni tra basi 10 e "<>ToString[base],Bold,Red, 15, TextAlignment->Center],
+			Style["Ripassiamo le conversioni tra basi 10 e " <> ToString[base], Bold, Red, 15, TextAlignment -> Center],
 			Spacer[10],
-			Style["Da base 10 a base "<>ToString[base]<>" :",Underlined,Italic,13],
+			Style["Da base 10 a base " <> ToString[base] <> " :", Underlined, Italic, 13],
 			Spacer[5],
-			Style["Consideriamo il numero: "<>ToString[numberDec],Bold],
+			Style["Consideriamo il numero: " <> ToString[numberDec], Bold],
 			Column[helpDescription],
 			Spacer[5],
 			Row[{
-				Style["Risultato: ", Italic,13,Bold],
-				numberDec," = ",BaseForm[numberDec,base], (*conversione da decimale a base 8/16*)
+				Style["Risultato: ", Italic, 13, Bold],
+				numberDec, " = ", BaseForm[numberDec, base], (*conversione da decimale a base 8/16*)
 				"."
 			}]
-		}],12]
-		
+		}], 12]
 	]
-, WindowTitle->"Suggerimento", WindowFloating->True, WindowMargins -> {{0, Automatic}, {0, Automatic}}];
+, WindowTitle -> "Suggerimento", WindowFloating -> True, WindowMargins -> {{0, Automatic}, {0, Automatic}}];
 
 
-(* Helper di debug per parseCoord - versione senza Print *)
-parseCoord[str_String] := Module[{n, r, c},
-  (* Convertiamo la stringa in numero decimale *)
-  n = Quiet@FromDigits[str, $UserBase];
-  
-  (* Verifichiamo se la conversione è valida *)
-  If[! IntegerQ[n] || n < 0 || n >= $GridSize^2, 
-    Return[$Failed]
-  ];
-  
-  (* Calcoliamo le coordinate *)
-  c = Mod[n, $GridSize] + 1;
-  r = $GridSize - Quotient[n, $GridSize];
-  
-  {r, c}
+
+(* Funzione per generare una rappresentazione del numero massimo nel sistema numerico corrente *)
+getMaxNumberInBase[base_, gridSize_] := Module[{maxDecimal, result},
+  maxDecimal = gridSize^2 - 1;
+  result = IntegerString[maxDecimal, base];
+  result
 ];
 
-(* Versione modificata della funzione PlaceUserShip che restituisce un messaggio di errore invece di usare Print *)
+(* Versione corretta della funzione PlaceUserShip *)
 PlaceUserShip[startRaw_String, endRaw_String] := Module[
-  {start, end, r1, c1, r2, c2, len, coords, usedLens, surroundingCells, isValid = True, errorMsg = ""},
+  {start, end, r1, c1, r2, c2, len, coords, usedLens, surroundingCells, isValid = True, errorMsg = "", maxDecimal, maxInBase},
+  
+  (* Valore massimo per la griglia attuale *)
+  maxDecimal = $GridSize^2 - 1;
+  maxInBase = getMaxNumberInBase[$UserBase, $GridSize];
   
   (* Controllo numero navi *)
-  If[Length[$UserShips] >= 5, 
+  If[Length[$ShipLengths] == 0, 
     Return[{False, "Hai già posizionato tutte le navi permesse!"}]
   ];
   
   (* Conversione coordinate *)
-  start = parseCoord[startRaw];  
-  end = parseCoord[endRaw];
+  start = verifyInput[$GridSize, $UserBase, startRaw];  
+  end = verifyInput[$GridSize, $UserBase, endRaw];
   
-  If[start === $Failed || end === $Failed, 
-    Return[{False, "Coordinate non valide per la base corrente!"}]
+  If[start[[1]] === $Failed, 
+    Return[{False, start[[2]]}]
   ];
-  
-  {r1, c1} = start; {r2, c2} = end;
+
+  If[end[[1]] === $Failed, 
+    Return[{False, end[[2]]}]
+  ];
+
+  (* Otteniamo solo le coordinate effettive da start ed end *)
+  {r1, c1} = start[[1]]; {r2, c2} = end[[1]];
   
   (* Controllo allineamento *)
   If[Not[r1 == r2 || c1 == c2], 
@@ -287,7 +303,7 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
   ];
   
   (* Controllo limiti griglia *)
-  If[Not[AllTrue[coords, 1 <= #[[1]] <= $GridSize && 1 <= #[[2]] <= $GridSize &]], 
+  If[Not[AllTrue[coords, 0 <= #[[1]] < $GridSize && 0 <= #[[2]] < $GridSize &]], 
     Return[{False, "La nave uscirebbe dalla griglia!"}]
   ];
   
@@ -306,25 +322,25 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
      e quelle fuori dalla griglia *)
   surroundingCells = Select[surroundingCells, 
     !MemberQ[coords, #] && 
-    1 <= #[[1]] <= $GridSize && 
-    1 <= #[[2]] <= $GridSize &
+    0 <= #[[1]] < $GridSize && 
+    0 <= #[[2]] < $GridSize &
   ];
   
   (* Controlliamo prima tutte le celle della nave *)
-  isValid = AllTrue[coords, $UserGrid[[Sequence @@ #]] == $Vuoto &];
+  isValid = AllTrue[coords, $UserGrid[[#[[1]] + 1, #[[2]] + 1]] == $Vuoto &];
   If[!isValid,
     Return[{False, "La nave si sovrappone a una nave già posizionata!"}]
   ];
   
   (* Verifichiamo che non ci siano navi adiacenti *)
-  isValid = AllTrue[surroundingCells, $UserGrid[[Sequence @@ #]] != $Nave &];
+  isValid = AllTrue[surroundingCells, $UserGrid[[#[[1]] + 1, #[[2]] + 1]] != $Nave &];
   If[!isValid,
     Return[{False, "Non puoi posizionare una nave adiacente ad un'altra nave!"}]
   ];
   
   (* Solo se arriviamo qui, aggiorniamo la griglia inserendo le navi *)
   Do[
-    $UserGrid[[coords[[i, 1]], coords[[i, 2]]]] = $Nave,
+    $UserGrid[[coords[[i, 1]] + 1, coords[[i, 2]] + 1]] = $Nave,
     {i, 1, Length[coords]}
   ];
   
@@ -341,7 +357,10 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
 GetUserShips[] := $UserShips;
 GetUserGrid[] := $UserGrid;
 GetRemainingShipLengths[] := $ShipLengths;
-
+GetShipSize[] := $ShipSize;
+GetDifficultyLevels[] := $DifficultyLevels;
+GetCpuShip[]:=$AutomaticShips;
+GetCpuGrid[]:=$AutomaticGrid;
 
 End[];
 EndPackage[];

@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[      9374,        231]
-NotebookOptionsPosition[      9016,        217]
-NotebookOutlinePosition[      9416,        233]
-CellTagsIndexPosition[      9373,        230]
+NotebookDataLength[      9407,        231]
+NotebookOptionsPosition[      9049,        217]
+NotebookOutlinePosition[      9449,        233]
+CellTagsIndexPosition[      9406,        230]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -178,9 +178,8 @@ tutto ok!\>\""}]}], ";", "\[IndentingNewLine]",
              RowBox[{"EvaluationNotebook", "[", "]"}], 
              ",", "\"\<EvaluateNotebook\>\""}], "]"}], ";", 
            "\[IndentingNewLine]", 
-           RowBox[{
-           "feedback", "=", "\"\<\:2705 Completato con successo!\>\""}], ";", 
-           "\[IndentingNewLine]", 
+           RowBox[{"feedback", "=", "\"\<Completato con successo!\>\""}], ";",
+            "\[IndentingNewLine]", 
            RowBox[{"Pause", "[", "4", "]"}], ";", "\[IndentingNewLine]", 
            RowBox[{"setupComplete", "=", "True"}], ";"}]}], "]"}], ",", 
         RowBox[{"Method", "->", "\"\<Queued\>\""}], ",", 
@@ -212,7 +211,8 @@ tutto ok!\>\""}]}], ";", "\[IndentingNewLine]",
          RowBox[{"{", "feedback", "}"}]}]}], "]"}]}], "}"}], "]"}]}], 
   "]"}]], "Input",
  CellChangeTimes->{
-  3.9556279790447807`*^9},ExpressionUUID->"87089497-af10-454c-97b5-\
+  3.9556279790447807`*^9, {3.9557669893288307`*^9, 
+   3.955766989583084*^9}},ExpressionUUID->"87089497-af10-454c-97b5-\
 1842086bd500"]
 },
 WindowSize->{Full, Full},
@@ -232,7 +232,7 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[554, 20, 8458, 195, 635, "Input",ExpressionUUID->"87089497-af10-454c-97b5-1842086bd500"]
+Cell[554, 20, 8491, 195, 621, "Input",ExpressionUUID->"87089497-af10-454c-97b5-1842086bd500"]
 }
 ]
 *)

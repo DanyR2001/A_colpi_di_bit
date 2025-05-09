@@ -17,35 +17,58 @@
 
 (* File: Main.m *)
 
+(* Definisce il pacchetto Main e le sue dipendenze da altri pacchetti *)
 BeginPackage["Main`", {"Util`", "Battle`", "Interaction`"}]; 
+
+(* Esporta la funzione PlacementUI come funzione pubblica del pacchetto Main *)
 PlacementUI::usage = "PlacementUI[] interfaccia per il posizionamento navi";
 
+(* Inizio del contesto privato dove vengono definite tutte le funzioni interne *)
 Begin["`Private`"];
 
-(* Interfaccia utente principale *)
+(* Interfaccia utente principale - Questa è la funzione principale del gioco *)
 PlacementUI[] := DynamicModule[
-  {seedValue = RandomInteger[1024], baseValue = 2, difficultyLevel = 3, phase = 1, initDone = False, message = "", 
-   cpuShips, battleStarted = False, userShips, userGrid, cpuGrid, difficultyLevels}, 
+  (* Variabili locali del modulo dinamico *)
+  {seedValue = RandomInteger[1024],   (* Valore casuale per il seed iniziale *)
+  baseValue = 2,                      (* Base numerica predefinita (binaria) *)
+  difficultyLevel = 3,                (* Livello di difficoltà predefinito (il più alto) *)
+  phase = 1,                          (* Fase iniziale del gioco (1=impostazioni, 2=posizionamento, 3=battaglia) *)
+  initDone = False,                   (* Flag per tracciare se l'inizializzazione è completa *)
+  message = "",                       (* Variabile per messaggi informativi/errori *)
+  cpuShips,                           (* Memorizzerà le navi del computer *)
+  battleStarted = False,              (* Flag per indicare se la battaglia è iniziata *)
+  userShips,                          (* Memorizzerà le navi dell'utente *)
+  userGrid,                           (* Griglia dell'utente *)
+  cpuGrid,                            (* Griglia del computer *)
+  difficultyLevels},                  (* Livelli di difficoltà disponibili *)
   
-  (* Carica i livelli di difficoltà *)
+  (* Carica i livelli di difficoltà dal pacchetto Interaction *)
   difficultyLevels = GetDifficultyLevels[];
   
+  (* Struttura principale dell'interfaccia utente *)
   Column[{
+    (* Usa Dynamic per aggiornare l'interfaccia quando cambiano le variabili *)
     Dynamic[Which[
+      (* FASE 1: CONFIGURAZIONE INIZIALE DEL GIOCO *)
       phase == 1,
         Column[{
-          (* Utilizziamo le funzioni AskSeedInput e AskBaseChoice dal pacchetto Interaction *)
+          (* Chiede all'utente di inserire un valore per il seed *)
           AskSeedInput[Function[input, seedValue = input]],
-          Spacer[10],
+          Spacer[10],(* Spazio verticale di 10 punti *)
+
+          (* Chiede all'utente di scegliere la base numerica (2, 8 o 16) *)
           AskBaseChoice[Function[input, baseValue = input]],
-          Spacer[10],
-          (* Aggiungi selezione livello difficoltà *)
+          Spacer[10],(* Spazio verticale di 10 punti *)
+
+          (* Menu a tendina per la selezione del livello di difficoltà *)
           Row[{
             "Livello di difficoltà: ",
-            PopupMenu[Dynamic[difficultyLevel], 
-              Table[i -> difficultyLevels[[i, 1]], {i, Length[difficultyLevels]}]]
+            PopupMenu[Dynamic[difficultyLevel], (* Aggiorna difficultyLevel quando cambia la selezione *)
+              Table[i -> difficultyLevels[[i, 1]], {i, Length[difficultyLevels]}]](* Crea le opzioni dal vettore difficultyLevels *)
           }],
           Spacer[10],
+
+          (* Pulsante per confermare le impostazioni e passare alla fase 2 *)
           Button["Conferma Impostazioni",
             If[isSeed[seedValue] && isBase[baseValue],
               If[InitPhase[seedValue, baseValue, difficultyLevel],

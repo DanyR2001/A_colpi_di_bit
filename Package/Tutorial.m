@@ -16,7 +16,7 @@
 
 (* File: Main.m *)
 
-BeginPackage["Tutorial`"]
+BeginPackage["Tutorial`", {"Util`"}]
 
 CreateTutorial::usage = "CreateTutorial[] inserisce il tutorial nel notebook corrente."
 
@@ -25,6 +25,63 @@ IntroSection::usage = "IntroSection[] crea l'intestazione e il sommario."
 BinarySection::usage = "BinarySection[] crea la sezione sul sistema binario."
 OctalSection::usage = "OctalSection[] crea la sezione sul sistema ottale."
 HexSection::usage = "HexSection[] crea la sezione sul sistema esadecimale."
+conversionToDec::usage="conversionToDec[base,number] restituisce i passaggi per la conversione di un numero da base qualsiasi a base 10";
+
+(*indica i passagi per effettuare una conversione da base 10 a base qualsiasi*)
+conversionToDec[base_, number_] := Module[{colors,numberDec, digits, powers, terms, result},
+  colors = {Blue, Orange, Purple, Red, Brown, Pink, Green};
+  numberDec=convertToDecimal[number,base];
+  
+  If[numberDec===$Failed,
+  "Inserisci un numero intero in base "<>ToString[base],
+  digits = IntegerDigits[numberDec, base];
+  Column[{
+      " \[Bullet] Scomponiamo il numero nelle sue cifre in base " <> ToString[base] <> ":",
+      Row[
+        Table[Panel[Style[digits[[n]],12, colors[[Mod[n - 1, Length[colors]] + 1]]]],{n,1,Length[digits]}]
+      , Alignment -> Center, ImageSize -> Full],
+      
+      " \[Bullet] Ogni cifra viene moltiplicata per la potenza della base corrispondente alla sua posizione (da destra a sinistra):",
+      
+      Module[{len},
+        len = Length[digits];
+        powers = Reverse[Range[0, len - 1]]; (* posizione delle cifre: esponente *)
+        terms = Table[digits[[i]] base^powers[[i]], {i, len}];
+
+        Row[{
+			Panel[Style[
+				Grid[Table[{
+					Style[digits[[n]], colors[[Mod[n - 1, Length[colors]] + 1]]],
+					"\[Times]", 
+					ToString[base]<>"^"<>ToString[powers[[n]]],
+					"=", 
+					Style[terms[[n]], Bold]
+				},{n, len}]]
+			,12]]
+        }, Alignment -> Center, ImageSize -> Full]
+      ],
+      Spacer[5],
+      " \[Bullet] Sommiamo tutti i valori ottenuti:",
+      Row[{
+        Panel[Style[
+          Row[{
+            Row[Riffle[
+              Table[Style[terms[[n]], colors[[Mod[n - 1, Length[colors]] + 1]]], {n, Length[terms]}],
+              " + "
+            ]],
+            " = ", numberDec}
+          ], 14]]
+      }, Alignment -> Center, ImageSize -> Full],
+      
+      Spacer[5],
+      Row[{
+        Style["Risultato: ", Italic, 13, Bold],
+        BaseForm[number, base], " = ", Total[terms], " in base 10."
+      }]
+   }]
+  ]
+];
+
 
 IntroSection[] := {
   TextCell["Tutorial su Conversioni di Base", "Section", FontSize -> 24, 
@@ -47,8 +104,8 @@ BinarySection[] := {
     Column[{
       TextCell["Esempio interattivo", FontSize -> 14, FontWeight -> "Bold"],
       Grid[{{TextCell["Inserisci un numero binario:"], InputField[Dynamic[b], String]}}],
-      Dynamic[TextCell["Valore decimale: " <> ToString[FromDigits[b, 2]], FontSize -> 12]]
-    }]
+      Dynamic[conversionToDec[2,b]]
+     }]
   ], Background -> Lighter[Gray, 0.95]],
   Spacer[10],
   Framed[DynamicModule[{n = RandomInteger[{1, 127}], risposta = "", esito = Null, showReplay = False},
@@ -60,8 +117,8 @@ BinarySection[] := {
       Row[{
         Button["Verifica",
           If[ToExpression[risposta] === n,
-            (esito = TextCell["✅ Corretto!", FontSize -> 14, FontColor -> DarkGreen]; showReplay = True;),
-            esito = TextCell["❌ Riprovare…", FontSize -> 14, FontColor -> Red]
+            (esito = TextCell["\:2705 Corretto!", FontSize -> 14, FontColor -> DarkGreen]; showReplay = True;),
+            esito = TextCell["\:274c Riprovare\[Ellipsis]", FontSize -> 14, FontColor -> Red]
           ], ImageSize -> Large, Appearance -> "Frameless", Background -> LightGray, 
           FrameMargins -> 6, FrameStyle -> Black, RoundingRadius -> 5],
         Spacer[10],
@@ -88,7 +145,7 @@ OctalSection[] := {
     Column[{
       TextCell["Esempio interattivo", FontSize -> 14, FontWeight -> "Bold"],
       Grid[{{TextCell["Inserisci un numero ottale:"], InputField[Dynamic[o], String]}}],
-      Dynamic[TextCell["Valore decimale: " <> ToString[FromDigits[o, 8]], FontSize -> 12]]
+      Dynamic[conversionToDec[8,o]]
     }]
   ], Background -> Lighter[Gray, 0.95]],
   Spacer[10],
@@ -101,8 +158,8 @@ OctalSection[] := {
       Row[{
         Button["Verifica",
           If[ToExpression[risposta] === n,
-            (esito = TextCell["✅ Corretto!", FontSize -> 14, FontColor -> DarkGreen]; showReplay = True;),
-            esito = TextCell["❌ Riprovare…", FontSize -> 14, FontColor -> Red]
+            (esito = TextCell["\:2705 Corretto!", FontSize -> 14, FontColor -> DarkGreen]; showReplay = True;),
+            esito = TextCell["\:274c Riprovare\[Ellipsis]", FontSize -> 14, FontColor -> Red]
           ], ImageSize -> Large, Appearance -> "Frameless", Background -> LightGray, 
           FrameMargins -> 6, FrameStyle -> Black, RoundingRadius -> 5],
         Spacer[10],
@@ -122,14 +179,14 @@ HexSection[] := {
     FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> Left],
   Spacer[10],
   Framed[TextCell[
-    "Il sistema esadecimale usa 16 simboli (0–9 e A–F). Per convertire in decimale, sostituisci le lettere con i valori 10–15, poi moltiplica ciascuna cifra per 16 elevato alla sua posizione e somma.", 
+    "Il sistema esadecimale usa 16 simboli (0\[Dash]9 e A\[Dash]F). Per convertire in decimale, sostituisci le lettere con i valori 10\[Dash]15, poi moltiplica ciascuna cifra per 16 elevato alla sua posizione e somma.", 
     FontSize -> 12], Background -> Lighter[Gray, 0.9]],
   Spacer[10],
   Framed[DynamicModule[{h = ""}, 
     Column[{
       TextCell["Esempio interattivo", FontSize -> 14, FontWeight -> "Bold"],
       Grid[{{TextCell["Inserisci un numero esadecimale:"], InputField[Dynamic[h], String]}}],
-      Dynamic[TextCell["Valore decimale: " <> ToString[FromDigits[ToUpperCase[h], 16]], FontSize -> 12]]
+      Dynamic[conversionToDec[16,h]]
     }]
   ], Background -> Lighter[Gray, 0.95]],
   Spacer[10],
@@ -142,8 +199,8 @@ HexSection[] := {
       Row[{
         Button["Verifica",
           If[ToExpression[risposta] === n,
-            (esito = TextCell["✅ Corretto!", FontSize -> 14, FontColor -> DarkGreen]; showReplay = True;),
-            esito = TextCell["❌ Riprovare…", FontSize -> 14, FontColor -> Red]
+            (esito = TextCell["\:2705 Corretto!", FontSize -> 14, FontColor -> DarkGreen]; showReplay = True;),
+            esito = TextCell["\:274c Riprovare\[Ellipsis]", FontSize -> 14, FontColor -> Red]
           ], ImageSize -> Large, Appearance -> "Frameless", Background -> LightGray, 
           FrameMargins -> 6, FrameStyle -> Black, RoundingRadius -> 5],
         Spacer[10],

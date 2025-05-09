@@ -37,7 +37,7 @@ Restituisce {True, grid} in caso di successo o {False, errorMsg} in caso di erro
 GetUserShips::usage = "GetUserShips[] restituisce lista di blocchi delle navi utente.";
 GetUserGrid::usage = "GetUserGrid[] restituisce matrice griglia utente.";
 GetRemainingShipLengths::usage = "GetRemainingShipLengths[] restituisce le lunghezze delle navi ancora da piazzare.";
-GetDifficultyLevels::usage = "GetDifficultyLevels[] restituisce i livelli di difficolt\[AGrave] disponibili";
+GetDifficultyLevels::usage = "GetDifficultyLevels[] restituisce i livelli di difficoltà disponibili";
 GetCpuShip::usage="GetCpuShip[] restituisce le navi della CPU";
 GetCpuGrid::usage="GetCpuGrid[] resitiruisce la griglia delle CPU";
 (*Setters delle variabili globali*)

@@ -25,7 +25,6 @@ isBase::usage="isBase[base] controlla che base sia 2, 8 o 16";
 isSeed::usage="isSeed[seed] controlla che seed sia un numero intero";
 helpUser::usage="helpUser[base] mostra in una nuova finestra la conversione in base scelta di un numero decimale casuale";
 helpUserPersonalized::usage="helpUserPersonalized[base] chiede in una nuova finestra all'utente di inserire un numero decimale e mostra la sua conversione in base scelta";
-conversionFromDec::usage="conversionFromDec[base,numberDec] mostra i passaggi della conversione di un numero da base 10 a base scelta";
 
 PlaceUserShip::usage =
   "PlaceUserShip[startRaw, endRaw] piazza in $UserGrid una nave.\
@@ -42,14 +41,14 @@ GetDifficultyLevels::usage = "GetDifficultyLevels[] restituisce i livelli di dif
 GetCpuShip::usage="GetCpuShip[] restituisce le navi della CPU";
 GetCpuGrid::usage="GetCpuGrid[] resitiruisce la griglia delle CPU";
 (*Setters delle variabili globali*)
-SetShipLengths::unsage="SetShipLengths[shipLengths_List] := $ShipLengths = shipLengths";
-SetUserBase::usage="SetUserBase[base_Integer] := If[isBase[base], $UserBase = base, $UserBase]";
-SetGridSize::usega="SetGridSize[size_Integer] := If[size > 0, $GridSize = size, $GridSize]";
-SetAutomaticShips::usage="SetAutomaticShips[ships_List] := $AutomaticShips = ships";
-SetUserShips::usage="SetUserShips[ships_List] := $UserShips = ships";
-SetAutomaticGrid::usage="SetAutomaticGrid[grid_List] := $AutomaticGrid = grid";
-SetUserGrid::usage="SetUserGrid[grid_List] := $UserGrid = grid";
-SetSeed::usage="SetSeed[seed_] := If[isSeed[seed], $Seed = seed, $Seed]";
+SetShipLengths::unsage="SetShipLengths[shipLengths_List] imposta le lunghezze delle navi";
+SetUserBase::usage="SetUserBase[base_Integer] imposta la base";
+SetGridSize::usega="SetGridSize[size_Integer] imposta dimensione delle griglie";
+SetAutomaticShips::usage="SetAutomaticShips[ships_List] imposta navi della cpu";
+SetUserShips::usage="SetUserShips[ships_List] imposta navi dell'utente";
+SetAutomaticGrid::usage="SetAutomaticGrid[grid_List] imposta matrice griglia cpu";
+SetUserGrid::usage="SetUserGrid[grid_List] imposta matrice griglia utente";
+SetSeed::usage="SetSeed[seed] imposta il seed]";
 
 Begin["`Private`"];
 
@@ -110,6 +109,8 @@ AskBaseChoice[inputBase_]:= DynamicModule[{value = 2}, (*il valore della variabi
 isBase[base_]:=MemberQ[{2,8,16}, base]; (*restituisce vero se base \[EGrave] un numero tra 2,8 e 16, falso altrimenti*)
 isSeed[seed_]:=IntegerQ[seed];  (*restutisce vero se seed \[EGrave] un numero intero, falso altrimenti*)
 
+
+
 (*SUGGERIMENTO*)
 (*funzione di suggerimento personalizzata*)
 helpUserPersonalized[base_Integer]:=PopupWindow[
@@ -123,10 +124,10 @@ helpUserPersonalized[base_Integer]:=PopupWindow[
 						- inserimento del numero e bottone, 
 						- eventuale messaggio di errore,
 						- conversione del numero se inserito *)
-				"Inserisci un numero intero positivo da convertire in base "<>ToString[base],
+				"Inserisci un numero decimale intero e positivo da convertire in base "<>ToString[base],
 				Row[{
 					(*viene mostrato in una sola riga:
-					- il campo per l'inserimento del numero
+					- il campo per l'inserimento del numero decimale
 					- e il bottone per mostrare la conversione*)
 					InputField[Dynamic[numberDec], Number, ImageSize -> Small], (*permette di inserire solo valori numerici*)
 					Button["Converti in base "<>ToString[base],
@@ -137,13 +138,13 @@ helpUserPersonalized[base_Integer]:=PopupWindow[
 							ex=Column[{
 								Style["Conversione del numero: "<>ToString[numberDec],15,Red,Bold], (*indico numero da convertire*)
 								Spacer[5],
-								conversionFromDec[base,numberDec] (*richiamo conversionFromDec[base, numberDec] che si trova in questo package
+								conversionFromDec[base,numberDec] (*richiamo conversionFromDec[base, numberDec] che si trova in Util.m
 									 e restituisce i passaggi per convertire un numero (numberDec) da decimale a base scelta*)
 							}];,
 							(*se i controlli non vanno a buon fine, cio\[EGrave] il numero inserito non \[EGrave] accettabile (con la virgola o negativo)
 							imposto un messaggio di errore e non faccio nessuna conversione*)
 							ex="";
-							error=Style["Attenzione: Inserisci un numero intero negativo!", Red];
+							error=Style["Attenzione: Inserisci un numero intero positivo!", Red];
 						]
 					]
 				}],
@@ -154,120 +155,12 @@ helpUserPersonalized[base_Integer]:=PopupWindow[
 	]
 , WindowTitle -> "Suggerimento" (*titolo della finestra*), WindowFloating -> True, WindowMargins -> {{0, Automatic}, {0, Automatic}}];
 
-(*indica i passagi per effettuare una conversione da base 10 a base scelta*)
-conversionFromDec[base_, numberDec_]:=Module[{numberBase, colors}, (*numero convertito, lista di colori usati per mostrare i passaggi della converione*)
-		colors = {Blue, Orange, Purple, Red, Brown, Pink,Green};
-		
-		If[!isBase[base], (*se la base non \[EGrave] tra quelle accettate non viene fatta nessuna conversione 
-		e non viene dato nessun suggerimeto*)
-			"Per favore, prima inserisci una base valida!", (*messaggio di errore*)
-			Column[{
-				If[base == 2, (*se la base \[EGrave] 2 procedo con il metodo delle divisioni successive*)
-					
-					(*Divisioni successive per 2*)
-					Module[{quotients, modules, i}, 
-						quotients={numberDec};(*iste dei risultati delle divisioni, il primo elemento \[EGrave] il numero da convertire*)
-						modules={};(*lista dei resti ottenuti dalle divisioni*)
-						i=1(*numero di passaggi effettuati (usato per sapere qual'\[EGrave] l'indice dell'ultimo quoziente ottenuto)*)
-								
-						(*memorizzo i quozienti e i resti*)
-						While[quotients[[i]] != 0, (*procedo con le divisioni finch\[EGrave] non arrivo a 0*)
-							AppendTo[quotients, Quotient[quotients[[i]], 2]]; (*memorizzo i quozienti per la divisione successiva*)
-							AppendTo[modules, Mod[quotients[[i]], 2]]; (*memorizzo i resti per ottenere il numero in binario*)
-							i++; (*incremento il numero di passaggi effettuati, elementi in quotients*)
-						];
-						
-						(*spiegazione della conversione, mostro le divisioni successive e i resti ottenuti *)
-						Column[{" \[Bullet] Dividiamolo per 2 e annotiamo il resto fino ad arrivare a 0", (*spiegazione del metodo*)
-						 Row[{ (*Raggruppo la spiegazione in Panel in una riga cos\[IGrave] da posizionare tutto al centro*)
-							Panel[Style[ 
-								Grid[ (*griglia dove ogni riga rappresenta un passaggio delle divisioni successive*)
-									Table[{ (*tabella delle descrizioni di tutti i passaggi*)
-									(*un passaggio \[EGrave] descritto come:*)
-										(*divisione*)
-										Style[ToString[quotients[[n]]], colors[[Mod[n-1, Length[colors]]+1]]],
-										" \[Divide] 2 = ", 
-										(*quoziente*)
-										Spacer[5], Style[ToString[quotients[[n+1]]], colors[[Mod[n, Length[colors]]+1]]],
-										(*resto*)
-										Spacer[5], " Resto = ", Style[ToString[modules[[n]]], Bold]
-									}, {n, 1, Length[quotients]-1}]
-								], 12]
-							], 
-							(*freccia dal basso verso l'alto posizionata a destra della griglia con i passaggi, mostra in che direzione leggere i resti*)
-							Graphics[{Red, Arrowheads[0.5], Arrow[{{0, 0}, {0, i - 1}}]}, ImageSize -> 20]
-						 }, Alignment -> Center, ImageSize -> Full], (*allineo Panel al centro*)
-						 (*spiegazione di come ottenere il numero binario dalle divisioni*)
-						 Row[{" \[Bullet] La conversione in binario si ottiene leggendo i resti dal basso verso l'alto ", Style["(Resti \[UpArrow])", Red]}]
-						}]
-					],
-					(*se la base \[EGrave] 8 o 16 \[RightArrow] converto in binario, raggruppo le cifre e converto ogni gruppo in decimale*)
-					Module[{digits, digitsGroups, mod, exp},
-						(*lista delle cifre che compongono il numero binario \[RightArrow] usata per la suddivisione in gruppi*)
-						digits = IntegerDigits[numberDec, 2]; 
-						(*potenza di due: 16=2^4, 8=2^3 \[RightArrow] l'esponente indica la dimensione del gruppo in cui raggruppare il numero binario*)
-						exp = Log2[base]; 
-						(*la suddivisione in gruppe parte dalle cifre a destra e potrebbe capitare che a sinistra si debbano aggiungere degli 0 se 
-						il numero totale di cifre non \[EGrave] multiplo di exp*)
-						(*resto (mod) \[RightArrow] indica quante cifre a sinistra rimangono escluse dal raggruppamento, 
-						serve poi per sapere quanti 0 aggiungere per formare un nuovo gruppo con le cifre escluse*)
-						mod = Mod[Length[digits], exp]; 
-						
-						(*lista dei gruppi*)
-						digitsGroups = If[mod === 0, 
-							(*suddivisione del numero binario in gruppi da 3 o 4 cifre (exp)*)
-	                        Partition[digits, exp], (*se resto \[EGrave] 0 suddivido senza aggiungere 0*)
-	                        Partition[Flatten[{Table[0, {mod, exp - mod}], digits}], exp] (*se resto diverso da 0, con Table aggiungo gli 0 necessari per formare un gruppo *)
-	                    ];
-						
-						(*spiegazione della conversione in base 8 o 16*)     
-						Column[{" \[Bullet] convertiamolo in base 2",
-							(*indico la conversione in binario*)
-							Row[{Panel[Style[BaseForm[numberDec, 2], 12]]}, Alignment -> Center, ImageSize -> Full],
-							" \[Bullet] raccogliamo le cifre binarie in gruppi da " <> ToString[exp] <> " partendo dalla posizione pi\[UGrave] a destra (cifra meno significativa),",
-							(*mostro come raggruppare le cifre*)
-							Row[
-								(*i gruppi vengono mostrati in sequenza in una singola riga*)
-								Table[
-									Panel[(*ogni gruppo viene scritto con colore diverso dentro a un pannello grigio (Panel)*)
-										Style[Row[digitsGroups[[n]]],colors[[Mod[n-1, Length[colors]]+1]]]
-									]
-								, {n, 1, Length[digitsGroups]}]
-							, Alignment -> Center, ImageSize -> Full],
-							" \[Bullet] convertiamo ogni gruppo in decimale, ogni numero ottenuto corrisponde ad una cifra in base " <> ToString[base] <> ".",
-							(*mostro la conversione in decimale*)
-							Row[{Panel[Style[Grid[ 
-								Table[
-									{(*per ogni gruppo indico:
-									cifre binarie \[RightArrow] conversione in decimale \[RightArrow] cifra in base 8/16 corrispondente *)
-		                                Style[Row[digitsGroups[[n]]], colors[[Mod[n-1, Length[colors]]+1]]], (*gruppo di cifre binarie*)
-									    "\[RightArrow]", 
-		                                FromDigits[digitsGroups[[n]], 2], (*conversione in decimale*)
-									    "\[RightArrow]",
-		                                BaseForm[FromDigits[digitsGroups[[n]], 2], base] (*cifra in base 8/16 corrispondente*)
-		                            },
-								    {n, 1, Length[digitsGroups]}
-								]
-							], 12]]}, Alignment -> Center, ImageSize -> Full]
-						}]
-					]
-				],
-				(*indipendentemente dalla base se 2,8 o 16 per ultimo mostro il risultato della conversione*)
-				Spacer[5],
-				Row[{
-					Style["Risultato: ", Italic, 13, Bold],
-					numberDec, " = ", BaseForm[numberDec, base], (*conversione da decimale a base scelta*)
-					"."
-				}]
-			}]
-		]
-	];
-		
 (* suggerimento non personalizzato, esempio di conversione*)
 helpUser[base_Integer]:=PopupWindow[
 	Button["Suggerimento"], (*al click del pulsante viene aperta una finestra che mostra
 	tutti i passagi per fare la conversione di un numero casuale tra 1 e 300 in base scelta*)
-		Module[{numberDec=RandomInteger[{1,300}]},(*numero casuale da convertire*)
+		Module[{numberDec},(*numero casuale da convertire*)
+			numberDec=RandomInteger[{1,300}];
 			(*suggerimento*)
 			Style[ (*imposta stile di base per il testo*)
 			Column[{
@@ -276,7 +169,7 @@ helpUser[base_Integer]:=PopupWindow[
 				Style["Da base 10 a base "<>ToString[base]<>" :",Underlined,Italic,13], (*sottotitolo*)
 				Spacer[5],
 				Style["Consideriamo il numero: "<>ToString[numberDec],Bold], (*indico il numero da convertire*)
-				(*conversionFromDec[base,numberDec] \[EGrave] una funzione definita in questo package*)
+				(*conversionFromDec[base,numberDec] \[EGrave] una funzione definita Util.m*)
 				conversionFromDec[base,numberDec] (*richiamo conversionFromDec[base,numberDec] per mostrare i passaggi della conversione del numero in base scelta*)
 			}],12] (*dimensione del testo*)
 		]
@@ -284,21 +177,13 @@ helpUser[base_Integer]:=PopupWindow[
 
 
 
-(* Funzione per generare una rappresentazione del numero massimo nel sistema numerico corrente *)
-getMaxNumberInBase[base_, gridSize_] := Module[{maxDecimal, result},(*\[RightArrow] QUESTA FUNZIONE LA ELIMINEREI*)
-  maxDecimal = gridSize^2 - 1;
-  result = IntegerString[maxDecimal, base];
-  result
-];
-
 (* Versione corretta della funzione PlaceUserShip *)
 PlaceUserShip[startRaw_String, endRaw_String] := Module[
   {start, end, r1, c1, r2, c2, len, coords, usedLens, surroundingCells, isValid = True, errorMsg = "", maxDecimal, maxInBase},
   
   (* Valore massimo per la griglia attuale *)
   maxDecimal = $GridSize^2 - 1;
-  maxInBase = getMaxNumberInBase[$UserBase, $GridSize];(* SCRIVEREI INVECE:
-  maxInBase = IntegerString[maxDecimal, $UserBase];*)
+  maxInBase = IntegerString[maxDecimal, $UserBase];
    
   (* Controllo numero navi *)
   If[Length[$ShipLengths] == 0, 

@@ -74,7 +74,7 @@ convertToDecimal[input_String, base_Integer] := Module[
   ]
 ];
 
-(*indica i passagi da eseguire per fare una conversione da base 10 a base qualsiasi tra 2,8,16*)
+(*indica i passagi da eseguire per fare una conversione da base 10 a base qualsiasi tra  basi 2,8,16*)
 conversionFromDec[base_, numberDec_]:=Module[{colors}, (*numero convertito, lista di colori usati per mostrare i passaggi della converione*)
 		colors = {Blue, Orange, Purple, Red, Brown, Pink,Green};
 		

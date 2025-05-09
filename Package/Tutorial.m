@@ -19,6 +19,15 @@
 BeginPackage["Tutorial`", {"Util`"}]
 
 CreateTutorial::usage = "CreateTutorial[] inserisce il tutorial nel notebook corrente."
+IntroSection::usage = "IntroSection[] crea l'intestazione e il sommario."
+BinarySection::usage = "BinarySection[] crea la sezione sul sistema binario."
+OctalSection::usage = "OctalSection[] crea la sezione sul sistema ottale."
+HexSection::usage = "HexSection[] crea la sezione sul sistema esadecimale."
+DecToBinSection::usage = "DecToBinSection[] crea la sezione conversione da decimale a binario."
+DecToOctSection::usage = "DecToOctSection[] crea la sezione conversione da decimale a ottale."
+DecToHexSection::usage = "DecToHexSection[] crea la sezione conversione da decimale a esadecimale."
+conversionToDec::usage = "conversionToDec[base, number] restituisce i passaggi per la conversione di un numero da base qualsiasi a base 10."
+
 
 Begin["`Private`"]
 

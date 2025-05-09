@@ -117,8 +117,8 @@ BinarySection[] := {
       Row[{
         Button["Verifica",
           If[ToExpression[risposta] === n,
-            (esito = TextCell["\:2705 Corretto!", FontSize -> 14, FontColor -> DarkGreen]; showReplay = True;),
-            esito = TextCell["\:274c Riprovare\[Ellipsis]", FontSize -> 14, FontColor -> Red]
+            (esito = TextCell["Corretto!", FontSize -> 14, FontColor -> DarkGreen]; showReplay = True;),
+            esito = TextCell["Riprovare\[Ellipsis]", FontSize -> 14, FontColor -> Red]
           ], ImageSize -> Large, Appearance -> "Frameless", Background -> LightGray, 
           FrameMargins -> 6, FrameStyle -> Black, RoundingRadius -> 5],
         Spacer[10],
@@ -158,8 +158,8 @@ OctalSection[] := {
       Row[{
         Button["Verifica",
           If[ToExpression[risposta] === n,
-            (esito = TextCell["\:2705 Corretto!", FontSize -> 14, FontColor -> DarkGreen]; showReplay = True;),
-            esito = TextCell["\:274c Riprovare\[Ellipsis]", FontSize -> 14, FontColor -> Red]
+            (esito = TextCell["Corretto!", FontSize -> 14, FontColor -> DarkGreen]; showReplay = True;),
+            esito = TextCell["Riprovare\[Ellipsis]", FontSize -> 14, FontColor -> Red]
           ], ImageSize -> Large, Appearance -> "Frameless", Background -> LightGray, 
           FrameMargins -> 6, FrameStyle -> Black, RoundingRadius -> 5],
         Spacer[10],
@@ -199,8 +199,8 @@ HexSection[] := {
       Row[{
         Button["Verifica",
           If[ToExpression[risposta] === n,
-            (esito = TextCell["\:2705 Corretto!", FontSize -> 14, FontColor -> DarkGreen]; showReplay = True;),
-            esito = TextCell["\:274c Riprovare\[Ellipsis]", FontSize -> 14, FontColor -> Red]
+            (esito = TextCell["Corretto!", FontSize -> 14, FontColor -> DarkGreen]; showReplay = True;),
+            esito = TextCell["Riprovare\[Ellipsis]", FontSize -> 14, FontColor -> Red]
           ], ImageSize -> Large, Appearance -> "Frameless", Background -> LightGray, 
           FrameMargins -> 6, FrameStyle -> Black, RoundingRadius -> 5],
         Spacer[10],

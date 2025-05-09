@@ -163,6 +163,64 @@ DecToHexSection[] := {
   ], Background -> Lighter[Gray, 0.95]]
 };
 
+conversionToDec::usage="conversionToDec[base,number] restituisce i passaggi per la conversione di un numero da base qualsiasi a base 10";
+
+(*indica i passagi per effettuare una conversione da base 10 a base qualsiasi*)
+conversionToDec[base_, number_] := Module[{colors,numberDec, digits, powers, terms, result},
+  colors = {Blue, Orange, Purple, Red, Brown, Pink, Green};
+  numberDec=convertToDecimal[number,base];
+  
+  If[numberDec===$Failed,
+  "Inserisci un numero intero in base "<>ToString[base],
+  digits = IntegerDigits[numberDec, base];
+  Column[{
+      " \[Bullet] Scomponiamo il numero nelle sue cifre in base " <> ToString[base] <> ":",
+      Row[
+        Table[Panel[Style[digits[[n]],12, colors[[Mod[n - 1, Length[colors]] + 1]]]],{n,1,Length[digits]}]
+      , Alignment -> Center, ImageSize -> Full],
+      
+      " \[Bullet] Ogni cifra viene moltiplicata per la potenza della base corrispondente alla sua posizione (da destra a sinistra):",
+      
+      Module[{len},
+        len = Length[digits];
+        powers = Reverse[Range[0, len - 1]]; (* posizione delle cifre: esponente *)
+        terms = Table[digits[[i]] base^powers[[i]], {i, len}];
+
+        Row[{
+			Panel[Style[
+				Grid[Table[{
+					Style[digits[[n]], colors[[Mod[n - 1, Length[colors]] + 1]]],
+					"\[Times]", 
+					ToString[base]<>"^"<>ToString[powers[[n]]],
+					"=", 
+					Style[terms[[n]], Bold]
+				},{n, len}]]
+			,12]]
+        }, Alignment -> Center, ImageSize -> Full]
+      ],
+      Spacer[5],
+      " \[Bullet] Sommiamo tutti i valori ottenuti:",
+      Row[{
+        Panel[Style[
+          Row[{
+            Row[Riffle[
+              Table[Style[terms[[n]], colors[[Mod[n - 1, Length[colors]] + 1]]], {n, Length[terms]}],
+              " + "
+            ]],
+            " = ", numberDec}
+          ], 14]]
+      }, Alignment -> Center, ImageSize -> Full],
+      
+      Spacer[5],
+      Row[{
+        Style["Risultato: ", Italic, 13, Bold],
+        BaseForm[number, base], " = ", Total[terms], " in base 10."
+      }]
+   }]
+  ]
+];
+
+
 (* =================== FUNZIONE PRINCIPALE =================== *)
 
 CreateTutorial[] := Module[{sezioni},

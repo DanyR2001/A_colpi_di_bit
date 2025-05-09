@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[      9407,        231]
-NotebookOptionsPosition[      9049,        217]
-NotebookOutlinePosition[      9449,        233]
-CellTagsIndexPosition[      9406,        230]
+NotebookDataLength[      8855,        217]
+NotebookOptionsPosition[      8497,        203]
+NotebookOutlinePosition[      8897,        219]
+CellTagsIndexPosition[      8854,        216]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -22,9 +22,7 @@ Cell[BoxData[
  RowBox[{"DynamicModule", "[", 
   RowBox[{
    RowBox[{"{", 
-    RowBox[{
-     RowBox[{"feedback", "=", "\"\<\>\""}], ",", 
-     RowBox[{"setupComplete", "=", "False"}]}], "}"}], ",", 
+    RowBox[{"feedback", "=", "\"\<\>\""}], "}"}], ",", 
    RowBox[{"Column", "[", 
     RowBox[{"{", 
      RowBox[{
@@ -32,78 +30,82 @@ Cell[BoxData[
        RowBox[{
         RowBox[{"Framed", "[", 
          RowBox[{
-          RowBox[{"Dynamic", "@", 
-           RowBox[{"If", "[", 
-            RowBox[{"setupComplete", ",", 
-             RowBox[{"Style", "[", 
-              RowBox[{"\"\<Setup completato\>\"", ",", 
-               RowBox[{"FontWeight", "->", "Bold"}]}], "]"}], ",", 
-             RowBox[{"Style", "[", 
-              RowBox[{"\"\<Esegui Setup\>\"", ",", 
-               RowBox[{"FontWeight", "->", "Bold"}]}], "]"}]}], "]"}]}], ",", 
-          
+          RowBox[{"Style", "[", 
+           RowBox[{"\"\<Esegui Setup\>\"", ",", 
+            RowBox[{"FontWeight", "->", "Bold"}]}], "]"}], ",", 
           RowBox[{"FrameStyle", "->", 
            RowBox[{"GrayLevel", "[", "0.7", "]"}]}], ",", 
           RowBox[{"RoundingRadius", "->", "8"}], ",", 
           RowBox[{"FrameMargins", "->", "8"}]}], "]"}], ",", 
-        RowBox[{"If", "[", 
-         RowBox[{
-          RowBox[{"!", "setupComplete"}], ",", 
+        RowBox[{"(", 
+         RowBox[{"(*", 
           RowBox[{
-           RowBox[{
-           "feedback", 
-            "=", "\"\<1) Imposto la directory del notebook\[Ellipsis]\>\""}], 
-           ";", "\[IndentingNewLine]", 
-           RowBox[{"SetDirectory", "@", 
-            RowBox[{"NotebookDirectory", "[", 
-             RowBox[{"EvaluationNotebook", "[", "]"}], "]"}]}], ";", 
+           RowBox[{"1", ")"}], " ", "Imposto", " ", "la", " ", "directory", " ",
+            "del", " ", "notebook"}], "*)"}], 
+         RowBox[{
+          RowBox[{
+          "feedback", 
+           "=", "\"\<1) Imposto la directory del notebook\[Ellipsis]\>\""}], ";",
            "\[IndentingNewLine]", 
-           RowBox[{"Pause", "[", "1", "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"SetDirectory", "@", 
+           RowBox[{"NotebookDirectory", "[", 
+            RowBox[{"EvaluationNotebook", "[", "]"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Pause", "[", "1", "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"(*", 
            RowBox[{
-            RowBox[{"loadOrAsk", "[", "file_", "]"}], ":=", 
-            RowBox[{"Module", "[", 
-             RowBox[{
-              RowBox[{"{", 
-               RowBox[{"pathPkg", ",", "pathCur", ",", "sel"}], "}"}], ",", 
+            RowBox[{"Helper", " ", "per", " ", "caricare", " ", 
+             RowBox[{"file", ":", 
               RowBox[{
-               RowBox[{"pathPkg", "=", 
-                RowBox[{"FileNameJoin", "[", 
-                 RowBox[{"{", 
-                  RowBox[{"\"\<Package\>\"", ",", "file"}], "}"}], "]"}]}], ";",
-                "\[IndentingNewLine]", 
-               RowBox[{"pathCur", "=", "file"}], ";", "\[IndentingNewLine]", 
-               RowBox[{"Which", "[", 
-                RowBox[{
-                 RowBox[{"FileExistsQ", "[", "pathPkg", "]"}], ",", 
-                 RowBox[{"(", 
-                  RowBox[{
-                   RowBox[{"feedback", "=", 
-                    RowBox[{
-                    "file", 
+               RowBox[{"cerca", "."}], "/", "Packege"}]}]}], ",", " ", 
+            RowBox[{".", "/"}], ",", 
+            RowBox[{"poi", " ", "dialogo"}]}], "*)"}], "\[IndentingNewLine]", 
+          
+          RowBox[{
+           RowBox[{"loadOrAsk", "[", "file_", "]"}], ":=", 
+           RowBox[{"Module", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"pathPkg", ",", "pathCur", ",", "sel"}], "}"}], ",", 
+             RowBox[{
+              RowBox[{"pathPkg", "=", 
+               RowBox[{"FileNameJoin", "[", 
+                RowBox[{"{", 
+                 RowBox[{"\"\<Package\>\"", ",", "file"}], "}"}], "]"}]}], ";",
+               "\[IndentingNewLine]", 
+              RowBox[{"pathCur", "=", "file"}], ";", "\[IndentingNewLine]", 
+              RowBox[{"Which", "[", 
+               RowBox[{
+                RowBox[{"FileExistsQ", "[", "pathPkg", "]"}], ",", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"feedback", "=", 
+                   RowBox[{
+                   "file", 
                     "<>", "\"\< trovato in Packege/ \[Dash] tutto \
-ok!\>\""}]}], ";", "\[IndentingNewLine]", 
-                   RowBox[{"Get", "[", "pathPkg", "]"}], ";", 
-                   RowBox[{"Pause", "[", "1", "]"}]}], ")"}], ",", 
-                 RowBox[{"FileExistsQ", "[", "pathCur", "]"}], ",", 
-                 RowBox[{"(", 
-                  RowBox[{
-                   RowBox[{"feedback", "=", 
-                    RowBox[{
-                    "file", 
+ok!\>\""}]}], ";", 
+                  RowBox[{"Get", "[", "pathPkg", "]"}], ";", 
+                  RowBox[{"Pause", "[", "1", "]"}]}], ")"}], ",", 
+                RowBox[{"FileExistsQ", "[", "pathCur", "]"}], ",", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"feedback", "=", 
+                   RowBox[{
+                   "file", 
                     "<>", "\"\< trovato nella directory corrente \[Dash] \
-tutto ok!\>\""}]}], ";", "\[IndentingNewLine]", 
-                   RowBox[{"Get", "[", "pathCur", "]"}], ";", 
-                   RowBox[{"Pause", "[", "1", "]"}]}], ")"}], ",", "True", ",", 
-                 RowBox[{"(", 
-                  RowBox[{
-                   RowBox[{"sel", "=", 
-                    RowBox[{"SystemDialogInput", "[", 
+tutto ok!\>\""}]}], ";", 
+                  RowBox[{"Get", "[", "pathCur", "]"}], ";", 
+                  RowBox[{"Pause", "[", "1", "]"}]}], ")"}], ",", "True", ",", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"sel", "=", 
+                   RowBox[{"SystemDialogInput", "[", 
                     RowBox[{"\"\<FileOpen\>\"", ",", 
                     RowBox[{"WindowTitle", "->", 
                     RowBox[{"\"\<Seleziona \>\"", "<>", "file"}]}]}], "]"}]}],
-                    ";", "\[IndentingNewLine]", 
-                   RowBox[{"If", "[", 
-                    RowBox[{
+                   ";", "\[IndentingNewLine]", 
+                  RowBox[{"If", "[", 
+                   RowBox[{
                     RowBox[{"StringQ", "[", "sel", "]"}], ",", 
                     RowBox[{"(", 
                     RowBox[{
@@ -111,109 +113,93 @@ tutto ok!\>\""}]}], ";", "\[IndentingNewLine]",
                     RowBox[{
                     "file", "<>", "\"\< caricato da: \>\"", "<>", "sel", 
                     "<>", "\"\< \[Dash] tutto ok!\>\""}]}], ";", 
-                    "\[IndentingNewLine]", 
                     RowBox[{"Get", "[", "sel", "]"}], ";", 
-                    RowBox[{"Pause", "[", "1", "]"}]}], ")"}], ",", 
+                    RowBox[{"Pause", "[", "1", "]"}], ";"}], ")"}], ",", 
                     RowBox[{"(", 
                     RowBox[{
                     RowBox[{"feedback", "=", 
                     
                     RowBox[{"\"\<Operazione annullata per \>\"", "<>", 
-                    "file"}]}], ";", "\[IndentingNewLine]", 
+                    "file"}]}], ";", 
                     RowBox[{"Return", "[", "$Failed", "]"}], ";"}], ")"}]}], 
-                    "]"}]}], ")"}]}], "]"}]}]}], "]"}]}], ";", 
+                   "]"}]}], ")"}]}], "]"}]}]}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{"Caricamento", " ", "pacchetti"}], "*)"}], 
+          RowBox[{"feedback", "=", "\"\<2) Carico util.m\[Ellipsis]\>\""}], ";",
            "\[IndentingNewLine]", 
-           RowBox[{"feedback", "=", "\"\<2) Carico util.m\[Ellipsis]\>\""}], ";",
-            "\[IndentingNewLine]", 
-           RowBox[{"If", "[", 
-            RowBox[{
-             RowBox[{
-              RowBox[{"loadOrAsk", "[", "\"\<util.m\>\"", "]"}], "===", 
-              "$Failed"}], ",", 
-             RowBox[{"Return", "[", "]"}]}], "]"}], ";", 
-           "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
            RowBox[{
-           "feedback", "=", "\"\<3) Carico Interaction.m\[Ellipsis]\>\""}], ";",
-            "\[IndentingNewLine]", 
-           RowBox[{"If", "[", 
             RowBox[{
-             RowBox[{
-              RowBox[{"loadOrAsk", "[", "\"\<Interaction.m\>\"", "]"}], "===",
-               "$Failed"}], ",", 
-             RowBox[{"Return", "[", "]"}]}], "]"}], ";", 
+             RowBox[{"loadOrAsk", "[", "\"\<Util.m\>\"", "]"}], "===", 
+             "$Failed"}], ",", 
+            RowBox[{"Return", "[", "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{
+          "feedback", "=", "\"\<3) Carico Interaction.m\[Ellipsis]\>\""}], ";",
            "\[IndentingNewLine]", 
-           RowBox[{"feedback", "=", "\"\<4) Carico Battle.m\[Ellipsis]\>\""}],
-            ";", "\[IndentingNewLine]", 
-           RowBox[{"If", "[", 
-            RowBox[{
-             RowBox[{
-              RowBox[{"loadOrAsk", "[", "\"\<Battle.m\>\"", "]"}], "===", 
-              "$Failed"}], ",", 
-             RowBox[{"Return", "[", "]"}]}], "]"}], ";", 
-           "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
            RowBox[{
-           "feedback", "=", "\"\<5) Carico tutorial.m\[Ellipsis]\>\""}], ";", 
-           "\[IndentingNewLine]", 
-           RowBox[{"If", "[", 
             RowBox[{
-             RowBox[{
-              RowBox[{"loadOrAsk", "[", "\"\<tutorial.m\>\"", "]"}], "===", 
-              "$Failed"}], ",", 
-             RowBox[{"Return", "[", "]"}]}], "]"}], ";", 
-           "\[IndentingNewLine]", 
-           RowBox[{"feedback", "=", "\"\<6) Carico Main.m\[Ellipsis]\>\""}], ";",
-            "\[IndentingNewLine]", 
-           RowBox[{"If", "[", 
-            RowBox[{
-             RowBox[{
-              RowBox[{"loadOrAsk", "[", "\"\<Main.m\>\"", "]"}], "===", 
-              "$Failed"}], ",", 
-             RowBox[{"Return", "[", "]"}]}], "]"}], ";", 
-           "\[IndentingNewLine]", 
+             RowBox[{"loadOrAsk", "[", "\"\<Interaction.m\>\"", "]"}], "===", 
+             "$Failed"}], ",", 
+            RowBox[{"Return", "[", "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"feedback", "=", "\"\<4) Carico Battle.m\[Ellipsis]\>\""}], 
+          ";", "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
            RowBox[{
-           "feedback", "=", "\"\<7) Eseguo tutte le celle\[Ellipsis]\>\""}], ";",
-            "\[IndentingNewLine]", 
-           RowBox[{"FrontEndTokenExecute", "[", 
             RowBox[{
-             RowBox[{"EvaluationNotebook", "[", "]"}], 
-             ",", "\"\<EvaluateNotebook\>\""}], "]"}], ";", 
+             RowBox[{"loadOrAsk", "[", "\"\<Battle.m\>\"", "]"}], "===", 
+             "$Failed"}], ",", 
+            RowBox[{"Return", "[", "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{
+          "feedback", "=", "\"\<5) Carico tutorial.m\[Ellipsis]\>\""}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"loadOrAsk", "[", "\"\<Tutorial.m\>\"", "]"}], "===", 
+             "$Failed"}], ",", 
+            RowBox[{"Return", "[", "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"feedback", "=", "\"\<6) Carico Main.m\[Ellipsis]\>\""}], ";",
            "\[IndentingNewLine]", 
-           RowBox[{"feedback", "=", "\"\<Completato con successo!\>\""}], ";",
-            "\[IndentingNewLine]", 
-           RowBox[{"Pause", "[", "4", "]"}], ";", "\[IndentingNewLine]", 
-           RowBox[{"setupComplete", "=", "True"}], ";"}]}], "]"}], ",", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"loadOrAsk", "[", "\"\<Main.m\>\"", "]"}], "===", 
+             "$Failed"}], ",", 
+            RowBox[{"Return", "[", "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{
+            RowBox[{"7", ")"}], " ", "Eseguo", " ", "tutte", " ", "le", " ", 
+            "celle", " ", "del", " ", "notebook"}], "*)"}], 
+          RowBox[{
+          "feedback", "=", "\"\<7) Eseguo tutte le celle\[Ellipsis]\>\""}], ";",
+           "\[IndentingNewLine]", 
+          RowBox[{"FrontEndTokenExecute", "[", 
+           RowBox[{
+            RowBox[{"EvaluationNotebook", "[", "]"}], 
+            ",", "\"\<EvaluateNotebook\>\""}], "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{"Messaggio", " ", "finale", " ", "permanente"}], "*)"}], 
+          RowBox[{"feedback", "=", "\"\<Completato con successo!\>\""}], 
+          ";"}], ")"}], ",", 
         RowBox[{"Method", "->", "\"\<Queued\>\""}], ",", 
-        RowBox[{"Appearance", "->", "None"}], ",", 
-        RowBox[{"Enabled", "->", 
-         RowBox[{"Dynamic", "[", 
-          RowBox[{"!", "setupComplete"}], "]"}]}]}], "]"}], ",", 
+        RowBox[{"Appearance", "->", "None"}]}], "]"}], ",", 
       RowBox[{"Dynamic", "[", 
-       RowBox[{
-        RowBox[{"Pane", "[", 
-         RowBox[{
-          RowBox[{"Style", "[", 
-           RowBox[{"feedback", ",", "Italic", ",", 
-            RowBox[{"FontColor", "->", 
-             RowBox[{"Darker", "@", "Gray"}]}]}], "]"}], ",", 
+       RowBox[{"Pane", "[", 
+        RowBox[{
+         RowBox[{"Style", "[", 
+          RowBox[{"feedback", ",", "Italic", ",", 
+           RowBox[{"FontColor", "->", 
+            RowBox[{"Darker", "@", "Gray"}]}]}], "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"Automatic", ",", "60"}], "}"}], ",", 
+         RowBox[{"Alignment", "->", 
           RowBox[{"{", 
-           RowBox[{"Automatic", ",", "60"}], "}"}], ",", 
-          RowBox[{"Alignment", "->", 
-           RowBox[{"{", 
-            RowBox[{"Left", ",", "Top"}], "}"}]}], ",", 
-          RowBox[{"ImageMargins", "->", 
-           RowBox[{"{", 
-            RowBox[{
-             RowBox[{"{", 
-              RowBox[{"10", ",", "10"}], "}"}], ",", 
-             RowBox[{"{", 
-              RowBox[{"5", ",", "5"}], "}"}]}], "}"}]}]}], "]"}], ",", 
-        RowBox[{"TrackedSymbols", ":>", 
-         RowBox[{"{", "feedback", "}"}]}]}], "]"}]}], "}"}], "]"}]}], 
-  "]"}]], "Input",
- CellChangeTimes->{
-  3.9556279790447807`*^9, {3.9557669893288307`*^9, 
-   3.955766989583084*^9}},ExpressionUUID->"87089497-af10-454c-97b5-\
-1842086bd500"]
+           RowBox[{"Left", ",", "Top"}], "}"}]}]}], "]"}], "]"}]}], "}"}], 
+    "]"}]}], "]"}]], "Input",ExpressionUUID->"c45414de-7e46-473e-838e-\
+e90f80b5887e"]
 },
 WindowSize->{Full, Full},
 WindowMargins->{{316, Automatic}, {Automatic, 50}},
@@ -232,7 +218,7 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[554, 20, 8491, 195, 621, "Input",ExpressionUUID->"87089497-af10-454c-97b5-1842086bd500"]
+Cell[554, 20, 7939, 181, 642, "Input",ExpressionUUID->"c45414de-7e46-473e-838e-e90f80b5887e"]
 }
 ]
 *)

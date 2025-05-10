@@ -60,6 +60,7 @@ convertToDecimal[input_String, base_Integer] := Module[
   ];
   
   (* Verifica che l'input contenga solo caratteri validi per la base specificata *)
+  (* N.B.  MemberQ[list, elem] restituisce True se elem \[EGrave] presente in list, altrimenti False. #  \[DoubleLongRightArrow] rappresenta l'argomento & \[DoubleLongRightArrow] termina la funzione *)
   If[!AllTrue[Characters[input], MemberQ[validChars, #] &] || input=="" || input==" ",
     Return[$Failed]
   ];
@@ -68,6 +69,7 @@ convertToDecimal[input_String, base_Integer] := Module[
   result = Quiet[FromDigits[input, base]];
   
   (* Verifica che la conversione sia avvenuta correttamente *)
+  (* Controlla se il risultato non \[EGrave] un intero oppure \[EGrave] negativo *)
   If[!IntegerQ[result] || result < 0,
     Return[$Failed],
     result
@@ -187,6 +189,7 @@ initSeed[seed_Integer?NonNegative] := Module[{},
 ]
 
 
+(* FUNZIONE pdi verifica per l'input *)
 verifyInput[gridSize_, base_, input_] := Module[{decimal, coordinates, row, col, errorMsg = ""},
   (* Conversione dell'input in base 10 *)
   decimal = convertToDecimal[input, base];
@@ -216,6 +219,7 @@ verifyInput[gridSize_, base_, input_] := Module[{decimal, coordinates, row, col,
 
 
 
+(* FUNZIONE per creare la griglia *)
 createGrid[ships_,gridSize_]:=Module[{grid=ConstantArray[$Vuoto,{gridSize,gridSize}]},
 	Do[grid[[coord[[1]]+1,
     coord[[2]]+1]]=1,
@@ -224,6 +228,7 @@ createGrid[ships_,gridSize_]:=Module[{grid=ConstantArray[$Vuoto,{gridSize,gridSi
 	grid
 ];
 
+(* FUNZIONE mostrare la griglia *)
 showGrid[grid_, ships_] := Module[{
     gridSize = Length[grid],
     gridWithLabels

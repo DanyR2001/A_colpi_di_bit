@@ -145,16 +145,21 @@ attack[attackCoordsWithMsg_, grid_, ships_] := Module[
   If[r < 1 || r > Length[grid] || c < 1 || c > Length[grid[[1]]],
     Return[{"Coordinate fuori dalla griglia!", grid, False, False}]
   ];
-  
+  (* Controlla il contenuto della cella (r, c) della griglia *)
   Switch[grid[[r, c]], 
-    $Nave, (* Colpito *)
+    $Nave, (* COLPITO *)
+	(* Aggiorna la nuova griglia (newGrid) segnando la cella come colpita *)    
       newGrid[[r, c]] = $Colpito;
       hit = True;
       (* Controlla se \[EGrave] affondato *)
       Do[
+      (* Controlla se la cella attaccata fa parte di questa nave.
+       L'indice \[EGrave] scalato di -1, perch\[EGrave] le coordinate delle navi siano basate su 0 *)
         If[MemberQ[nave, {r - 1, c - 1}],
+        (* Controlla se tutte le celle di questa nave sono state colpite ($Colpito). Se s\[IGrave], la nave \[EGrave] affondata *)
           If[AllTrue[nave, (newGrid[[#[[1]] + 1, #[[2]] + 1]] == $Colpito) &], 
             naveAffondata = True;
+            (* Per ogni coordinata della nave, si aggiorna la griglia per segnare tutte le sue celle come affondate *)
             Do[
               newGrid[[coord[[1]] + 1, coord[[2]] + 1]] = $Affondato;,
               {coord, nave}
@@ -164,19 +169,19 @@ attack[attackCoordsWithMsg_, grid_, ships_] := Module[
         ],
         {nave, ships}
       ];
-          
+      (* Assegna un messaggio *)    
       If[naveAffondata,
         attackResult = "Colpito e affondato!",
         attackResult = "Colpito!"
       ];,       
-    $Vuoto, (* Mancato *)
+    $Vuoto, (* MANCATO *)
       hit = True;
       newGrid[[r, c]] = $Mancato;
       attackResult = "Mi dispiace. Colpo non andato a segno, tenta di nuovo...";,
-    _, (* Gi\[AGrave] colpito *)
+    _, (* GI\[CapitalAGrave] COLPITO *)
       attackResult = "Hai gi\[AGrave] colpito qui!"
   ];
-  
+  (*  Ritorna un quattro-uple *)
   {attackResult, newGrid, hit, naveAffondata}
 ];
 
@@ -317,7 +322,7 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
                 (* Assegnazione esplicita invece di incremento *)
                 countAffondato = countAffondato + 1
               ];
-              
+              (* Controllo in caso di vittoria del UTENTE *)
               If[userAttack[[3]] && countAffondato >= Length[CPUShips] && Length[CPUShips]>0, 
                 gameState = "Complimenti! Hai vinto!";
                 gameOver = True;
@@ -339,22 +344,23 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
                   (* Assegnazione esplicita invece di incremento *)
                   cpuAffondato = cpuAffondato + 1
                 ];
-                
+                (* Controllo in caso di vittoria della CPU *)
                 If[cpuAffondato >= Length[userShips], 
                   gameState = "La CPU ha vinto!";
                   gameOver = True;
                 ];
-                
+                (* Impostazione di un messaggio *)
                 messageCpu = Column[{
                 "Coordinate attaccate " <> ToString[attackCpuCoords] <> ". " <> cpuAttack[[1]],
                 Row[{"La conversione \[EGrave]: ", Row[attackCpuCoords], " = ",BaseForm[FromDigits[attackCpuCoords],userBase]}]
                 }];
               ];
             ]
+            (* Impostazione della dimensione e abilitiamo l\[CloseCurlyQuote]interazione dinamicamente *)
           , ImageSize -> {80, 30}, Enabled -> Dynamic[!gameOver]]
         }
       }],
-      Row[{helpUser[userBase],Spacer[10],helpUserPersonalized[userBase]}],
+      Row[{helpUser[userBase],Spacer[10], helpUserPersonalized[userBase]}],
       Spacer[10],
       Style["Attacco Utente:", Bold, 12],
         Dynamic[messageUser],

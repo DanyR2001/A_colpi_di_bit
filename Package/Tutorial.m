@@ -26,7 +26,7 @@ HexSection::usage = "HexSection[] crea la sezione sul sistema esadecimale."
 DecToBinSection::usage = "DecToBinSection[] crea la sezione conversione da decimale a binario."
 DecToOctSection::usage = "DecToOctSection[] crea la sezione conversione da decimale a ottale."
 DecToHexSection::usage = "DecToHexSection[] crea la sezione conversione da decimale a esadecimale."
-conversionToDec::usage = "conversionToDec[base, number] restituisce i passaggi per la conversione di un numero da base qualsiasi a base 10."
+conversionToDec::usage = "conversionToDec[base, number] restituisce i passaggi per la conversione di un numero da base specificata a base 10."
 
 
 Begin["`Private`"]
@@ -36,7 +36,7 @@ Begin["`Private`"]
 IntroSection[] := {
   TextCell["Tutorial: Conversioni tra Sistemi Numerici", "Section", FontSize -> 22, FontWeight -> "Bold", FontColor -> RGBColor[0.1, 0.1, 0.7], TextAlignment -> Center],
   Spacer[20],
-  TextCell["Questo tutorial ti guider\[AGrave] attraverso le conversioni tra diversi sistemi numerici: binario, ottale, esadecimale e decimale. Ogni sistema numerico posizionale si basa su potenze della base stessa. In base 10 (decimale), la cifra più a destra vale 10⁰, la successiva 10¹, e così via. In binario vale 2⁰, 2¹, 2², etc. ", FontSize -> 14],
+  TextCell["Questo tutorial ti guider\[AGrave] attraverso le conversioni tra diversi sistemi numerici: binario, ottale, esadecimale e decimale. Ogni sistema numerico posizionale si basa su potenze della base stessa. In base 10 (decimale), la cifra pi\[UGrave] a destra vale 10\:2070, la successiva 10\.b9, e cos\[IGrave] via. In binario vale 2\:2070, 2\.b9, 2\.b2, etc. ", FontSize -> 14],
   Spacer[10]
 };
 

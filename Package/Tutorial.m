@@ -77,7 +77,7 @@ IntroSection[] := {
   (* Spazio verticale di 20 punti *)
 
   TextCell[
-    "Questo tutorial ti guider\[AGrave] attraverso le conversioni tra diversi sistemi numerici: binario, ottale, esadecimale e decimale.", 
+    "Questo tutorial ti guider\[AGrave] attraverso le conversioni tra diversi sistemi numerici: binario, ottale, esadecimale e decimale. Ogni sistema numerico posizionale si basa su potenze della base stessa. In base 10 (decimale), la cifra più a sinistra vale 10⁰, la successiva 10¹, e così via. In binario vale 2⁰, 2¹, 2², etc. Questo concetto si generalizza per qualunque base b.", 
     FontSize -> 14
   ],
   (* Crea un paragrafo descrittivo *)

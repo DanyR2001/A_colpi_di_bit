@@ -38,6 +38,8 @@ GetUserShips::usage = "GetUserShips[] restituisce lista di blocchi delle navi ut
 GetUserGrid::usage = "GetUserGrid[] restituisce matrice griglia utente.";
 GetRemainingShipLengths::usage = "GetRemainingShipLengths[] restituisce le lunghezze delle navi ancora da piazzare.";
 GetDifficultyLevels::usage = "GetDifficultyLevels[] restituisce i livelli di difficolt\[AGrave] disponibili";
+GetCpuShip::usage="GetCpuShip[] restituisce le navi della CPU";
+GetCpuGrid::usage="GetCpuGrid[] resitiruisce la griglia delle CPU";
 
 (*Setters delle variabili globali*)
 SetShipLengths::usage="SetShipLengths[shipLengths_List] imposta le lunghezze delle navi";
@@ -46,6 +48,8 @@ SetGridSize::usage="SetGridSize[size_Integer] imposta dimensione delle griglie";
 SetUserShips::usage="SetUserShips[ships_List] imposta navi dell'utente";
 SetUserGrid::usage="SetUserGrid[grid_List] imposta matrice griglia utente";
 SetSeed::usage="SetSeed[seed] imposta il seed";
+SetAutomaticShips::usage="SetAutomaticShips[ships_List] imposta navi della cpu";
+SetAutomaticGrid::usage="SetAutomaticGrid[grid_List] imposta matrice griglia cpu";
 
 Begin["`Private`"];
 
@@ -353,6 +357,18 @@ GetDifficultyLevels[] := $DifficultyLevels;
    - Serve per mostrare le opzioni di difficoltà disponibili
 *)
 
+getShipSize[]:=$ShipSize;
+
+GetCpuShip[]:=$AutomaticShips;
+(* Restituisce la lista delle navi della CPU:
+   - Ogni elemento della lista è una nave (cioè un'altra lista di coordinate)
+   - Serve per leggere le navi già piazzate
+*)
+GetCpuGrid[]:=$AutomaticGrid;
+(* Restituisce la matrice della griglia della CPU:
+   - Griglia di gioco che contiene celle vuote e celle occupate da navi
+   - Utile per visualizzare lo stato attuale della griglia
+*)
 
 
 
@@ -395,6 +411,17 @@ SetSeed[seed_] := If[isSeed[seed], $Seed = seed, $Seed];
    - Se non è valido, lascia invariato
 *)
 
+SetAutomaticShips[ships_List] := $AutomaticShips = ships;
+(* Imposta la lista delle navi della CPU:
+   - Permette di caricare direttamente uno stato salvato o ripristinare navi
+*)
+
+
+SetAutomaticGrid[grid_List] := $AutomaticGrid = grid;
+(* Imposta la griglia della CPU:
+   - Griglia di gioco con le navi piazzate dalla CPU
+   - Utile per ripristinare una partita salvata
+*)
 
 
 End[];

@@ -10,579 +10,1512 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[     26350,        599]
-NotebookOptionsPosition[     25856,        582]
-NotebookOutlinePosition[     26261,        598]
-CellTagsIndexPosition[     26218,        595]
+NotebookDataLength[     57038,       1536]
+NotebookOptionsPosition[     56321,       1515]
+NotebookOutlinePosition[     56718,       1531]
+CellTagsIndexPosition[     56675,       1528]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
 
 Cell[CellGroupData[{
-Cell[BoxData[
- RowBox[{
-  RowBox[{"CreateDocument", "[", 
-   RowBox[{"{", 
-    RowBox[{
-     RowBox[{"TextCell", "[", 
-      RowBox[{"\"\<Tutorial su Conversioni di Base\>\"", 
-       ",", "\"\<Section\>\"", ",", 
-       RowBox[{"FontSize", "->", "24"}], ",", 
-       RowBox[{"FontWeight", "->", "\"\<Bold\>\""}], ",", 
-       RowBox[{"FontColor", "->", 
-        RowBox[{"RGBColor", "[", 
-         RowBox[{"1", ",", "0", ",", "0"}], "]"}]}], ",", 
-       RowBox[{"TextAlignment", "->", "Left"}]}], "]"}], ",", 
-     RowBox[{"Spacer", "[", "12", "]"}], ",", 
-     RowBox[{"Pane", "[", 
-      RowBox[{
-       RowBox[{
-       "TextCell", 
-        "[", "\"\<Sommario:\\n- Binario \[RightArrow] Decimale\\n- Ottale \
-\[RightArrow] Decimale\\n- Esadecimale \[RightArrow] Decimale\>\"", "]"}], ",", 
-       RowBox[{"Background", "->", 
-        RowBox[{"Lighter", "[", 
-         RowBox[{"Gray", ",", "0.95"}], "]"}]}]}], "]"}], ",", 
-     RowBox[{"Spacer", "[", "12", "]"}], ",", 
-     RowBox[{"(*", 
-      RowBox[{
-       RowBox[{"--", 
-        RowBox[{"-", 
-         RowBox[{"BINARIO", "--"}]}]}], "-"}], "*)"}], 
-     RowBox[{"TextCell", "[", 
-      RowBox[{"\"\<Conversione da Binario a Decimale\>\"", 
-       ",", "\"\<Subsection\>\"", ",", 
-       RowBox[{"FontSize", "->", "18"}], ",", 
-       RowBox[{"FontWeight", "->", "\"\<Bold\>\""}], ",", 
-       RowBox[{"FontColor", "->", 
-        RowBox[{"RGBColor", "[", 
-         RowBox[{"1", ",", "0", ",", "0"}], "]"}]}], ",", 
-       RowBox[{"TextAlignment", "->", "Left"}]}], "]"}], ",", 
-     RowBox[{"Spacer", "[", "10", "]"}], ",", 
-     RowBox[{"Framed", "[", 
-      RowBox[{
-       RowBox[{"TextCell", "[", 
-        RowBox[{"\"\<Per convertire un numero binario in decimale, moltiplica \
-ciascuna cifra binaria per 2 elevato alla posizione (da destra verso \
-sinistra, a partire da 0) e somma i risultati.\>\"", ",", 
-         RowBox[{"FontSize", "->", "12"}]}], "]"}], ",", 
-       RowBox[{"Background", "->", 
-        RowBox[{"Lighter", "[", 
-         RowBox[{"Gray", ",", "0.9"}], "]"}]}]}], "]"}], ",", 
-     RowBox[{"Spacer", "[", "10", "]"}], ",", 
-     RowBox[{"Framed", "[", 
-      RowBox[{
-       RowBox[{"DynamicModule", "[", 
-        RowBox[{
-         RowBox[{"{", 
-          RowBox[{"b", "=", "\"\<\>\""}], "}"}], ",", 
-         RowBox[{"Column", "[", 
-          RowBox[{"{", 
-           RowBox[{
-            RowBox[{"TextCell", "[", 
-             RowBox[{"\"\<Esempio interattivo\>\"", ",", 
-              RowBox[{"FontSize", "->", "14"}], ",", 
-              RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], ",", 
-            RowBox[{"Grid", "[", 
-             RowBox[{"{", 
-              RowBox[{"{", 
-               RowBox[{
-                RowBox[{
-                "TextCell", "[", "\"\<Inserisci un numero binario:\>\"", 
-                 "]"}], ",", 
-                RowBox[{"InputField", "[", 
-                 RowBox[{
-                  RowBox[{"Dynamic", "[", "b", "]"}], ",", "String"}], 
-                 "]"}]}], "}"}], "}"}], "]"}], ",", 
-            RowBox[{"Dynamic", "[", 
-             RowBox[{"TextCell", "[", 
-              RowBox[{
-               RowBox[{"\"\<Valore decimale: \>\"", "<>", 
-                RowBox[{"ToString", "[", 
-                 RowBox[{"FromDigits", "[", 
-                  RowBox[{"b", ",", "2"}], "]"}], "]"}]}], ",", 
-               RowBox[{"FontSize", "->", "12"}]}], "]"}], "]"}]}], "}"}], 
-          "]"}]}], "]"}], ",", 
-       RowBox[{"Background", "->", 
-        RowBox[{"Lighter", "[", 
-         RowBox[{"Gray", ",", "0.95"}], "]"}]}]}], "]"}], ",", 
-     RowBox[{"Spacer", "[", "10", "]"}], ",", 
-     RowBox[{"Framed", "[", 
-      RowBox[{
-       RowBox[{"DynamicModule", "[", 
-        RowBox[{
-         RowBox[{"{", 
-          RowBox[{
-           RowBox[{"n", "=", 
-            RowBox[{"RandomInteger", "[", 
-             RowBox[{"{", 
-              RowBox[{"1", ",", "127"}], "}"}], "]"}]}], ",", 
-           RowBox[{"risposta", "=", "\"\<\>\""}], ",", 
-           RowBox[{"esito", "=", "Null"}], ",", 
-           RowBox[{"showReplay", "=", "False"}]}], "}"}], ",", 
-         RowBox[{"Column", "[", 
-          RowBox[{"{", 
-           RowBox[{
-            RowBox[{"TextCell", "[", 
-             
-             RowBox[{"\"\<Mini-esercizio: Converti in decimale il seguente \
-numero binario\>\"", ",", 
-              RowBox[{"FontSize", "->", "14"}], ",", 
-              RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], ",", 
-            RowBox[{"Framed", "[", 
-             RowBox[{
-              RowBox[{"Dynamic", "[", 
-               RowBox[{"TextCell", "[", 
-                RowBox[{
-                 RowBox[{"IntegerString", "[", 
-                  RowBox[{"n", ",", "2"}], "]"}], ",", 
-                 RowBox[{"FontSize", "->", "16"}], ",", 
-                 RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], "]"}],
-               ",", 
-              RowBox[{"Background", "->", 
-               RowBox[{"Lighter", "[", 
-                RowBox[{"Gray", ",", "0.85"}], "]"}]}]}], "]"}], ",", 
-            RowBox[{"Grid", "[", 
-             RowBox[{"{", 
-              RowBox[{"{", 
-               RowBox[{
-                RowBox[{"TextCell", "[", "\"\<Risposta:\>\"", "]"}], ",", 
-                RowBox[{"InputField", "[", 
-                 RowBox[{
-                  RowBox[{"Dynamic", "[", "risposta", "]"}], ",", "Number"}], 
-                 "]"}]}], "}"}], "}"}], "]"}], ",", 
-            RowBox[{"Row", "[", 
-             RowBox[{"{", 
-              RowBox[{
-               RowBox[{"Button", "[", 
-                RowBox[{"\"\<Verifica\>\"", ",", 
-                 RowBox[{"If", "[", 
-                  RowBox[{
-                   RowBox[{
-                    RowBox[{"ToExpression", "[", "risposta", "]"}], "===", 
-                    "n"}], ",", 
-                   RowBox[{"(", 
-                    RowBox[{
-                    RowBox[{"esito", "=", 
-                    RowBox[{"TextCell", "[", 
-                    RowBox[{"\"\<\:2705 Corretto!\>\"", ",", 
-                    RowBox[{"FontSize", "->", "14"}], ",", 
-                    RowBox[{"FontColor", "->", "DarkGreen"}]}], "]"}]}], ";", 
-                    "\[IndentingNewLine]", 
-                    RowBox[{"showReplay", "=", "True"}], ";"}], ")"}], ",", 
-                   RowBox[{"esito", "=", 
-                    RowBox[{"TextCell", "[", 
-                    RowBox[{"\"\<\:274c Riprovare\[Ellipsis]\>\"", ",", 
-                    RowBox[{"FontSize", "->", "14"}], ",", 
-                    RowBox[{"FontColor", "->", "Red"}]}], "]"}]}]}], "]"}], ",", 
-                 RowBox[{"ImageSize", "->", "Large"}], ",", 
-                 RowBox[{"Appearance", "->", "\"\<Frameless\>\""}], ",", 
-                 RowBox[{"Background", "->", "LightGray"}], ",", 
-                 RowBox[{"FrameMargins", "->", "6"}], ",", 
-                 RowBox[{"FrameStyle", "->", "Black"}], ",", 
-                 RowBox[{"RoundingRadius", "->", "5"}]}], "]"}], ",", 
-               RowBox[{"Spacer", "[", "10", "]"}], ",", 
-               RowBox[{"Dynamic", "[", 
-                RowBox[{"If", "[", 
-                 RowBox[{"showReplay", ",", 
-                  RowBox[{"Button", "[", 
-                   RowBox[{"\"\<Rigioca\>\"", ",", 
-                    RowBox[{"(", 
-                    RowBox[{
-                    RowBox[{"n", "=", 
-                    RowBox[{"RandomInteger", "[", 
-                    RowBox[{"{", 
-                    RowBox[{"1", ",", "127"}], "}"}], "]"}]}], ";", 
-                    RowBox[{"risposta", "=", "\"\<\>\""}], ";", 
-                    RowBox[{"esito", "=", "Null"}], ";", 
-                    RowBox[{"showReplay", "=", "False"}], ";"}], ")"}], ",", 
-                    RowBox[{"ImageSize", "->", "Large"}], ",", 
-                    RowBox[{"Appearance", "->", "\"\<Frameless\>\""}], ",", 
-                    RowBox[{"Background", "->", "LightBlue"}], ",", 
-                    RowBox[{"FrameMargins", "->", "6"}], ",", 
-                    RowBox[{"FrameStyle", "->", "Black"}], ",", 
-                    RowBox[{"RoundingRadius", "->", "5"}]}], "]"}], ",", 
-                  RowBox[{"Spacer", "[", "0", "]"}]}], "]"}], "]"}]}], "}"}], 
-             "]"}], ",", 
-            RowBox[{"Dynamic", "[", 
-             RowBox[{"If", "[", 
-              RowBox[{
-               RowBox[{"esito", "===", "Null"}], ",", 
-               RowBox[{"Spacer", "[", "0", "]"}], ",", "esito"}], "]"}], 
-             "]"}]}], "}"}], "]"}]}], "]"}], ",", 
-       RowBox[{"Background", "->", 
-        RowBox[{"Lighter", "[", 
-         RowBox[{"Gray", ",", "0.95"}], "]"}]}]}], "]"}], ",", 
-     RowBox[{"Spacer", "[", "12", "]"}], ",", 
-     RowBox[{"(*", 
-      RowBox[{
-       RowBox[{"--", 
-        RowBox[{"-", 
-         RowBox[{"OTTALE", "--"}]}]}], "-"}], "*)"}], 
-     RowBox[{"TextCell", "[", 
-      RowBox[{"\"\<Conversione da Ottale a Decimale\>\"", 
-       ",", "\"\<Subsection\>\"", ",", 
-       RowBox[{"FontSize", "->", "18"}], ",", 
-       RowBox[{"FontWeight", "->", "\"\<Bold\>\""}], ",", 
-       RowBox[{"FontColor", "->", 
-        RowBox[{"RGBColor", "[", 
-         RowBox[{"1", ",", "0", ",", "0"}], "]"}]}], ",", 
-       RowBox[{"TextAlignment", "->", "Left"}]}], "]"}], ",", 
-     RowBox[{"Spacer", "[", "10", "]"}], ",", 
-     RowBox[{"Framed", "[", 
-      RowBox[{
-       RowBox[{"TextCell", "[", 
-        RowBox[{"\"\<Ogni cifra di un numero ottale rappresenta una potenza \
-di 8. Per convertire in decimale, moltiplica ogni cifra per 8 elevato alla \
-sua posizione e somma i risultati.\>\"", ",", 
-         RowBox[{"FontSize", "->", "12"}]}], "]"}], ",", 
-       RowBox[{"Background", "->", 
-        RowBox[{"Lighter", "[", 
-         RowBox[{"Gray", ",", "0.9"}], "]"}]}]}], "]"}], ",", 
-     RowBox[{"Spacer", "[", "10", "]"}], ",", 
-     RowBox[{"Framed", "[", 
-      RowBox[{
-       RowBox[{"DynamicModule", "[", 
-        RowBox[{
-         RowBox[{"{", 
-          RowBox[{"o", "=", "\"\<\>\""}], "}"}], ",", 
-         RowBox[{"Column", "[", 
-          RowBox[{"{", 
-           RowBox[{
-            RowBox[{"TextCell", "[", 
-             RowBox[{"\"\<Esempio interattivo\>\"", ",", 
-              RowBox[{"FontSize", "->", "14"}], ",", 
-              RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], ",", 
-            RowBox[{"Grid", "[", 
-             RowBox[{"{", 
-              RowBox[{"{", 
-               RowBox[{
-                RowBox[{
-                "TextCell", "[", "\"\<Inserisci un numero ottale:\>\"", "]"}],
-                 ",", 
-                RowBox[{"InputField", "[", 
-                 RowBox[{
-                  RowBox[{"Dynamic", "[", "o", "]"}], ",", "String"}], 
-                 "]"}]}], "}"}], "}"}], "]"}], ",", 
-            RowBox[{"Dynamic", "[", 
-             RowBox[{"TextCell", "[", 
-              RowBox[{
-               RowBox[{"\"\<Valore decimale: \>\"", "<>", 
-                RowBox[{"ToString", "[", 
-                 RowBox[{"FromDigits", "[", 
-                  RowBox[{"o", ",", "8"}], "]"}], "]"}]}], ",", 
-               RowBox[{"FontSize", "->", "12"}]}], "]"}], "]"}]}], "}"}], 
-          "]"}]}], "]"}], ",", 
-       RowBox[{"Background", "->", 
-        RowBox[{"Lighter", "[", 
-         RowBox[{"Gray", ",", "0.95"}], "]"}]}]}], "]"}], ",", 
-     RowBox[{"Spacer", "[", "10", "]"}], ",", 
-     RowBox[{"Framed", "[", 
-      RowBox[{
-       RowBox[{"DynamicModule", "[", 
-        RowBox[{
-         RowBox[{"{", 
-          RowBox[{
-           RowBox[{"n", "=", 
-            RowBox[{"RandomInteger", "[", 
-             RowBox[{"{", 
-              RowBox[{"1", ",", "127"}], "}"}], "]"}]}], ",", 
-           RowBox[{"risposta", "=", "\"\<\>\""}], ",", 
-           RowBox[{"esito", "=", "Null"}], ",", 
-           RowBox[{"showReplay", "=", "False"}]}], "}"}], ",", 
-         RowBox[{"Column", "[", 
-          RowBox[{"{", 
-           RowBox[{
-            RowBox[{"TextCell", "[", 
-             
-             RowBox[{"\"\<Mini-esercizio: Converti in decimale il seguente \
-numero ottale\>\"", ",", 
-              RowBox[{"FontSize", "->", "14"}], ",", 
-              RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], ",", 
-            RowBox[{"Framed", "[", 
-             RowBox[{
-              RowBox[{"Dynamic", "[", 
-               RowBox[{"TextCell", "[", 
-                RowBox[{
-                 RowBox[{"IntegerString", "[", 
-                  RowBox[{"n", ",", "8"}], "]"}], ",", 
-                 RowBox[{"FontSize", "->", "16"}], ",", 
-                 RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], "]"}],
-               ",", 
-              RowBox[{"Background", "->", 
-               RowBox[{"Lighter", "[", 
-                RowBox[{"Gray", ",", "0.85"}], "]"}]}]}], "]"}], ",", 
-            RowBox[{"Grid", "[", 
-             RowBox[{"{", 
-              RowBox[{"{", 
-               RowBox[{
-                RowBox[{"TextCell", "[", "\"\<Risposta:\>\"", "]"}], ",", 
-                RowBox[{"InputField", "[", 
-                 RowBox[{
-                  RowBox[{"Dynamic", "[", "risposta", "]"}], ",", "Number"}], 
-                 "]"}]}], "}"}], "}"}], "]"}], ",", 
-            RowBox[{"Row", "[", 
-             RowBox[{"{", 
-              RowBox[{
-               RowBox[{"Button", "[", 
-                RowBox[{"\"\<Verifica\>\"", ",", 
-                 RowBox[{"If", "[", 
-                  RowBox[{
-                   RowBox[{
-                    RowBox[{"ToExpression", "[", "risposta", "]"}], "===", 
-                    "n"}], ",", 
-                   RowBox[{"(", 
-                    RowBox[{
-                    RowBox[{"esito", "=", 
-                    RowBox[{"TextCell", "[", 
-                    RowBox[{"\"\<\:2705 Corretto!\>\"", ",", 
-                    RowBox[{"FontSize", "->", "14"}], ",", 
-                    RowBox[{"FontColor", "->", "DarkGreen"}]}], "]"}]}], ";", 
-                    "\[IndentingNewLine]", 
-                    RowBox[{"showReplay", "=", "True"}], ";"}], ")"}], ",", 
-                   RowBox[{"esito", "=", 
-                    RowBox[{"TextCell", "[", 
-                    RowBox[{"\"\<\:274c Riprovare\[Ellipsis]\>\"", ",", 
-                    RowBox[{"FontSize", "->", "14"}], ",", 
-                    RowBox[{"FontColor", "->", "Red"}]}], "]"}]}]}], "]"}], ",", 
-                 RowBox[{"ImageSize", "->", "Large"}], ",", 
-                 RowBox[{"Appearance", "->", "\"\<Frameless\>\""}], ",", 
-                 RowBox[{"Background", "->", "LightGray"}], ",", 
-                 RowBox[{"FrameMargins", "->", "6"}], ",", 
-                 RowBox[{"FrameStyle", "->", "Black"}], ",", 
-                 RowBox[{"RoundingRadius", "->", "5"}]}], "]"}], ",", 
-               RowBox[{"Spacer", "[", "10", "]"}], ",", 
-               RowBox[{"Dynamic", "[", 
-                RowBox[{"If", "[", 
-                 RowBox[{"showReplay", ",", 
-                  RowBox[{"Button", "[", 
-                   RowBox[{"\"\<Rigioca\>\"", ",", 
-                    RowBox[{"(", 
-                    RowBox[{
-                    RowBox[{"n", "=", 
-                    RowBox[{"RandomInteger", "[", 
-                    RowBox[{"{", 
-                    RowBox[{"1", ",", "127"}], "}"}], "]"}]}], ";", 
-                    RowBox[{"risposta", "=", "\"\<\>\""}], ";", 
-                    RowBox[{"esito", "=", "Null"}], ";", 
-                    RowBox[{"showReplay", "=", "False"}], ";"}], ")"}], ",", 
-                    RowBox[{"ImageSize", "->", "Large"}], ",", 
-                    RowBox[{"Appearance", "->", "\"\<Frameless\>\""}], ",", 
-                    RowBox[{"Background", "->", "LightBlue"}], ",", 
-                    RowBox[{"FrameMargins", "->", "6"}], ",", 
-                    RowBox[{"FrameStyle", "->", "Black"}], ",", 
-                    RowBox[{"RoundingRadius", "->", "5"}]}], "]"}], ",", 
-                  RowBox[{"Spacer", "[", "0", "]"}]}], "]"}], "]"}]}], "}"}], 
-             "]"}], ",", 
-            RowBox[{"Dynamic", "[", 
-             RowBox[{"If", "[", 
-              RowBox[{
-               RowBox[{"esito", "===", "Null"}], ",", 
-               RowBox[{"Spacer", "[", "0", "]"}], ",", "esito"}], "]"}], 
-             "]"}]}], "}"}], "]"}]}], "]"}], ",", 
-       RowBox[{"Background", "->", 
-        RowBox[{"Lighter", "[", 
-         RowBox[{"Gray", ",", "0.95"}], "]"}]}]}], "]"}], ",", 
-     RowBox[{"Spacer", "[", "12", "]"}], ",", 
-     RowBox[{"(*", 
-      RowBox[{
-       RowBox[{"--", 
-        RowBox[{"-", 
-         RowBox[{"ESADECIMALE", "--"}]}]}], "-"}], "*)"}], 
-     RowBox[{"TextCell", "[", 
-      RowBox[{"\"\<Conversione da Esadecimale a Decimale\>\"", 
-       ",", "\"\<Subsection\>\"", ",", 
-       RowBox[{"FontSize", "->", "18"}], ",", 
-       RowBox[{"FontWeight", "->", "\"\<Bold\>\""}], ",", 
-       RowBox[{"FontColor", "->", 
-        RowBox[{"RGBColor", "[", 
-         RowBox[{"1", ",", "0", ",", "0"}], "]"}]}], ",", 
-       RowBox[{"TextAlignment", "->", "Left"}]}], "]"}], ",", 
-     RowBox[{"Spacer", "[", "10", "]"}], ",", 
-     RowBox[{"Framed", "[", 
-      RowBox[{
-       RowBox[{"TextCell", "[", 
-        RowBox[{"\"\<Il sistema esadecimale usa 16 simboli (0\[Dash]9 e A\
-\[Dash]F). Per convertire in decimale, sostituisci le lettere con i valori 10\
-\[Dash]15, poi moltiplica ciascuna cifra per 16 elevato alla sua posizione e \
-somma.\>\"", ",", 
-         RowBox[{"FontSize", "->", "12"}]}], "]"}], ",", 
-       RowBox[{"Background", "->", 
-        RowBox[{"Lighter", "[", 
-         RowBox[{"Gray", ",", "0.9"}], "]"}]}]}], "]"}], ",", 
-     RowBox[{"Spacer", "[", "10", "]"}], ",", 
-     RowBox[{"Framed", "[", 
-      RowBox[{
-       RowBox[{"DynamicModule", "[", 
-        RowBox[{
-         RowBox[{"{", 
-          RowBox[{"h", "=", "\"\<\>\""}], "}"}], ",", 
-         RowBox[{"Column", "[", 
-          RowBox[{"{", 
-           RowBox[{
-            RowBox[{"TextCell", "[", 
-             RowBox[{"\"\<Esempio interattivo\>\"", ",", 
-              RowBox[{"FontSize", "->", "14"}], ",", 
-              RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], ",", 
-            RowBox[{"Grid", "[", 
-             RowBox[{"{", 
-              RowBox[{"{", 
-               RowBox[{
-                RowBox[{
-                "TextCell", "[", "\"\<Inserisci un numero esadecimale:\>\"", 
-                 "]"}], ",", 
-                RowBox[{"InputField", "[", 
-                 RowBox[{
-                  RowBox[{"Dynamic", "[", "h", "]"}], ",", "String"}], 
-                 "]"}]}], "}"}], "}"}], "]"}], ",", 
-            RowBox[{"Dynamic", "[", 
-             RowBox[{"TextCell", "[", 
-              RowBox[{
-               RowBox[{"\"\<Valore decimale: \>\"", "<>", 
-                RowBox[{"ToString", "[", 
-                 RowBox[{"FromDigits", "[", 
-                  RowBox[{
-                   RowBox[{"ToUpperCase", "[", "h", "]"}], ",", "16"}], "]"}],
-                  "]"}]}], ",", 
-               RowBox[{"FontSize", "->", "12"}]}], "]"}], "]"}]}], "}"}], 
-          "]"}]}], "]"}], ",", 
-       RowBox[{"Background", "->", 
-        RowBox[{"Lighter", "[", 
-         RowBox[{"Gray", ",", "0.95"}], "]"}]}]}], "]"}], ",", 
-     RowBox[{"Spacer", "[", "10", "]"}], ",", 
-     RowBox[{"Framed", "[", 
-      RowBox[{
-       RowBox[{"DynamicModule", "[", 
-        RowBox[{
-         RowBox[{"{", 
-          RowBox[{
-           RowBox[{"n", "=", 
-            RowBox[{"RandomInteger", "[", 
-             RowBox[{"{", 
-              RowBox[{"1", ",", "127"}], "}"}], "]"}]}], ",", 
-           RowBox[{"risposta", "=", "\"\<\>\""}], ",", 
-           RowBox[{"esito", "=", "Null"}], ",", 
-           RowBox[{"showReplay", "=", "False"}]}], "}"}], ",", 
-         RowBox[{"Column", "[", 
-          RowBox[{"{", 
-           RowBox[{
-            RowBox[{"TextCell", "[", 
-             
-             RowBox[{"\"\<Mini-esercizio: Converti in decimale il seguente \
-numero esadecimale\>\"", ",", 
-              RowBox[{"FontSize", "->", "14"}], ",", 
-              RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], ",", 
-            RowBox[{"Framed", "[", 
-             RowBox[{
-              RowBox[{"Dynamic", "[", 
-               RowBox[{"TextCell", "[", 
-                RowBox[{
-                 RowBox[{"IntegerString", "[", 
-                  RowBox[{"n", ",", "16"}], "]"}], ",", 
-                 RowBox[{"FontSize", "->", "16"}], ",", 
-                 RowBox[{"FontWeight", "->", "\"\<Bold\>\""}]}], "]"}], "]"}],
-               ",", 
-              RowBox[{"Background", "->", 
-               RowBox[{"Lighter", "[", 
-                RowBox[{"Gray", ",", "0.85"}], "]"}]}]}], "]"}], ",", 
-            RowBox[{"Grid", "[", 
-             RowBox[{"{", 
-              RowBox[{"{", 
-               RowBox[{
-                RowBox[{"TextCell", "[", "\"\<Risposta:\>\"", "]"}], ",", 
-                RowBox[{"InputField", "[", 
-                 RowBox[{
-                  RowBox[{"Dynamic", "[", "risposta", "]"}], ",", "Number"}], 
-                 "]"}]}], "}"}], "}"}], "]"}], ",", 
-            RowBox[{"Row", "[", 
-             RowBox[{"{", 
-              RowBox[{
-               RowBox[{"Button", "[", 
-                RowBox[{"\"\<Verifica\>\"", ",", 
-                 RowBox[{"If", "[", 
-                  RowBox[{
-                   RowBox[{
-                    RowBox[{"ToExpression", "[", "risposta", "]"}], "===", 
-                    "n"}], ",", 
-                   RowBox[{"(", 
-                    RowBox[{
-                    RowBox[{"esito", "=", 
-                    RowBox[{"TextCell", "[", 
-                    RowBox[{"\"\<\:2705 Corretto!\>\"", ",", 
-                    RowBox[{"FontSize", "->", "14"}], ",", 
-                    RowBox[{"FontColor", "->", "DarkGreen"}]}], "]"}]}], ";", 
-                    "\[IndentingNewLine]", 
-                    RowBox[{"showReplay", "=", "True"}], ";"}], ")"}], ",", 
-                   RowBox[{"esito", "=", 
-                    RowBox[{"TextCell", "[", 
-                    RowBox[{"\"\<\:274c Riprovare\[Ellipsis]\>\"", ",", 
-                    RowBox[{"FontSize", "->", "14"}], ",", 
-                    RowBox[{"FontColor", "->", "Red"}]}], "]"}]}]}], "]"}], ",", 
-                 RowBox[{"ImageSize", "->", "Large"}], ",", 
-                 RowBox[{"Appearance", "->", "\"\<Frameless\>\""}], ",", 
-                 RowBox[{"Background", "->", "LightGray"}], ",", 
-                 RowBox[{"FrameMargins", "->", "6"}], ",", 
-                 RowBox[{"FrameStyle", "->", "Black"}], ",", 
-                 RowBox[{"RoundingRadius", "->", "5"}]}], "]"}], ",", 
-               RowBox[{"Spacer", "[", "10", "]"}], ",", 
-               RowBox[{"Dynamic", "[", 
-                RowBox[{"If", "[", 
-                 RowBox[{"showReplay", ",", 
-                  RowBox[{"Button", "[", 
-                   RowBox[{"\"\<Rigioca\>\"", ",", 
-                    RowBox[{"(", 
-                    RowBox[{
-                    RowBox[{"n", "=", 
-                    RowBox[{"RandomInteger", "[", 
-                    RowBox[{"{", 
-                    RowBox[{"1", ",", "127"}], "}"}], "]"}]}], ";", 
-                    RowBox[{"risposta", "=", "\"\<\>\""}], ";", 
-                    RowBox[{"esito", "=", "Null"}], ";", 
-                    RowBox[{"showReplay", "=", "False"}], ";"}], ")"}], ",", 
-                    RowBox[{"ImageSize", "->", "Large"}], ",", 
-                    RowBox[{"Appearance", "->", "\"\<Frameless\>\""}], ",", 
-                    RowBox[{"Background", "->", "LightBlue"}], ",", 
-                    RowBox[{"FrameMargins", "->", "6"}], ",", 
-                    RowBox[{"FrameStyle", "->", "Black"}], ",", 
-                    RowBox[{"RoundingRadius", "->", "5"}]}], "]"}], ",", 
-                  RowBox[{"Spacer", "[", "0", "]"}]}], "]"}], "]"}]}], "}"}], 
-             "]"}], ",", 
-            RowBox[{"Dynamic", "[", 
-             RowBox[{"If", "[", 
-              RowBox[{
-               RowBox[{"esito", "===", "Null"}], ",", 
-               RowBox[{"Spacer", "[", "0", "]"}], ",", "esito"}], "]"}], 
-             "]"}]}], "}"}], "]"}]}], "]"}], ",", 
-       RowBox[{"Background", "->", 
-        RowBox[{"Lighter", "[", 
-         RowBox[{"Gray", ",", "0.95"}], "]"}]}]}], "]"}]}], "}"}], "]"}], 
-  "\n"}]], "Input",
- CellChangeTimes->{{3.9553357577104263`*^9, 3.955335759192833*^9}, 
-   3.9553359253778934`*^9, 3.9553363143576736`*^9, {3.9553365512304*^9, 
-   3.9553365564101486`*^9}, {3.9553369704541416`*^9, 
-   3.9553370000263767`*^9}, {3.9553372543012505`*^9, 
-   3.9553372707533264`*^9}, {3.955337394047268*^9, 3.9553373953355465`*^9}, 
-   3.955337594143553*^9, 3.95533793256929*^9, 3.955338421602627*^9, 
-   3.9553385216684875`*^9, 3.955338670178171*^9},
- CellLabel->"In[12]:=",ExpressionUUID->"e1211e0e-13f4-7a4c-8799-25b68c7a2737"],
+Cell[BoxData[{
+ RowBox[{"<<", "./Package/Tutorial.m"}], "\[IndentingNewLine]", 
+ RowBox[{"CreateTutorial", "[", "]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.95578769372018*^9, 3.955787772603054*^9}},
+ CellLabel->"In[17]:=",ExpressionUUID->"82afd2f8-9264-4298-97e4-5ad6503dfab5"],
 
 Cell[BoxData[
- TemplateBox[<|
-  "obj" -> NotebookObject[
-    "96dc30ec-3464-4d4e-913c-403126c7ceb5", 
-     "1e1f0597-eb3e-6d47-9d70-9e82cf885fc6"], "label" -> "\"Untitled-13\""|>,
-  "NotebookObjectUUIDsUnsaved"]], "Output",
- CellChangeTimes->{3.955335762783636*^9, 3.9553359280572433`*^9, 
-  3.955336330669754*^9, 3.9553365597674217`*^9, 3.955336976176653*^9, 
-  3.9553372838463364`*^9, 3.955337398693865*^9, 3.9553375973298187`*^9, 
-  3.955337935156193*^9, 3.9553384247199097`*^9, 3.9553386732106457`*^9},
- CellLabel->"Out[12]=",ExpressionUUID->"72a5b87d-ff96-954e-b2b7-ca4483f17ad2"]
+ TagBox[GridBox[{
+    {
+     InterpretationBox[Cell[
+      "Tutorial: Conversioni tra Sistemi Numerici", "Section",
+       TextAlignment->Center,
+       FontSize->22,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0.1, 0.1, 0.7],ExpressionUUID->
+       "472500ad-bfc2-420f-b3cf-877800719c5a"],
+      TextCell[
+      "Tutorial: Conversioni tra Sistemi Numerici", "Section", FontSize -> 22,
+        FontWeight -> "Bold", FontColor -> RGBColor[0.1, 0.1, 0.7], 
+       TextAlignment -> Center]]},
+    {
+     TemplateBox[{20},
+      "Spacer1"]},
+    {
+     InterpretationBox[Cell["\<\
+Questo tutorial ti guider\[AGrave] attraverso le conversioni tra diversi \
+sistemi numerici: binario, ottale, esadecimale e decimale.\
+\>",
+       FontSize->14,ExpressionUUID->"00eafc41-7732-4770-b973-c55b2c167d47"],
+      TextCell[
+      "Questo tutorial ti guider\[AGrave] attraverso le conversioni tra \
+diversi sistemi numerici: binario, ottale, esadecimale e decimale.", FontSize -> 
+       14]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     InterpretationBox[Cell["Conversione da Binario a Decimale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "d3a2f037-0e53-4824-aa5f-36043147f7d8"],
+      TextCell[
+      "Conversione da Binario a Decimale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Per convertire un numero binario in decimale, moltiplica ciascuna cifra per \
+la potenza di 2 corrispondente alla sua posizione e somma i risultati.\
+\>",
+        FontSize->12,ExpressionUUID->"e2fefc1d-b571-416a-925e-f4db098a0074"],
+       TextCell[
+       "Per convertire un numero binario in decimale, moltiplica ciascuna \
+cifra per la potenza di 2 corrispondente alla sua posizione e somma i \
+risultati.", FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`d$$ = "1"}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "b8875c3d-0630-4242-a648-a51c584b9010"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero binario:",ExpressionUUID->
+                 "9b1f6f55-dc10-4324-9fda-87f484ef9c57"],
+                TextCell["Inserisci un numero binario:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`d$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Tutorial`conversionToDec[2, Tutorial`Private`d$$], StandardForm],
+            
+            ImageSizeCache->{
+             1317., {112.73698632812501`, 118.46891992187501`}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     InterpretationBox[Cell["Conversione da Ottale a Decimale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "558abe2f-b7cb-4167-bc74-136cf1a306a7"],
+      TextCell[
+      "Conversione da Ottale a Decimale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Per convertire un numero ottale in decimale, moltiplica ciascuna cifra per la \
+potenza di 8 corrispondente alla sua posizione e somma i risultati.\
+\>",
+        FontSize->12,ExpressionUUID->"8c15a771-0d58-4806-a764-f47089e750a1"],
+       TextCell[
+       "Per convertire un numero ottale in decimale, moltiplica ciascuna \
+cifra per la potenza di 8 corrispondente alla sua posizione e somma i \
+risultati.", FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`d$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "bd76c420-6b60-490c-a168-edf926ea4d18"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero ottale:",ExpressionUUID->
+                 "6354e0ad-14bd-4814-9e33-0c3b8417c378"],
+                TextCell["Inserisci un numero ottale:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`d$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Tutorial`conversionToDec[8, Tutorial`Private`d$$], StandardForm],
+            ImageSizeCache->{280.80000000000007`, {0.156, 9.269}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     InterpretationBox[Cell[
+      "Conversione da Esadecimale a Decimale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "2e450607-db1a-496e-bcb4-74bafc20ff0b"],
+      TextCell[
+      "Conversione da Esadecimale a Decimale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Il sistema esadecimale usa 16 simboli (0\[Dash]9 e A\[Dash]F). Per convertire \
+in decimale, sostituisci le lettere con i valori 10\[Dash]15, poi moltiplica \
+ciascuna cifra per 16 elevato alla sua posizione e somma.\
+\>",
+        FontSize->12,ExpressionUUID->"38026d5a-6a3a-468a-8e65-ed9b72ab4377"],
+       TextCell[
+       "Il sistema esadecimale usa 16 simboli (0\[Dash]9 e A\[Dash]F). Per \
+convertire in decimale, sostituisci le lettere con i valori 10\[Dash]15, poi \
+moltiplica ciascuna cifra per 16 elevato alla sua posizione e somma.", 
+        FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`h$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "77e267ab-1fe6-4aa2-8582-61bbf9620b54"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero esadecimale:",ExpressionUUID->
+                 "2298364f-50ad-47ac-b60f-86fd9fc2d2f4"],
+                TextCell["Inserisci un numero esadecimale:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`h$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Tutorial`conversionToDec[16, Tutorial`Private`h$$], StandardForm],
+            ImageSizeCache->{288.6000000000001, {0.156, 9.269}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     InterpretationBox[Cell["Conversione da Decimale a Binario", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "e06a8bea-4a74-4587-8c0b-40df369763b2"],
+      TextCell[
+      "Conversione da Decimale a Binario", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Per convertire un numero decimale in binario, dividilo ripetutamente per 2 e \
+raccogli i resti. Leggi i resti dal basso verso l'alto.\
+\>",
+        FontSize->12,ExpressionUUID->"1321fbef-8e83-4f37-8ff0-1cabede31bc7"],
+       TextCell[
+       "Per convertire un numero decimale in binario, dividilo ripetutamente \
+per 2 e raccogli i resti. Leggi i resti dal basso verso l'alto.", FontSize -> 
+        12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`d$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "1b5283a1-d28f-4a30-af82-c03cc48d12a7"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero decimale:",ExpressionUUID->
+                 "cf0032a3-a0d0-4641-835c-a2803bd4b894"],
+                TextCell["Inserisci un numero decimale:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`d$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Module[{Tutorial`Private`n = ToExpression[Tutorial`Private`d$$]}, 
+              If[
+               And[
+                IntegerQ[Tutorial`Private`n], Tutorial`Private`n >= 0], 
+               Util`conversionFromDec[2, Tutorial`Private`n], 
+               "Inserisci un numero decimale valido (>= 0)"]], StandardForm],
+            ImageSizeCache->{327.60507812500003`, {2.40576171875, 9.269}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     InterpretationBox[Cell["Conversione da Decimale a Ottale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "6f7a711a-74db-4890-8a2f-e22b29638be8"],
+      TextCell[
+      "Conversione da Decimale a Ottale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Per convertire un numero decimale in ottale, dividilo ripetutamente per 8 e \
+raccogli i resti oppure converti prima in binario e raggruppa le cifre in \
+gruppi di 3.\
+\>",
+        FontSize->12,ExpressionUUID->"b684fc41-25a2-4321-90f4-34547fd75998"],
+       TextCell[
+       "Per convertire un numero decimale in ottale, dividilo ripetutamente \
+per 8 e raccogli i resti oppure converti prima in binario e raggruppa le \
+cifre in gruppi di 3.", FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`d$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "aacdfdc6-6810-40e5-ab31-0eb1c1440674"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero decimale:",ExpressionUUID->
+                 "bb587271-6dd3-4090-9767-eda838e383ef"],
+                TextCell["Inserisci un numero decimale:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`d$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Module[{Tutorial`Private`n = ToExpression[Tutorial`Private`d$$]}, 
+              If[
+               And[
+                IntegerQ[Tutorial`Private`n], Tutorial`Private`n >= 0], 
+               Util`conversionFromDec[8, Tutorial`Private`n], 
+               "Inserisci un numero decimale valido (>= 0)"]], StandardForm],
+            ImageSizeCache->{327.60507812500003`, {2.40576171875, 9.269}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     InterpretationBox[Cell[
+      "Conversione da Decimale a Esadecimale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "61197460-e671-47e7-9864-4d82c5fcfbf9"],
+      TextCell[
+      "Conversione da Decimale a Esadecimale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Per convertire un numero decimale in esadecimale, dividilo ripetutamente per \
+16 e raccogli i resti oppure converti prima in binario e raggruppa le cifre \
+in gruppi di 4.\
+\>",
+        FontSize->12,ExpressionUUID->"e5965117-6929-48f8-afac-e62faf2ff98b"],
+       TextCell[
+       "Per convertire un numero decimale in esadecimale, dividilo \
+ripetutamente per 16 e raccogli i resti oppure converti prima in binario e \
+raggruppa le cifre in gruppi di 4.", FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`d$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "c1f83ba6-1572-411f-a5e4-457e05ba7cbc"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero decimale:",ExpressionUUID->
+                 "be102df8-91d8-4d60-849b-2af7111c5204"],
+                TextCell["Inserisci un numero decimale:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`d$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Module[{Tutorial`Private`n = ToExpression[Tutorial`Private`d$$]}, 
+              If[
+               And[
+                IntegerQ[Tutorial`Private`n], Tutorial`Private`n >= 0], 
+               Util`conversionFromDec[16, Tutorial`Private`n], 
+               "Inserisci un numero decimale valido (>= 0)"]], StandardForm],
+            ImageSizeCache->{327.60507812500003`, {2.40576171875, 9.269}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]}
+   },
+   DefaultBaseStyle->"Column",
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Column"]], "Output",
+ CellChangeTimes->{3.9557879871479683`*^9},
+ CellLabel->"Out[18]=",ExpressionUUID->"baa98b58-df00-4f78-9334-ee8b012b7749"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     InterpretationBox[Cell[
+      "Tutorial: Conversioni tra Sistemi Numerici", "Section",
+       TextAlignment->Center,
+       FontSize->22,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0.1, 0.1, 0.7],ExpressionUUID->
+       "7cdd5f5c-4f8b-40fd-87e9-69afefa5521e"],
+      TextCell[
+      "Tutorial: Conversioni tra Sistemi Numerici", "Section", FontSize -> 22,
+        FontWeight -> "Bold", FontColor -> RGBColor[0.1, 0.1, 0.7], 
+       TextAlignment -> Center]]},
+    {
+     TemplateBox[{20},
+      "Spacer1"]},
+    {
+     InterpretationBox[Cell["\<\
+Questo tutorial ti guider\[AGrave] attraverso le conversioni tra diversi \
+sistemi numerici: binario, ottale, esadecimale e decimale.\
+\>",
+       FontSize->14,ExpressionUUID->"938f4504-01dc-439e-bdb9-3c8cdffc6ce3"],
+      TextCell[
+      "Questo tutorial ti guider\[AGrave] attraverso le conversioni tra \
+diversi sistemi numerici: binario, ottale, esadecimale e decimale.", FontSize -> 
+       14]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     InterpretationBox[Cell["Conversione da Binario a Decimale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "6d6ded54-7b34-4707-9258-ecf5335dcc17"],
+      TextCell[
+      "Conversione da Binario a Decimale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Per convertire un numero binario in decimale, moltiplica ciascuna cifra per \
+la potenza di 2 corrispondente alla sua posizione e somma i risultati.\
+\>",
+        FontSize->12,ExpressionUUID->"ed8764c9-6d69-471c-b666-060c9f4d8002"],
+       TextCell[
+       "Per convertire un numero binario in decimale, moltiplica ciascuna \
+cifra per la potenza di 2 corrispondente alla sua posizione e somma i \
+risultati.", FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`d$$ = "0"}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "20f47504-3b56-4b0c-b23b-9966066bf435"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero binario:",ExpressionUUID->
+                 "3299302b-843b-456d-b4c9-82a5597a719c"],
+                TextCell["Inserisci un numero binario:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`d$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Tutorial`conversionToDec[2, Tutorial`Private`d$$], StandardForm],
+            
+            ImageSizeCache->{
+             1316.7275390625, {112.61348632812499`, 118.34541992187499`}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     InterpretationBox[Cell["Conversione da Ottale a Decimale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "42cb5f23-167d-48f5-9928-e77f5e8a3b52"],
+      TextCell[
+      "Conversione da Ottale a Decimale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Per convertire un numero ottale in decimale, moltiplica ciascuna cifra per la \
+potenza di 8 corrispondente alla sua posizione e somma i risultati.\
+\>",
+        FontSize->12,ExpressionUUID->"ff136659-8223-463b-83c5-7c5ab387242a"],
+       TextCell[
+       "Per convertire un numero ottale in decimale, moltiplica ciascuna \
+cifra per la potenza di 8 corrispondente alla sua posizione e somma i \
+risultati.", FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`d$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "be45e896-cda7-4d2b-92bf-7c23bec00c53"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero ottale:",ExpressionUUID->
+                 "d20269e5-358e-4f8b-93f1-d2fd3e1dd640"],
+                TextCell["Inserisci un numero ottale:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`d$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Tutorial`conversionToDec[8, Tutorial`Private`d$$], StandardForm],
+            ImageSizeCache->{296.40000000000003`, {0.156, 9.516}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     InterpretationBox[Cell[
+      "Conversione da Esadecimale a Decimale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "113c7de1-2df0-456d-b50a-191a4009d63f"],
+      TextCell[
+      "Conversione da Esadecimale a Decimale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Il sistema esadecimale usa 16 simboli (0\[Dash]9 e A\[Dash]F). Per convertire \
+in decimale, sostituisci le lettere con i valori 10\[Dash]15, poi moltiplica \
+ciascuna cifra per 16 elevato alla sua posizione e somma.\
+\>",
+        FontSize->12,ExpressionUUID->"2fbd83ad-576c-4c6b-8586-476b164aab45"],
+       TextCell[
+       "Il sistema esadecimale usa 16 simboli (0\[Dash]9 e A\[Dash]F). Per \
+convertire in decimale, sostituisci le lettere con i valori 10\[Dash]15, poi \
+moltiplica ciascuna cifra per 16 elevato alla sua posizione e somma.", 
+        FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`h$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "9779dc76-5fcd-4926-964a-be62a9070f1f"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero esadecimale:",ExpressionUUID->
+                 "dc5729d0-6445-4670-a55e-1b90bbd7bd16"],
+                TextCell["Inserisci un numero esadecimale:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`h$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Tutorial`conversionToDec[16, Tutorial`Private`h$$], StandardForm],
+            ImageSizeCache->{304.20000000000005`, {0.156, 9.516}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     InterpretationBox[Cell["Conversione da Decimale a Binario", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "a84edacf-5659-4c21-b833-aa2647d47f7e"],
+      TextCell[
+      "Conversione da Decimale a Binario", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Per convertire un numero decimale in binario, dividilo ripetutamente per 2 e \
+raccogli i resti. Leggi i resti dal basso verso l'alto.\
+\>",
+        FontSize->12,ExpressionUUID->"30ff546f-f0cc-4046-907c-652b02222277"],
+       TextCell[
+       "Per convertire un numero decimale in binario, dividilo ripetutamente \
+per 2 e raccogli i resti. Leggi i resti dal basso verso l'alto.", FontSize -> 
+        12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`d$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "e541f68d-44bf-4144-b915-61d360b63112"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero decimale:",ExpressionUUID->
+                 "1764071e-95b6-45bd-b527-65f61b1072e6"],
+                TextCell["Inserisci un numero decimale:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`d$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Module[{Tutorial`Private`n = ToExpression[Tutorial`Private`d$$]}, 
+              If[
+               And[
+                IntegerQ[Tutorial`Private`n], Tutorial`Private`n >= 0], 
+               Util`conversionFromDec[2, Tutorial`Private`n], 
+               "Inserisci un numero decimale valido (>= 0)"]], StandardForm],
+            ImageSizeCache->{343.20507812500006`, {2.40576171875, 9.516}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     InterpretationBox[Cell["Conversione da Decimale a Ottale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "922c0ea7-8a44-48e5-ae79-91143db87b62"],
+      TextCell[
+      "Conversione da Decimale a Ottale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Per convertire un numero decimale in ottale, dividilo ripetutamente per 8 e \
+raccogli i resti oppure converti prima in binario e raggruppa le cifre in \
+gruppi di 3.\
+\>",
+        FontSize->12,ExpressionUUID->"1b6651fe-0488-49d4-81f2-3cebe147248c"],
+       TextCell[
+       "Per convertire un numero decimale in ottale, dividilo ripetutamente \
+per 8 e raccogli i resti oppure converti prima in binario e raggruppa le \
+cifre in gruppi di 3.", FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`d$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "2cdc0ce4-b06f-4a04-8047-c1a00e7ac571"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero decimale:",ExpressionUUID->
+                 "fd62a9c7-dead-49cc-bef5-2bd8d2aa8786"],
+                TextCell["Inserisci un numero decimale:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`d$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Module[{Tutorial`Private`n = ToExpression[Tutorial`Private`d$$]}, 
+              If[
+               And[
+                IntegerQ[Tutorial`Private`n], Tutorial`Private`n >= 0], 
+               Util`conversionFromDec[8, Tutorial`Private`n], 
+               "Inserisci un numero decimale valido (>= 0)"]], StandardForm],
+            ImageSizeCache->{343.20507812500006`, {2.40576171875, 9.516}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     InterpretationBox[Cell[
+      "Conversione da Decimale a Esadecimale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "72fc2341-e772-4fef-b66a-2b4764f87d3c"],
+      TextCell[
+      "Conversione da Decimale a Esadecimale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Per convertire un numero decimale in esadecimale, dividilo ripetutamente per \
+16 e raccogli i resti oppure converti prima in binario e raggruppa le cifre \
+in gruppi di 4.\
+\>",
+        FontSize->12,ExpressionUUID->"0df1ebb6-da1f-40da-956c-4bb00c675140"],
+       TextCell[
+       "Per convertire un numero decimale in esadecimale, dividilo \
+ripetutamente per 16 e raccogli i resti oppure converti prima in binario e \
+raggruppa le cifre in gruppi di 4.", FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`d$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "78a967df-2acd-4da9-a5d8-de7197187f7d"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero decimale:",ExpressionUUID->
+                 "ad74000e-914a-4a38-93c8-fdd76e150b10"],
+                TextCell["Inserisci un numero decimale:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`d$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Module[{Tutorial`Private`n = ToExpression[Tutorial`Private`d$$]}, 
+              If[
+               And[
+                IntegerQ[Tutorial`Private`n], Tutorial`Private`n >= 0], 
+               Util`conversionFromDec[16, Tutorial`Private`n], 
+               "Inserisci un numero decimale valido (>= 0)"]], StandardForm],
+            ImageSizeCache->{343.20507812500006`, {2.40576171875, 9.516}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]}
+   },
+   DefaultBaseStyle->"Column",
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Column"]], "Input",
+ CellChangeTimes->{3.955787975706196*^9},
+ CellLabel->"In[16]:=",ExpressionUUID->"746f282b-63de-442d-8e7d-40ac97308d2f"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     InterpretationBox[Cell[
+      "Tutorial: Conversioni tra Sistemi Numerici", "Section",
+       TextAlignment->Center,
+       FontSize->22,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0.1, 0.1, 0.7],ExpressionUUID->
+       "2584b037-64ea-4d15-8271-74511d5f254f"],
+      TextCell[
+      "Tutorial: Conversioni tra Sistemi Numerici", "Section", FontSize -> 22,
+        FontWeight -> "Bold", FontColor -> RGBColor[0.1, 0.1, 0.7], 
+       TextAlignment -> Center]]},
+    {
+     TemplateBox[{20},
+      "Spacer1"]},
+    {
+     InterpretationBox[Cell["\<\
+Questo tutorial ti guider\[AGrave] attraverso le conversioni tra diversi \
+sistemi numerici: binario, ottale, esadecimale e decimale.\
+\>",
+       FontSize->14,ExpressionUUID->"faa5dfab-f72d-4805-b2e8-3148302d52af"],
+      TextCell[
+      "Questo tutorial ti guider\[AGrave] attraverso le conversioni tra \
+diversi sistemi numerici: binario, ottale, esadecimale e decimale.", FontSize -> 
+       14]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     InterpretationBox[Cell["Conversione da Binario a Decimale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "04ba4b98-2d04-4129-a5e7-1706beddb669"],
+      TextCell[
+      "Conversione da Binario a Decimale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Per convertire un numero binario in decimale, moltiplica ciascuna cifra per \
+la potenza di 2 corrispondente alla sua posizione e somma i risultati.\
+\>",
+        FontSize->12,ExpressionUUID->"14482f5c-54fc-444f-b7c0-ff087dafc2e5"],
+       TextCell[
+       "Per convertire un numero binario in decimale, moltiplica ciascuna \
+cifra per la potenza di 2 corrispondente alla sua posizione e somma i \
+risultati.", FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`d$$ = "0"}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "85a87e5e-0e1a-4602-b925-7f0727eb3a4c"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero binario:",ExpressionUUID->
+                 "b03415b2-3b1b-4f82-914e-d7853aac9a1c"],
+                TextCell["Inserisci un numero binario:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`d$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Tutorial`conversionToDec[2, Tutorial`Private`d$$], StandardForm],
+            
+            ImageSizeCache->{
+             160.68253906249998`, {2.7689999999999997`, 9.269}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     InterpretationBox[Cell["Conversione da Ottale a Decimale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "d236f8f8-8eb4-4211-82e9-5ac3be79d3b6"],
+      TextCell[
+      "Conversione da Ottale a Decimale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Per convertire un numero ottale in decimale, moltiplica ciascuna cifra per la \
+potenza di 8 corrispondente alla sua posizione e somma i risultati.\
+\>",
+        FontSize->12,ExpressionUUID->"d05502db-d89a-4ede-a3a7-032f49dc31d6"],
+       TextCell[
+       "Per convertire un numero ottale in decimale, moltiplica ciascuna \
+cifra per la potenza di 8 corrispondente alla sua posizione e somma i \
+risultati.", FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`d$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "16950f10-9fd5-4ea1-a443-f467515ee423"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero ottale:",ExpressionUUID->
+                 "1e5a70b7-ce19-4228-8323-69e68d950247"],
+                TextCell["Inserisci un numero ottale:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`d$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Tutorial`conversionToDec[8, Tutorial`Private`d$$], StandardForm],
+            
+            ImageSizeCache->{
+             152.88253906249997`, {2.7689999999999997`, 9.269}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     InterpretationBox[Cell[
+      "Conversione da Esadecimale a Decimale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "0bd0c0a7-34f9-4948-9438-8675fbc7f44c"],
+      TextCell[
+      "Conversione da Esadecimale a Decimale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Il sistema esadecimale usa 16 simboli (0\[Dash]9 e A\[Dash]F). Per convertire \
+in decimale, sostituisci le lettere con i valori 10\[Dash]15, poi moltiplica \
+ciascuna cifra per 16 elevato alla sua posizione e somma.\
+\>",
+        FontSize->12,ExpressionUUID->"34f5f4b3-cd4d-48c8-8ba5-51ccee38f78b"],
+       TextCell[
+       "Il sistema esadecimale usa 16 simboli (0\[Dash]9 e A\[Dash]F). Per \
+convertire in decimale, sostituisci le lettere con i valori 10\[Dash]15, poi \
+moltiplica ciascuna cifra per 16 elevato alla sua posizione e somma.", 
+        FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`h$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "f36a5284-3868-42ec-a377-948efbaaa963"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero esadecimale:",ExpressionUUID->
+                 "c45ff08f-ea67-463f-b79f-09332eb78ef3"],
+                TextCell["Inserisci un numero esadecimale:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`h$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Tutorial`conversionToDec[16, Tutorial`Private`h$$], StandardForm],
+            
+            ImageSizeCache->{
+             160.68253906249998`, {2.7689999999999997`, 9.269}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     InterpretationBox[Cell["Conversione da Decimale a Binario", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "ab9fa075-3c4d-47ec-b241-01cefb2675ea"],
+      TextCell[
+      "Conversione da Decimale a Binario", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Per convertire un numero decimale in binario, dividilo ripetutamente per 2 e \
+raccogli i resti. Leggi i resti dal basso verso l'alto.\
+\>",
+        FontSize->12,ExpressionUUID->"d55d4823-cb76-49d0-a4f2-f7dc0da38c78"],
+       TextCell[
+       "Per convertire un numero decimale in binario, dividilo ripetutamente \
+per 2 e raccogli i resti. Leggi i resti dal basso verso l'alto.", FontSize -> 
+        12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`d$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "9acfb71d-c9e1-462b-8d09-63a97bddf226"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero decimale:",ExpressionUUID->
+                 "56110e83-bc20-4358-b4ff-9dd866e07907"],
+                TextCell["Inserisci un numero decimale:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`d$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Module[{Tutorial`Private`n = ToExpression[Tutorial`Private`d$$]}, 
+              If[
+               And[
+                IntegerQ[Tutorial`Private`n], Tutorial`Private`n >= 0], 
+               Util`conversionFromDec[2, Tutorial`Private`n], 
+               "Inserisci un numero decimale valido (>= 0)"]], StandardForm],
+            ImageSizeCache->{327.60507812500003`, {2.40576171875, 9.269}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     InterpretationBox[Cell["Conversione da Decimale a Ottale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "c40abbff-7286-4cf2-bd54-78bd0ea1ac3c"],
+      TextCell[
+      "Conversione da Decimale a Ottale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Per convertire un numero decimale in ottale, dividilo ripetutamente per 8 e \
+raccogli i resti oppure converti prima in binario e raggruppa le cifre in \
+gruppi di 3.\
+\>",
+        FontSize->12,ExpressionUUID->"8891e609-9dbf-4512-836d-972f30c62524"],
+       TextCell[
+       "Per convertire un numero decimale in ottale, dividilo ripetutamente \
+per 8 e raccogli i resti oppure converti prima in binario e raggruppa le \
+cifre in gruppi di 3.", FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`d$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "e2c41cd5-496e-4f3e-a492-977dc78c9383"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero decimale:",ExpressionUUID->
+                 "2444e2bb-ebea-4322-a363-0a48cc15edf1"],
+                TextCell["Inserisci un numero decimale:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`d$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Module[{Tutorial`Private`n = ToExpression[Tutorial`Private`d$$]}, 
+              If[
+               And[
+                IntegerQ[Tutorial`Private`n], Tutorial`Private`n >= 0], 
+               Util`conversionFromDec[8, Tutorial`Private`n], 
+               "Inserisci un numero decimale valido (>= 0)"]], StandardForm],
+            ImageSizeCache->{327.60507812500003`, {2.40576171875, 9.269}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]},
+    {
+     InterpretationBox[Cell[
+      "Conversione da Decimale a Esadecimale", "Subsection",
+       TextAlignment->Left,
+       FontSize->18,
+       FontWeight->"Bold",
+       FontColor->RGBColor[1, 0, 0],ExpressionUUID->
+       "14935e65-5f77-4da3-88b7-51292c1dce04"],
+      TextCell[
+      "Conversione da Decimale a Esadecimale", "Subsection", FontSize -> 18, 
+       FontWeight -> "Bold", FontColor -> RGBColor[1, 0, 0], TextAlignment -> 
+       Left]]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      InterpretationBox[Cell["\<\
+Per convertire un numero decimale in esadecimale, dividilo ripetutamente per \
+16 e raccogli i resti oppure converti prima in binario e raggruppa le cifre \
+in gruppi di 4.\
+\>",
+        FontSize->12,ExpressionUUID->"fec0551b-f60f-4d7e-a365-4ff1e0a6cb65"],
+       TextCell[
+       "Per convertire un numero decimale in esadecimale, dividilo \
+ripetutamente per 16 e raccogli i resti oppure converti prima in binario e \
+raggruppa le cifre in gruppi di 4.", FontSize -> 12]],
+      Background->RGBColor[0.95, 0.95, 0.95],
+      StripOnInput->False]},
+    {
+     TemplateBox[{10},
+      "Spacer1"]},
+    {
+     FrameBox[
+      DynamicModuleBox[{Tutorial`Private`d$$ = ""}, 
+       TagBox[GridBox[{
+          {
+           
+           InterpretationBox[Cell[
+            "Esempio interattivo (inserisci un numero e premi Invio)",
+             FontSize->14,
+             FontWeight->"Bold",ExpressionUUID->
+             "99c28ff1-77cc-4b85-bf2d-30bf91e0e861"],
+            TextCell[
+            "Esempio interattivo (inserisci un numero e premi Invio)", 
+             FontSize -> 14, FontWeight -> "Bold"]]},
+          {
+           TagBox[GridBox[{
+              {
+               
+               InterpretationBox[Cell[
+                "Inserisci un numero decimale:",ExpressionUUID->
+                 "33def43f-183b-45bd-abec-080dfa8d5b22"],
+                TextCell["Inserisci un numero decimale:"]], 
+               InputFieldBox[Dynamic[Tutorial`Private`d$$], String]}
+             },
+             AutoDelete->False,
+             
+             GridBoxItemSize->{
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+            "Grid"]},
+          {
+           DynamicBox[ToBoxes[
+             Module[{Tutorial`Private`n = ToExpression[Tutorial`Private`d$$]}, 
+              If[
+               And[
+                IntegerQ[Tutorial`Private`n], Tutorial`Private`n >= 0], 
+               Util`conversionFromDec[16, Tutorial`Private`n], 
+               "Inserisci un numero decimale valido (>= 0)"]], StandardForm],
+            ImageSizeCache->{327.60507812500003`, {2.40576171875, 9.269}}]}
+         },
+         DefaultBaseStyle->"Column",
+         GridBoxAlignment->{"Columns" -> {{Left}}},
+         GridBoxItemSize->{
+          "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+        "Column"],
+       DynamicModuleValues:>{}],
+      Background->RGBColor[0.975, 0.975, 0.975],
+      StripOnInput->False]}
+   },
+   DefaultBaseStyle->"Column",
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Column"]], "Output",
+ CellChangeTimes->{3.955787975782254*^9},
+ CellLabel->"Out[16]=",ExpressionUUID->"db48d1d7-5107-4e7e-a669-d758febbdd43"]
 }, Open  ]]
 },
-WindowSize->{1141.2, 585.6},
+WindowSize->{Full, Full},
 WindowMargins->{{0, Automatic}, {Automatic, 0}},
-FrontEndVersion->"14.2 for Microsoft Windows (64-bit) (December 26, 2024)",
+FrontEndVersion->"14.2 for Mac OS X ARM (64-bit) (December 26, 2024)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"26c96b9f-8d5e-4641-a101-2f60650d9ebf"
 ]
@@ -598,8 +1531,12 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[576, 22, 24676, 545, 1498, "Input",ExpressionUUID->"e1211e0e-13f4-7a4c-8799-25b68c7a2737"],
-Cell[25255, 569, 585, 10, 43, "Output",ExpressionUUID->"72a5b87d-ff96-954e-b2b7-ca4483f17ad2"]
+Cell[576, 22, 296, 4, 70, "Input",ExpressionUUID->"82afd2f8-9264-4298-97e4-5ad6503dfab5"],
+Cell[875, 28, 18433, 491, 1463, "Output",ExpressionUUID->"baa98b58-df00-4f78-9334-ee8b012b7749"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[19345, 524, 18442, 491, 1441, "Input",ExpressionUUID->"746f282b-63de-442d-8e7d-40ac97308d2f"],
+Cell[37790, 1017, 18515, 495, 1224, "Output",ExpressionUUID->"db48d1d7-5107-4e7e-a669-d758febbdd43"]
 }, Open  ]]
 }
 ]

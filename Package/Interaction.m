@@ -37,7 +37,8 @@ Restituisce {True, grid} in caso di successo o {False, errorMsg} in caso di erro
 GetUserShips::usage = "GetUserShips[] restituisce lista di blocchi delle navi utente.";
 GetUserGrid::usage = "GetUserGrid[] restituisce matrice griglia utente.";
 GetRemainingShipLengths::usage = "GetRemainingShipLengths[] restituisce le lunghezze delle navi ancora da piazzare.";
-GetDifficultyLevels::usage = "GetDifficultyLevels[] restituisce i livelli di difficoltà disponibili";
+GetDifficultyLevels::usage = "GetDifficultyLevels[] restituisce i livelli di difficolt\[AGrave] disponibili";
+
 (*Setters delle variabili globali*)
 SetShipLengths::usage="SetShipLengths[shipLengths_List] imposta le lunghezze delle navi";
 SetUserBase::usage="SetUserBase[base_Integer] imposta la base";
@@ -68,7 +69,6 @@ $UserShips      = {}; (*lista delle navi dell'utente*)
 $AutomaticGrid  = {}; (*griglia di gioco con le navi della cpu*)
 $UserGrid       = {}; (*griglia di gioco con le navi dell'utente*)
 $UserBase       = 10; (*base di conversione scelta dall'utente, sar\[AGrave] la base su cui si eserciter\[AGrave] a fare le conversioni*)
-$GridSize       = 10; (*dimensione della griglia di gioco (rappresenta sia il numero di righe che di colonne)*)
 $Seed= "";  (*seed inserito dall'utente, cos\[IGrave] che l'utente possa ripetere una stessa partita pi\[UGrave] volte*)
 $ShipLengths = {5, 4, 3, 2, 1}; (*lista delle lunghezze possibili, quante celle una nave pu\[OGrave] occupare*)
 
@@ -149,7 +149,7 @@ helpUserPersonalized[base_Integer]:=PopupWindow[
 			}]
 		,12] (*dimensione del testo*)
 	]
-, WindowTitle -> "Suggerimento" (*titolo della finestra*), WindowFloating -> True, WindowMargins -> {{0, Automatic}, {0, Automatic}}];
+, WindowTitle -> "Chiedi Una Cella" (*titolo della finestra*), WindowFloating -> True, WindowMargins -> {{0, Automatic}, {0, Automatic}}];
 
 (* suggerimento non personalizzato, esempio di conversione*)
 helpUser[base_Integer]:=PopupWindow[

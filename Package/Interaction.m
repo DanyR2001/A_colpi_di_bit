@@ -18,8 +18,8 @@
 (* File: Interaction.m *)
 
 BeginPackage["Interaction`", {"Util`"}];
-AskSeedInput::usage = "AskSeedInput[inputSeed] chiede all'untete di inserire il seed";
-AskBaseChoice::usage = "AskBasechoice[inputBase] chiede all'utente di inserire la base su cui si vuole esercitare (2, 8, 16)";
+AskSeedInput::usage = "AskSeedInput[inputSeed] chiede all'utente di inserire il seed";
+AskBaseChoice::usage = "AskBaseChoice[inputBase] chiede all'utente di inserire la base su cui si vuole esercitare (2, 8, 16)";
 
 isBase::usage="isBase[base] controlla che base sia 2, 8 o 16";
 isSeed::usage="isSeed[seed] controlla che seed sia un numero intero";
@@ -29,7 +29,7 @@ helpUserPersonalized::usage="helpUserPersonalized[base] chiede in una nuova fine
 PlaceUserShip::usage =
   "PlaceUserShip[startRaw, endRaw] piazza in $UserGrid una nave.\
 startRaw e endRaw sono stringhe di un intero in base $UserBase (0..gridSize^2-1),\
-con 0 corrispondente in basso a sinistra. Si possono piazzare al massimo 4 navi, una per ciascuna lunghezza 5,4,3,2.\
+con 0 corrispondente in basso a sinistra. Si possono piazzare al massimo 5 navi, una per ciascuna lunghezza 5,4,3,2,1.\
 Restituisce {True, grid} in caso di successo o {False, errorMsg} in caso di errore.";
 
 
@@ -38,17 +38,14 @@ GetUserShips::usage = "GetUserShips[] restituisce lista di blocchi delle navi ut
 GetUserGrid::usage = "GetUserGrid[] restituisce matrice griglia utente.";
 GetRemainingShipLengths::usage = "GetRemainingShipLengths[] restituisce le lunghezze delle navi ancora da piazzare.";
 GetDifficultyLevels::usage = "GetDifficultyLevels[] restituisce i livelli di difficolt\[AGrave] disponibili";
-GetCpuShip::usage="GetCpuShip[] restituisce le navi della CPU";
-GetCpuGrid::usage="GetCpuGrid[] resitiruisce la griglia delle CPU";
+
 (*Setters delle variabili globali*)
-SetShipLengths::unsage="SetShipLengths[shipLengths_List] imposta le lunghezze delle navi";
+SetShipLengths::usage="SetShipLengths[shipLengths_List] imposta le lunghezze delle navi";
 SetUserBase::usage="SetUserBase[base_Integer] imposta la base";
-SetGridSize::usega="SetGridSize[size_Integer] imposta dimensione delle griglie";
-SetAutomaticShips::usage="SetAutomaticShips[ships_List] imposta navi della cpu";
+SetGridSize::usage="SetGridSize[size_Integer] imposta dimensione delle griglie";
 SetUserShips::usage="SetUserShips[ships_List] imposta navi dell'utente";
-SetAutomaticGrid::usage="SetAutomaticGrid[grid_List] imposta matrice griglia cpu";
 SetUserGrid::usage="SetUserGrid[grid_List] imposta matrice griglia utente";
-SetSeed::usage="SetSeed[seed] imposta il seed]";
+SetSeed::usage="SetSeed[seed] imposta il seed";
 
 Begin["`Private`"];
 
@@ -176,141 +173,228 @@ helpUser[base_Integer]:=PopupWindow[
 
 
 
-(* Versione corretta della funzione PlaceUserShip *)
+
 PlaceUserShip[startRaw_String, endRaw_String] := Module[
+(* Definizione della funzione PlaceUserShip:
+   - Argomenti:
+     - startRaw: coordinate di inizio della nave (come stringa)
+     - endRaw: coordinate di fine della nave (come stringa)
+   - Usa Module per avere variabili locali
+*)
+
   {start, end, r1, c1, r2, c2, len, coords, usedLens, surroundingCells, isValid = True, errorMsg = "", maxDecimal, maxInBase},
-  
-  (* Valore massimo per la griglia attuale *)
+  (* Definizione delle variabili locali:
+     - start, end: coordinate elaborate
+     - r1, c1, r2, c2: righe e colonne di inizio/fine
+     - len: lunghezza della nave
+     - coords: tutte le celle che la nave occuperà
+     - usedLens: lunghezze già usate
+     - surroundingCells: celle attorno alla nave
+     - isValid: flag booleano per controlli
+     - errorMsg: messaggio di errore
+     - maxDecimal: massimo valore decimale per la griglia
+     - maxInBase: massimo valore rappresentabile nella base dell'utente
+  *)
+
   maxDecimal = $GridSize^2 - 1;
+  (* Calcola il valore massimo decimale basato sulla dimensione della griglia (es. 10x10 → 99) *)
+
   maxInBase = IntegerString[maxDecimal, $UserBase];
-   
-  (* Controllo numero navi *)
+  (* Calcola la rappresentazione in base dell'utente del valore massimo decimale *)
+
   If[Length[$ShipLengths] == 0, 
+    (* Controlla se non ci sono più navi disponibili da posizionare *)
     Return[{False, "Hai gi\[AGrave] posizionato tutte le navi permesse!"}]
+    (* Restituisce errore se hai finito le navi *)
   ];
-  
-  (* Conversione coordinate *)
+
   start = verifyInput[$GridSize, $UserBase, startRaw];  
+  (* Verifica la validità della coordinata iniziale e la converte *)
+
   end = verifyInput[$GridSize, $UserBase, endRaw];
-  
+  (* Verifica la validità della coordinata finale e la converte *)
+
   If[start[[1]] === $Failed, 
+    (* Se la verifica di start ha fallito *)
     Return[{False, start[[2]]}]
+    (* Restituisce errore con il messaggio di errore specifico *)
   ];
 
   If[end[[1]] === $Failed, 
+    (* Se la verifica di end ha fallito *)
     Return[{False, end[[2]]}]
+    (* Restituisce errore con il messaggio di errore specifico *)
   ];
 
-  (* Otteniamo solo le coordinate effettive da start ed end *)
   {r1, c1} = start[[1]]; {r2, c2} = end[[1]];
-  
-  (* Controllo allineamento *)
+  (* Estrae le coordinate riga e colonna da start ed end *)
+
   If[Not[r1 == r2 || c1 == c2], 
+    (* Controlla che la nave sia orizzontale o verticale *)
     Return[{False, "La nave deve essere allineata orizzontalmente o verticalmente!"}]
+    (* Restituisce errore se la nave è diagonale *)
   ];
-  
-  (* Calcolo lunghezza *)
+
   len = Max[Abs[r2 - r1], Abs[c2 - c1]] + 1;
-  
-  (* Controllo lunghezze usate *)
+  (* Calcola la lunghezza della nave basandosi sulla distanza tra start ed end *)
+
   usedLens = Length /@ $UserShips;
-  
-  (* Controllo vincoli sulle lunghezze *)
+  (* Ottiene le lunghezze delle navi già piazzate *)
+
   If[! MemberQ[$ShipLengths, len], 
+    (* Controlla se la lunghezza è valida *)
     Return[{False, "Lunghezza non valida! Le navi devono essere di lunghezza " <> 
         StringJoin[Riffle[ToString /@ $ShipLengths, ", "]] <> "."}]
+    (* Restituisce un messaggio di errore con le lunghezze valide *)
   ];
-  
+
   If[MemberQ[usedLens, len], 
-    (* Calcola e mostra le lunghezze mancanti *)
+    (* Controlla se già esiste una nave con la stessa lunghezza *)
     errorMsg = "Hai gi\[AGrave] piazzato una nave di lunghezza " <> ToString[len] <> "!";
-    
-    (* Aggiungi informazioni sulle navi mancanti *)
+
     If[Length[$ShipLengths] > 0,
+      (* Se ci sono altre lunghezze da piazzare, le elenca *)
       errorMsg = errorMsg <> " Mancano ancora le navi di lunghezza: " <> 
                 ToString[Complement[$ShipLengths, usedLens]]
     ];
-    
+
     Return[{False, errorMsg}]
+    (* Restituisce un messaggio dettagliato sugli errori *)
   ];
-  
-  (* Calcolo coordinate della nave *)
+
   coords = If[r1 == r2,
-    (* Nave orizzontale *)
+    (* Se la nave è orizzontale *)
     Table[{r1, Min[c1, c2] + i}, {i, 0, Abs[c1 - c2]}],
-    (* Nave verticale *)
+    (* Se la nave è verticale *)
     Table[{Min[r1, r2] + i, c1}, {i, 0, Abs[r1 - r2]}]
   ];
-  
-  (* Controllo limiti griglia *)
+  (* Genera tutte le coordinate della nave *)
+
   If[Not[AllTrue[coords, 0 <= #[[1]] < $GridSize && 0 <= #[[2]] < $GridSize &]], 
+    (* Controlla che tutte le coordinate siano dentro la griglia *)
     Return[{False, "La nave uscirebbe dalla griglia!"}]
+    (* Restituisce errore se esce fuori *)
   ];
-  
-  (* Calcolo celle circostanti per ogni cella della nave *)
+
   surroundingCells = Flatten[
     Table[
-      (* Per ogni cella della nave, genera le 8 celle circostanti *)
       Table[
         {coords[[i, 1]] + dr, coords[[i, 2]] + dc}, 
         {dr, -1, 1}, {dc, -1, 1}
       ],
       {i, 1, Length[coords]}
     ], 2];
-  
-  (* Filtriamo le celle circostanti per rimuovere le celle effettive della nave 
-     e quelle fuori dalla griglia *)
+  (* Calcola le celle circostanti alla nave:
+     - Per ogni cella occupata, genera tutte le 8 celle intorno (matrice 3x3), cosi non si possono piazzare navi adiacenti *)
+
   surroundingCells = Select[surroundingCells, 
     !MemberQ[coords, #] && 
     0 <= #[[1]] < $GridSize && 
     0 <= #[[2]] < $GridSize &
   ];
-  
-  (* Controlliamo prima tutte le celle della nave *)
+  (* Rimuove le celle che fanno parte della nave e quelle fuori dalla griglia *)
+
   isValid = AllTrue[coords, $UserGrid[[#[[1]] + 1, #[[2]] + 1]] == $Vuoto &];
+  (* Controlla che tutte le celle in cui si vuole piazzare la nave siano vuote *)
+
   If[!isValid,
+    (* Se almeno una cella è occupata *)
     Return[{False, "La nave si sovrappone a una nave gi\[AGrave] posizionata!"}]
   ];
-  
-  (* Verifichiamo che non ci siano navi adiacenti *)
+
   isValid = AllTrue[surroundingCells, $UserGrid[[#[[1]] + 1, #[[2]] + 1]] != $Nave &];
+  (* Controlla che le celle circostanti non abbiano già una nave *)
+
   If[!isValid,
+    (* Se trova una nave adiacente *)
     Return[{False, "Non puoi posizionare una nave adiacente ad un'altra nave!"}]
   ];
-  
-  (* Solo se arriviamo qui, aggiorniamo la griglia inserendo le navi *)
+
   Do[
+    (* Aggiorna la griglia: piazza la nave in ogni cella di coords *)
     $UserGrid[[coords[[i, 1]] + 1, coords[[i, 2]] + 1]] = $Nave,
     {i, 1, Length[coords]}
   ];
-  
+
   AppendTo[$UserShips, coords];
-  
-  (* Rimuovi la lunghezza della nave appena posizionata dall'elenco disponibile *)
+  (* Aggiunge la nave alla lista delle navi posizionate *)
+
   $ShipLengths = DeleteCases[$ShipLengths, len];
-  
+  (* Rimuove la lunghezza appena piazzata dall'elenco delle navi da piazzare *)
+
   {True, "Nave piazzata con successo!"}
+  (* Restituisce successo *)
 ];
+(* Fine della funzione PlaceUserShip *)
 
 
 (* Getters *)
-GetUserShips[] := $UserShips;
-GetUserGrid[] := $UserGrid;
-GetRemainingShipLengths[] := $ShipLengths;
-GetShipSize[] := $ShipSize;
-GetDifficultyLevels[] := $DifficultyLevels;
-GetCpuShip[]:=$AutomaticShips;
-GetCpuGrid[]:=$AutomaticGrid;
 
-(*Setter*)
+GetUserShips[] := $UserShips;
+(* Restituisce la lista delle navi dell'utente:
+   - Ogni elemento della lista è una nave (cioè un'altra lista di coordinate)
+   - Serve per leggere le navi già piazzate
+*)
+
+GetUserGrid[] := $UserGrid;
+(* Restituisce la matrice della griglia utente:
+   - Griglia di gioco che contiene celle vuote e celle occupate da navi
+   - Utile per visualizzare lo stato attuale della griglia
+*)
+
+GetRemainingShipLengths[] := $ShipLengths;
+(* Restituisce le lunghezze delle navi che devono ancora essere piazzate:
+   - Serve per capire quali navi sono ancora disponibili
+*)
+
+GetDifficultyLevels[] := $DifficultyLevels;
+(* Restituisce la lista dei livelli di difficoltà:
+   - Ogni livello è una lista del tipo: {Nome, DimensioneGriglia, ListaLunghezzeNavi}
+   - Serve per mostrare le opzioni di difficoltà disponibili
+*)
+
+
+
+
+
+
+(* Setter *)
+
 SetShipLengths[shipLengths_List] := $ShipLengths = shipLengths;
+(* Imposta la variabile globale $ShipLengths:
+   - Deve essere una lista (shipLengths_List)
+   - Serve per definire le lunghezze delle navi disponibili
+*)
+
 SetUserBase[base_Integer] := If[isBase[base], $UserBase = base, $UserBase];
+(* Imposta la base numerica scelta dall'utente:
+   - Solo se la base è valida (controllata da isBase[base], deve essere 2, 8 o 16)
+   - Se non è valida, lascia invariato il valore attuale
+*)
+
 SetGridSize[size_Integer] := If[size > 0, $GridSize = size, $GridSize];
-SetAutomaticShips[ships_List] := $AutomaticShips = ships;
+(* Imposta la dimensione della griglia:
+   - Solo se size > 0 (griglia almeno 1x1)
+   - Altrimenti lascia invariato il valore
+*)
+
 SetUserShips[ships_List] := $UserShips = ships;
-SetAutomaticGrid[grid_List] := $AutomaticGrid = grid;
+(* Imposta la lista delle navi dell'utente:
+   - Permette di caricare direttamente uno stato salvato o ripristinare navi
+*)
+
 SetUserGrid[grid_List] := $UserGrid = grid;
+(* Imposta la griglia utente:
+   - Griglia di gioco con le navi piazzate dall'utente
+   - Utile per ripristinare una partita salvata
+*)
+
 SetSeed[seed_] := If[isSeed[seed], $Seed = seed, $Seed];
+(* Imposta il seed casuale:
+   - Solo se il valore passato è un intero (isSeed[seed])
+   - Se non è valido, lascia invariato
+*)
+
 
 
 End[];

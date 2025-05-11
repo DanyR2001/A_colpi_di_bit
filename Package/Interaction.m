@@ -152,7 +152,7 @@ helpUserPersonalized[base_Integer]:=PopupWindow[
 			}]
 		,12] (*dimensione del testo*)
 	]
-, WindowTitle -> "Suggerimento" (*titolo della finestra*), WindowFloating -> True, WindowMargins -> {{0, Automatic}, {0, Automatic}}];
+, WindowTitle -> "Chiedi Una Cella" (*titolo della finestra*), WindowFloating -> True, WindowMargins -> {{0, Automatic}, {0, Automatic}}];
 
 (* suggerimento non personalizzato, esempio di conversione*)
 helpUser[base_Integer]:=PopupWindow[

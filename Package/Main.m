@@ -21,7 +21,7 @@ BeginPackage["Main`", {"Util`", "Battle`", "Interaction`"}];  (* Apre il pacchet
 
 PlacementUI::usage = "PlacementUI[] interfaccia per il posizionamento navi";  (* Descrizione accessibile dell'interfaccia pubblica *)
 
-Begin["Private"];  (* Entra nella sezione Private, dove si definisce la logica interna del pacchetto *)
+Begin["`Private`"];  (* Entra nella sezione Private, dove si definisce la logica interna del pacchetto *)
 
 PlacementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo stato interattivo e aggiornato *)
   

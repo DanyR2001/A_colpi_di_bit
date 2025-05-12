@@ -50,6 +50,7 @@ SetUserShips::usage="SetUserShips[ships_List] imposta navi dell'utente";
 SetUserGrid::usage="SetUserGrid[grid_List] imposta matrice griglia utente";
 SetCPUShips::usage="SetCPUShips[ships_List] imposta navi della cpu";
 SetCPUGrid::usage="SetCPUGrid[grid_List] imposta matrice griglia cpu";
+SetSeed::usage="SetSeed[number_Integer] imposta il seed"
 SetupNotebookClosing::usage="SetupNotebookClosing[nb_NotebookObject]";
 
 Begin["`Private`"];
@@ -76,10 +77,11 @@ UserGrid       = {}; (*griglia di gioco con le navi dell'utente*)
 UserBase       = 10; (*base di conversione scelta dall'utente, sar\[AGrave] la base su cui si eserciter\[AGrave] a fare le conversioni*)
 ShipLengths    = {5, 4, 3, 2, 1}; (*lista delle lunghezze possibili, quante celle una nave pu\[OGrave] occupare*)
 GridSize       = 10; (*varibile che indica la grandezza del campo da gioco*)
+Seed           = 0; (*variabile per il seed*)
 
 (* SEED E BASE *)
 (*richiedi seed*)
-AskSeedInput[inputSeed_] := DynamicModule[{value = ToString[RandomInteger[1024]]},
+AskSeedInput[inputSeed_] := DynamicModule[{value = ToString[Seed]},
   Row[{
     "Inserisci seed: ",
     (*Tramite InputField si richiede all'utente di inserire un numero*)
@@ -433,6 +435,8 @@ SetCPUGrid[grid_List] := CpuGrid = grid;
    - Griglia di gioco con le navi piazzate dalla CPU
    - Utile per ripristinare una partita salvata
 *)
+
+SetSeed[number_Integer] := Seed = number;
 
 
 End[];

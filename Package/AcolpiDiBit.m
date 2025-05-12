@@ -27,7 +27,7 @@ PlacementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
   
   {  (* Inizio della lista delle variabili locali del modulo *)
 
-    seedValue = RandomInteger[1024],        (* Genera un numero casuale da usare come seme per l'inizializzazione *)
+    seedValue = ToString[RandomInteger[1024]],        (* Genera un numero casuale da usare come seme per l'inizializzazione *)
     baseValue = 2,                          (* Imposta come base numerica iniziale il binario (2) *)
     difficultyLevel = 3,                    (* Livello di difficolt\[AGrave] predefinito (indice 3 nella lista dei livelli) *)
     phase = 1,                              (* Fase del gioco attuale: 1=inserimento dati, 2=posizionamento navi, 3=battaglia *)
@@ -43,6 +43,7 @@ PlacementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
   },  (* Fine lista variabili *)
 
   difficultyLevels = GetDifficultyLevels[];  (* Ottiene l'elenco dei livelli di difficolt\[AGrave] dal pacchetto Interaction *)
+  SetSeed[ToExpression[seedValue]];
 
   Column[{  (* La struttura principale \[EGrave] una colonna verticale di elementi *)
 

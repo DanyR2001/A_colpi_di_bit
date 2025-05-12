@@ -362,14 +362,14 @@ HexToDecSection[] := {
       *)
 
       Dynamic[
-        (* Blocca dinamico che aggiorna in tempo reale quando cambia d *)
-        Module[{numD = ToExpression[d]},
-          If[NumericQ[numD] && numD >= 0,
-            conversionFromDec[16, numD],
-            "Inserisci un numero decimale valido (>= 0)"
-          ]
+            conversionToDec[16, h]
+            (* Chiama la built-in conversionToDec:
+           - base = 16 (esadecimale)
+           - h \[EGrave] il numero inserito dall'utente
+           - La built-in mostrer\[AGrave] la conversione passo passo, con tabella e risultato finale
+        *)    
         ]
-      ]
+
       (* Questo blocco mostra in tempo reale la conversione oppure un messaggio d'errore se l'input non \[EGrave] valido *)
     }]
     ],

@@ -69,7 +69,7 @@ ResetGame[] := Module[{},
   SetUserShips[{}];
   SetCPUGrid[{}];
   SetUserGrid[{}];
-  SetSeed[0];
+  SetSeed[RandomInteger[1024]];
   SetShipLengths[{5, 4, 3, 2, 1}];
   CPUAttackedCoordinates = {};
 ];

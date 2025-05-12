@@ -164,12 +164,12 @@ conversionFromDec[base_, numberDec_]:=Module[{colors}, (*numero convertito, list
 					Row[{Panel[Style[Grid[ 
 						Table[{
 							(*per ogni gruppo indico:
-							cifre binarie \[RightArrow] conversione in decimale \[RightArrow] cifra in base 8/16 corrispondente *)
+							cifre binarie \[RightArrow] conversione in decimale \[RightArrow] cifra corrispondente in base specificata *)
 		                     Style[Row[digitsGroups[[n]]], colors[[Mod[n-1, Length[colors]]+1]]], (*gruppo di cifre binarie*)
 							 "\[RightArrow]", 
 		                     FromDigits[digitsGroups[[n]], 2], (*conversione in decimale*)
 							 "\[RightArrow]",
-		                     BaseForm[FromDigits[digitsGroups[[n]], 2], base] (*cifra in base 8/16 corrispondente*)
+		                     BaseForm[FromDigits[digitsGroups[[n]], 2], base] (*cifra corrispondente in base specificata*)
 	                    }, {n, 1, Length[digitsGroups]}]
 					], 12]]}, Alignment -> Center, ImageSize -> Full]
 				}]
@@ -179,7 +179,7 @@ conversionFromDec[base_, numberDec_]:=Module[{colors}, (*numero convertito, list
 		Spacer[5],
 		Row[{
 			Style["Risultato: ", Italic, 13, Bold],
-			numberDec, " = ", BaseForm[numberDec, base], (*conversione da decimale a base scelta*)
+			Subscript[numberDec,10], " = ", BaseForm[numberDec, base], (*conversione da decimale a base scelta*)
 			"."
 		}]
 	}]

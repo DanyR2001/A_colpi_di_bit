@@ -12,9 +12,9 @@
 
 (* :Copyright: A colpi di Bit (C) 2025 *)
 (* :Keywords: battaglia navale, gioco, interfaccia *)
-(* :Requirements: Mathematica 12.0+, Util`, Battle`, Interaction` *)
+(* :Requirements: Mathematica 12.0+, Util`, Interaction` *)
 
-BeginPackage["SpiegazioneConversione`", {"Util`"}]
+BeginPackage["SpiegazioneConversione`", {"Util`","Interaction`"}]
 (* Inizio del package Tutorial, specificando che importa anche il package Util` *)
 
 CreateExplainationConversion::usage = "CreateExplainationConversion[] inserisce il tutorial nel notebook corrente."
@@ -362,14 +362,13 @@ HexToDecSection[] := {
       *)
 
       Dynamic[
-        (* Blocco dinamico che si aggiorna automaticamente quando l'utente inserisce qualcosa *)
-
-        conversionToDec[16, h]
-        (* Chiama la built-in conversionToDec:
-           - base = 16 (esadecimale)
-           - h \[EGrave] il numero inserito dall'utente
-           - La built-in mostrer\[AGrave] la conversione passo passo, con tabella e risultato finale
-        *)
+        (* Blocca dinamico che aggiorna in tempo reale quando cambia d *)
+        Module[{numD = ToExpression[d]},
+          If[NumericQ[numD] && numD >= 0,
+            conversionFromDec[16, numD],
+            "Inserisci un numero decimale valido (>= 0)"
+          ]
+        ]
       ]
       (* Questo blocco mostra in tempo reale la conversione oppure un messaggio d'errore se l'input non \[EGrave] valido *)
     }]
@@ -383,283 +382,177 @@ HexToDecSection[] := {
 
 
 DecToBinSection[] := {
-(* Definizione della built-in DecToBinSection, che non ha argomenti e restituisce la parte grafica della sezione tutorial per la conversione da decimale a binario *)
+    TextCell["Conversione da Decimale a Binario", "Subsection",
+      FontSize -> 18, FontWeight -> "Bold", 
+      FontColor -> RGBColor[1, 0, 0], 
+      TextAlignment -> Left, CellTags->"Tutorial4"],
 
-  TextCell["Conversione da Decimale a Binario", "Subsection",
-    FontSize -> 18, FontWeight -> "Bold", 
-    FontColor -> RGBColor[1, 0, 0], 
-    TextAlignment -> Left, CellTags->"Tutorial4"],
-  (* Titolo della sezione:
-     - Tipo: sottosezione ("Subsection")
-     - Font size 18, grassetto, colore rosso
-     - Allineamento a sinistra
-  *)
-
-  Spacer[10],
-  (* Spazio verticale di 10 punti *)
+    Spacer[10],
 
     Framed[
-    (* Riquadro per il testo esplicativo *)
-    Row[{
-    TextCell[
-      "Per convertire un numero decimale in binario, dividilo ripetutamente per 2 e raccogli i resti. Leggi i resti dal basso verso l'alto. ",
-      FontSize -> 12
-    ], Button["[2]",
-        NotebookLocate["Bibliografia0"],
-        Appearance -> "Frameless",
-        BaselinePosition -> Baseline,
-        Evaluator -> Automatic,
-   BaseStyle -> {FontSize -> 12}
-      ]}],
-    Background -> Lighter[Gray, 0.9]
-  ],
-  (* Riquadro con il testo esplicativo:
-     - Spiega il metodo della conversione decimale \[RightArrow] binario
-     - Font size 12
-     - Sfondo grigio chiaro
-  *)
-
-  Spacer[10],
-  (* Spazio verticale di 10 punti *)
-
-  Framed[
-    (* Riquadro che contiene la parte interattiva *)
-
-    DynamicModule[{d = ""},
-    (* DynamicModule: crea un ambiente con una variabile dinamica locale d (inizializzata come stringa vuota)
-       - d serve per catturare l'input dell'utente in tempo reale
-    *)
-
-    Column[{
-      (* Colonna che organizza verticalmente tutti i componenti interattivi *)
-
+      Row[{
       TextCell[
-        "Esempio interattivo (inserisci un numero e premi Invio)", 
-        FontSize -> 14, FontWeight -> "Bold"
-      ],
-      (* Testo guida sopra il campo input:
-         - Font size 14, grassetto
-         - Spiega all'utente cosa fare
-      *)
+        "Per convertire un numero decimale in binario, dividilo ripetutamente per 2 e raccogli i resti. Leggi i resti dal basso verso l'alto. ",
+        FontSize -> 12
+      ], Button["[2]",
+          NotebookLocate["Bibliografia0"],
+          Appearance -> "Frameless",
+          BaselinePosition -> Baseline,
+          Evaluator -> Automatic,
+    BaseStyle -> {FontSize -> 12}
+        ]}],
+      Background -> Lighter[Gray, 0.9]
+    ],
 
-      Grid[{
-        {
-          TextCell["Inserisci un numero decimale:"],
-          (* Etichetta che dice all'utente di inserire un numero *)
+    Spacer[10],
 
-          InputField[Dynamic[d], String]
-          (* Campo di input dinamico:
-             - Dynamic[d]: collega l'input alla variabile d
-             - String: specifica che l'input viene gestito come stringa (testo)
-          *)
-        }
-      }],
-      (* Griglia con una riga e due colonne:
-         1. La prima colonna mostra l'etichetta
-         2. La seconda colonna contiene il campo input
-      *)
+    Framed[
+      DynamicModule[{d = ""},
+      Column[{
+        TextCell[
+          "Esempio interattivo (inserisci un numero e premi Invio)", 
+          FontSize -> 14, FontWeight -> "Bold"
+        ],
 
-      Dynamic[
-        (* Blocca dinamico che aggiorna in tempo reale quando cambia d *)
-        Module[{numD = ToExpression[d]},
-          If[NumericQ[numD] && numD >= 0,
-            conversionFromDec[16, numD],
+        Grid[{
+          {
+            TextCell["Inserisci un numero decimale:"],
+            InputField[Dynamic[d], String]
+          }
+        }],
+
+        Dynamic[
+          If[isSeed[d],
+            Module[{numD = ToExpression[d]},
+              If[NumericQ[numD] && numD >= 0,
+                conversionFromDec[2, numD],
+                "Inserisci un numero decimale valido (>= 0)"
+              ]
+            ],
             "Inserisci un numero decimale valido (>= 0)"
           ]
         ]
-      ]
-      (* Questo blocco mostra dinamicamente il risultato della conversione oppure il messaggio d'errore *)
-    }]
-    ],
-    Background -> Lighter[Gray, 0.95]
-    (* Sfondo ancora pi\[UGrave] chiaro per la parte interattiva *)
-  ]
-  (* Chiude il Framed della parte interattiva *)
-};
-(* Fine della built-in DecToBinSection *)
-
-
-DecToOctSection[] := {
-(* Definizione della built-in DecToOctSection che non ha argomenti e restituisce un blocco grafico per la sezione del tutorial dedicata alla conversione da decimale a ottale *)
-
-  TextCell["Conversione da Decimale a Ottale", "Subsection",
-    FontSize -> 18, FontWeight -> "Bold", 
-    FontColor -> RGBColor[1, 0, 0], 
-    TextAlignment -> Left, CellTags->"Tutorial5"],
-  (* Crea il titolo della sezione:
-     - FontSize 18, in grassetto, colore rosso
-     - Allineamento a sinistra
-  *)
-
-  Spacer[10],
-  (* Spazio verticale di 10 punti *)
-
-  Framed[
-    (* Riquadro per il testo esplicativo *)
-    Row[{
-    TextCell[
-      Row[{"Per convertire un numero decimale in ottale, dividilo ripetutamente per 8 e raccogli i resti, oppure converti prima in binario e poi raggruppa le cifre in gruppi di 3.\nQuesto \[EGrave] possibile perch\[EGrave] ogni cifra ottale si rappresenta esattamente con 3 bit, cio\[EGrave] ",Superscript[2,3]," = 8.\n\nNell'esempio di seguito adotteremo il secondo metodo."}],
-      FontSize -> 12
-    ], Button["[3]",
-        NotebookLocate["Bibliografia0"],
-        Appearance -> "Frameless",
-        BaselinePosition -> Baseline,
-        Evaluator -> Automatic,
-   BaseStyle -> {FontSize -> 12}
-      ]}],
-    Background -> Lighter[Gray, 0.9]
-  ],
-  (* Riquadro che contiene il testo esplicativo:
-     - Testo che spiega come funziona la conversione
-     - FontSize 12
-     - Sfondo grigio chiaro (pi\[UGrave] leggibile)
-  *)
-
-  Spacer[10],
-  (* Spazio verticale di 10 punti *)
-
-  Framed[
-    (* Riquadro che racchiude tutta la parte interattiva *)
-
-    DynamicModule[{d = ""},
-    (* DynamicModule crea un ambiente locale dove la variabile dinamica d viene definita e gestita;
-       d \[EGrave] inizializzata come stringa vuota, serve per catturare l'input utente *)
-
-    Column[{
-      (* Organizza i componenti della parte interattiva verticalmente *)
-
-      TextCell[
-        "Esempio interattivo (inserisci un numero e premi Invio)", 
-        FontSize -> 14, FontWeight -> "Bold"
+      }]
       ],
-      (* Testo guida sopra il campo input:
-         - Font size 14
-         - Grassetto
-         - Spiega all'utente cosa fare
-      *)
+      Background -> Lighter[Gray, 0.95]
+    ]
+  };
 
-      Grid[{
-        {
-          TextCell["Inserisci un numero decimale:"],
-          (* Cella che mostra l'etichetta accanto al campo input *)
+  (* Versione corretta per DecToOctSection[] *)
+  DecToOctSection[] := {
+    TextCell["Conversione da Decimale a Ottale", "Subsection",
+      FontSize -> 18, FontWeight -> "Bold", 
+      FontColor -> RGBColor[1, 0, 0], 
+      TextAlignment -> Left, CellTags->"Tutorial5"],
 
-          InputField[Dynamic[d], String]
-          (* Campo di input dinamico:
-             - Dynamic[d]: collega il contenuto del campo alla variabile d
-             - String: specifica che l'input \[EGrave] trattato come stringa (testo)
-          *)
-        }
-      }],
-      (* Griglia a una riga e due colonne:
-         1. Etichetta "Inserisci un numero decimale:"
-         2. Campo input
-      *)
+    Spacer[10],
 
-      Dynamic[
-        (* Blocca dinamico che aggiorna in tempo reale quando cambia d *)
-        Module[{numD = ToExpression[d]},
-          If[NumericQ[numD] && numD >= 0,
-            conversionFromDec[16, numD],
+    Framed[
+      Row[{
+      TextCell[
+        Row[{"Per convertire un numero decimale in ottale, dividilo ripetutamente per 8 e raccogli i resti, oppure converti prima in binario e poi raggruppa le cifre in gruppi di 3.\nQuesto \[EGrave] possibile perch\[EGrave] ogni cifra ottale si rappresenta esattamente con 3 bit, cio\[EGrave] ",Superscript[2,3]," = 8.\n\nNell'esempio di seguito adotteremo il secondo metodo."}],
+        FontSize -> 12
+      ], Button["[3]",
+          NotebookLocate["Bibliografia0"],
+          Appearance -> "Frameless",
+          BaselinePosition -> Baseline,
+          Evaluator -> Automatic,
+    BaseStyle -> {FontSize -> 12}
+        ]}],
+      Background -> Lighter[Gray, 0.9]
+    ],
+
+    Spacer[10],
+
+    Framed[
+      DynamicModule[{d = ""},
+      Column[{
+        TextCell[
+          "Esempio interattivo (inserisci un numero e premi Invio)", 
+          FontSize -> 14, FontWeight -> "Bold"
+        ],
+
+        Grid[{
+          {
+            TextCell["Inserisci un numero decimale:"],
+            InputField[Dynamic[d], String]
+          }
+        }],
+
+        Dynamic[
+          If[isSeed[d],
+            Module[{numD = ToExpression[d]},
+              If[NumericQ[numD] && numD >= 0,
+                conversionFromDec[8, numD],
+                "Inserisci un numero decimale valido (>= 0)"
+              ]
+            ],
             "Inserisci un numero decimale valido (>= 0)"
           ]
         ]
-      ]
-      (* Visualizza dinamicamente o la conversione o il messaggio d'errore *)
-    }]
-    ],
-    Background -> Lighter[Gray, 0.95]
-    (* Sfondo del riquadro: ancora pi\[UGrave] chiaro rispetto a quello sopra, per evidenziare la parte interattiva *)
-  ]
-  (* Chiude il Framed della parte interattiva *)
-};
-(* Fine della built-in DecToOctSection *)
-
-
-DecToHexSection[] := {
-(* Definizione della built-in DecToHexSection che non ha argomenti e restituisce un blocco grafico *)
-
-  TextCell["Conversione da Decimale a Esadecimale", "Subsection",
-    FontSize -> 18, FontWeight -> "Bold", 
-    FontColor -> RGBColor[1, 0, 0], 
-    TextAlignment -> Left, CellTags->"Tutorial6"],
-  (* Crea un'intestazione per la sezione:
-     - Stile: font grande (18), in grassetto, colore rosso
-     - Allineamento: a sinistra
-  *)
-
-  Spacer[10],
-  (* Spazio verticale di 10 punti *)
-
-  Framed[
-    (*  Incornicia il testo esplicativo  *)
-    Row[{
-    TextCell[
-      Row[{"Per convertire un numero decimale in esadecimale, dividilo ripetutamente per 16 e raccogli i resti, oppure converti prima in binario e raggruppa le cifre in gruppi di 4.\nQuesto \[EGrave] possibile perch\[EGrave] ogni cifra esadecimale si rappresenta esattamente con 4 bit, cio\[EGrave] ",Superscript[2,4]," = 16.\n\nNell'esempio di seguito adotteremo il secondo metodo."}],
-      FontSize -> 12
-    ], Button["[4]",
-        NotebookLocate["Bibliografia0"],
-        Appearance -> "Frameless",
-        BaselinePosition -> Baseline,
-        Evaluator -> Automatic,
-   BaseStyle -> {FontSize -> 12}
-      ]}],
-    Background -> Lighter[Gray, 0.9]
-  ],
-  (* Questo blocco mostra il testo che spiega il metodo di conversione decimale \[RightArrow] esadecimale *)
-
-  Spacer[10],
-  (* Spazio verticale di 10 punti *)
-
-  Framed[
-    (* Incornicia la parte interattiva *)
-    DynamicModule[{d = ""},
-    (* Crea un DynamicModule che definisce una variabile locale dinamica d (inizializzata come stringa vuota) *)
-    Column[{
-      (* Organizza i componenti verticalmente in una colonna *)
-
-      TextCell[
-        "Esempio interattivo (inserisci un numero e premi Invio)", 
-        FontSize -> 14, FontWeight -> "Bold"
+      }]
       ],
-      (* Testo guida per l'utente, in font grande e grassetto *)
+      Background -> Lighter[Gray, 0.95]
+    ]
+  };
 
-      Grid[{
-        {
-          TextCell["Inserisci un numero decimale:"],
-          (* Testo statico che etichetta il campo di input *)
+  (* Versione corretta per DecToHexSection[] *)
+  DecToHexSection[] := {
+    TextCell["Conversione da Decimale a Esadecimale", "Subsection",
+      FontSize -> 18, FontWeight -> "Bold", 
+      FontColor -> RGBColor[1, 0, 0], 
+      TextAlignment -> Left, CellTags->"Tutorial6"],
 
-          InputField[Dynamic[d], String]
-          (* Campo di input dinamico:
-             - Dynamic[d]: collega il valore dell'input alla variabile dinamica d
-             - String: specifica che l'input \[EGrave] trattato come stringa
-          *)
-        }
-      }],
-      (* Una griglia con una riga e due colonne:
-         1. Testo di etichetta
-         2. Campo di input
-      *)
+    Spacer[10],
 
-     Dynamic[
-        (* Blocca dinamico che aggiorna in tempo reale quando cambia d *)
-        Module[{numD = ToExpression[d]},
-          If[NumericQ[numD] && numD >= 0,
-            conversionFromDec[16, numD],
+    Framed[
+      Row[{
+      TextCell[
+        Row[{"Per convertire un numero decimale in esadecimale, dividilo ripetutamente per 16 e raccogli i resti, oppure converti prima in binario e raggruppa le cifre in gruppi di 4.\nQuesto \[EGrave] possibile perch\[EGrave] ogni cifra esadecimale si rappresenta esattamente con 4 bit, cio\[EGrave] ",Superscript[2,4]," = 16.\n\nNell'esempio di seguito adotteremo il secondo metodo."}],
+        FontSize -> 12
+      ], Button["[4]",
+          NotebookLocate["Bibliografia0"],
+          Appearance -> "Frameless",
+          BaselinePosition -> Baseline,
+          Evaluator -> Automatic,
+    BaseStyle -> {FontSize -> 12}
+        ]}],
+      Background -> Lighter[Gray, 0.9]
+    ],
+
+    Spacer[10],
+
+    Framed[
+      DynamicModule[{d = ""},
+      Column[{
+        TextCell[
+          "Esempio interattivo (inserisci un numero e premi Invio)", 
+          FontSize -> 14, FontWeight -> "Bold"
+        ],
+
+        Grid[{
+          {
+            TextCell["Inserisci un numero decimale:"],
+            InputField[Dynamic[d], String]
+          }
+        }],
+
+        Dynamic[
+          If[isSeed[d],
+            Module[{numD = ToExpression[d]},
+              If[NumericQ[numD] && numD >= 0,
+                conversionFromDec[16, numD],
+                "Inserisci un numero decimale valido (>= 0)"
+              ]
+            ],
             "Inserisci un numero decimale valido (>= 0)"
           ]
         ]
-        (* Se il numero non \[EGrave] valido (es. testo non numerico o numero negativo): mostra un messaggio d'errore, 
-             Se il numero \[EGrave] valido: chiama conversionFromDec per convertire da decimale a binario (base 2)
-            *)           
-      ]
-      (* Visualizza dinamicamente il risultato della conversione o il messaggio di errore *)
-    }]
-    ],
-    Background -> Lighter[Gray, 0.95]
-    (* Imposta uno sfondo ancora pi\[UGrave] chiaro per la parte interattiva *)
-  ]
-  (* Chiude il Framed della parte interattiva *)
-};
+      }]
+      ],
+      Background -> Lighter[Gray, 0.95]
+    ]
+  };
 (* Fine della built-in DecToHexToDecSection *)
 
 

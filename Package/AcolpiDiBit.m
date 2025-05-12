@@ -70,14 +70,14 @@ PlacementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
 
         Spacer[10],  (* Aggiunge spazio verticale *)
 
-        Button["Conferma Impostazioni",  (* Bottone per confermare le impostazioni iniziali *)
-          If[isSeed[seedValue] && isBase[baseValue],  (* Controlla che il seed e la base siano validi *)
-            If[InitPhase[seedValue, baseValue, difficultyLevel],  (* Inizializza la fase, se va a buon fine... *)
+        Button["Conferma Impostazioni",(* Bottone per confermare le impostazioni iniziali *)
+          If[isSeed[seedValue] && isBase[baseValue], message="";(* Controlla che il seed e la base siano validi *)
+            If[InitPhase[ToExpression[seedValue], baseValue, difficultyLevel],  (* Inizializza la fase, se va a buon fine... *)
               phase = 2;  (* Passa alla fase 2: posizionamento navi *)
               initDone = True;,  (* Segna che l'inizializzazione \[EGrave] avvenuta *)
               message = "Errore durante l'inizializzazione. Riprova.";  (* Altrimenti mostra errore *)
             ],
-            message = "Seed o base non validi!";  (* Messaggio se input non valido *)
+            message = "Seed (Intero non negativo) o base (2,8,16) non validi!";  (* Messaggio se input non valido *)
           ]
         ],
 

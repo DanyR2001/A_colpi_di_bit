@@ -460,11 +460,13 @@ DecToBinSection[] := {
       *)
 
       Dynamic[
-        (* Blocco dinamico: valuta e aggiorna automaticamente quando cambia d *)
-          Util`conversionFromDec[2, d]
-          (* Se il numero non \[EGrave] valido (es. testo non numerico o numero negativo): mostra un messaggio d'errore, 
-             Se il numero \[EGrave] valido: chiama conversionFromDec per convertire da decimale a binario (base 2)
-            *)       
+        (* Blocca dinamico che aggiorna in tempo reale quando cambia d *)
+        Module[{numD = ToExpression[d]},
+          If[NumericQ[numD] && numD >= 0,
+            conversionFromDec[16, numD],
+            "Inserisci un numero decimale valido (>= 0)"
+          ]
+        ]
       ]
       (* Questo blocco mostra dinamicamente il risultato della conversione oppure il messaggio d'errore *)
     }]
@@ -554,13 +556,14 @@ DecToOctSection[] := {
       *)
 
       Dynamic[
-        (* Parte dinamica: valuta e aggiorna automaticamente quando cambia d *)
-        Util`conversionFromDec[8, d]
-        (* Se il numero non \[EGrave] valido (es. testo non numerico o numero negativo): mostra un messaggio d'errore, 
-             Se il numero \[EGrave] valido: chiama conversionFromDec per convertire da decimale a binario (base 2)
-            *)     
-       ]
-      
+        (* Blocca dinamico che aggiorna in tempo reale quando cambia d *)
+        Module[{numD = ToExpression[d]},
+          If[NumericQ[numD] && numD >= 0,
+            conversionFromDec[16, numD],
+            "Inserisci un numero decimale valido (>= 0)"
+          ]
+        ]
+      ]
       (* Visualizza dinamicamente o la conversione o il messaggio d'errore *)
     }]
     ],
@@ -639,7 +642,12 @@ DecToHexSection[] := {
 
      Dynamic[
         (* Blocca dinamico che aggiorna in tempo reale quando cambia d *)
-        Util`conversionFromDec[16, d]
+        Module[{numD = ToExpression[d]},
+          If[NumericQ[numD] && numD >= 0,
+            conversionFromDec[16, numD],
+            "Inserisci un numero decimale valido (>= 0)"
+          ]
+        ]
         (* Se il numero non \[EGrave] valido (es. testo non numerico o numero negativo): mostra un messaggio d'errore, 
              Se il numero \[EGrave] valido: chiama conversionFromDec per convertire da decimale a binario (base 2)
             *)           

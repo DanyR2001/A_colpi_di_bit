@@ -22,7 +22,7 @@ AskSeedInput::usage = "AskSeedInput[inputSeed] chiede all'utente di inserire il 
 AskBaseChoice::usage = "AskBaseChoice[inputBase] chiede all'utente di inserire la base su cui si vuole esercitare (2, 8, 16)";
 
 isBase::usage="isBase[base] controlla che base sia 2, 8 o 16";
-isSeed::usage="isSeed[seed] controlla che seed sia un numero intero";
+isSeed::usage="isSeed[seedStr_String] controlla che seed sia un numero intero";
 helpUser::usage="helpUser[base] mostra in una nuova finestra la conversione in base scelta di un numero decimale casuale";
 helpUserPersonalized::usage="helpUserPersonalized[base] chiede in una nuova finestra all'utente di inserire un numero decimale e mostra la sua conversione in base scelta";
 
@@ -79,13 +79,13 @@ GridSize       = 10; (*varibile che indica la grandezza del campo da gioco*)
 
 (* SEED E BASE *)
 (*richiedi seed*)
-AskSeedInput[inputSeed_] := DynamicModule[{value = RandomInteger[1024]},
+AskSeedInput[inputSeed_] := DynamicModule[{value = ToString[RandomInteger[1024]]},
   Row[{
     "Inserisci seed: ",
     (*Tramite InputField si richiede all'utente di inserire un numero*)
     (*il valore inserito viene assegnato a value dinamicamente 
     e passato alla funzione inputSeed[value] ricevuta come parametro di AskSeedInput *)
-    InputField[Dynamic[value, (value = #; inputSeed[value])&], Number, ImageSize -> Small]
+    InputField[Dynamic[value, (value = #; inputSeed[value])&], String, ImageSize -> Small]
     (*Number \[RightArrow] non permette di inserire lettere o caratteri speciali, 
 	permette esclusivamente di inserire valori numerici:
 	- positivi (+),
@@ -108,16 +108,16 @@ AskBaseChoice[inputBase_]:= DynamicModule[{value = 2}, (*il valore della variabi
 
 (*controlli per la base e il seed*)
 isBase[base_]:=MemberQ[{2,8,16}, base]; (*restituisce vero se base \[EGrave] un numero tra 2,8 e 16, falso altrimenti*)
-isSeed[seed_]:=convertToDec[ToString[seed],10]=!=$Failed;  (*restutisce vero se seed \[EGrave] un numero intero, falso altrimenti*)
-
-
-
-(*SUGGERIMENTO*)
-ClosePopups[] := Module[{titles = {"Suggerimento", "Chiedi Una Cella"}},
-  Do[
-    NotebookClose /@ Select[Notebooks[], CurrentValue[#, WindowTitle] == title &],
-    {title, titles}
-  ]
+isSeed[seedStr_String] := Module[{validChars = CharacterRange["0", "9"], chars},
+  chars = Characters[seedStr];
+  
+  (* Gestisce il caso di numeri con segno (+/-) *)
+  If[Length[chars] > 0 && MemberQ[{"+", "-"}, First[chars]],
+    chars = Rest[chars]; (* Rimuove il primo carattere (il segno) *)
+  ];
+  
+  (* Verifica che tutti i caratteri restanti siano cifre e che ci sia almeno un carattere *)
+  Length[chars] > 0 && AllTrue[chars, MemberQ[validChars, #]&]
 ];
 
 (*funzione per evitare di aprire una finestra se \[EGrave] gi\[AGrave] aperta*)

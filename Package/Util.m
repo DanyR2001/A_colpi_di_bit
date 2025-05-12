@@ -125,14 +125,14 @@ conversionFromDec[base_, numberDec_]:=Module[{colors, isNumberDec}, (*numero con
 									(*un passaggio \[EGrave] descritto come: 
 									quoziente ottenuto dalla divisione \[Divide] base =  quoziente successivo    Resto = resto della divisione*)
 									(*divisione*)
-										Style[ToString[quotients[[n]]], colors[[Mod[n-1, Length[colors]]+1]]], 
+										Style[quotients[[n]], colors[[Mod[n-1, Length[colors]]+1]]], 
 										(*colors[[Mod[n-1, Length[colors]]+1]] mi serve per ricominciare dal primo colore 
 										quando l'indice del passaggio corrente n \[EGrave] maggiore del numero di colori disponibili*)
 										" \[Divide] ",base," = ", 
 										(*quoziente*)
-										Spacer[5], Style[ToString[quotients[[n+1]]], colors[[Mod[n, Length[colors]]+1]]],
+										Spacer[5], Style[quotients[[n+1]], colors[[Mod[n, Length[colors]]+1]]],
 										(*resto*)
-										Spacer[5], " Resto = ", Style[ToString[modules[[n]]], Bold]
+										Spacer[5], " Resto = ", Style[modules[[n]], Bold]
 									}, {n, 1,Length[modules]}](*il numero di resti ottenuti indica anche il numero di passaggi da effettuare*)
 								], 12]], 
 								(*freccia dal basso verso l'alto posizionata a destra della griglia con i passaggi, mostra in che direzione leggere i resti*)

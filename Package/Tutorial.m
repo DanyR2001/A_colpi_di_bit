@@ -77,7 +77,7 @@ IntroSection[] := {
   (* Spazio verticale di 20 punti *)
 
   TextCell[
-    "Questo tutorial ti guider\[AGrave] attraverso le conversioni tra diversi sistemi numerici: binario, ottale, esadecimale e decimale. Ogni sistema numerico posizionale si basa su potenze della base stessa. In base 10 (decimale), la cifra più a sinistra vale 10⁰, la successiva 10¹, e così via. In binario vale 2⁰, 2¹, 2², etc. Questo concetto si generalizza per qualunque base b.", 
+    "Questo tutorial ti guider\[AGrave] attraverso le conversioni tra diversi sistemi numerici: binario, ottale, esadecimale e decimale.\n\nOgni sistema numerico posizionale si basa su potenze della base stessa. In base 10 (decimale), la cifra pi\[UGrave] a sinistra vale 10\:2070, la successiva 10\.b9, e cos\[IGrave] via. In binario vale 2\:2070, 2\.b9, 2\.b2, etc.\nQuesto concetto si generalizza per qualunque base b.", 
     FontSize -> 14
   ],
   (* Crea un paragrafo descrittivo *)
@@ -166,10 +166,10 @@ BinToDecSection[] := {
         (* Chiama la built-in conversionToDec:
            - base = 2 (binario)
            - d = numero inserito dall'utente
-           - La built-in mostrerà la conversione passo passo, con tabella e risultato finale
+           - La built-in mostrer\[AGrave] la conversione passo passo, con tabella e risultato finale
         *)
       ]
-      (* Mostra dinamicamente la conversione oppure un messaggio d'errore se l'input è invalido *)
+      (* Mostra dinamicamente la conversione oppure un messaggio d'errore se l'input \[EGrave] invalido *)
     }]
     ],
     Background -> Lighter[Gray, 0.95]
@@ -205,7 +205,7 @@ OctToDecSection[] := {
     Background -> Lighter[Gray, 0.9]
   ],
   (* Testo esplicativo:
-     - Descrive come convertire da ottale a decimale (cifra × potenza di 8)
+     - Descrive come convertire da ottale a decimale (cifra \[Times] potenza di 8)
      - Font size 12
      - Incorniciato con sfondo grigio chiaro
   *)
@@ -218,7 +218,7 @@ OctToDecSection[] := {
 
     DynamicModule[{d = ""},
     (* DynamicModule: ambiente locale dinamico con variabile d inizializzata come stringa vuota
-       - d servirà per catturare l'input utente
+       - d servir\[AGrave] per catturare l'input utente
     *)
 
     Column[{
@@ -242,7 +242,7 @@ OctToDecSection[] := {
           InputField[Dynamic[d], String]
           (* Campo input dinamico:
              - Dynamic[d]: collega il campo input alla variabile d
-             - String: indica che l'input è trattato come stringa (testo)
+             - String: indica che l'input \[EGrave] trattato come stringa (testo)
           *)
         }
       }],
@@ -258,14 +258,14 @@ OctToDecSection[] := {
         (* Chiama la built-in conversionToDec con:
            - base = 8 (ottale)
            - d = il numero inserito dall'utente
-           - La built-in mostrerà la conversione passo passo, con tabella e risultato finale
+           - La built-in mostrer\[AGrave] la conversione passo passo, con tabella e risultato finale
         *)
       ]
       (* Visualizza dinamicamente il risultato della conversione oppure un messaggio d'errore se input non valido *)
     }]
     ],
     Background -> Lighter[Gray, 0.95]
-    (* Sfondo ancora più chiaro per la parte interattiva *)
+    (* Sfondo ancora pi\[UGrave] chiaro per la parte interattiva *)
   ]
   (* Chiude il Framed della parte interattiva *)
 };
@@ -349,15 +349,15 @@ HexToDecSection[] := {
         conversionToDec[16, h]
         (* Chiama la built-in conversionToDec:
            - base = 16 (esadecimale)
-           - h è il numero inserito dall'utente
-           - La built-in mostrerà la conversione passo passo, con tabella e risultato finale
+           - h \[EGrave] il numero inserito dall'utente
+           - La built-in mostrer\[AGrave] la conversione passo passo, con tabella e risultato finale
         *)
       ]
-      (* Questo blocco mostra in tempo reale la conversione oppure un messaggio d'errore se l'input non è valido *)
+      (* Questo blocco mostra in tempo reale la conversione oppure un messaggio d'errore se l'input non \[EGrave] valido *)
     }]
     ],
     Background -> Lighter[Gray, 0.95]
-    (* Sfondo più chiaro per evidenziare la parte interattiva *)
+    (* Sfondo pi\[UGrave] chiaro per evidenziare la parte interattiva *)
   ]
   (* Chiude il Framed della parte interattiva *)
 };
@@ -388,7 +388,7 @@ DecToBinSection[] := {
     Background -> Lighter[Gray, 0.9]
   ],
   (* Riquadro con il testo esplicativo:
-     - Spiega il metodo della conversione decimale → binario
+     - Spiega il metodo della conversione decimale \[RightArrow] binario
      - Font size 12
      - Sfondo grigio chiaro
   *)
@@ -442,15 +442,15 @@ DecToBinSection[] := {
           *)
 
           If[IntegerQ[n] && n >= 0,
-            (* Controlla se n è un numero intero e positivo o zero *)
+            (* Controlla se n \[EGrave] un numero intero e positivo o zero *)
 
             conversionFromDec[2, n],
-            (* Se il numero è valido:
+            (* Se il numero \[EGrave] valido:
                - chiama conversionFromDec per convertire da decimale a binario (base 2)
             *)
 
             "Inserisci un numero decimale valido (>= 0)"
-            (* Se il valore non è valido (es. testo non numerico o numero negativo):
+            (* Se il valore non \[EGrave] valido (es. testo non numerico o numero negativo):
                - mostra un messaggio di errore all'utente
             *)
           ]
@@ -460,7 +460,7 @@ DecToBinSection[] := {
     }]
     ],
     Background -> Lighter[Gray, 0.95]
-    (* Sfondo ancora più chiaro per la parte interattiva *)
+    (* Sfondo ancora pi\[UGrave] chiaro per la parte interattiva *)
   ]
   (* Chiude il Framed della parte interattiva *)
 };
@@ -484,7 +484,7 @@ DecToOctSection[] := {
 
   Framed[
     TextCell[
-      "Per convertire un numero decimale in ottale, dividilo ripetutamente per 8 e raccogli i resti oppure converti prima in binario e raggruppa le cifre in gruppi di 3.",
+      "Per convertire un numero decimale in ottale, dividilo ripetutamente per 8 e raccogli i resti oppure converti prima in binario e raggruppa le cifre in gruppi di 3.\n\n, oppure converti prima in binario e raggruppa le cifre in gruppi di 3.\n\nNell'esempio di seguito adotteremo il secondo metodo.",
       FontSize -> 12
     ],
     Background -> Lighter[Gray, 0.9]
@@ -492,7 +492,7 @@ DecToOctSection[] := {
   (* Riquadro che contiene il testo esplicativo:
      - Testo che spiega come funziona la conversione
      - FontSize 12
-     - Sfondo grigio chiaro (più leggibile)
+     - Sfondo grigio chiaro (pi\[UGrave] leggibile)
   *)
 
   Spacer[10],
@@ -503,7 +503,7 @@ DecToOctSection[] := {
 
     DynamicModule[{d = ""},
     (* DynamicModule crea un ambiente locale dove la variabile dinamica d viene definita e gestita;
-       d è inizializzata come stringa vuota, serve per catturare l'input utente *)
+       d \[EGrave] inizializzata come stringa vuota, serve per catturare l'input utente *)
 
     Column[{
       (* Organizza i componenti della parte interattiva verticalmente *)
@@ -526,7 +526,7 @@ DecToOctSection[] := {
           InputField[Dynamic[d], String]
           (* Campo di input dinamico:
              - Dynamic[d]: collega il contenuto del campo alla variabile d
-             - String: specifica che l'input è trattato come stringa (testo)
+             - String: specifica che l'input \[EGrave] trattato come stringa (testo)
           *)
         }
       }],
@@ -544,13 +544,13 @@ DecToOctSection[] := {
           *)
 
           If[IntegerQ[n] && n >= 0,
-            (* Controlla se n è un numero intero positivo o zero *)
+            (* Controlla se n \[EGrave] un numero intero positivo o zero *)
 
             conversionFromDec[8, n],
-            (* Se è valido: chiama la built-in conversionFromDec per convertire n da decimale a ottale *)
+            (* Se \[EGrave] valido: chiama la built-in conversionFromDec per convertire n da decimale a ottale *)
 
             "Inserisci un numero decimale valido (>= 0)"
-            (* Se non è valido (es. testo non numerico o numero negativo): mostra un messaggio d'errore *)
+            (* Se non \[EGrave] valido (es. testo non numerico o numero negativo): mostra un messaggio d'errore *)
           ]
         ]
       ]
@@ -558,7 +558,7 @@ DecToOctSection[] := {
     }]
     ],
     Background -> Lighter[Gray, 0.95]
-    (* Sfondo del riquadro: ancora più chiaro rispetto a quello sopra, per evidenziare la parte interattiva *)
+    (* Sfondo del riquadro: ancora pi\[UGrave] chiaro rispetto a quello sopra, per evidenziare la parte interattiva *)
   ]
   (* Chiude il Framed della parte interattiva *)
 };
@@ -583,13 +583,13 @@ DecToHexToDecSection[] := {
   Framed[
     (* Incornicia il testo esplicativo *)
     TextCell[
-      "Per convertire un numero decimale in esadecimale, dividilo ripetutamente per 16 e raccogli i resti oppure converti prima in binario e raggruppa le cifre in gruppi di 4.",
+      "Per convertire un numero decimale in esadecimale, dividilo ripetutamente per 16 e raccogli i resti oppure converti prima in binario e raggruppa le cifre in gruppi di 4.\n\nNell'esempio di seguito adotteremo il secondo metodo.",
       FontSize -> 12
     ],
     Background -> Lighter[Gray, 0.9]
     (* Imposta lo sfondo del riquadro a un grigio chiaro *)
   ],
-  (* Questo blocco mostra il testo che spiega il metodo di conversione decimale → esadecimale *)
+  (* Questo blocco mostra il testo che spiega il metodo di conversione decimale \[RightArrow] esadecimale *)
 
   Spacer[10],
   (* Spazio verticale di 10 punti *)
@@ -615,7 +615,7 @@ DecToHexToDecSection[] := {
           InputField[Dynamic[d], String]
           (* Campo di input dinamico:
              - Dynamic[d]: collega il valore dell'input alla variabile dinamica d
-             - String: specifica che l'input è trattato come stringa
+             - String: specifica che l'input \[EGrave] trattato come stringa
           *)
         }
       }],
@@ -630,7 +630,7 @@ DecToHexToDecSection[] := {
           (* Converte la stringa d in espressione matematica e la assegna alla variabile n *)
 
           If[IntegerQ[n] && n >= 0,
-            (* Controlla se n è un numero intero e >= 0 *)
+            (* Controlla se n \[EGrave] un numero intero e >= 0 *)
 
             conversionFromDec[16, n],
             (* Se valido: chiama la built-in conversionFromDec per convertire da decimale a base 16 (esadecimale) *)
@@ -644,14 +644,14 @@ DecToHexToDecSection[] := {
     }]
     ],
     Background -> Lighter[Gray, 0.95]
-    (* Imposta uno sfondo ancora più chiaro per la parte interattiva *)
+    (* Imposta uno sfondo ancora pi\[UGrave] chiaro per la parte interattiva *)
   ]
   (* Chiude il Framed della parte interattiva *)
 };
 (* Fine della built-in DecToHexToDecSection *)
 
 
-conversionToDec[base_, number_] := Module[{colors, numberDec, digits, powers, terms},
+(*conversionToDec[base_, number_] := Module[{colors, numberDec, digits, powers, terms},
 (* Definizione della built-in conversionToDec che prende due argomenti:
    - base: la base numerica da cui convertire
    - number: il numero da convertire
@@ -660,7 +660,7 @@ conversionToDec[base_, number_] := Module[{colors, numberDec, digits, powers, te
    - numberDec: il numero convertito in base decimale
    - digits: le cifre del numero in quella base
    - powers: le potenze associate a ciascuna cifra
-   - terms: i risultati intermedi della moltiplicazione cifra × potenza
+   - terms: i risultati intermedi della moltiplicazione cifra \[Times] potenza
 *)
 
   colors = {Blue, Orange, Purple, Red, Brown, Pink, Green};
@@ -717,13 +717,13 @@ conversionToDec[base_, number_] := Module[{colors, numberDec, digits, powers, te
         (* Calcola quante cifre ci sono *)
 
         powers = Reverse[Range[0, len - 1]];
-        (* Crea una lista di esponenti: {len-1, ..., 0}, cioè le potenze della base da associare a ciascuna cifra *)
+        (* Crea una lista di esponenti: {len-1, ..., 0}, cio\[EGrave] le potenze della base da associare a ciascuna cifra *)
 
         terms = Table[
           digits[[i]] base^powers[[i]],
           {i, len}
         ];
-        (* Calcola per ogni cifra: cifra × (base ^ potenza) *)
+        (* Calcola per ogni cifra: cifra \[Times] (base ^ potenza) *)
 
         Row[{
           (* Mostra la tabella in una riga *)
@@ -740,7 +740,7 @@ conversionToDec[base_, number_] := Module[{colors, numberDec, digits, powers, te
                   (* Prima colonna: la cifra, colorata *)
 
                   "\[Times]",
-                  (* Seconda colonna: simbolo × *)
+                  (* Seconda colonna: simbolo \[Times] *)
 
                   ToString[base] <> "^" <> ToString[powers[[n]]],
                   (* Terza colonna: stringa che mostra base^esponente *)
@@ -761,7 +761,7 @@ conversionToDec[base_, number_] := Module[{colors, numberDec, digits, powers, te
         Alignment -> Center, 
         (* Allinea la tabella al centro *)
         ImageSize -> Full
-        (* Fa sì che la tabella occupi tutta la larghezza disponibile *)
+        (* Fa s\[IGrave] che la tabella occupi tutta la larghezza disponibile *)
         ]
         (* Fine della visualizzazione della tabella *)
       ],
@@ -779,7 +779,7 @@ conversionToDec[base_, number_] := Module[{colors, numberDec, digits, powers, te
           (* Pannello che incornicia la somma *)
           Style[
             Row[{
-              (* Riga che unisce tutti i termini + segni più + risultato *)
+              (* Riga che unisce tutti i termini + segni pi\[UGrave] + risultato *)
               Row[
                 Riffle[
                   Table[
@@ -825,10 +825,10 @@ conversionToDec[base_, number_] := Module[{colors, numberDec, digits, powers, te
         " = ",
 
         Total[terms],
-        (* Mostra la somma dei termini, cioè il numero convertito in decimale *)
+        (* Mostra la somma dei termini, cio\[EGrave] il numero convertito in decimale *)
 
         " in base 10."
-        (* Testo finale che spiega che il risultato è in base 10 *)
+        (* Testo finale che spiega che il risultato \[EGrave] in base 10 *)
       }]
       (* Fine della riga finale *)
     }]
@@ -837,7 +837,7 @@ conversionToDec[base_, number_] := Module[{colors, numberDec, digits, powers, te
   (* Fine del blocco If *)
 ]
 (* Fine del Module e della built-in *)
-
+*)
 
 
 
@@ -899,7 +899,7 @@ conversionToDec[base_, number_] := Module[{colors,numberDec, digits, powers, ter
       Spacer[5],
       Row[{ (*mostro il risultato finale della conversione del tipo: numero in base = numero decimale*)
         Style["Risultato: ", Italic, 13, Bold],
-        BaseForm[number, base], " = ", Total[terms], " in base 10."
+        Subscript[number, base], " = ", Subscript[numberDec,10]
       }]
    }]
   ]
@@ -912,7 +912,7 @@ conversionToDec[base_, number_] := Module[{colors,numberDec, digits, powers, ter
 CreateTutorial[] := Module[{sezioni},
 (* Definizione della built-in CreateTutorial che non ha argomenti:
    - Usa Module per definire variabili locali
-   - La variabile locale qui è 'sezioni', che conterrà la lista di tutte le sezioni del tutorial
+   - La variabile locale qui \[EGrave] 'sezioni', che conterr\[AGrave] la lista di tutte le sezioni del tutorial
 *)
 
   sezioni = Join[
@@ -943,9 +943,9 @@ CreateTutorial[] := Module[{sezioni},
      - Join serve a concatenare le singole liste restituite da ciascuna sezione
   *)
 
-  Column[sezioni, Alignment -> Left]
+  Style[Column[sezioni, Alignment -> Left],FontFamily->"Arial"]
   (* Crea un'unica colonna che contiene tutte le sezioni combinate:
-     - La colonna è allineata a sinistra (Alignment -> Left)
+     - La colonna \[EGrave] allineata a sinistra (Alignment -> Left)
      - Questo restituisce l'intero tutorial come un unico blocco visivo continuo
   *)
 ];

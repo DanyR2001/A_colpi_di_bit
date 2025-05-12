@@ -484,7 +484,7 @@ DecToOctSection[] := {
 
   Framed[
     TextCell[
-      "Per convertire un numero decimale in ottale, dividilo ripetutamente per 8 e raccogli i resti oppure converti prima in binario e raggruppa le cifre in gruppi di 3.\n\n, oppure converti prima in binario e raggruppa le cifre in gruppi di 3.\n\nNell'esempio di seguito adotteremo il secondo metodo.",
+      "Per convertire un numero decimale in ottale, dividilo ripetutamente per 8 e raccogli i resti, oppure converti prima in binario e poi raggruppa le cifre in gruppi di 3.\nQuesto \[EGrave] possibile perch\[EGrave] ogni cifra ottale si rappresenta esattamente con 3 bit, cio\[EGrave] 2^3 = 8.\n\nNell'esempio di seguito adotteremo il secondo metodo.",
       FontSize -> 12
     ],
     Background -> Lighter[Gray, 0.9]
@@ -583,7 +583,7 @@ DecToHexToDecSection[] := {
   Framed[
     (* Incornicia il testo esplicativo *)
     TextCell[
-      "Per convertire un numero decimale in esadecimale, dividilo ripetutamente per 16 e raccogli i resti oppure converti prima in binario e raggruppa le cifre in gruppi di 4.\n\nNell'esempio di seguito adotteremo il secondo metodo.",
+      "Per convertire un numero decimale in esadecimale, dividilo ripetutamente per 16 e raccogli i resti, oppure converti prima in binario e raggruppa le cifre in gruppi di 4.\nQuesto \[EGrave] possibile perch\[EGrave] ogni cifra esadecimale si rappresenta esattamente con 4 bit, cio\[EGrave] 2^4 = 16.\n\nNell'esempio di seguito adotteremo il secondo metodo.",
       FontSize -> 12
     ],
     Background -> Lighter[Gray, 0.9]

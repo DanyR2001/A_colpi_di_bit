@@ -25,7 +25,7 @@ generateCPUShips::usage = "generateCPUShips[gridSize, seed] genera casualmente l
 StartGame::usage = "StartGame[userShips, CPUShips, userGridInit, cpuGridInit,userBase, gridSize] avvia il gioco (battaglia)";
 InitPhase::usage =
   "InitPhase[base, gridSize] inizializza il gioco: base \[Element] {2,8,16}, gridSize \[EGrave] lato griglia.\
-Imposta $UserBase, $GridSize, $AutomaticGrid e $UserGrid, resetta gli stati.";
+Imposta UserBase, GridSize, AutomaticGrid e UserGrid, resetta gli stati.";
 ResetGame::usage =
   "ResetGame[] svuota tutte le liste e ripristina le variabili globali all'inizio del gioco.";
 
@@ -57,7 +57,7 @@ InitPhase[seed_Integer, base_Integer, difficultyLevel_Integer] := Module[
   
   (* Inizializza griglia utente vuota *)
   SetUserShips[{}];
-  SetUserGrid[ConstantArray[$Vuoto, {gridSize, gridSize}]];
+  SetUserGrid[ConstantArray[Vuoto, {gridSize, gridSize}]];
   
   True (* Segnala successo *)
 ];
@@ -72,12 +72,12 @@ ResetGame[] := Module[{},
   SetUserGrid[{}];
   SetSeed[0];
   SetShipLengths[{5, 4, 3, 2, 1}];
-  $CPUAttackedCoordinates = {};
+  CPUAttackedCoordinates = {};
 ];
 
 
 (* Utilizziamo un insieme per tenere traccia delle coordinate gi\[AGrave] utilizzate dalla CPU *)
-$CPUAttackedCoordinates = {};
+CPUAttackedCoordinates = {};
 
 (* FIXED: generateCoordinate per gli attacchi della CPU *)
 generateCoordinate[gridSize_Integer] := Module[
@@ -89,9 +89,9 @@ generateCoordinate[gridSize_Integer] := Module[
     coordinates = {RandomInteger[{0, gridSize - 1}], RandomInteger[{0, gridSize - 1}]};
     
     (* Verifica se queste coordinate sono gi\[AGrave] state usate *)
-    If[!MemberQ[$CPUAttackedCoordinates, coordinates],
+    If[!MemberQ[CPUAttackedCoordinates, coordinates],
       (* Aggiunge le coordinate all'insieme per non riutilizzarle *)
-      AppendTo[$CPUAttackedCoordinates, coordinates];
+      AppendTo[CPUAttackedCoordinates, coordinates];
       Return[coordinates];
     ];
     
@@ -102,8 +102,8 @@ generateCoordinate[gridSize_Integer] := Module[
   Do[
     Do[
       coordinates = {i, j};
-      If[!MemberQ[$CPUAttackedCoordinates, coordinates],
-        AppendTo[$CPUAttackedCoordinates, coordinates];
+      If[!MemberQ[CPUAttackedCoordinates, coordinates],
+        AppendTo[CPUAttackedCoordinates, coordinates];
         Return[coordinates];
       ],
       {j, 0, gridSize - 1}
@@ -147,21 +147,21 @@ attack[attackCoordsWithMsg_, grid_, ships_] := Module[
   ];
   (* Controlla il contenuto della cella (r, c) della griglia *)
   Switch[grid[[r, c]], 
-    $Nave, (* COLPITO *)
+    Nave, (* COLPITO *)
 	(* Aggiorna la nuova griglia (newGrid) segnando la cella come colpita *)    
-      newGrid[[r, c]] = $Colpito;
+      newGrid[[r, c]] = Colpito;
       hit = True;
       (* Controlla se \[EGrave] affondato *)
       Do[
       (* Controlla se la cella attaccata fa parte di questa nave.
        L'indice \[EGrave] scalato di -1, perch\[EGrave] le coordinate delle navi siano basate su 0 *)
         If[MemberQ[nave, {r - 1, c - 1}],
-        (* Controlla se tutte le celle di questa nave sono state colpite ($Colpito). Se s\[IGrave], la nave \[EGrave] affondata *)
-          If[AllTrue[nave, (newGrid[[#[[1]] + 1, #[[2]] + 1]] == $Colpito) &], 
+        (* Controlla se tutte le celle di questa nave sono state colpite (Colpito). Se s\[IGrave], la nave \[EGrave] affondata *)
+          If[AllTrue[nave, (newGrid[[#[[1]] + 1, #[[2]] + 1]] == Colpito) &], 
             naveAffondata = True;
             (* Per ogni coordinata della nave, si aggiorna la griglia per segnare tutte le sue celle come affondate *)
             Do[
-              newGrid[[coord[[1]] + 1, coord[[2]] + 1]] = $Affondato;,
+              newGrid[[coord[[1]] + 1, coord[[2]] + 1]] = Affondato;,
               {coord, nave}
             ];
           ];
@@ -174,9 +174,9 @@ attack[attackCoordsWithMsg_, grid_, ships_] := Module[
         attackResult = "Colpito e affondato!",
         attackResult = "Colpito!"
       ];,       
-    $Vuoto, (* MANCATO *)
+    Vuoto, (* MANCATO *)
       hit = True;
-      newGrid[[r, c]] = $Mancato;
+      newGrid[[r, c]] = Mancato;
       attackResult = "Mi dispiace. Colpo non andato a segno, tenta di nuovo...";,
     _, (* GI\[CapitalAGrave] COLPITO *)
       attackResult = "Hai gi\[AGrave] colpito qui!"
@@ -190,9 +190,9 @@ generateCPUShips[gridSize_Integer] := Module[
   {ships = {}, shipLengths, grid, orientation, startRow, startCol, shipCoords, valid, surroundingCells},
   
   (* Inizializza la griglia vuota *)
-  grid = ConstantArray[$Vuoto, {gridSize, gridSize}];
+  grid = ConstantArray[Vuoto, {gridSize, gridSize}];
 
-  (* Utilizza le lunghezze delle navi definite dalla variabile globale $ShipLengths *)
+  (* Utilizza le lunghezze delle navi definite dalla variabile globale ShipLengths *)
   shipLengths = GetRemainingShipLengths[];
   
   (* Debug - stampa le lunghezze delle navi 
@@ -246,17 +246,17 @@ generateCPUShips[gridSize_Integer] := Module[
       ];
       
       (* Verifica che tutte le coordinate della nave siano libere *)
-      valid = AllTrue[shipCoords, grid[[#[[1]] + 1, #[[2]] + 1]] == $Vuoto &];
+      valid = AllTrue[shipCoords, grid[[#[[1]] + 1, #[[2]] + 1]] == Vuoto &];
       
       (* Verifica che non ci siano navi adiacenti *)
       If[valid, 
-        valid = AllTrue[surroundingCells, grid[[#[[1]] + 1, #[[2]] + 1]] == $Vuoto &];
+        valid = AllTrue[surroundingCells, grid[[#[[1]] + 1, #[[2]] + 1]] == Vuoto &];
       ];
     ];
     
     (* Marca le celle occupate dalla nave *)
     Do[
-      grid[[coord[[1]] + 1, coord[[2]] + 1]] = $Nave,
+      grid[[coord[[1]] + 1, coord[[2]] + 1]] = Nave,
       {coord, shipCoords}
     ];
     
@@ -281,7 +281,7 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
   {gameState = "In corso...", messageUser = "", messageCpu = "", cpuGrid = cpuGridInit, userGrid = userGridInit, 
    countAffondato = 0, cpuAffondato = 0, gameOver = False, input = ""},
     (* Reset dell'insieme delle coordinate attaccate dalla CPU *)
-    $CPUAttackedCoordinates = {};
+    CPUAttackedCoordinates = {};
     
     Column[{
       (* Titolo *)

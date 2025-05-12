@@ -94,7 +94,7 @@ PlacementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
         DynamicModule[{  (* Modulo interno per la fase di posizionamento *)
           currentShip = 1, start = "", end = "",  (* Stato della nave corrente e input coordinate *)
           shipPlacementMsg = "", placementDone = False,  (* Messaggi e stato del posizionamento *)
-          gridSize = $GridSize  (* Dimensione della griglia presa dalla costante globale *)
+          gridSize = GridSize  (* Dimensione della griglia presa dalla costante globale *)
         },
 
         Column[{  (* Colonna di layout della fase 2 *)
@@ -194,7 +194,7 @@ PlacementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
           GetUserGrid[],
           GetCpuGrid[],
           baseValue,
-          $GridSize
+          GridSize
         ]],
         Spacer[10],
         Button["Reset Game", ResetGame[]; phase = 1;]  (* Pulsante per ricominciare *)

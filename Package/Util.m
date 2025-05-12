@@ -2,7 +2,7 @@
 
 (* :Title: Util *)
 (* :Context: Util` *)
-(* :Author: Dan Cernei, Daniele Russo *)
+(* :Author: Dan Cernei, Daniele Russo, Matilde Nardi *)
 (* :Version: 2.0 *)
 (* :Date: 2025-05-06 *)
 
@@ -27,6 +27,7 @@ verifyInput::usage = "verifyInput[gridSize, base, input]controlla che l'input si
 createGrid::usage="createGrid[ships, gridSize] crea una matrice gridSizexgridSize a partire dalle navi";
 showGrid::usage="drawGrid[grid_, gridSize_, ships_Bool] disegna la griglia di gioco mostrando le navi e gli attacchi";
 conversionFromDec::usage="conversionFromDec[base,numberDec] mostra i passaggi della conversione di un numero da base 10 a base qualsiasi tra 2,8 e 16";
+conversionToDec::usage = "conversionToDec[base, number] restituisce i passaggi per la conversione di un numero da base qualsiasi a base 10."
 
 Colpito::usage = "Valore per cella colpita.";
 Mancato::usage = "Valore per cella mancata.";
@@ -35,14 +36,16 @@ Vuoto::usage = "Valore per cella vuota.";
 Affondato::usage = "Valore per cella di nave affondata.";
 
 
-Colpito = 2;
-Mancato = -1;
-Nave = 1;
-Vuoto = 0;
-Affondato = 3;
-GridSize=10;
+
 
 Begin["Private`"];
+
+Colpito := 2;
+Mancato := -1;
+Nave := 1;
+Vuoto := 0;
+Affondato := 3;
+GridSize :=10;
 
 
 (*FUNZIONI PER LA CONVERSIONE*)
@@ -268,6 +271,69 @@ showGrid[grid_, ships_] := Module[{
       {None, None}
     },
     ItemSize -> {1.5, 1.5}
+  ]
+];
+
+
+(*FUNZIONE che indica i passagi di una conversione da base specificata a base 10, usata negli esempi del tutorial*)
+(*prende in input il numero e la base numerica del numero stesso*) 
+conversionToDec[base_, number_] := Module[{colors,numberDec, digits, powers, terms},
+  colors = {Blue, Orange, Purple, Red, Brown, Pink, Green};
+  numberDec=convertToDecimal[number,base]; (*richiamo la funzioni in Util.m *)
+  (*la funzione controlla che il numero sia corretto nella base specificata e se lo \[EGrave] lo converte in decimale*)
+  
+  If[numberDec===$Failed, (*se la conversione fallisce allora il numero non \[EGrave] nella base specificata*)
+  "Inserisci un numero intero in base "<>ToString[base], (*mostro messaggio*)
+  (*altrimenti vado avanti*)
+  digits = IntegerDigits[numberDec, base]; (*lista delle cifre in base specificata del numero decimale*)
+  Column[{ (*raggruppo in colonna la spiegazione della conversione*)
+      " \[Bullet] Scomponiamo il numero nelle sue cifre in base " <> ToString[base] <> ":", (*prima fase*)
+      Row[ (*in una riga mostro le cifre che compongono il numero in base specificata*)
+      (*ogni cifra avr\[AGrave] un colore diverso*)
+        Table[Panel[Style[digits[[n]],12, colors[[Mod[n - 1, Length[colors]] + 1]]]],{n,1,Length[digits]}]
+      , Alignment -> Center, ImageSize -> Full],
+      (*seconda fse*)
+      " \[Bullet] Ogni cifra viene moltiplicata per la potenza della base corrispondente alla sua posizione (da destra a sinistra):",
+      Module[{len},
+        len = Length[digits]; (*numero di cifre che costituiscono il numero*)
+        powers = Reverse[Range[0, len - 1]]; (* posizione delle cifre, 
+        Reverse perch\[EGrave] la posizione delle cifre in un numero va da sinistra verso destra *)
+        terms = Table[digits[[i]] base^powers[[i]], {i, len}]; (*moltiplico ogni cifra per la potenza della base, 
+        terms contiene i prodotti, cio\[EGrave] i termini dell'addizione*)
+
+        Row[{ (*al centro popsiziono la lista delle moltiplicazioni del tipo cifra \[Times] base^posizione *)
+			Panel[Style[
+				Grid[Table[{
+					Style[digits[[n]], colors[[Mod[n - 1, Length[colors]] + 1]]], (*cifra*)
+					"\[Times]", 
+					ToString[base]<>"^"<>ToString[powers[[n]]], (*potenza*)
+					"=", 
+					Style[terms[[n]], Bold](*risultato della moltiplicazione*)
+				},{n, len}]]
+			,12]]
+        }, Alignment -> Center, ImageSize -> Full]
+      ],
+      Spacer[5],
+      " \[Bullet] Sommiamo tutti i valori ottenuti:",
+      Row[{(*in una riga mostro la somma dei prodotti e il risultato che si ottiene*)
+        (*la riga sar\[AGrave] del tipo: cifra \[Times] base^posizione + ... + cifra \[Times] base^posizione = somma*)
+        (*dove cifra \[Times] base^posizione viene sostituito dal risultato del prodotto*)
+        Panel[Style[
+          Row[{
+            Row[Riffle[ (*Riffle permette di scrivere il + tra ogni coppia di elementi in terms*)
+              Table[Style[terms[[n]], colors[[Mod[n - 1, Length[colors]] + 1]]], {n, Length[terms]}], (*assegno un colore ad ogni termine*)
+              " + "
+            ]],
+            " = ", numberDec}(*risultato della somma, gi\[AGrave] calcolato prima con la funzione convertToDec[]*)
+          ], 14]]
+      }, Alignment -> Center, ImageSize -> Full],
+      
+      Spacer[5],
+      Row[{ (*mostro il risultato finale della conversione del tipo: numero in base = numero decimale*)
+        Style["Risultato: ", Italic, 13, Bold],
+        Subscript[number, base], " = ", Subscript[numberDec,10]
+      }]
+   }]
   ]
 ];
   

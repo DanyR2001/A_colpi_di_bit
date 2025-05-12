@@ -2,7 +2,7 @@
 
 (* :Title: Tutorial *)
 (* :Context: Tutorial` *)
-(* :Author: Matteo Rontini, Daniele Russo, Matilde Nardi *)
+(* :Author: Matteo Rontini, Daniele Russo *)
 (* :Version: 1.6 *)
 (* :Date: 2025-05-09 *)
 
@@ -39,11 +39,8 @@ DecToOctSection::usage = "DecToOctSection[] crea la sezione conversione da decim
 (* Definisce la descrizione della built-in DecToOctSection *)
 
 
-DecToHexToDecSection::usage = "DecToHexToDecSection[] crea la sezione conversione da decimale a esadecimale."
-(* Definisce la descrizione della built-in DecToHexToDecSection *)
-
-conversionToDec::usage = "conversionToDec[base, number] restituisce i passaggi per la conversione di un numero da base qualsiasi a base 10."
-(* Definisce la descrizione della built-in conversionToDec *)
+DecToHexSection::usage = "DecToHexSection[] crea la sezione conversione da decimale a esadecimale."
+(* Definisce la descrizione della built-in DecToHexSection *)
 
 Begin["`Private`"]
 (* Inizio della sezione privata del package *)
@@ -565,8 +562,8 @@ DecToOctSection[] := {
 (* Fine della built-in DecToOctSection *)
 
 
-DecToHexToDecSection[] := {
-(* Definizione della built-in DecToHexToDecSection che non ha argomenti e restituisce un blocco grafico *)
+DecToHexSection[] := {
+(* Definizione della built-in DecToHexSection che non ha argomenti e restituisce un blocco grafico *)
 
   TextCell["Conversione da Decimale a Esadecimale", "Subsection",
     FontSize -> 18, FontWeight -> "Bold", 
@@ -651,260 +648,6 @@ DecToHexToDecSection[] := {
 (* Fine della built-in DecToHexToDecSection *)
 
 
-(*conversionToDec[base_, number_] := Module[{colors, numberDec, digits, powers, terms},
-(* Definizione della built-in conversionToDec che prende due argomenti:
-   - base: la base numerica da cui convertire
-   - number: il numero da convertire
-   All'interno definisce un Module con variabili locali:
-   - colors: lista di colori per colorare le cifre
-   - numberDec: il numero convertito in base decimale
-   - digits: le cifre del numero in quella base
-   - powers: le potenze associate a ciascuna cifra
-   - terms: i risultati intermedi della moltiplicazione cifra \[Times] potenza
-*)
-
-  colors = {Blue, Orange, Purple, Red, Brown, Pink, Green};
-  (* Definisce una lista di colori per evidenziare graficamente ogni cifra *)
-
-  numberDec = convertToDecimal[number, base];
-  (* Converte il numero da base "base" a base decimale usando la built-in convertToDecimal *)
-
-  If[numberDec === $Failed,
-  (* Controlla se la conversione ha fallito (es. input non valido); in tal caso restituisce un messaggio d'errore *)
-
-    "Inserisci un numero intero in base " <> ToString[base],
-    (* Messaggio di errore personalizzato che dice di inserire un numero valido *)
-
-    digits = IntegerDigits[numberDec, base];
-    (* Scompone il numero decimale in una lista di cifre nella base specificata *)
-
-    Column[{ 
-    (* Crea un layout verticale con tutti i componenti visuali che seguono *)
-
-      " \[Bullet] Scomponiamo il numero nelle sue cifre in base " <> ToString[base] <> ":",
-      (* Testo che spiega il primo passo: scomporre il numero in cifre *)
-
-      Row[
-        (* Dispone i pannelli delle cifre in una riga *)
-        Table[
-          (* Genera un pannello per ogni cifra *)
-          Panel[
-            (* Pannello con bordo che contiene la cifra *)
-            Style[
-              digits[[n]], 
-              12, 
-              colors[[Mod[n - 1, Length[colors]] + 1]]
-            ]
-            (* Stile della cifra: font size 12 e colore selezionato ciclicamente dalla lista di colori *)
-          ],
-          {n, 1, Length[digits]}
-          (* Crea un pannello per ogni cifra (da 1 a numero delle cifre) *)
-        ],
-        Alignment -> Center, 
-        (* Allinea la riga al centro *)
-        ImageSize -> Full
-        (* Imposta la larghezza della riga per occupare tutto lo spazio disponibile *)
-      ],
-      (* Fine della riga di pannelli per le cifre *)
-
-      " \[Bullet] Ogni cifra viene moltiplicata per la potenza della base corrispondente alla sua posizione (da destra a sinistra):",
-      (* Testo che spiega il secondo passo: la moltiplicazione per le potenze *)
-
-      Module[{len},
-      (* Crea un modulo locale per questa parte del calcolo; variabile len per la lunghezza delle cifre *)
-
-        len = Length[digits];
-        (* Calcola quante cifre ci sono *)
-
-        powers = Reverse[Range[0, len - 1]];
-        (* Crea una lista di esponenti: {len-1, ..., 0}, cio\[EGrave] le potenze della base da associare a ciascuna cifra *)
-
-        terms = Table[
-          digits[[i]] base^powers[[i]],
-          {i, len}
-        ];
-        (* Calcola per ogni cifra: cifra \[Times] (base ^ potenza) *)
-
-        Row[{
-          (* Mostra la tabella in una riga *)
-          Panel[
-            (* Pannello che racchiude la tabella *)
-            Style[
-              Grid[
-                (* Crea la tabella *)
-                Table[{
-                  Style[
-                    digits[[n]], 
-                    colors[[Mod[n - 1, Length[colors]] + 1]]
-                  ],
-                  (* Prima colonna: la cifra, colorata *)
-
-                  "\[Times]",
-                  (* Seconda colonna: simbolo \[Times] *)
-
-                  ToString[base] <> "^" <> ToString[powers[[n]]],
-                  (* Terza colonna: stringa che mostra base^esponente *)
-
-                  "=",
-                  (* Quarta colonna: simbolo = *)
-
-                  Style[terms[[n]], Bold]
-                  (* Quinta colonna: risultato del calcolo, in grassetto *)
-                }, {n, len}]
-                (* Crea una riga della tabella per ogni cifra *)
-              ],
-              12
-              (* Imposta font size 12 per l'intera tabella *)
-            ]
-          ]
-        }, 
-        Alignment -> Center, 
-        (* Allinea la tabella al centro *)
-        ImageSize -> Full
-        (* Fa s\[IGrave] che la tabella occupi tutta la larghezza disponibile *)
-        ]
-        (* Fine della visualizzazione della tabella *)
-      ],
-      (* Fine del Module per la tabella *)
-
-      Spacer[5],
-      (* Spazio verticale di 5 punti *)
-
-      " \[Bullet] Sommiamo tutti i valori ottenuti:",
-      (* Testo che introduce la somma dei termini *)
-
-      Row[{
-        (* Riga che contiene il pannello della somma *)
-        Panel[
-          (* Pannello che incornicia la somma *)
-          Style[
-            Row[{
-              (* Riga che unisce tutti i termini + segni pi\[UGrave] + risultato *)
-              Row[
-                Riffle[
-                  Table[
-                    Style[
-                      terms[[n]], 
-                      colors[[Mod[n - 1, Length[colors]] + 1]]
-                    ],
-                    {n, Length[terms]}
-                  ],
-                  " + "
-                  (* Inserisce un + tra ogni termine *)
-                ]
-              ],
-              " = ",
-              (* Aggiunge il simbolo uguale *)
-
-              ToString[numberDec]
-              (* Aggiunge il numero decimale finale *)
-            }],
-            FontSize -> 14
-            (* Imposta la dimensione del font della somma a 14 *)
-          ]
-        ]
-      }, 
-      Alignment -> Center, 
-      (* Allinea la riga al centro *)
-      ImageSize -> Full
-      (* Imposta la larghezza a tutta la linea *)
-      ],
-      (* Fine della visualizzazione della somma *)
-
-      Spacer[5],
-      (* Spazio verticale di 5 punti *)
-
-      Row[{
-        (* Riga per il risultato finale *)
-        Style["Risultato: ", Italic, 13, Bold],
-        (* Testo "Risultato:" in corsivo, font size 13 e grassetto *)
-
-        BaseForm[number, base],
-        (* Mostra il numero originale in notazione di base, es. 1010 (base 2) *)
-
-        " = ",
-
-        Total[terms],
-        (* Mostra la somma dei termini, cio\[EGrave] il numero convertito in decimale *)
-
-        " in base 10."
-        (* Testo finale che spiega che il risultato \[EGrave] in base 10 *)
-      }]
-      (* Fine della riga finale *)
-    }]
-    (* Fine della Column che racchiude tutta la spiegazione *)
-  ]
-  (* Fine del blocco If *)
-]
-(* Fine del Module e della built-in *)
-*)
-
-
-
-
-
-(*FUNZIONE che indica i passagi di una conversione da base specificata a base 10, usata negli esempi del tutorial*)
-(*prende in input il numero e la base numerica del numero stesso*) 
-conversionToDec[base_, number_] := Module[{colors,numberDec, digits, powers, terms},
-  colors = {Blue, Orange, Purple, Red, Brown, Pink, Green};
-  numberDec=convertToDecimal[number,base]; (*richiamo la funzioni in Util.m *)
-  (*la funzione controlla che il numero sia corretto nella base specificata e se lo \[EGrave] lo converte in decimale*)
-  
-  If[numberDec===$Failed, (*se la conversione fallisce allora il numero non \[EGrave] nella base specificata*)
-  "Inserisci un numero intero in base "<>ToString[base], (*mostro messaggio*)
-  (*altrimenti vado avanti*)
-  digits = IntegerDigits[numberDec, base]; (*lista delle cifre in base specificata del numero decimale*)
-  Column[{ (*raggruppo in colonna la spiegazione della conversione*)
-      " \[Bullet] Scomponiamo il numero nelle sue cifre in base " <> ToString[base] <> ":", (*prima fase*)
-      Row[ (*in una riga mostro le cifre che compongono il numero in base specificata*)
-      (*ogni cifra avr\[AGrave] un colore diverso*)
-        Table[Panel[Style[digits[[n]],12, colors[[Mod[n - 1, Length[colors]] + 1]]]],{n,1,Length[digits]}]
-      , Alignment -> Center, ImageSize -> Full],
-      (*seconda fse*)
-      " \[Bullet] Ogni cifra viene moltiplicata per la potenza della base corrispondente alla sua posizione (da destra a sinistra):",
-      Module[{len},
-        len = Length[digits]; (*numero di cifre che costituiscono il numero*)
-        powers = Reverse[Range[0, len - 1]]; (* posizione delle cifre, 
-        Reverse perch\[EGrave] la posizione delle cifre in un numero va da sinistra verso destra *)
-        terms = Table[digits[[i]] base^powers[[i]], {i, len}]; (*moltiplico ogni cifra per la potenza della base, 
-        terms contiene i prodotti, cio\[EGrave] i termini dell'addizione*)
-
-        Row[{ (*al centro popsiziono la lista delle moltiplicazioni del tipo cifra \[Times] base^posizione *)
-			Panel[Style[
-				Grid[Table[{
-					Style[digits[[n]], colors[[Mod[n - 1, Length[colors]] + 1]]], (*cifra*)
-					"\[Times]", 
-					ToString[base]<>"^"<>ToString[powers[[n]]], (*potenza*)
-					"=", 
-					Style[terms[[n]], Bold](*risultato della moltiplicazione*)
-				},{n, len}]]
-			,12]]
-        }, Alignment -> Center, ImageSize -> Full]
-      ],
-      Spacer[5],
-      " \[Bullet] Sommiamo tutti i valori ottenuti:",
-      Row[{(*in una riga mostro la somma dei prodotti e il risultato che si ottiene*)
-        (*la riga sar\[AGrave] del tipo: cifra \[Times] base^posizione + ... + cifra \[Times] base^posizione = somma*)
-        (*dove cifra \[Times] base^posizione viene sostituito dal risultato del prodotto*)
-        Panel[Style[
-          Row[{
-            Row[Riffle[ (*Riffle permette di scrivere il + tra ogni coppia di elementi in terms*)
-              Table[Style[terms[[n]], colors[[Mod[n - 1, Length[colors]] + 1]]], {n, Length[terms]}], (*assegno un colore ad ogni termine*)
-              " + "
-            ]],
-            " = ", numberDec}(*risultato della somma, gi\[AGrave] calcolato prima con la funzione convertToDec[]*)
-          ], 14]]
-      }, Alignment -> Center, ImageSize -> Full],
-      
-      Spacer[5],
-      Row[{ (*mostro il risultato finale della conversione del tipo: numero in base = numero decimale*)
-        Style["Risultato: ", Italic, 13, Bold],
-        Subscript[number, base], " = ", Subscript[numberDec,10]
-      }]
-   }]
-  ]
-];
-
 
 (* =================== FUNZIONE PRINCIPALE =================== *)
 (* Definizione della built-in principale che unisce tutte le sezioni *)
@@ -936,7 +679,7 @@ CreateExplainationConversion[] := Module[{sezioni},
     DecToOctSection[],
     (* Sezione che spiega come convertire da decimale a ottale *)
 
-    DecToHexToDecSection[]
+    DecToHexSection[]
     (* Sezione che spiega come convertire da decimale a esadecimale *)
   ];
   (* Tutte queste sezioni sono combinate in una sola lista

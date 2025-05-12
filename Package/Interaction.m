@@ -48,8 +48,8 @@ SetGridSize::usage="SetGridSize[size_Integer] imposta dimensione delle griglie";
 SetUserShips::usage="SetUserShips[ships_List] imposta navi dell'utente";
 SetUserGrid::usage="SetUserGrid[grid_List] imposta matrice griglia utente";
 SetSeed::usage="SetSeed[seed] imposta il seed";
-SetAutomaticShips::usage="SetAutomaticShips[ships_List] imposta navi della cpu";
-SetAutomaticGrid::usage="SetAutomaticGrid[grid_List] imposta matrice griglia cpu";
+SetCPUShips::usage="SetCPUShips[ships_List] imposta navi della cpu";
+SetCPUGrid::usage="SetCPUGrid[grid_List] imposta matrice griglia cpu";
 SetupNotebookClosing::usage="SetupNotebookClosing[nb_NotebookObject]";
 
 Begin["`Private`"];
@@ -63,7 +63,7 @@ DifficultyLevels = {
 
 
 (* Stati globali *)
-AutomaticShips = {}; (*lista delle navi della cpu \[RightArrow] ogni nave \[EGrave] a sua volta una lista delle coordinate delle celle occupate dalla nave stessa *)
+CpuShips = {}; (*lista delle navi della cpu \[RightArrow] ogni nave \[EGrave] a sua volta una lista delle coordinate delle celle occupate dalla nave stessa *)
 (*esempio a scopo puramente illustrativo (per mostrare la gestione delle navi): 
 {1,2} coordinate di una cella
 {{1,2},{1,3},{1,4}} nave (lista delle coordinate di tre celle)
@@ -71,7 +71,7 @@ AutomaticShips = {}; (*lista delle navi della cpu \[RightArrow] ogni nave \[EGra
 *)
 
 UserShips      = {}; (*lista delle navi dell'utente*)
-AutomaticGrid  = {}; (*griglia di gioco con le navi della cpu*)
+CpuGrid  = {}; (*griglia di gioco con le navi della cpu*)
 UserGrid       = {}; (*griglia di gioco con le navi dell'utente*)
 UserBase       = 10; (*base di conversione scelta dall'utente, sar\[AGrave] la base su cui si eserciter\[AGrave] a fare le conversioni*)
 Seed= "";  (*seed inserito dall'utente, cos\[IGrave] che l'utente possa ripetere una stessa partita pi\[UGrave] volte*)
@@ -373,12 +373,12 @@ GetDifficultyLevels[] := DifficultyLevels;
 
 getShipSize[]:=ShipSize;
 
-GetCpuShip[]:=AutomaticShips;
+GetCpuShip[]:=CpuShips;
 (* Restituisce la lista delle navi della CPU:
    - Ogni elemento della lista \[EGrave] una nave (cio\[EGrave] un'altra lista di coordinate)
    - Serve per leggere le navi gi\[AGrave] piazzate
 *)
-GetCpuGrid[]:=AutomaticGrid;
+GetCpuGrid[]:=CpuGrid;
 (* Restituisce la matrice della griglia della CPU:
    - Griglia di gioco che contiene celle vuote e celle occupate da navi
    - Utile per visualizzare lo stato attuale della griglia
@@ -425,13 +425,13 @@ SetSeed[seed_] := If[isSeed[seed], Seed = seed, Seed];
    - Se non \[EGrave] valido, lascia invariato
 *)
 
-SetAutomaticShips[ships_List] := AutomaticShips = ships;
+SetCPUShips[ships_List] := CpuShips = ships;
 (* Imposta la lista delle navi della CPU:
    - Permette di caricare direttamente uno stato salvato o ripristinare navi
 *)
 
 
-SetAutomaticGrid[grid_List] := AutomaticGrid = grid;
+SetCPUGrid[grid_List] := CpuGrid = grid;
 (* Imposta la griglia della CPU:
    - Griglia di gioco con le navi piazzate dalla CPU
    - Utile per ripristinare una partita salvata

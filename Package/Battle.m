@@ -25,7 +25,7 @@ generateCPUShips::usage = "generateCPUShips[gridSize, seed] genera casualmente l
 StartGame::usage = "StartGame[userShips, CPUShips, userGridInit, cpuGridInit,userBase, gridSize] avvia il gioco (battaglia)";
 InitPhase::usage =
   "InitPhase[base, gridSize] inizializza il gioco: base \[Element] {2,8,16}, gridSize \[EGrave] lato griglia.\
-Imposta UserBase, GridSize, AutomaticGrid e UserGrid, resetta gli stati.";
+Imposta UserBase, GridSize, CpuGrid e UserGrid, resetta gli stati.";
 ResetGame::usage =
   "ResetGame[] svuota tutte le liste e ripristina le variabili globali all'inizio del gioco.";
 
@@ -51,8 +51,8 @@ InitPhase[seed_Integer, base_Integer, difficultyLevel_Integer] := Module[
   
   (* Genera navi CPU *)
   Block[{cpuShips = generateCPUShips[gridSize]},
-    SetAutomaticShips[cpuShips];
-    SetAutomaticGrid[createGrid[cpuShips, gridSize]];
+    SetCPUShips[cpuShips];
+    SetCPUGrid[createGrid[cpuShips, gridSize]];
   ];
   
   (* Inizializza griglia utente vuota *)
@@ -66,9 +66,9 @@ InitPhase[seed_Integer, base_Integer, difficultyLevel_Integer] := Module[
 ResetGame[] := Module[{},
   SetUserBase[10];
   SetGridSize[10];
-  SetAutomaticShips[{}];
+  SetCPUShips[{}];
   SetUserShips[{}];
-  SetAutomaticGrid[{}];
+  SetCPUGrid[{}];
   SetUserGrid[{}];
   SetSeed[0];
   SetShipLengths[{5, 4, 3, 2, 1}];
@@ -352,7 +352,7 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
                 (* Impostazione di un messaggio *)
                 messageCpu = Column[{
                 "Coordinate attaccate " <> ToString[attackCpuCoords] <> ". " <> cpuAttack[[1]],
-                Row[{"La conversione \[EGrave]: ", Row[attackCpuCoords], " = ",BaseForm[FromDigits[attackCpuCoords],userBase]}]
+                Row[{"La conversione \[EGrave]: ", Subscript[FromDigits[attackCpuCoords,10],10], " = ",BaseForm[FromDigits[attackCpuCoords],userBase]}]
                 }];
               ];
             ]

@@ -112,6 +112,13 @@ isSeed[seed_]:=IntegerQ[seed];  (*restutisce vero se seed \[EGrave] un numero in
 
 
 (*SUGGERIMENTO*)
+
+(*funzione per evitare di aprire una finestra se \[EGrave] gi\[AGrave] aperta*)
+singlePopup[popupWindow_] := With[{p = Unique["popup"]}, (*creo nome unico che far\[AGrave] riferimento al popup*)
+  popupWindow /. Button[a_, b_, c___] :> (*cerca tutti i Button per popupWindow e li sostituisce con una nuova versione*)
+    Button[a, If[! ValueQ[p] || Options[p] == $Failed, p = b], c]]; (*la nuova versione dei Button eseguono la loro azione solo se
+    non esiste ancora un valore unico associato (ValueQ[p]) o il valore non \[EGrave] valido*)
+
 (*funzione di suggerimento personalizzata*)
 helpUserPersonalized[base_Integer]:=PopupWindow[
 	Button["Chiedi una cella"], 
@@ -153,7 +160,7 @@ helpUserPersonalized[base_Integer]:=PopupWindow[
 			}]
 		,12] (*dimensione del testo*)
 	]
-, WindowTitle -> "Chiedi Una Cella" (*titolo della finestra*), WindowFloating -> True, WindowMargins -> {{0, Automatic}, {0, Automatic}}];
+, WindowTitle -> "Chiedi Una Cella" (*titolo della finestra*), WindowFloating -> True, WindowMargins -> {{0, Automatic}, {0, Automatic}}]//singlePopup (*per evitare di aprire la finestra pi\[UGrave] volte se gi\[AGrave] \[EGrave] aperta*); 
 
 (* suggerimento non personalizzato, esempio di conversione*)
 helpUser[base_Integer]:=PopupWindow[
@@ -173,7 +180,7 @@ helpUser[base_Integer]:=PopupWindow[
 				conversionFromDec[base,numberDec] (*richiamo conversionFromDec[base,numberDec] per mostrare i passaggi della conversione del numero in base scelta*)
 			}],12] (*dimensione del testo*)
 		]
-,WindowTitle->"Suggerimento", WindowFloating->True,WindowMargins->{{0,Automatic},{0,Automatic}}];
+,WindowTitle->"Suggerimento", WindowFloating->True,WindowMargins->{{0,Automatic},{0,Automatic}}]//singlePopup (*per evitare di aprire la finestra pi\[UGrave] volte se gi\[AGrave] \[EGrave] aperta*);
 
 
 
@@ -191,8 +198,8 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
      - start, end: coordinate elaborate
      - r1, c1, r2, c2: righe e colonne di inizio/fine
      - len: lunghezza della nave
-     - coords: tutte le celle che la nave occuperà
-     - usedLens: lunghezze già usate
+     - coords: tutte le celle che la nave occuper\[AGrave]
+     - usedLens: lunghezze gi\[AGrave] usate
      - surroundingCells: celle attorno alla nave
      - isValid: flag booleano per controlli
      - errorMsg: messaggio di errore
@@ -201,22 +208,22 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
   *)
 
   maxDecimal = $GridSize^2 - 1;
-  (* Calcola il valore massimo decimale basato sulla dimensione della griglia (es. 10x10 → 99) *)
+  (* Calcola il valore massimo decimale basato sulla dimensione della griglia (es. 10x10 \[RightArrow] 99) *)
 
   maxInBase = IntegerString[maxDecimal, $UserBase];
   (* Calcola la rappresentazione in base dell'utente del valore massimo decimale *)
 
   If[Length[$ShipLengths] == 0, 
-    (* Controlla se non ci sono più navi disponibili da posizionare *)
+    (* Controlla se non ci sono pi\[UGrave] navi disponibili da posizionare *)
     Return[{False, "Hai gi\[AGrave] posizionato tutte le navi permesse!"}]
     (* Restituisce errore se hai finito le navi *)
   ];
 
   start = verifyInput[$GridSize, $UserBase, startRaw];  
-  (* Verifica la validità della coordinata iniziale e la converte *)
+  (* Verifica la validit\[AGrave] della coordinata iniziale e la converte *)
 
   end = verifyInput[$GridSize, $UserBase, endRaw];
-  (* Verifica la validità della coordinata finale e la converte *)
+  (* Verifica la validit\[AGrave] della coordinata finale e la converte *)
 
   If[start[[1]] === $Failed, 
     (* Se la verifica di start ha fallito *)
@@ -236,24 +243,24 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
   If[Not[r1 == r2 || c1 == c2], 
     (* Controlla che la nave sia orizzontale o verticale *)
     Return[{False, "La nave deve essere allineata orizzontalmente o verticalmente!"}]
-    (* Restituisce errore se la nave è diagonale *)
+    (* Restituisce errore se la nave \[EGrave] diagonale *)
   ];
 
   len = Max[Abs[r2 - r1], Abs[c2 - c1]] + 1;
   (* Calcola la lunghezza della nave basandosi sulla distanza tra start ed end *)
 
   usedLens = Length /@ $UserShips;
-  (* Ottiene le lunghezze delle navi già piazzate *)
+  (* Ottiene le lunghezze delle navi gi\[AGrave] piazzate *)
 
   If[! MemberQ[$ShipLengths, len], 
-    (* Controlla se la lunghezza è valida *)
+    (* Controlla se la lunghezza \[EGrave] valida *)
     Return[{False, "Lunghezza non valida! Le navi devono essere di lunghezza " <> 
         StringJoin[Riffle[ToString /@ $ShipLengths, ", "]] <> "."}]
     (* Restituisce un messaggio di errore con le lunghezze valide *)
   ];
 
   If[MemberQ[usedLens, len], 
-    (* Controlla se già esiste una nave con la stessa lunghezza *)
+    (* Controlla se gi\[AGrave] esiste una nave con la stessa lunghezza *)
     errorMsg = "Hai gi\[AGrave] piazzato una nave di lunghezza " <> ToString[len] <> "!";
 
     If[Length[$ShipLengths] > 0,
@@ -267,9 +274,9 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
   ];
 
   coords = If[r1 == r2,
-    (* Se la nave è orizzontale *)
+    (* Se la nave \[EGrave] orizzontale *)
     Table[{r1, Min[c1, c2] + i}, {i, 0, Abs[c1 - c2]}],
-    (* Se la nave è verticale *)
+    (* Se la nave \[EGrave] verticale *)
     Table[{Min[r1, r2] + i, c1}, {i, 0, Abs[r1 - r2]}]
   ];
   (* Genera tutte le coordinate della nave *)
@@ -302,12 +309,12 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
   (* Controlla che tutte le celle in cui si vuole piazzare la nave siano vuote *)
 
   If[!isValid,
-    (* Se almeno una cella è occupata *)
+    (* Se almeno una cella \[EGrave] occupata *)
     Return[{False, "La nave si sovrappone a una nave gi\[AGrave] posizionata!"}]
   ];
 
   isValid = AllTrue[surroundingCells, $UserGrid[[#[[1]] + 1, #[[2]] + 1]] != $Nave &];
-  (* Controlla che le celle circostanti non abbiano già una nave *)
+  (* Controlla che le celle circostanti non abbiano gi\[AGrave] una nave *)
 
   If[!isValid,
     (* Se trova una nave adiacente *)
@@ -336,8 +343,8 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
 
 GetUserShips[] := $UserShips;
 (* Restituisce la lista delle navi dell'utente:
-   - Ogni elemento della lista è una nave (cioè un'altra lista di coordinate)
-   - Serve per leggere le navi già piazzate
+   - Ogni elemento della lista \[EGrave] una nave (cio\[EGrave] un'altra lista di coordinate)
+   - Serve per leggere le navi gi\[AGrave] piazzate
 *)
 
 GetUserGrid[] := $UserGrid;
@@ -352,17 +359,17 @@ GetRemainingShipLengths[] := $ShipLengths;
 *)
 
 GetDifficultyLevels[] := $DifficultyLevels;
-(* Restituisce la lista dei livelli di difficoltà:
-   - Ogni livello è una lista del tipo: {Nome, DimensioneGriglia, ListaLunghezzeNavi}
-   - Serve per mostrare le opzioni di difficoltà disponibili
+(* Restituisce la lista dei livelli di difficolt\[AGrave]:
+   - Ogni livello \[EGrave] una lista del tipo: {Nome, DimensioneGriglia, ListaLunghezzeNavi}
+   - Serve per mostrare le opzioni di difficolt\[AGrave] disponibili
 *)
 
 getShipSize[]:=$ShipSize;
 
 GetCpuShip[]:=$AutomaticShips;
 (* Restituisce la lista delle navi della CPU:
-   - Ogni elemento della lista è una nave (cioè un'altra lista di coordinate)
-   - Serve per leggere le navi già piazzate
+   - Ogni elemento della lista \[EGrave] una nave (cio\[EGrave] un'altra lista di coordinate)
+   - Serve per leggere le navi gi\[AGrave] piazzate
 *)
 GetCpuGrid[]:=$AutomaticGrid;
 (* Restituisce la matrice della griglia della CPU:
@@ -384,8 +391,8 @@ SetShipLengths[shipLengths_List] := $ShipLengths = shipLengths;
 
 SetUserBase[base_Integer] := If[isBase[base], $UserBase = base, $UserBase];
 (* Imposta la base numerica scelta dall'utente:
-   - Solo se la base è valida (controllata da isBase[base], deve essere 2, 8 o 16)
-   - Se non è valida, lascia invariato il valore attuale
+   - Solo se la base \[EGrave] valida (controllata da isBase[base], deve essere 2, 8 o 16)
+   - Se non \[EGrave] valida, lascia invariato il valore attuale
 *)
 
 SetGridSize[size_Integer] := If[size > 0, $GridSize = size, $GridSize];
@@ -407,8 +414,8 @@ SetUserGrid[grid_List] := $UserGrid = grid;
 
 SetSeed[seed_] := If[isSeed[seed], $Seed = seed, $Seed];
 (* Imposta il seed casuale:
-   - Solo se il valore passato è un intero (isSeed[seed])
-   - Se non è valido, lascia invariato
+   - Solo se il valore passato \[EGrave] un intero (isSeed[seed])
+   - Se non \[EGrave] valido, lascia invariato
 *)
 
 SetAutomaticShips[ships_List] := $AutomaticShips = ships;

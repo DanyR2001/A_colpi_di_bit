@@ -199,7 +199,7 @@ conversionFromDec[base_, numberDec_]:=Module[{colors}, (*numero convertito, list
 		
 
 (* funzione per inizializzare il PRNG la prima volta*)
-initSeed[seed_Integer?NonNegative] := Module[{},
+initSeed[seed_Integer] := Module[{},
   SeedRandom[seed];
   (* restituiamo Null, l\[CloseCurlyQuote]importante \[EGrave] che il generatore sia resettato *)
   Null

@@ -15,9 +15,9 @@
 (* :Keywords: battaglia navale, gioco, interfaccia *)
 (* :Requirements: Mathematica 12.0+, Util`, Battle`, Interaction` *)
 
-(* File: Main.m *)
+(* File: AcolpiDiBit.m *)
 
-BeginPackage["A_colpi_di_bit`", {"Util`", "Battle`", "Interaction`"}];  (* Apre il pacchetto Main e importa gli altri pacchetti richiesti *)
+BeginPackage["AcolpiDiBit`", {"Util`", "Battle`", "Interaction`"}];  (* Apre il pacchetto Main e importa gli altri pacchetti richiesti *)
 
 PlacementUI::usage = "PlacementUI[] interfaccia per il posizionamento navi";  (* Descrizione accessibile dell'interfaccia pubblica *)
 

@@ -461,26 +461,10 @@ DecToBinSection[] := {
 
       Dynamic[
         (* Blocco dinamico: valuta e aggiorna automaticamente quando cambia d *)
-
-        Module[{n = ToExpression[d]},
-          (* Converte il valore inserito (stringa) in espressione numerica:
-             - Es. se d = "25", allora n = 25
-          *)
-
-          If[IntegerQ[n] && n >= 0,
-            (* Controlla se n \[EGrave] un numero intero e positivo o zero *)
-
-            conversionFromDec[2, n],
-            (* Se il numero \[EGrave] valido:
-               - chiama conversionFromDec per convertire da decimale a binario (base 2)
-            *)
-
-            "Inserisci un numero decimale valido (>= 0)"
-            (* Se il valore non \[EGrave] valido (es. testo non numerico o numero negativo):
-               - mostra un messaggio di errore all'utente
-            *)
-          ]
-        ]
+          Util`conversionFromDec[2, d]
+          (* Se il numero non \[EGrave] valido (es. testo non numerico o numero negativo): mostra un messaggio d'errore, 
+             Se il numero \[EGrave] valido: chiama conversionFromDec per convertire da decimale a binario (base 2)
+            *)       
       ]
       (* Questo blocco mostra dinamicamente il risultato della conversione oppure il messaggio d'errore *)
     }]
@@ -512,7 +496,7 @@ DecToOctSection[] := {
     (* Riquadro per il testo esplicativo *)
     Row[{
     TextCell[
-      "Per convertire un numero decimale in ottale, dividilo ripetutamente per 8 e raccogli i resti, oppure converti prima in binario e poi raggruppa le cifre in gruppi di 3.\n Questo \[EGrave] possibile perch\[EGrave] ogni cifra ottale si rappresenta esattamente con 3 bit, cio\[EGrave] 2^3 = 8.\n \n Nell'esempio di seguito adotteremo il secondo metodo. ",
+      Row[{"Per convertire un numero decimale in ottale, dividilo ripetutamente per 8 e raccogli i resti, oppure converti prima in binario e poi raggruppa le cifre in gruppi di 3.\nQuesto \[EGrave] possibile perch\[EGrave] ogni cifra ottale si rappresenta esattamente con 3 bit, cio\[EGrave] ",Superscript[2,3]," = 8.\n\nNell'esempio di seguito adotteremo il secondo metodo."}],
       FontSize -> 12
     ], Button["[3]",
         NotebookLocate["Bibliografia0"],
@@ -571,23 +555,12 @@ DecToOctSection[] := {
 
       Dynamic[
         (* Parte dinamica: valuta e aggiorna automaticamente quando cambia d *)
-
-        Module[{n = ToExpression[d]},
-          (* Converte la stringa inserita in un'espressione matematica:
-             - es. se d = "10", allora n = 10
-          *)
-
-          If[IntegerQ[n] && n >= 0,
-            (* Controlla se n \[EGrave] un numero intero positivo o zero *)
-
-            conversionFromDec[8, n],
-            (* Se \[EGrave] valido: chiama la built-in conversionFromDec per convertire n da decimale a ottale *)
-
-            "Inserisci un numero decimale valido (>= 0)"
-            (* Se non \[EGrave] valido (es. testo non numerico o numero negativo): mostra un messaggio d'errore *)
-          ]
-        ]
-      ]
+        Util`conversionFromDec[8, d]
+        (* Se il numero non \[EGrave] valido (es. testo non numerico o numero negativo): mostra un messaggio d'errore, 
+             Se il numero \[EGrave] valido: chiama conversionFromDec per convertire da decimale a binario (base 2)
+            *)     
+       ]
+      
       (* Visualizza dinamicamente o la conversione o il messaggio d'errore *)
     }]
     ],
@@ -618,7 +591,7 @@ DecToHexSection[] := {
     (*  Incornicia il testo esplicativo  *)
     Row[{
     TextCell[
-      "Per convertire un numero decimale in esadecimale, dividilo ripetutamente per 16 e raccogli i resti, oppure converti prima in binario e raggruppa le cifre in gruppi di 4.\n Questo \[EGrave] possibile perch\[EGrave] ogni cifra esadecimale si rappresenta esattamente con 4 bit, cio\[EGrave] 2^4 = 16.\n \n Nell'esempio di seguito adotteremo il secondo metodo. ",
+      Row[{"Per convertire un numero decimale in esadecimale, dividilo ripetutamente per 16 e raccogli i resti, oppure converti prima in binario e raggruppa le cifre in gruppi di 4.\nQuesto \[EGrave] possibile perch\[EGrave] ogni cifra esadecimale si rappresenta esattamente con 4 bit, cio\[EGrave] ",Superscript[2,4]," = 16.\n\nNell'esempio di seguito adotteremo il secondo metodo."}],
       FontSize -> 12
     ], Button["[4]",
         NotebookLocate["Bibliografia0"],
@@ -664,21 +637,12 @@ DecToHexSection[] := {
          2. Campo di input
       *)
 
-      Dynamic[
+     Dynamic[
         (* Blocca dinamico che aggiorna in tempo reale quando cambia d *)
-        Module[{n = ToExpression[d]},
-          (* Converte la stringa d in espressione matematica e la assegna alla variabile n *)
-
-          If[IntegerQ[n] && n >= 0,
-            (* Controlla se n \[EGrave] un numero intero e >= 0 *)
-
-            conversionFromDec[16, n],
-            (* Se valido: chiama la built-in conversionFromDec per convertire da decimale a base 16 (esadecimale) *)
-
-            "Inserisci un numero decimale valido (>= 0)"
-            (* Se non valido: mostra un messaggio d'errore *)
-          ]
-        ]
+        Util`conversionFromDec[16, d]
+        (* Se il numero non \[EGrave] valido (es. testo non numerico o numero negativo): mostra un messaggio d'errore, 
+             Se il numero \[EGrave] valido: chiama conversionFromDec per convertire da decimale a binario (base 2)
+            *)           
       ]
       (* Visualizza dinamicamente il risultato della conversione o il messaggio di errore *)
     }]

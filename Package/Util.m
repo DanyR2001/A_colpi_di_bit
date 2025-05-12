@@ -39,22 +39,22 @@ Affondato::usage = "Valore costante per cella di nave affondata.";
 
 Begin["Private`"];
 
-(*Nota la griglia di gioco è composta da celle che possono avere una permutazione dei seguenti stati:
+(*Nota la griglia di gioco \[EGrave] composta da celle che possono avere una permutazione dei seguenti stati:
 	- Contiene navi o parti di una nave  
 	- Non contiene navi o parti di nave
 	- La cella sia stata attaccata o meno
 	- La cella contiene parti di una nave affondata
 Gli stati della cella possono quindi essere:
-	- Contiene navi o parti di una nave e la cella non è stata attaccata (Cella Nera se dell'Utente, Cella Bianca se della CPU per nascondere le navi della CPU)
-		- Il valore nella cella è quello della costante Nave, ovvero 1
-	- Contiene navi o parti di una nave e la cella è stata attaccata (Cella Rossa)
-		- Ovvero al posto di Nave, assegnamo Colpito, cioè 2
+	- Contiene navi o parti di una nave e la cella non \[EGrave] stata attaccata (Cella Nera se dell'Utente, Cella Bianca se della CPU per nascondere le navi della CPU)
+		- Il valore nella cella \[EGrave] quello della costante Nave, ovvero 1
+	- Contiene navi o parti di una nave e la cella \[EGrave] stata attaccata (Cella Rossa)
+		- Ovvero al posto di Nave, assegnamo Colpito, cio\[EGrave] 2
 	- Contiene navi o parti di una nave che sono state affondate (Croce blue)
 		- Viene assegnato a tutte le celle di una nave il valore di Affondato, ovvero 3, quando tutte le celle di una nave vengono colpite
-	- Non contiene navi o parti di nave, e non è stata attaccata (Cella Bianca)
-		- La cella è stata inizializzata con il valore della costante Vuoto, ovvero 0
-	- Non contiene navi o parti di nave ed è stata attaccata (Cella Grigia)
-		- Il valore della cella è Mancato, ovvero -1
+	- Non contiene navi o parti di nave, e non \[EGrave] stata attaccata (Cella Bianca)
+		- La cella \[EGrave] stata inizializzata con il valore della costante Vuoto, ovvero 0
+	- Non contiene navi o parti di nave ed \[EGrave] stata attaccata (Cella Grigia)
+		- Il valore della cella \[EGrave] Mancato, ovvero -1
 	*)
 
 Colpito := 2;
@@ -74,6 +74,7 @@ convertToDecimal[input_String, base_Integer] := Module[
   validChars = Switch[base,
     2, {"0", "1"},
     8, CharacterRange["0", "7"],
+    10, CharacterRange["0", "9"],
     16, Join[CharacterRange["0", "9"], CharacterRange["A", "F"], CharacterRange["a", "f"]],
     _, {}
   ];
@@ -94,107 +95,112 @@ convertToDecimal[input_String, base_Integer] := Module[
 ];
 
 (*indica i passagi da eseguire per fare una conversione da base 10 a base qualsiasi tra 2,8,16*)
-conversionFromDec[base_, numberDec_]:=Module[{colors}, (*numero convertito, lista di colori usati per mostrare i passaggi della converione*)
+conversionFromDec[base_, numberDec_]:=Module[{colors, isNumberDec}, (*numero convertito, lista di colori usati per mostrare i passaggi della converione*)
 		colors = {Blue, Orange, Purple, Red, Brown, Pink,Green};
-		
-		Column[{
-			If[base != 16 && base !=8, (*se la base non \[EGrave] n\[EAcute] 8 n\[EAcute] 16 procedo con il metodo delle divisioni successive*)
-				(*Divisioni successive*)
-				Module[{quotients, modules, i}, 
-					quotients={numberDec};(*iste dei risultati delle divisioni, il primo elemento \[EGrave] il numero da convertire*)
-					modules={};(*lista dei resti ottenuti dalle divisioni*)
-					i=1;(*numero di passaggi effettuati (usato per sapere qual'\[EGrave] l'indice dell'ultimo quoziente ottenuto)*)
-							
-					(*memorizzo i quozienti e i resti*)
-					While[quotients[[i]] != 0, (*procedo con le divisioni finch\[EGrave] non arrivo a 0*)
-						AppendTo[quotients, Quotient[quotients[[i]], base]]; (*memorizzo i quozienti per la divisione successiva*)
-						AppendTo[modules, Mod[quotients[[i]], base]]; (*memorizzo i resti per ottenere il numero in binario*)
-						i++; (*incremento il numero di passaggi effettuati, elementi in quotients*)
-					];
-					
-					(*spiegazione della conversione, mostro le divisioni successive e i resti ottenuti *)
-					Column[{" \[Bullet] Dividiamolo per "<>ToString[base]<>" e annotiamo il resto fino ad arrivare a 0", (*spiegazione del metodo*)
-						Row[{ (*Raggruppo la spiegazione in Panel in una riga cos\[IGrave] da posizionare tutto al centro*)
-							Panel[Style[ Grid[ (*griglia dove ogni riga rappresenta un passaggio delle divisioni successive*)
-								Table[{ (*tabella delle descrizioni di tutti i passaggi*)
-								(*un passaggio \[EGrave] descritto come: 
-								quoziente ottenuto dalla divisione \[Divide] base =  quoziente successivo    Resto = resto della divisione*)
-								(*divisione*)
-									Style[ToString[quotients[[n]]], colors[[Mod[n-1, Length[colors]]+1]]], 
-									(*colors[[Mod[n-1, Length[colors]]+1]] mi serve per ricominciare dal primo colore 
-									quando l'indice del passaggio corrente n \[EGrave] maggiore del numero di colori disponibili*)
-									" \[Divide] ",base," = ", 
-									(*quoziente*)
-									Spacer[5], Style[ToString[quotients[[n+1]]], colors[[Mod[n, Length[colors]]+1]]],
-									(*resto*)
-									Spacer[5], " Resto = ", Style[ToString[modules[[n]]], Bold]
-								}, {n, 1,Length[modules]}](*il numero di resti ottenuti indica anche il numero di passaggi da effettuare*)
-							], 12]], 
-							(*freccia dal basso verso l'alto posizionata a destra della griglia con i passaggi, mostra in che direzione leggere i resti*)
-							Graphics[{Red, Arrowheads[0.5], Arrow[{{0, 0}, {0, i - 1}}]}, ImageSize -> 20]
-						 }, Alignment -> Center, ImageSize -> Full], (*allineo Panel al centro*)
-						 (*spiegazione di come ottenere il numero binario dalle divisioni*)
-						 Row[{" \[Bullet] La conversione in binario si ottiene leggendo i resti dal basso verso l'alto ", Style["(Resti \[UpArrow])", Red]}]
-					}]
+		isNumberDec=convertToDecimal[numberDec,10];
+		If[isNumberDec===$Failed, (*se la conversione fallisce allora il numero non \[EGrave] nella base specificata*)
+			"Inserisci un numero decimale valido (>= 0)", (*mostro messaggio*)
+			(*convertToDecimal controlla che il numero sia corretto nella base specificata e se lo \[EGrave] lo converte in decimale*)
+  
+			Column[{
+				If[base != 16 && base !=8, (*se la base non \[EGrave] n\[EAcute] 8 n\[EAcute] 16 procedo con il metodo delle divisioni successive*)
+					(*Divisioni successive*)
+					Module[{quotients, modules, i}, 
+						quotients={numberDec};(*iste dei risultati delle divisioni, il primo elemento \[EGrave] il numero da convertire*)
+						modules={};(*lista dei resti ottenuti dalle divisioni*)
+						i=1;(*numero di passaggi effettuati (usato per sapere qual'\[EGrave] l'indice dell'ultimo quoziente ottenuto)*)
+								
+						(*memorizzo i quozienti e i resti*)
+						While[quotients[[i]] != 0, (*procedo con le divisioni finch\[EGrave] non arrivo a 0*)
+							AppendTo[quotients, Quotient[quotients[[i]], base]]; (*memorizzo i quozienti per la divisione successiva*)
+							AppendTo[modules, Mod[quotients[[i]], base]]; (*memorizzo i resti per ottenere il numero in binario*)
+							i++; (*incremento il numero di passaggi effettuati, elementi in quotients*)
+						];
+						
+						(*spiegazione della conversione, mostro le divisioni successive e i resti ottenuti *)
+						Column[{" \[Bullet] Dividiamolo per "<>ToString[base]<>" e annotiamo il resto fino ad arrivare a 0", (*spiegazione del metodo*)
+							Row[{ (*Raggruppo la spiegazione in Panel in una riga cos\[IGrave] da posizionare tutto al centro*)
+								Panel[Style[ Grid[ (*griglia dove ogni riga rappresenta un passaggio delle divisioni successive*)
+									Table[{ (*tabella delle descrizioni di tutti i passaggi*)
+									(*un passaggio \[EGrave] descritto come: 
+									quoziente ottenuto dalla divisione \[Divide] base =  quoziente successivo    Resto = resto della divisione*)
+									(*divisione*)
+										Style[ToString[quotients[[n]]], colors[[Mod[n-1, Length[colors]]+1]]], 
+										(*colors[[Mod[n-1, Length[colors]]+1]] mi serve per ricominciare dal primo colore 
+										quando l'indice del passaggio corrente n \[EGrave] maggiore del numero di colori disponibili*)
+										" \[Divide] ",base," = ", 
+										(*quoziente*)
+										Spacer[5], Style[ToString[quotients[[n+1]]], colors[[Mod[n, Length[colors]]+1]]],
+										(*resto*)
+										Spacer[5], " Resto = ", Style[ToString[modules[[n]]], Bold]
+									}, {n, 1,Length[modules]}](*il numero di resti ottenuti indica anche il numero di passaggi da effettuare*)
+								], 12]], 
+								(*freccia dal basso verso l'alto posizionata a destra della griglia con i passaggi, mostra in che direzione leggere i resti*)
+								Graphics[{Red, Arrowheads[0.5], Arrow[{{0, 0}, {0, i - 1}}]}, ImageSize -> 20]
+							 }, Alignment -> Center, ImageSize -> Full], (*allineo Panel al centro*)
+							 (*spiegazione di come ottenere il numero binario dalle divisioni*)
+							 Row[{" \[Bullet] La conversione in binario si ottiene leggendo i resti dal basso verso l'alto ", Style["(Resti \[UpArrow])", Red]}]
+						}]
+					],
+					(*se la base \[EGrave] 8 o 16 \[RightArrow] converto in binario, raggruppo le cifre e converto ogni gruppo in decimale*)
+					Module[{digits, digitsGroups, mod, exp},
+						(*lista delle cifre che compongono il numero binario \[RightArrow] usata per la suddivisione in gruppi*)
+						digits = IntegerDigits[numberDec, 2]; 
+						(*potenza di due: 16=2^4, 8=2^3 \[RightArrow] l'esponente indica la dimensione del gruppo in cui raggruppare il numero binario*)
+						exp = Log2[base]; 
+						(*la suddivisione in gruppe parte dalle cifre a destra e potrebbe capitare che a sinistra si debbano aggiungere degli 0 se 
+						il numero totale di cifre non \[EGrave] multiplo di exp*)
+						(*resto (mod) \[RightArrow] indica quante cifre a sinistra rimangono escluse dal raggruppamento, 
+						serve poi per sapere quanti 0 aggiungere per formare un nuovo gruppo con le cifre escluse*)
+						mod = Mod[Length[digits], exp]; 
+						
+						(*lista dei gruppi*)
+						digitsGroups = If[mod === 0, 
+							(*suddivisione del numero binario in gruppi da 3 o 4 cifre (exp)*)
+		                       Partition[digits, exp], (*se resto \[EGrave] 0 suddivido senza aggiungere 0*)
+		                       Partition[Flatten[{Table[0, {mod, exp - mod}], digits}], exp] (*se resto diverso da 0, con Table aggiungo gli 0 necessari per formare un gruppo *)
+		                   ];
+						
+						(*spiegazione della conversione in base 8 o 16*)     
+						Column[{" \[Bullet] convertiamolo in base 2",
+							(*indico la conversione in binario*)
+							Row[{Panel[Style[BaseForm[numberDec, 2], 12]]}, Alignment -> Center, ImageSize -> Full],
+							" \[Bullet] raccogliamo le cifre binarie in gruppi da " <> ToString[exp] <> " partendo dalla posizione pi\[UGrave] a destra (cifra meno significativa),",
+							(*mostro come raggruppare le cifre*)
+							Row[
+								(*i gruppi vengono mostrati in sequenza in una singola riga*)
+								Table[
+									Panel[(*ogni gruppo viene scritto con colore diverso dentro a un pannello grigio (Panel)*)
+										Style[Row[digitsGroups[[n]]],colors[[Mod[n-1, Length[colors]]+1]]]
+									]
+								, {n, 1, Length[digitsGroups]}]
+							, Alignment -> Center, ImageSize -> Full],
+							" \[Bullet] convertiamo ogni gruppo in decimale, ogni numero ottenuto corrisponde ad una cifra in base " <> ToString[base] <> ".",
+							(*mostro la conversione in decimale*)
+							Row[{Panel[Style[Grid[ 
+								Table[
+									(*per ogni gruppo indico:
+									cifre binarie \[RightArrow] conversione in decimale \[RightArrow] cifra in base 8/16 corrispondente *)
+			                         {Style[Row[digitsGroups[[n]]], colors[[Mod[n-1, Length[colors]]+1]]], (*gruppo di cifre binarie*)
+									 "\[RightArrow]", 
+			                         FromDigits[digitsGroups[[n]], 2], (*conversione in decimale*)
+									 "\[RightArrow]",
+			                         BaseForm[FromDigits[digitsGroups[[n]], 2], base] (*cifra in base 8/16 corrispondente*)
+			                         },
+								 {n, 1, Length[digitsGroups]}]
+							], 12]]}, Alignment -> Center, ImageSize -> Full]
+						}]
+					]
 				],
-				(*se la base \[EGrave] 8 o 16 \[RightArrow] converto in binario, raggruppo le cifre e converto ogni gruppo in decimale*)
-				Module[{digits, digitsGroups, mod, exp},
-					(*lista delle cifre che compongono il numero binario \[RightArrow] usata per la suddivisione in gruppi*)
-					digits = IntegerDigits[numberDec, 2]; 
-					(*potenza di due: 16=2^4, 8=2^3 \[RightArrow] l'esponente indica la dimensione del gruppo in cui raggruppare il numero binario*)
-					exp = Log2[base]; 
-					(*la suddivisione in gruppe parte dalle cifre a destra e potrebbe capitare che a sinistra si debbano aggiungere degli 0 se 
-					il numero totale di cifre non \[EGrave] multiplo di exp*)
-					(*resto (mod) \[RightArrow] indica quante cifre a sinistra rimangono escluse dal raggruppamento, 
-					serve poi per sapere quanti 0 aggiungere per formare un nuovo gruppo con le cifre escluse*)
-					mod = Mod[Length[digits], exp]; 
-					
-					(*lista dei gruppi*)
-					digitsGroups = If[mod === 0, 
-						(*suddivisione del numero binario in gruppi da 3 o 4 cifre (exp)*)
-	                       Partition[digits, exp], (*se resto \[EGrave] 0 suddivido senza aggiungere 0*)
-	                       Partition[Flatten[{Table[0, {mod, exp - mod}], digits}], exp] (*se resto diverso da 0, con Table aggiungo gli 0 necessari per formare un gruppo *)
-	                   ];
-					
-					(*spiegazione della conversione in base 8 o 16*)     
-					Column[{" \[Bullet] convertiamolo in base 2",
-						(*indico la conversione in binario*)
-						Row[{Panel[Style[BaseForm[numberDec, 2], 12]]}, Alignment -> Center, ImageSize -> Full],
-						" \[Bullet] raccogliamo le cifre binarie in gruppi da " <> ToString[exp] <> " partendo dalla posizione pi\[UGrave] a destra (cifra meno significativa),",
-						(*mostro come raggruppare le cifre*)
-						Row[
-							(*i gruppi vengono mostrati in sequenza in una singola riga*)
-							Table[
-								Panel[(*ogni gruppo viene scritto con colore diverso dentro a un pannello grigio (Panel)*)
-									Style[Row[digitsGroups[[n]]],colors[[Mod[n-1, Length[colors]]+1]]]
-								]
-							, {n, 1, Length[digitsGroups]}]
-						, Alignment -> Center, ImageSize -> Full],
-						" \[Bullet] convertiamo ogni gruppo in decimale, ogni numero ottenuto corrisponde ad una cifra in base " <> ToString[base] <> ".",
-						(*mostro la conversione in decimale*)
-						Row[{Panel[Style[Grid[ 
-							Table[
-								(*per ogni gruppo indico:
-								cifre binarie \[RightArrow] conversione in decimale \[RightArrow] cifra in base 8/16 corrispondente *)
-		                         {Style[Row[digitsGroups[[n]]], colors[[Mod[n-1, Length[colors]]+1]]], (*gruppo di cifre binarie*)
-								 "\[RightArrow]", 
-		                         FromDigits[digitsGroups[[n]], 2], (*conversione in decimale*)
-								 "\[RightArrow]",
-		                         BaseForm[FromDigits[digitsGroups[[n]], 2], base] (*cifra in base 8/16 corrispondente*)
-		                         },
-							 {n, 1, Length[digitsGroups]}]
-						], 12]]}, Alignment -> Center, ImageSize -> Full]
-					}]
-				]
-			],
-			(*indipendentemente dalla base se 2,8 o 16 per ultimo mostro il risultato della conversione*)
-			Spacer[5],
-			Row[{
-				Style["Risultato: ", Italic, 13, Bold],
-				Subscript[numberDec,10], " = ", BaseForm[numberDec, base], (*conversione da decimale a base scelta*)
-				"."
+				(*indipendentemente dalla base se 2,8 o 16 per ultimo mostro il risultato della conversione*)
+				Spacer[5],
+				Row[{
+					Style["Risultato: ", Italic, 13, Bold],
+					Subscript[numberDec,10], " = ", BaseForm[numberDec, base], (*conversione da decimale a base scelta*)
+					"."
+				}]
 			}]
-		}]
+		]
 	];
 		
 
@@ -322,7 +328,7 @@ conversionToDec[base_, number_] := Module[{colors,numberDec, digits, powers, ter
 				Grid[Table[{
 					Style[digits[[n]], colors[[Mod[n - 1, Length[colors]] + 1]]], (*cifra*)
 					"\[Times]", 
-					ToString[base]<>"^"<>ToString[powers[[n]]], (*potenza*)
+					Superscript[base,powers[[n]]], (*potenza*)
 					"=", 
 					Style[terms[[n]], Bold](*risultato della moltiplicazione*)
 				},{n, len}]]

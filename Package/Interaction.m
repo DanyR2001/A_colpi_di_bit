@@ -108,7 +108,7 @@ AskBaseChoice[inputBase_]:= DynamicModule[{value = 2}, (*il valore della variabi
 
 (*controlli per la base e il seed*)
 isBase[base_]:=MemberQ[{2,8,16}, base]; (*restituisce vero se base \[EGrave] un numero tra 2,8 e 16, falso altrimenti*)
-isSeed[seed_]:=IntegerQ[seed];  (*restutisce vero se seed \[EGrave] un numero intero, falso altrimenti*)
+isSeed[seed_]:=convertToDec[ToString[seed],10]=!=$Failed;  (*restutisce vero se seed \[EGrave] un numero intero, falso altrimenti*)
 
 
 

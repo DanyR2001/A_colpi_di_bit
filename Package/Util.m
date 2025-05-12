@@ -28,24 +28,40 @@ createGrid::usage="createGrid[ships, gridSize] crea una matrice gridSizexgridSiz
 showGrid::usage="drawGrid[grid_, gridSize_, ships_Bool] disegna la griglia di gioco mostrando le navi e gli attacchi";
 conversionFromDec::usage="conversionFromDec[base,numberDec] mostra i passaggi della conversione di un numero da base 10 a base qualsiasi tra 2,8 e 16";
 conversionToDec::usage = "conversionToDec[base, number] restituisce i passaggi per la conversione di un numero da base qualsiasi a base 10."
-
-Colpito::usage = "Valore per cella colpita.";
-Mancato::usage = "Valore per cella mancata.";
-Nave::usage = "Valore per cella contenente nave.";
-Vuoto::usage = "Valore per cella vuota.";
-Affondato::usage = "Valore per cella di nave affondata.";
+Colpito::usage = "Valore costante per cella colpita.";
+Mancato::usage = "Valore costante per cella mancata.";
+Nave::usage = "Valore costante per cella contenente nave.";
+Vuoto::usage = "Valore costante per cella vuota.";
+Affondato::usage = "Valore costante per cella di nave affondata.";
 
 
 
 
 Begin["Private`"];
 
+(*Nota la griglia di gioco è composta da celle che possono avere una permutazione dei seguenti stati:
+	- Contiene navi o parti di una nave  
+	- Non contiene navi o parti di nave
+	- La cella sia stata attaccata o meno
+	- La cella contiene parti di una nave affondata
+Gli stati della cella possono quindi essere:
+	- Contiene navi o parti di una nave e la cella non è stata attaccata (Cella Nera se dell'Utente, Cella Bianca se della CPU per nascondere le navi della CPU)
+		- Il valore nella cella è quello della costante Nave, ovvero 1
+	- Contiene navi o parti di una nave e la cella è stata attaccata (Cella Rossa)
+		- Ovvero al posto di Nave, assegnamo Colpito, cioè 2
+	- Contiene navi o parti di una nave che sono state affondate (Croce blue)
+		- Viene assegnato a tutte le celle di una nave il valore di Affondato, ovvero 3, quando tutte le celle di una nave vengono colpite
+	- Non contiene navi o parti di nave, e non è stata attaccata (Cella Bianca)
+		- La cella è stata inizializzata con il valore della costante Vuoto, ovvero 0
+	- Non contiene navi o parti di nave ed è stata attaccata (Cella Grigia)
+		- Il valore della cella è Mancato, ovvero -1
+	*)
+
 Colpito := 2;
 Mancato := -1;
 Nave := 1;
 Vuoto := 0;
 Affondato := 3;
-GridSize :=10;
 
 
 (*FUNZIONI PER LA CONVERSIONE*)

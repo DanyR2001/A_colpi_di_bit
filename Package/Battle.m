@@ -44,7 +44,6 @@ InitPhase[seed_Integer, base_Integer, difficultyLevel_Integer] := Module[
   
   (* Inizializza tutti i valori necessari *)
   SetShipLengths[shipLengths];
-  SetSeed[seed];
   initSeed[seed];
   SetUserBase[base];
   SetGridSize[gridSize];

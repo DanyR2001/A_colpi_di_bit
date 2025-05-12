@@ -40,6 +40,7 @@ GetRemainingShipLengths::usage = "GetRemainingShipLengths[] restituisce le lungh
 GetDifficultyLevels::usage = "GetDifficultyLevels[] restituisce i livelli di difficolt\[AGrave] disponibili";
 GetCpuShip::usage="GetCpuShip[] restituisce le navi della CPU";
 GetCpuGrid::usage="GetCpuGrid[] resitiruisce la griglia delle CPU";
+GetGridSize::usage="SetGridSize[] restituisce la grandezza della griglia";
 
 (*Setters delle variabili globali*)
 SetShipLengths::usage="SetShipLengths[shipLengths_List] imposta le lunghezze delle navi";
@@ -47,7 +48,6 @@ SetUserBase::usage="SetUserBase[base_Integer] imposta la base";
 SetGridSize::usage="SetGridSize[size_Integer] imposta dimensione delle griglie";
 SetUserShips::usage="SetUserShips[ships_List] imposta navi dell'utente";
 SetUserGrid::usage="SetUserGrid[grid_List] imposta matrice griglia utente";
-SetSeed::usage="SetSeed[seed] imposta il seed";
 SetCPUShips::usage="SetCPUShips[ships_List] imposta navi della cpu";
 SetCPUGrid::usage="SetCPUGrid[grid_List] imposta matrice griglia cpu";
 SetupNotebookClosing::usage="SetupNotebookClosing[nb_NotebookObject]";
@@ -71,11 +71,11 @@ CpuShips = {}; (*lista delle navi della cpu \[RightArrow] ogni nave \[EGrave] a 
 *)
 
 UserShips      = {}; (*lista delle navi dell'utente*)
-CpuGrid  = {}; (*griglia di gioco con le navi della cpu*)
+CpuGrid        = {}; (*griglia di gioco con le navi della cpu*)
 UserGrid       = {}; (*griglia di gioco con le navi dell'utente*)
 UserBase       = 10; (*base di conversione scelta dall'utente, sar\[AGrave] la base su cui si eserciter\[AGrave] a fare le conversioni*)
-Seed= "";  (*seed inserito dall'utente, cos\[IGrave] che l'utente possa ripetere una stessa partita pi\[UGrave] volte*)
-ShipLengths = {5, 4, 3, 2, 1}; (*lista delle lunghezze possibili, quante celle una nave pu\[OGrave] occupare*)
+ShipLengths    = {5, 4, 3, 2, 1}; (*lista delle lunghezze possibili, quante celle una nave pu\[OGrave] occupare*)
+GridSize       = 10; (*varibile che indica la grandezza del campo da gioco*)
 
 (* SEED E BASE *)
 (*richiedi seed*)
@@ -384,6 +384,9 @@ GetCpuGrid[]:=CpuGrid;
    - Utile per visualizzare lo stato attuale della griglia
 *)
 
+GetGridSize[]:= GridSize;
+(* Restiruisce la GridSize *)
+
 
 
 
@@ -417,12 +420,6 @@ SetUserGrid[grid_List] := UserGrid = grid;
 (* Imposta la griglia utente:
    - Griglia di gioco con le navi piazzate dall'utente
    - Utile per ripristinare una partita salvata
-*)
-
-SetSeed[seed_] := If[isSeed[seed], Seed = seed, Seed];
-(* Imposta il seed casuale:
-   - Solo se il valore passato \[EGrave] un intero (isSeed[seed])
-   - Se non \[EGrave] valido, lascia invariato
 *)
 
 SetCPUShips[ships_List] := CpuShips = ships;

@@ -14,10 +14,10 @@
 (* :Keywords: battaglia navale, gioco, interfaccia *)
 (* :Requirements: Mathematica 12.0+, Util`, Battle`, Interaction` *)
 
-BeginPackage["Tutorial`", {"Util`"}]
+BeginPackage["SpiegazioneConversione`", {"Util`"}]
 (* Inizio del package Tutorial, specificando che importa anche il package Util` *)
 
-CreateTutorial::usage = "CreateTutorial[] inserisce il tutorial nel notebook corrente."
+CreateExplainationConversion::usage = "CreateExplainationConversion[] inserisce il tutorial nel notebook corrente."
 (* Definisce la descrizione della built-in CreateTutorial *)
 
 IntroSection::usage = "IntroSection[] crea l'intestazione e il sommario."
@@ -909,7 +909,7 @@ conversionToDec[base_, number_] := Module[{colors,numberDec, digits, powers, ter
 (* =================== FUNZIONE PRINCIPALE =================== *)
 (* Definizione della built-in principale che unisce tutte le sezioni *)
 
-CreateTutorial[] := Module[{sezioni},
+CreateExplainationConversion[] := Module[{sezioni},
 (* Definizione della built-in CreateTutorial che non ha argomenti:
    - Usa Module per definire variabili locali
    - La variabile locale qui \[EGrave] 'sezioni', che conterr\[AGrave] la lista di tutte le sezioni del tutorial

@@ -17,7 +17,7 @@
 
 (* File: Main.m *)
 
-BeginPackage["Main`", {"Util`", "Battle`", "Interaction`"}];  (* Apre il pacchetto Main e importa gli altri pacchetti richiesti *)
+BeginPackage["A_colpi_di_bit`", {"Util`", "Battle`", "Interaction`"}];  (* Apre il pacchetto Main e importa gli altri pacchetti richiesti *)
 
 PlacementUI::usage = "PlacementUI[] interfaccia per il posizionamento navi";  (* Descrizione accessibile dell'interfaccia pubblica *)
 

@@ -10,38 +10,418 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[      1674,         57]
-NotebookOptionsPosition[      1117,         40]
-NotebookOutlinePosition[      1531,         57]
-CellTagsIndexPosition[      1488,         54]
+NotebookDataLength[     14272,        435]
+NotebookOptionsPosition[     13869,        420]
+NotebookOutlinePosition[     14314,        437]
+CellTagsIndexPosition[     14271,        434]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
-Cell["Main Index", "ContentsTitle",ExpressionUUID->"7d479495-48d9-45db-8f26-3295bf4b1863"],
-
-Cell[TextData[{
- "INDICE",
- ", ",
- ButtonBox["Main.nb (i:1)",
-  BaseStyle->"Hyperlink",
-  ButtonData->{
-    FrontEnd`FileName[{}, "Main.nb"], "i:1"}]
-}], "Index",ExpressionUUID->"378776cd-399c-42b9-b274-e499711edc8c"],
-
-Cell[TextData[{
- StyleBox["Battaglia Navale", "Title"],
- ", ",
- ButtonBox["Main.nb (i:1)",
-  BaseStyle->"Hyperlink",
-  ButtonData->{
-    FrontEnd`FileName[{}, "Main.nb"], "i:1"}]
-}], "Index",ExpressionUUID->"e642eba2-0738-4c9a-b2ba-3843d533b7dd"]
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     ButtonBox[
+      StyleBox["\<\"INTRODUZIONE\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["intro"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"  1. L'impianto di base: la scacchiera del mare\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate[
+       "L'impianto di base: la scacchiera del mare"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"  2. Preparazione della flotta\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["Preparazione della flotta"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"  3. Dinamiche di gioco e strategia\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["Dinamiche di gioco e strategia"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"      3.1. Tattica di attacco\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["Tattica di attacco"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"      3.2. Difesa e disinformazione\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["Difesa e disinformazione"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"  4. La versione didattica: battaglia navale e \
+conversioni numeriche\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate[
+       "La versione didattica: battaglia navale e conversioni numeriche"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"      4.1. Numerazione sequenziale\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["Numerazione sequenziale"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"      4.2. Rappresentazione nelle basi\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["Rappresentazione nelle basi"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"      4.3. Regole di conversione in partita\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["Regole di conversione in partita"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"  5. La nostra versione modificata: griglia numerica e \
+difficolt\[AGrave] personalizzabile\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate[
+       "La nostra versione modificata: griglia numerica e difficolt\[AGrave] \
+personalizzabile"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"      5.1. Griglia e difficolt\[AGrave]\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["Griglia e difficolt\[AGrave]"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"      5.2. Meccanica di gioco\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["Meccanica di gioco"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"  6. Perch\[EAcute] convince come soluzione?\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate[
+       "Perch\[EAcute] convince come soluzione?"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"I. Ripetiamo la conversione assieme\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["sezione1"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"  I.1 Tutorial su Conversioni di Base\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["Tutorial0"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"  I.2 Conversione da Binario a Decimale\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["Tutorial1"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"  I.3 Conversione da Ottale a Decimale\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["Tutorial2"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"  I.3 Conversione da Esadecimale a Decimale\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["Tutorial3"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"  I.4 Conversione da Decimale a Binario\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["Tutorial4"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"  I.4 Conversione da Decimale a Ottale\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["Tutorial5"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"  I.4 Conversione da Decimale a Esadecimale\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["Tutorial6"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"II. Giochiamo a battaglia navale!\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["sezione2"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     ButtonBox[
+      StyleBox["\<\"III. Bibliografia e Sitografia\"\>",
+       StripOnInput->False,
+       FontFamily->"Helvetica",
+       FontSize->14,
+       FontWeight->"Bold",
+       FontColor->RGBColor[0, 0, 1]],
+      Appearance->"Frameless",
+      ButtonFunction:>NotebookLocate["Bibliografia0"],
+      Evaluator->Automatic,
+      Method->"Preemptive"]},
+    {
+     RowBox[{
+      ButtonBox[
+       StyleBox["\<\"IV. Commenti e lavoro futuro\"\>",
+        StripOnInput->False,
+        FontFamily->"Helvetica",
+        FontSize->14,
+        FontWeight->"Bold",
+        FontColor->RGBColor[0, 0, 1]],
+       Appearance->"Frameless",
+       ButtonFunction:>NotebookLocate["commenti"],
+       Evaluator->Automatic,
+       Method->"Preemptive"], "\[IndentingNewLine]", 
+      ButtonBox[
+       StyleBox["\<\"  IV.1 Uso di Figma\"\>",
+        StripOnInput->False,
+        FontFamily->"Helvetica",
+        FontSize->14,
+        FontWeight->"Bold",
+        FontColor->RGBColor[0, 0, 1]],
+       Appearance->"Frameless",
+       ButtonFunction:>NotebookLocate["Commenti0"],
+       Evaluator->Automatic,
+       Method->"Preemptive"], "\[IndentingNewLine]", "   ", 
+      ButtonBox[
+       StyleBox["\<\"IV.2 Uso di Slack\"\>",
+        StripOnInput->False,
+        FontFamily->"Helvetica",
+        FontSize->14,
+        FontWeight->"Bold",
+        FontColor->RGBColor[0, 0, 1]],
+       Appearance->"Frameless",
+       ButtonFunction:>NotebookLocate["Commenti1"],
+       Evaluator->Automatic,
+       Method->"Preemptive"], "\[IndentingNewLine]", "   ", 
+      ButtonBox[
+       StyleBox["\<\"IV.3 Problemi riscontrati\"\>",
+        StripOnInput->False,
+        FontFamily->"Helvetica",
+        FontSize->14,
+        FontWeight->"Bold",
+        FontColor->RGBColor[0, 0, 1]],
+       Appearance->"Frameless",
+       ButtonFunction:>NotebookLocate["Commenti2"],
+       Evaluator->Automatic,
+       Method->"Preemptive"], "\[IndentingNewLine]", "   ", 
+      ButtonBox[
+       StyleBox["\<\"IV.4 Solluzioni adottate\"\>",
+        StripOnInput->False,
+        FontFamily->"Helvetica",
+        FontSize->14,
+        FontWeight->"Bold",
+        FontColor->RGBColor[0, 0, 1]],
+       Appearance->"Frameless",
+       ButtonFunction:>NotebookLocate["Commenti3"],
+       Evaluator->Automatic,
+       Method->"Preemptive"], "\[IndentingNewLine]", "   ", 
+      ButtonBox[
+       StyleBox["\<\"IV.5 Test effettuati a scuola\"\>",
+        StripOnInput->False,
+        FontFamily->"Helvetica",
+        FontSize->14,
+        FontWeight->"Bold",
+        FontColor->RGBColor[0, 0, 1]],
+       Appearance->"Frameless",
+       ButtonFunction:>NotebookLocate["Commenti4"],
+       Evaluator->Automatic,
+       Method->"Preemptive"], "\[LineSeparator]", 
+      ButtonBox[
+       StyleBox["\<\"  IV.6 Nota\"\>",
+        StripOnInput->False,
+        FontFamily->"Helvetica",
+        FontSize->14,
+        FontWeight->"Bold",
+        FontColor->RGBColor[0, 0, 1]],
+       Appearance->"Frameless",
+       ButtonFunction:>NotebookLocate["Commenti5"],
+       Evaluator->Automatic,
+       Method->"Preemptive"]}]}
+   },
+   DefaultBaseStyle->"Column",
+   GridBoxAlignment->{"Columns" -> {{Left}}},
+   GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+  "Column"]], "Text",
+ ShowCellBracket->True,
+ ShowCellLabel->False,
+ CellChangeTimes->{{3.9550986903928585`*^9, 3.9550986951574802`*^9}, {
+   3.9550987680614395`*^9, 3.955098816045038*^9}, {3.9550988471198597`*^9, 
+   3.955098875918232*^9}, {3.955108830322777*^9, 3.9551088421989975`*^9}, 
+   3.9551090845781784`*^9, 3.955772070051927*^9, {3.9557963731383686`*^9, 
+   3.9557963751139164`*^9}, 3.9557964971732273`*^9, {3.9557979302090664`*^9, 
+   3.9557979348903027`*^9}, {3.95579798757329*^9, 3.9557980288428936`*^9}, 
+   3.955799914100046*^9, {3.955801258926771*^9, 3.955801266995569*^9}, 
+   3.9558014215306225`*^9, {3.9558015314561653`*^9, 3.955801533485363*^9}, {
+   3.956051765983494*^9, 3.9560518266255627`*^9}, {3.956051970186241*^9, 
+   3.956052006115383*^9}, {3.9560522545874233`*^9, 3.956052272621973*^9}, {
+   3.956052333457346*^9, 3.956052334110609*^9}, {3.956052369658966*^9, 
+   3.956052385494114*^9}},
+ FontFamily->"Arial",
+ FontSize->14,
+ FontColor->RGBColor[
+  0, 0, 1],ExpressionUUID->"b0094c51-0798-1346-9a56-d7eecaa68cbd"]
 },
 ScreenStyleEnvironment->"Brackets",
-WindowSize->{Full, Full},
-WindowMargins->Automatic,
-FrontEndVersion->"14.2 for Mac OS X ARM (64-bit) (December 26, 2024)",
+WindowSize->{718.5, 729.75},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"14.2 for Microsoft Windows (64-bit) (December 26, 2024)",
 StyleDefinitions->"HelpBrowser.nb",
 ExpressionUUID->"9493faa4-cc1a-46ab-9494-93f72d84fbc2"
 ]
@@ -56,12 +436,8 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[554, 20, 90, 0, 60, "ContentsTitle",ExpressionUUID->"7d479495-48d9-45db-8f26-3295bf4b1863"],
-Cell[647, 22, 217, 7, 12, "Index",ExpressionUUID->"378776cd-399c-42b9-b274-e499711edc8c"],
-Cell[867, 31, 246, 7, 36, "Index",ExpressionUUID->"e642eba2-0738-4c9a-b2ba-3843d533b7dd"]
+Cell[554, 20, 13311, 398, 653, "Text",ExpressionUUID->"b0094c51-0798-1346-9a56-d7eecaa68cbd"]
 }
 ]
 *)
-
-(* End of internal cache information *)
 

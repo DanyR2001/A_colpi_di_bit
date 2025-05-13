@@ -48,6 +48,41 @@ Begin["`Private`"]
 (* =================== SEZIONI =================== *)
 (* Sezione che contiene le funzioni per generare ciascuna parte del tutorial *)
 
+IntroSection[] := {
+(* Definizione della built-in IntroSection:
+   - Non ha argomenti
+   - Restituisce un blocco grafico che rappresenta l'introduzione generale del tutorial
+*)
+Row[{Cell[
+  TextCell[
+    "Tutorial: Conversioni tra Sistemi Numerici", 
+    "Section", 
+    FontSize -> 22, 
+    FontWeight -> "Bold", 
+    FontColor -> RGBColor[0.1, 0.1, 0.7], 
+    TextAlignment -> Center
+  ], CellTags->"Tutorial0"]}],
+  (* Crea il titolo principale del tutorial:
+     - Tipo: "Section" (titolo principale)
+     - FontSize 22
+     - FontWeight "Bold" (grassetto)
+     - FontColor blu (RGBColor[0.1, 0.1, 0.7])
+     - Allineamento al centro della pagina
+  *)
+
+  Spacer[20],
+  (* Spazio verticale di 20 punti *)
+
+  TextCell[
+    "Questo tutorial ti guider\[AGrave] attraverso le conversioni tra diversi sistemi numerici: binario, ottale, esadecimale e decimale.\n\nOgni sistema numerico posizionale si basa su potenze della base stessa. In base 10 (decimale), la cifra pi\[UGrave] a sinistra vale 10\:2070, la successiva 10\.b9, e cos\[IGrave] via. In binario vale 2\:2070, 2\.b9, 2\.b2, etc.\nQuesto concetto si generalizza per qualunque base b.", 
+    FontSize -> 14
+  ],
+  (* Crea un paragrafo descrittivo *)
+
+  Spacer[10]
+  (* Spazio verticale di 10 punti *)
+};
+(* Fine della built-in IntroSection *)
 
 
 BinToDecSection[] := {
@@ -56,21 +91,31 @@ BinToDecSection[] := {
   TextCell["Conversione da Binario a Decimale", "Subsection",
     FontSize -> 18, FontWeight -> "Bold", 
     FontColor -> RGBColor[1, 0, 0], 
-    TextAlignment -> Left],
+    TextAlignment -> Left, CellTags->"Tutorial1"],
   (* Titolo della sezione:
      - Tipo: sottosezione
      - FontSize 18, in grassetto, colore rosso
      - Allineamento a sinistra
   *)
- (* Spazio verticale di 10 punti *)
+
   Spacer[10],
-  (* Riquadro che contiene la spiegazione teorica *)
-  Framed[TextCell[
-  Row[{"Per convertire un numero binario in decimale, moltiplica ciascuna cifra per la potenza di 2 corrispondente alla sua posizione e somma i risultati ", 
-  Button["[2]", NotebookLocate["Bibliografia0"], 
-     Appearance -> "Frameless", Evaluator -> Automatic, 
-     BaseStyle -> {FontSize -> 12}], "."}], FontSize -> 12], 
-     Background -> Lighter[Gray, 0.9]],
+  (* Spazio verticale di 10 punti *)
+
+  Framed[
+    (* Riquadro che contiene la spiegazione teorica *)
+    Row[{
+    TextCell[
+      "Per convertire un numero binario in decimale, moltiplica ciascuna cifra per la potenza di 2 corrispondente alla sua posizione e somma i risultati. ",
+      FontSize -> 12
+    ], Button["[2]",
+        NotebookLocate["Bibliografia0"],
+        Appearance -> "Frameless",
+        BaselinePosition -> Baseline,
+        Evaluator -> Automatic,    
+        BaseStyle -> {FontSize -> 12}
+      ]}],
+    Background -> Lighter[Gray, 0.9]
+  ],
   (* Testo esplicativo:
      - Descrive come convertire da binario a decimale
      - FontSize 12
@@ -145,7 +190,7 @@ OctToDecSection[] := {
   TextCell["Conversione da Ottale a Decimale", "Subsection",
     FontSize -> 18, FontWeight -> "Bold", 
     FontColor -> RGBColor[1, 0, 0], 
-    TextAlignment -> Left],
+    TextAlignment -> Left, CellTags->"Tutorial2"],
   (* Titolo della sezione:
      - Tipo: sottosezione ("Subsection")
      - Font size 18, in grassetto, colore rosso
@@ -155,12 +200,21 @@ OctToDecSection[] := {
   Spacer[10],
   (* Spazio verticale di 10 punti *)
 
-    Framed[TextCell[
-     Row[{"Per convertire un numero ottale in decimale, moltiplica ciascuna cifra per la potenza di 8 corrispondente alla sua posizione e somma i risultati ", 
-     Button["[3]", NotebookLocate["Bibliografia0"], 
-     Appearance -> "Frameless", Evaluator -> Automatic, 
-     BaseStyle -> {FontSize -> 12}], "."}], FontSize -> 12], 
-     Background -> Lighter[Gray, 0.9]],
+    Framed[
+    (* Riquadro che racchiude il testo esplicativo *)
+    Row[{
+    TextCell[
+      "Per convertire un numero ottale in decimale, moltiplica ciascuna cifra per la potenza di 8 corrispondente alla sua posizione e somma i risultati. ",
+      FontSize -> 12
+    ], Button["[3]",
+        NotebookLocate["Bibliografia0"],
+        Appearance -> "Frameless",
+        BaselinePosition -> Baseline,
+        Evaluator -> Automatic,
+   BaseStyle -> {FontSize -> 12}
+      ]}],
+    Background -> Lighter[Gray, 0.9]
+  ],
   (* Testo esplicativo:
      - Descrive come convertire da ottale a decimale (cifra \[Times] potenza di 8)
      - Font size 12
@@ -235,7 +289,7 @@ HexToDecSection[] := {
   TextCell["Conversione da Esadecimale a Decimale", "Subsection",
     FontSize -> 18, FontWeight -> "Bold", 
     FontColor -> RGBColor[1, 0, 0], 
-    TextAlignment -> Left],
+    TextAlignment -> Left, CellTags->"Tutorial3"],
   (* Crea il titolo della sezione:
      - Tipo: sottosezione ("Subsection")
      - Font size 18, grassetto, colore rosso
@@ -245,12 +299,21 @@ HexToDecSection[] := {
   Spacer[10],
   (* Spazio verticale di 10 punti *)
 
-  Framed[TextCell[
-  Row[{"Il sistema esadecimale usa 16 simboli (0\[Dash]9 e A\[Dash]F). Per convertire in decimale, sostituisci le lettere con i valori 10\[Dash]15, poi moltiplica ciascuna cifra per 16 elevato alla sua posizione e somma ", 
-  Button["[3]", NotebookLocate["Bibliografia0"], 
-     Appearance -> "Frameless", Evaluator -> Automatic, 
-     BaseStyle -> {FontSize -> 12}], "."}], FontSize -> 12], 
-     Background -> Lighter[Gray, 0.9]],
+  Framed[
+    (* Riquadro per il testo esplicativo *)
+    Row[{
+    TextCell[
+      "Il sistema esadecimale usa 16 simboli (0\[Dash]9 e A\[Dash]F) . Per convertire in decimale, sostituisci le lettere con i valori 10\[Dash]15, poi moltiplica ciascuna cifra per 16 elevato alla sua posizione e somma. ",
+      FontSize -> 12
+    ], Button["[4]",
+        NotebookLocate["Bibliografia0"],
+        Appearance -> "Frameless",
+        BaselinePosition -> Baseline,
+        Evaluator -> Automatic,
+   BaseStyle -> {FontSize -> 12}
+      ]}],
+    Background -> Lighter[Gray, 0.9]
+  ],
   (* Contenuto esplicativo:
      - Spiega il sistema esadecimale e come convertire in decimale
      - Font size 12
@@ -322,16 +385,24 @@ DecToBinSection[] := {
     TextCell["Conversione da Decimale a Binario", "Subsection",
       FontSize -> 18, FontWeight -> "Bold", 
       FontColor -> RGBColor[1, 0, 0], 
-      TextAlignment -> Left],
+      TextAlignment -> Left, CellTags->"Tutorial4"],
 
     Spacer[10],
 
-Framed[TextCell[
-  Row[{"Per convertire un numero decimale in binario, dividilo ripetutamente per 2 e raccogli i resti. Leggi i resti dal basso verso l'alto ", 
-    Button["[2]", NotebookLocate["Bibliografia0"], 
-     Appearance -> "Frameless", Evaluator -> Automatic, 
-     BaseStyle -> {FontSize -> 12}], "."}], FontSize -> 12], 
- Background -> Lighter[Gray, 0.9]],
+    Framed[
+      Row[{
+      TextCell[
+        "Per convertire un numero decimale in binario, dividilo ripetutamente per 2 e raccogli i resti. Leggi i resti dal basso verso l'alto. ",
+        FontSize -> 12
+      ], Button["[2]",
+          NotebookLocate["Bibliografia0"],
+          Appearance -> "Frameless",
+          BaselinePosition -> Baseline,
+          Evaluator -> Automatic,
+    BaseStyle -> {FontSize -> 12}
+        ]}],
+      Background -> Lighter[Gray, 0.9]
+    ],
 
     Spacer[10],
 
@@ -372,16 +443,24 @@ Framed[TextCell[
     TextCell["Conversione da Decimale a Ottale", "Subsection",
       FontSize -> 18, FontWeight -> "Bold", 
       FontColor -> RGBColor[1, 0, 0], 
-      TextAlignment -> Left],
+      TextAlignment -> Left, CellTags->"Tutorial5"],
 
     Spacer[10],
 
-Framed[TextCell[
-  Row[{"Per convertire un numero decimale in ottale, dividilo ripetutamente per 8 e raccogli i resti, oppure converti prima in binario e poi raggruppa le cifre in gruppi di 3.\nQuesto \[EGrave] possibile perch\[EGrave] ogni cifra ottale si rappresenta esattamente con 3 bit, cio\[EGrave] ", Superscript[2, 3], " = 8.\n\nNell'esempio di seguito adotteremo il secondo metodo ", 
-    Button["[3]", NotebookLocate["Bibliografia0"], 
-     Appearance -> "Frameless", Evaluator -> Automatic, 
-     BaseStyle -> {FontSize -> 12}], "."}], FontSize -> 12], 
- Background -> Lighter[Gray, 0.9]],
+    Framed[
+      Row[{
+      TextCell[
+        Row[{"Per convertire un numero decimale in ottale, dividilo ripetutamente per 8 e raccogli i resti, oppure converti prima in binario e poi raggruppa le cifre in gruppi di 3.\nQuesto \[EGrave] possibile perch\[EGrave] ogni cifra ottale si rappresenta esattamente con 3 bit, cio\[EGrave] ",Superscript[2,3]," = 8.\n\nNell'esempio di seguito adotteremo il secondo metodo."}],
+        FontSize -> 12
+      ], Button["[3]",
+          NotebookLocate["Bibliografia0"],
+          Appearance -> "Frameless",
+          BaselinePosition -> Baseline,
+          Evaluator -> Automatic,
+    BaseStyle -> {FontSize -> 12}
+        ]}],
+      Background -> Lighter[Gray, 0.9]
+    ],
 
     Spacer[10],
 
@@ -422,17 +501,24 @@ Framed[TextCell[
     TextCell["Conversione da Decimale a Esadecimale", "Subsection",
       FontSize -> 18, FontWeight -> "Bold", 
       FontColor -> RGBColor[1, 0, 0], 
-      TextAlignment -> Left],
+      TextAlignment -> Left, CellTags->"Tutorial6"],
 
     Spacer[10],
 
-Framed[TextCell[
-  Row[{"Per convertire un numero decimale in esadecimale, dividilo ripetutamente per 16 e raccogli i resti, oppure converti prima in binario e raggruppa le cifre in gruppi di 4.\nQuesto \[EGrave] possibile perch\[EGrave] ogni cifra esadecimale si rappresenta esattamente con 4 bit, cio\[EGrave] ", Superscript[2, 4], 
-    " = 16.\n\nNell'esempio di seguito adotteremo il secondo metodo ",
-     Button["[4]", NotebookLocate["Bibliografia0"], 
-     Appearance -> "Frameless", Evaluator -> Automatic, 
-     BaseStyle -> {FontSize -> 12}], "."}], FontSize -> 12], 
- Background -> Lighter[Gray, 0.9]],
+    Framed[
+      Row[{
+      TextCell[
+        Row[{"Per convertire un numero decimale in esadecimale, dividilo ripetutamente per 16 e raccogli i resti, oppure converti prima in binario e raggruppa le cifre in gruppi di 4.\nQuesto \[EGrave] possibile perch\[EGrave] ogni cifra esadecimale si rappresenta esattamente con 4 bit, cio\[EGrave] ",Superscript[2,4]," = 16.\n\nNell'esempio di seguito adotteremo il secondo metodo."}],
+        FontSize -> 12
+      ], Button["[4]",
+          NotebookLocate["Bibliografia0"],
+          Appearance -> "Frameless",
+          BaselinePosition -> Baseline,
+          Evaluator -> Automatic,
+    BaseStyle -> {FontSize -> 12}
+        ]}],
+      Background -> Lighter[Gray, 0.9]
+    ],
 
     Spacer[10],
 
@@ -473,66 +559,46 @@ Framed[TextCell[
 
 (* =================== FUNZIONE PRINCIPALE =================== *)
 (* Definizione della built-in principale che unisce tutte le sezioni *)
-CreateExplainationConversion[] := Module[{},
+
+CreateExplainationConversion[] := Module[{sezioni},
 (* Definizione della built-in CreateTutorial che non ha argomenti:
    - Usa Module per definire variabili locali
-   - Non abbiamo pi\[UGrave] bisogno della variabile 'sezioni' perch\[EAcute] creiamo celle separate
+   - La variabile locale qui \[EGrave] 'sezioni', che conterr\[AGrave] la lista di tutte le sezioni del tutorial
 *)
-  (* Creiamo una cella per ciascuna sezione separatamente *)
-  
-  (* Cella iniziale vuota con tag *)
-  
-  (* Cella per la sezione introduttiva *)
-  CellPrint[Cell[
-    BoxData[ToBoxes[Style[Column[IntroSection[], Alignment -> Left], FontFamily -> "Arial"]]],
-    "Output",
-    CellTags -> "Tutorial: Conversioni tra sistemi numerici"
-  ]];
-  
-  (* Cella per la sezione binario a decimale *)
-  CellPrint[Cell[
-    BoxData[ToBoxes[Style[Column[BinToDecSection[], Alignment -> Left], FontFamily -> "Arial"]]],
-    "Output",
-    CellTags -> "Conversione da Binario a Decimale"
-  ]];
-  
-  (* Cella per la sezione ottale a decimale *)
-  CellPrint[Cell[
-    BoxData[ToBoxes[Style[Column[OctToDecSection[], Alignment -> Left], FontFamily -> "Arial"]]],
-    "Output",
-    CellTags -> "Conversione da Ottale a Decimale"
-  ]];
-  
-  (* Cella per la sezione esadecimale a decimale *)
-  CellPrint[Cell[
-    BoxData[ToBoxes[Style[Column[HexToDecSection[], Alignment -> Left], FontFamily -> "Arial"]]],
-    "Output",
-    CellTags -> "Conversione da Esadecimale a Decimale"
-  ]];
-  
-  (* Cella per la sezione decimale a binario *)
-  CellPrint[Cell[
-    BoxData[ToBoxes[Style[Column[DecToBinSection[], Alignment -> Left], FontFamily -> "Arial"]]],
-    "Output",
-    CellTags -> "Conversione da Decimale a Binario"
-  ]];
-  
-  (* Cella per la sezione decimale a ottale *)
-  CellPrint[Cell[
-    BoxData[ToBoxes[Style[Column[DecToOctSection[], Alignment -> Left], FontFamily -> "Arial"]]],
-    "Output",
-    CellTags -> "Conversione da Decimale a Ottale"
-  ]];
-  
-  (* Cella per la sezione decimale a esadecimale *)
-  CellPrint[Cell[
-    BoxData[ToBoxes[Style[Column[DecToHexSection[], Alignment -> Left], FontFamily -> "Arial"]]],
-    "Output",
-    CellTags -> "Conversione da Decimale a Esadecimale"
-  ]];
-  
-  (* Non restituiamo nulla perch\[EAcute] abbiamo gi\[AGrave] stampato tutte le celle *)
-  Null
+
+  sezioni = Join[
+    (* Unisce tutte le sezioni del tutorial in un'unica lista *)
+
+    IntroSection[],
+    (* Sezione introduttiva con titolo e spiegazione generale *)
+
+    BinToDecSection[],
+    (* Sezione che spiega come convertire da binario a decimale *)
+
+    OctToDecSection[],
+    (* Sezione che spiega come convertire da ottale a decimale *)
+
+    HexToDecSection[],
+    (* Sezione che spiega come convertire da esadecimale a decimale *)
+
+    DecToBinSection[],
+    (* Sezione che spiega come convertire da decimale a binario *)
+
+    DecToOctSection[],
+    (* Sezione che spiega come convertire da decimale a ottale *)
+
+    DecToHexSection[]
+    (* Sezione che spiega come convertire da decimale a esadecimale *)
+  ];
+  (* Tutte queste sezioni sono combinate in una sola lista
+     - Join serve a concatenare le singole liste restituite da ciascuna sezione
+  *)
+
+  Style[Column[sezioni, Alignment -> Left],FontFamily->"Arial"]
+  (* Crea un'unica colonna che contiene tutte le sezioni combinate:
+     - La colonna \[EGrave] allineata a sinistra (Alignment -> Left)
+     - Questo restituisce l'intero tutorial come un unico blocco visivo continuo
+  *)
 ];
 (* Fine della built-in CreateTutorial *)
 

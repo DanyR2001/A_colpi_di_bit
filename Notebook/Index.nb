@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[     14272,        435]
-NotebookOptionsPosition[     13869,        420]
-NotebookOutlinePosition[     14314,        437]
-CellTagsIndexPosition[     14271,        434]
+NotebookDataLength[     14903,        449]
+NotebookOptionsPosition[     14500,        434]
+NotebookOutlinePosition[     14945,        451]
+CellTagsIndexPosition[     14902,        448]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -216,7 +216,8 @@ personalizzabile"],
        FontWeight->"Bold",
        FontColor->RGBColor[0, 0, 1]],
       Appearance->"Frameless",
-      ButtonFunction:>NotebookLocate["Tutorial0"],
+      ButtonFunction:>NotebookFind[
+        EvaluationNotebook[], "TargetCell", Forward, CellTags],
       Evaluator->Automatic,
       Method->"Preemptive"]},
     {
@@ -393,6 +394,17 @@ personalizzabile"],
        Appearance->"Frameless",
        ButtonFunction:>NotebookLocate["Commenti5"],
        Evaluator->Automatic,
+       Method->"Preemptive"], "\[LineSeparator]", 
+      ButtonBox[
+       StyleBox["\<\"V. Sviluppi futuri\"\>",
+        StripOnInput->False,
+        FontFamily->"Helvetica",
+        FontSize->14,
+        FontWeight->"Bold",
+        FontColor->RGBColor[0, 0, 1]],
+       Appearance->"Frameless",
+       ButtonFunction:>NotebookLocate["Sviluppi futuri"],
+       Evaluator->Automatic,
        Method->"Preemptive"]}]}
    },
    DefaultBaseStyle->"Column",
@@ -412,7 +424,9 @@ personalizzabile"],
    3.956051765983494*^9, 3.9560518266255627`*^9}, {3.956051970186241*^9, 
    3.956052006115383*^9}, {3.9560522545874233`*^9, 3.956052272621973*^9}, {
    3.956052333457346*^9, 3.956052334110609*^9}, {3.956052369658966*^9, 
-   3.956052385494114*^9}},
+   3.956052385494114*^9}, {3.9561619979433384`*^9, 3.956162012422554*^9}, {
+   3.9561620556515427`*^9, 3.956162064067507*^9}, {3.9561623873169765`*^9, 
+   3.956162387699854*^9}, {3.956162429947687*^9, 3.956162488112547*^9}},
  FontFamily->"Arial",
  FontSize->14,
  FontColor->RGBColor[
@@ -436,7 +450,7 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[554, 20, 13311, 398, 653, "Text",ExpressionUUID->"b0094c51-0798-1346-9a56-d7eecaa68cbd"]
+Cell[554, 20, 13942, 412, 673, "Text",ExpressionUUID->"b0094c51-0798-1346-9a56-d7eecaa68cbd"]
 }
 ]
 *)

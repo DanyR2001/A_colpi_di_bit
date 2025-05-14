@@ -48,6 +48,42 @@ Begin["`Private`"]
 (* =================== SEZIONI =================== *)
 (* Sezione che contiene le funzioni per generare ciascuna parte del tutorial *)
 
+        
+IntroSection[] := {
+(* Definizione della built-in IntroSection:
+   - Non ha argomenti
+   - Restituisce un blocco grafico che rappresenta l'introduzione generale del tutorial
+*)
+
+  TextCell[
+    "Tutorial: Conversioni tra Sistemi Numerici", 
+    "Section", 
+    FontSize -> 22, 
+    FontWeight -> "Bold", 
+    FontColor -> RGBColor[0.1, 0.1, 0.7], 
+    TextAlignment -> Center, CellTags->"Tutorial0"
+  ],
+  (* Crea il titolo principale del tutorial:
+     - Tipo: "Section" (titolo principale)
+     - FontSize 22
+     - FontWeight "Bold" (grassetto)
+     - FontColor blu (RGBColor[0.1, 0.1, 0.7])
+     - Allineamento al centro della pagina
+  *)
+
+  Spacer[20],
+  (* Spazio verticale di 20 punti *)
+
+  TextCell[
+    "Questo tutorial ti guider\[AGrave] attraverso le conversioni tra diversi sistemi numerici: binario, ottale, esadecimale e decimale.\n\nOgni sistema numerico posizionale si basa su potenze della base stessa. In base 10 (decimale), la cifra pi\[UGrave] a sinistra vale 10\:2070, la successiva 10\.b9, e cos\[IGrave] via. In binario vale 2\:2070, 2\.b9, 2\.b2, etc.\nQuesto concetto si generalizza per qualunque base b.", 
+    FontSize -> 14
+  ],
+  (* Crea un paragrafo descrittivo *)
+
+  Spacer[10]
+  (* Spazio verticale di 10 punti *)
+};
+(* Fine della built-in IntroSection *)
 
 
 BinToDecSection[] := {

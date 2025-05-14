@@ -8,7 +8,9 @@
 
 (* :Summary: 
    Questo pacchetto implementa la logica di gioco della battaglia navale,
-   inclusa la generazione delle navi, il sistema di attacco e la gestione del turno.
+   inclusa la generazione delle navi della CPU,
+   l'inizializzazione del gioco,
+   il sistema di attacco e la gestione del turno.
 *)
 
 (* :Copyright: A colpi di Bit (C) 2025 *)
@@ -20,65 +22,72 @@ BeginPackage["Battle`", {"Util`", "Interaction`"}];
 
 
 generateCoordinate::usage = "generateCoordinate[gridSize] genera casualmente una coppia di coordinate(x,y)";
-attack::usage = "attack[attackCoords, grid, ships] attacca alle coordinate specificate, restituisce: attackResult \[RightArrow] messaggio, newGrid \[RightArrow] griglia aggiornata, hit\[RightArrow]booleano, indica se l'attacco \[EGrave] andato a buon fine, naveAffondata \[RightArrow] booleano, indica se l'attacco ha affondato una nave";
+attack::usage = "attack[attackCoords, grid, ships] attacca alle coordinate specificate, restituisce: attackResult \[RightArrow] messaggio, newGrid \[RightArrow] griglia aggiornata, hit\[RightArrow]booleano che indica se l'attacco \[EGrave] andato a buon fine, naveAffondata \[RightArrow] booleano, indica se l'attacco ha affondato una nave";
 generateCPUShips::usage = "generateCPUShips[gridSize, seed] genera casualmente le navi della CPU";
-StartGame::usage = "StartGame[userShips, CPUShips, userGridInit, cpuGridInit,userBase, gridSize] avvia il gioco (battaglia)";
-InitPhase::usage =
-  "InitPhase[base, gridSize] inizializza il gioco: base \[Element] {2,8,16}, gridSize \[EGrave] lato griglia.\
+startGame::usage = "startGame[userShips, CPUShips, userGridInit, cpuGridInit,userBase, gridSize] avvia il gioco (battaglia)";
+initPhase::usage =
+  "initPhase[base, gridSize] inizializza il gioco: base \[Element] {2,8,16}, gridSize \[EGrave] lato griglia.\
 Imposta UserBase, GridSize, CpuGrid e UserGrid, resetta gli stati.";
-ResetGame::usage =
-  "ResetGame[] svuota tutte le liste e ripristina le variabili globali all'inizio del gioco.";
+resetGame::usage =
+  "resetGame[] svuota tutte le liste e ripristina le variabili globali all'inizio del gioco.";
 
 Begin["`Private`"];
+(* Utilizziamo una lista per tenere traccia delle coordinate gi\[AGrave] attaccate dalla CPU 
+cos\[IGrave] possiamo evitare di far attaccare al pc una stessa cella*)
+CPUAttackedCoordinates = {};
 
 (* Inizializza contesto PC e utente *)
-InitPhase[seed_Integer, base_Integer, difficultyLevel_Integer] := Module[
+(*prende i valori inseriti dall'utente per il seed, la base e il livello di difficolt\[AGrave]*)
+initPhase[seed_Integer, base_Integer, difficultyLevel_Integer] := Module[
   {gridSize, shipLengths},
   
-  (* Reset variabili per sicurezza *)
-  ResetGame[];
+  (* Reset delle variabili per sicurezza (stati globali usati per la gestione del gioco)*)
+  resetGame[];
   
-  (* Ottieni gridSize e shipLengths in base al livello di difficolt\[AGrave] *)
-  gridSize = Interaction`GetDifficultyLevels[][[difficultyLevel, 2]];
-  shipLengths = Interaction`GetDifficultyLevels[][[difficultyLevel, 3]];
+  (* Ottieni gridSize e shipLengths in base al livello di difficolt\[AGrave].*)
+  gridSize = Interaction`getDifficultyLevels[][[difficultyLevel, 2]]; (*prendo il secondo elemento di difficultyLevels (dimensione della griglia)*)
+  shipLengths = Interaction`getDifficultyLevels[][[difficultyLevel, 3]]; (*prendo il terzo elemento di difficultyLevels (lunghezza delle navi)*)
+  (*difficultyLevels \[EGrave] definita in Interaction.m e definisce le impostazioni dei livelli di difficolt\[AGrave]:
+  - livello (primo elemento della lista)
+  - dimensione della griglia (secondo elemento della lista)
+  - lunghezza delle navi (terzo elemento della lista)*)
+ 
+  (* Inizializza tutti i valori necessari tramite setters definiti in Interaction.m*)
+  setShipLengths[shipLengths]; (*lunghezza delle navi*)
+  initSeed[seed]; (*imposto il seed*)
+  setUserBase[base]; (*imposto la base*)
+  setGridSize[gridSize]; (*imposto la dimensione della griglia*)
   
-  (* Inizializza tutti i valori necessari *)
-  SetShipLengths[shipLengths];
-  initSeed[seed];
-  SetUserBase[base];
-  SetGridSize[gridSize];
-  
-  (* Genera navi CPU *)
+  (* Genera casualmente navi CPU *)
+  (*la generazione avviene tramite generateCPUShips*)
   Block[{cpuShips = generateCPUShips[gridSize]},
-    SetCPUShips[cpuShips];
-    SetCPUGrid[createGrid[cpuShips, gridSize]];
+  (*setters definiti in Interaction.m*)
+    setCPUShips[cpuShips]; (*imposto le navi della CPU appena generate*)
+    setCPUGrid[createGrid[cpuShips, gridSize]]; (*imposto la griglia della CPU in base alle navi generate*)
   ];
   
-  (* Inizializza griglia utente vuota *)
-  SetUserShips[{}];
-  SetUserGrid[ConstantArray[Vuoto, {gridSize, gridSize}]];
+  (* Inizializza la lista delle navi e la griglia dell'utente vuote *)
+  setUserShips[{}];
+  setUserGrid[ConstantArray[Vuoto, {gridSize, gridSize}]];
   
   True (* Segnala successo *)
 ];
 
 (* Reset di tutte le variabili e liste *)
-ResetGame[] := Module[{},
-  SetUserBase[10];
-  SetGridSize[10];
-  SetCPUShips[{}];
-  SetUserShips[{}];
-  SetCPUGrid[{}];
-  SetUserGrid[{}];
-  SetSeed[RandomInteger[1024]];
-  SetShipLengths[{5, 4, 3, 2, 1}];
+resetGame[] := Module[{},
+  setUserBase[10];
+  setGridSize[10];
+  setCPUShips[{}];
+  setUserShips[{}];
+  setCPUGrid[{}];
+  setUserGrid[{}];
+  setSeed[RandomInteger[1024]];
+  setShipLengths[{5, 4, 3, 2, 1}];
   CPUAttackedCoordinates = {};
 ];
 
 
-(* Utilizziamo un insieme per tenere traccia delle coordinate gi\[AGrave] utilizzate dalla CPU *)
-CPUAttackedCoordinates = {};
-
-(* FIXED: generateCoordinate per gli attacchi della CPU *)
+(* Funzione per la generazione casuale degli attacchi della CPU*)
 generateCoordinate[gridSize_Integer] := Module[
   {coordinates, attemptCount = 0, maxAttempts = gridSize^2},
   
@@ -114,16 +123,26 @@ generateCoordinate[gridSize_Integer] := Module[
   {0, 0}
 ];
 
-(* Funzione attack che gestisce il formato delle coordinate *)
+(* Funzione attack che gestisce l'attacco dei giocatori alle coordinate specificate *)
 attack[attackCoordsWithMsg_, grid_, ships_] := Module[
   {attackResult = "", newGrid = grid, r, c, hit = False, naveAffondata = False, attackCoords},
-  
-  (* Se l'input \[EGrave] una tupla {$Failed, errorMsg}, estraiamo il messaggio di errore specifico *)
+  (*- attackResult \[RightArrow] messaggio ottenuto dopo l'attacco, per indicare all'utente se l'attacco \[EGrave] andato a buon fine o meno,
+   - newGrid \[RightArrow] griglia del giocatore ottenuta dopo l'attacco, si modifica la cella attaccata
+   - r, c \[RightArrow] riga e colonna della cella attaccata,
+   - hit \[RightArrow] booleano che indica se l'attacco \[EGrave] stato effettuato (rimane False se le coordinate attaccate non sono valide),
+   - naveAffondata \[RightArrow] booleano che indica se l'attacco ha affondato una nave.
+   - attackCoords \[RightArrow] coordinate attaccate estratte da attackCoordsWithMsg
+   
+   I due booleani hit e naveAffondata servono in startGame, definita in questo pacchetto, per
+   conoscere lo stato dell'attacco e aggiornare di conseguenza lo stato della partita*)
+   
+  (* Se l'input attackCoordsWithMsg \[EGrave] una tupla {$Failed, errorMsg}, estraiamo il messaggio di errore specifico.
+  Questo ci dice che le coordinate non sono valide quindi non si deve eseguire l'attacco*)
   If[ListQ[attackCoordsWithMsg] && Length[attackCoordsWithMsg] == 2 && attackCoordsWithMsg[[1]] === $Failed, 
     Return[{attackCoordsWithMsg[[2]], grid, False, False}]
   ];
   
-  (* Se \[EGrave] valido, estrai le coordinate corrette *)
+  (* Se l'input attackCoordsWithMsg \[EGrave] valido, estraiamo le coordinate corrette *)
   If[ListQ[attackCoordsWithMsg] && Length[attackCoordsWithMsg] == 2 && Head[attackCoordsWithMsg[[1]]] =!= List,
     (* Se attackCoordsWithMsg \[EGrave] nella forma {coordinate, messaggio} *)
     attackCoords = attackCoordsWithMsg,
@@ -136,25 +155,28 @@ attack[attackCoordsWithMsg_, grid_, ships_] := Module[
     Return[{"Coordinate non valide!", grid, False, False}]
   ];
   
-  (* Converte coordinate based-0 a based-1 per accedere alla griglia *)
-  r = attackCoords[[1]] + 1;
-  c = attackCoords[[2]] + 1;
+  (* uso r e c per far riferimento a riga e colonna di attacco con pi\[UGrave] facilit\[AGrave]*)
+  r = attackCoords[[1]] + 1; (*estraggo la riga*)
+  c = attackCoords[[2]] + 1; (*estraggo la colonna*)
   
-  (* Controlla che le coordinate siano all'interno della griglia *)
+  (* Controlla che le coordinate estratte siano all'interno della griglia *)
   If[r < 1 || r > Length[grid] || c < 1 || c > Length[grid[[1]]],
     Return[{"Coordinate fuori dalla griglia!", grid, False, False}]
   ];
+  
   (* Controlla il contenuto della cella (r, c) della griglia *)
   Switch[grid[[r, c]], 
-    Nave, (* COLPITO *)
+    Nave, (* nella cella c'\[EGrave] una nave: quindi COLPITO *)
 	(* Aggiorna la nuova griglia (newGrid) segnando la cella come colpita *)    
-      newGrid[[r, c]] = Colpito;
-      hit = True;
-      (* Controlla se \[EGrave] affondato *)
+      newGrid[[r, c]] = Colpito; 
+      hit = True; (*l'attacco ha avuto successo*)
+      
+      (* Controlla se oltre ha colpire ha anche affondato la nave*)
       Do[
-      (* Controlla se la cella attaccata fa parte di questa nave.
+      (* Per ogni nave controlla se la cella attaccata \[EGrave] una cella occupata della nave stessa.
        L'indice \[EGrave] scalato di -1, perch\[EGrave] le coordinate delle navi siano basate su 0 *)
         If[MemberQ[nave, {r - 1, c - 1}],
+        (*Se appartiene alla nave*)
         (* Controlla se tutte le celle di questa nave sono state colpite (Colpito). Se s\[IGrave], la nave \[EGrave] affondata *)
           If[AllTrue[nave, (newGrid[[#[[1]] + 1, #[[2]] + 1]] == Colpito) &], 
             naveAffondata = True;
@@ -168,16 +190,19 @@ attack[attackCoordsWithMsg_, grid_, ships_] := Module[
         ],
         {nave, ships}
       ];
-      (* Assegna un messaggio *)    
+      
+      (* Assegna un messaggio di esito *)    
       If[naveAffondata,
         attackResult = "Colpito e affondato!",
         attackResult = "Colpito!"
       ];,       
-    Vuoto, (* MANCATO *)
-      hit = True;
+      
+    Vuoto, (* la cella attaccata \[EGrave] vuota: quindi MANCATO *)
+      hit = True; (*l'attacco \[EGrave] andato a buon fine*)
       newGrid[[r, c]] = Mancato;
+      (*Assegna un messaggio di esito*)
       attackResult = "Mi dispiace. Colpo non andato a segno, tenta di nuovo...";,
-    _, (* GI\[CapitalAGrave] COLPITO *)
+    Colpito, (* la cella attaccata \[EGrave] colpita: quindi GI\[CapitalAGrave] COLPITO *)
       attackResult = "Hai gi\[AGrave] colpito qui!"
   ];
   (*  Ritorna un quattro-uple *)
@@ -188,11 +213,11 @@ attack[attackCoordsWithMsg_, grid_, ships_] := Module[
 generateCPUShips[gridSize_Integer] := Module[
   {ships = {}, shipLengths, grid, orientation, startRow, startCol, shipCoords, valid, surroundingCells},
   
-  (* Inizializza la griglia vuota *)
+  (* Inizializza della griglia vuota *)
   grid = ConstantArray[Vuoto, {gridSize, gridSize}];
 
   (* Utilizza le lunghezze delle navi definite dalla variabile globale ShipLengths *)
-  shipLengths = GetRemainingShipLengths[];
+  shipLengths = getRemainingShipLengths[];
   
   (* Debug - stampa le lunghezze delle navi 
   Print["Generating CPU ships with lengths: ", shipLengths];*)
@@ -272,8 +297,9 @@ generateCPUShips[gridSize_Integer] := Module[
   (* Return della lista delle navi *)
   ships
 ];
-(* FUNZIONE per fare lo StartGame *)
-StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSize_] := Module[
+
+(* FUNZIONE per fare lo startGame *)
+startGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSize_] := Module[
   {attackCoordsResult, attackCpuCoords, result, userAttack, cpuAttack},
 
   DynamicModule[
@@ -285,19 +311,20 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
     Column[{
       (* Titolo *)
       Style["Inizia la battaglia!!!", Bold, 24, Red],
+      (*Stato della partita*)
       Dynamic[Style["Stato del gioco: "<>gameState, Bold, 14, Darker[Green]]],
       Spacer[5],
       Row[{
         (* Griglia utente *)
         Column[{
           Style["Le tue navi", Bold, 14],
-          Dynamic[showGrid[userGrid, True]]
+          Dynamic[showGrid[userGrid, True]] (*richiamo showGrid, definita in Util.m, per mostrare la griglia dell'utente*)
         }],
         Spacer[30],
         (* Campo d'attacco *)
         Column[{
           Style["Campo d'attacco", Bold, 14],
-          Dynamic[showGrid[cpuGrid, False]]
+          Dynamic[showGrid[cpuGrid, False]] (*richiamo showGrid, definita in Util.m, per mostrare la griglia della cpu*)
         }]
       }],
       Spacer[20],
@@ -307,13 +334,13 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
           InputField[Dynamic[input], String, ImageSize -> {150, 30}, Enabled -> Dynamic[!gameOver]],
           Button["Fire!",
             (*Attacco dell'Utente*)
-            attackCoordsResult = verifyInput[gridSize, userBase, input];
+            attackCoordsResult = verifyInput[gridSize, userBase, input]; (*controllo l'input inserito con verifyInput definita in Util.m*)
             
             (* Gestione dei messaggi di errore di verifyInput *)
             If[ListQ[attackCoordsResult] && Length[attackCoordsResult] == 2 && attackCoordsResult[[1]] === $Failed,
               messageUser = attackCoordsResult[[2]],
               (* Esegui l'attacco se l'input \[EGrave] valido *)
-              userAttack = attack[attackCoordsResult[[1]], cpuGrid, CPUShips];
+              userAttack = attack[attackCoordsResult[[1]], cpuGrid, CPUShips]; 
               
               (* Stato del gioco parte utente *)
               messageUser = "Coordinate attaccate " <> ToString[attackCoordsResult[[1]]] <> ". " <> userAttack[[1]];
@@ -323,7 +350,7 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
                 (* Assegnazione esplicita invece di incremento *)
                 countAffondato = countAffondato + 1
               ];
-              (* Controllo in caso di vittoria del UTENTE *)
+              (* Controllo in caso di vittoria dell'UTENTE *)
               If[userAttack[[3]] && countAffondato >= Length[CPUShips] && Length[CPUShips]>0, 
                 gameState = "Complimenti! Hai vinto!";
                 gameOver = True;
@@ -353,15 +380,17 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
                 (* Impostazione di un messaggio *)
                 messageCpu = Column[{
                 "Coordinate attaccate " <> ToString[attackCpuCoords] <> ". " <> cpuAttack[[1]],
+                (*mostro anche conversione in binario della cella attaccata dalla cpu come aiuto per l'utente*)
                 Row[{"La conversione \[EGrave]: ", Subscript[FromDigits[attackCpuCoords,10],10], " = ",BaseForm[FromDigits[attackCpuCoords],userBase]}]
                 }];
               ];
             ]
-            (* Impostazione della dimensione e abilitiamo l\[CloseCurlyQuote]interazione dinamicamente *)
+            (* Impostazione della dimensione del pulsante di attacco "Fire" e abilitiamo l\[CloseCurlyQuote]interazione dinamicamente *)
           , ImageSize -> {80, 30}, Enabled -> Dynamic[!gameOver]]
         }
       }],
-      Row[{helpUser[userBase],Spacer[10], helpUserPersonalized[userBase]}],
+      Row[{helpUser[userBase],Spacer[10], helpUserPersonalized[userBase]}], (*pulsanti per chiedere suggerimento*)
+      (*helpUser e helpUserPersonalized sono definite in Interaction.m*)
       Spacer[10],
       Style["Attacco Utente:", Bold, 12],
         Dynamic[messageUser],

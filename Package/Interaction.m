@@ -18,39 +18,39 @@
 (* File: Interaction.m *)
 
 BeginPackage["Interaction`", {"Util`"}];
-AskSeedInput::usage = "AskSeedInput[inputSeed] chiede all'utente di inserire il seed";
-AskBaseChoice::usage = "AskBaseChoice[inputBase] chiede all'utente di inserire la base su cui si vuole esercitare (2, 8, 16)";
+askSeedInput::usage = "askSeedInput[inputSeed] chiede all'utente di inserire il seed";
+askBaseChoice::usage = "askBaseChoice[inputBase] chiede all'utente di inserire la base su cui si vuole esercitare (2, 8, 16)";
 
 isBase::usage="isBase[base] controlla che base sia 2, 8 o 16";
 isSeed::usage="isSeed[seedStr_String] controlla che seed sia un numero intero decimale";
 helpUser::usage="helpUser[base] mostra in una nuova finestra la conversione in base scelta di un numero decimale casuale";
 helpUserPersonalized::usage="helpUserPersonalized[base] chiede in una nuova finestra all'utente di inserire un numero decimale e mostra la sua conversione in base scelta";
 
-PlaceUserShip::usage =
-  "PlaceUserShip[startRaw, endRaw] piazza in UserGrid una nave.\
+placeUserShip::usage =
+  "placeUserShip[startRaw, endRaw] piazza in UserGrid una nave.\
 startRaw e endRaw sono stringhe di un intero in base UserBase (0..gridSize^2-1),\
-con 0 corrispondente in basso a sinistra. Si possono piazzare al massimo 5 navi, una per ciascuna lunghezza 5,4,3,2,1.\
+con 0 corrispondente in basso a sinistra.\
 Restituisce {True, grid} in caso di successo o {False, errorMsg} in caso di errore.";
 
 
 (*Getters delle variabili globali *)
-GetUserShips::usage = "GetUserShips[] restituisce lista di blocchi delle navi utente.";
-GetUserGrid::usage = "GetUserGrid[] restituisce matrice griglia utente.";
-GetRemainingShipLengths::usage = "GetRemainingShipLengths[] restituisce le lunghezze delle navi ancora da piazzare.";
-GetDifficultyLevels::usage = "GetDifficultyLevels[] restituisce i livelli di difficolt\[AGrave] disponibili";
-GetCpuShip::usage="GetCpuShip[] restituisce le navi della CPU";
-GetCpuGrid::usage="GetCpuGrid[] resitiruisce la griglia delle CPU";
-GetGridSize::usage="SetGridSize[] restituisce la grandezza della griglia";
+getUserShips::usage = "getUserShips[] restituisce lista di blocchi delle navi utente.";
+getUserGrid::usage = "getUserGrid[] restituisce matrice griglia utente.";
+getRemainingShipLengths::usage = "getRemainingShipLengths[] restituisce le lunghezze delle navi ancora da piazzare.";
+getDifficultyLevels::usage = "getDifficultyLevels[] restituisce i livelli di difficolt\[AGrave] disponibili";
+getCpuShip::usage="getCpuShip[] restituisce le navi della CPU";
+getCpuGrid::usage="getCpuGrid[] resitiruisce la griglia delle CPU";
+getGridSize::usage="setGridSize[] restituisce la grandezza della griglia";
 
 (*Setters delle variabili globali*)
-SetShipLengths::usage="SetShipLengths[shipLengths_List] imposta le lunghezze delle navi";
-SetUserBase::usage="SetUserBase[base_Integer] imposta la base";
-SetGridSize::usage="SetGridSize[size_Integer] imposta dimensione delle griglie";
-SetUserShips::usage="SetUserShips[ships_List] imposta navi dell'utente";
-SetUserGrid::usage="SetUserGrid[grid_List] imposta matrice griglia utente";
-SetCPUShips::usage="SetCPUShips[ships_List] imposta navi della cpu";
-SetCPUGrid::usage="SetCPUGrid[grid_List] imposta matrice griglia cpu";
-SetSeed::usage="SetSeed[number_Integer] imposta il seed";
+setShipLengths::usage="setShipLengths[shipLengths_List] imposta le lunghezze delle navi";
+setUserBase::usage="setUserBase[base_Integer] imposta la base";
+setGridSize::usage="setGridSize[size_Integer] imposta dimensione delle griglie";
+setUserShips::usage="setUserShips[ships_List] imposta navi dell'utente";
+setUserGrid::usage="setUserGrid[grid_List] imposta matrice griglia utente";
+setCPUShips::usage="setCPUShips[ships_List] imposta navi della cpu";
+setCPUGrid::usage="setCPUGrid[grid_List] imposta matrice griglia cpu";
+setSeed::usage="setSeed[number_Integer] imposta il seed";
 
 Begin["`Private`"];
 
@@ -88,34 +88,34 @@ Seed           = 0; (*variabile per il seed*)
 
 (* SEED E BASE *)
 (*richiedi seed*)
-AskSeedInput[inputSeed_] := DynamicModule[{value = ToString[Seed]},
+askSeedInput[inputSeed_] := DynamicModule[{value = ToString[Seed]},
 (*il valore della variabile value \[EGrave] impostato di default a Seed (variabile globale del Seed) che , 
 in questo modo se l'utente non seleziona nulla comunque un valore alla base viene assegnato*)
   Row[{
     "Inserisci seed: ",
    (*Tramite InputField si richiede all'utente di inserire un numero*)
     (*il valore inserito viene assegnato a value dinamicamente e passato alla funzione inputSeed[value].
-    inputSeed \[EGrave] una funzione anonima, passata ad AskSeedInput in Main.m da PlacementUI, che prende in input 
-    il valore inserito dall'utente in AskSeedInput e lo assegna ad una variabile dinamica 
+    inputSeed \[EGrave] una funzione anonima, passata ad askSeedInput in Main.m da PlacementUI, che prende in input 
+    il valore inserito dall'utente in askSeedInput e lo assegna ad una variabile dinamica 
     (variabile usata per il seed in PlacementUI in Main.m) *)
     InputField[Dynamic[value, (value = #; inputSeed[value])&], String, ImageSize -> Small]
   }]
 ];
 
 (* richiedi base *)
-(*AskBaseChoice prende in input una funzione inputBase. 
-inputBase \[EGrave] una funzione anonima passata ad AskBaseChoice quando quest'ultima viene richiamata da PlacementUI in Main.m.
-Il compito di inputBase \[EGrave] quello di assegnare il valore scelto per la base tramite AskBaseChoice ad una variabile dinamica in Main.m.*)
-AskBaseChoice[inputBase_]:= DynamicModule[{value = 2}, 
-(*il valore della variabile value \[EGrave] impostato di default a 2, 
-in questo modo se l'utente non seleziona nulla comunque un valore alla base viene assegnato*)
+(*askBaseChoice prende in input una funzione inputBase. 
+inputBase \[EGrave] una funzione anonima passata ad askBaseChoice quando quest'ultima viene richiamata da PlacementUI in Main.m.
+Il compito di inputBase \[EGrave] quello di assegnare il valore scelto per la base tramite askBaseChoice ad una variabile dinamica in Main.m.*)
+askBaseChoice[inputBase_]:= DynamicModule[{value = 2}, 
+(*Il valore della variabile value \[EGrave] impostato di default a 2.
+In questo modo se l'utente non seleziona nulla, comunque un valore alla base viene assegnato*)
   Row[{
     "Inserisci la base su cui ti vuoi esercitare: ",
     (*Mostra un menu a tendina (PopUpMenu) che permette di selezionare solo uno tra i valori 2,8 e 16
     (le tre basi possibili su cui l'utente pu\[OGrave] esercitarsi).
      Il menu a tendina permette di evitare che l'utente sbagli l'inserimento della base.*)
     PopupMenu[Dynamic[value, (value = #; inputBase[value])&], {2, 8, 16}]
-    (*come in AskSeedInput (vedi funzione sopra) il valore selezionato viene dinamicamente assegnato a value 
+    (*Come in askSeedInput (vedi funzione sopra) il valore selezionato viene dinamicamente assegnato a value 
     e passato in input alla funzione inputBase[value], ricevuta come parametro*)
   }]
 ];
@@ -124,7 +124,7 @@ in questo modo se l'utente non seleziona nulla comunque un valore alla base vien
 isBase[base_]:=MemberQ[{2,8,16}, base]; (*restituisce vero se base \[EGrave] un numero tra 2,8 e 16, falso altrimenti*)
 
 (*controlli per il seed*)
-(*visto che AskSeedInput restituisce un valore come stringa, isSeed che controlla se tale valore sia corretto o meno
+(*visto che askSeedInput restituisce un valore come stringa, isSeed che controlla se tale valore sia corretto o meno
  prende in input una stringa*)
 isSeed[seedStr_String] := Module[{validChars = CharacterRange["0", "9"], chars},
 (*validChars \[EGrave] la lista di caratteri accettabili.
@@ -136,9 +136,9 @@ Dato che il seed deve essere decimale, i caratteri accettabili sono i numeri da 
   (*quando c'\[EGrave] almeno un caratterre,cio\[EGrave] la stringa non \[EGrave] vuota, e il primo carattere \[EGrave] un segno:*)
     chars = Rest[chars]; (* Rimuove il primo carattere (il segno) *)
   ];
-  (*il segno viene rimosso, solo se \[EGrave] il primo carattere, perch\[EGrave] si accettano numeri negativi e positivi,
-  non rientra tra i caratteri accettabili perch\[EGrave] comunque rimane non accettabile 
-  se il segno si trova in una posizione diversa dalla prima cifra*)
+  (*Il segno viene rimosso, solo se \[EGrave] il primo carattere, perch\[EGrave] si accettano numeri negativi e positivi.
+  Il segno non rientra tra i caratteri accettabili perch\[EGrave] comunque rimane non accettabile 
+  se si trova in una posizione diversa dalla prima cifra*)
   
   (* Verifica che tutti i caratteri restanti siano cifre accettabili e che ci sia almeno un carattere *)
   Length[chars] > 0 && AllTrue[chars, MemberQ[validChars, #]&]
@@ -147,8 +147,8 @@ Dato che il seed deve essere decimale, i caratteri accettabili sono i numeri da 
 (*funzione per evitare di aprire una finestra se \[EGrave] gi\[AGrave] aperta*)
 singlePopup[popupWindow_] := With[{p = Unique["popup"]}, (*creo nome unico che far\[AGrave] riferimento al popup*)
   popupWindow /. Button[a_, b_, c___] :> (*cerca tutti i Button per popupWindow e li sostituisce con una nuova versione*)
-    Button[a, If[! ValueQ[p] || Options[p] == $Failed, p = b], c]]; (*la nuova versione dei Button eseguono la loro azione solo se
-    non esiste ancora un valore unico associato (ValueQ[p]) o il valore non \[EGrave] valido*)
+    Button[a, If[! ValueQ[p] || Options[p] == $Failed, p = b], c]]; (*la nuova versione dei Button esegue l'azione solo se
+    non esiste ancora un valore unico associato (ValueQ[p]) o il valore associato non \[EGrave] valido*)
 
 (*funzione di suggerimento personalizzata*)
 helpUserPersonalized[base_Integer]:=PopupWindow[
@@ -182,8 +182,8 @@ helpUserPersonalized[base_Integer]:=PopupWindow[
 							ex=Column[{
 								Style["Conversione del numero: "<>ToString[numberDec],15,Red,Bold], (*indico numero da convertire*)
 								Spacer[5],
-								conversionFromDec[base,numberDec] (*richiamo conversionFromDec[base, numberDec] che si trova in Util.m
-									 e restituisce i passaggi per convertire un numero (numberDec) da decimale a base scelta*)
+								conversionFromDec[base,numberDec] (*richiamo conversionFromDec[base, numberDec], definita in Util.m,
+									 restituisce i passaggi per convertire un numero (numberDec) da decimale a base scelta*)
 							}];,
 							(*se i controlli non vanno a buon fine, cio\[EGrave] il numero inserito non \[EGrave] accettabile (con la virgola o negativo)
 							imposto un messaggio di errore e non faccio nessuna conversione*)
@@ -216,7 +216,7 @@ helpUser[base_Integer]:=PopupWindow[
 				Spacer[5],
 				(*esercizio conversione*)
 				Row[{"Consideriamo il numero: ",Subscript[numberDec,10]}], (*indico il numero da convertire, specificando con Subscript la base numerica*)
-				(*conversionFromDec[base,numberDec] \[EGrave] una funzione definita Util.m*)
+				(*conversionFromDec[base,numberDec] \[EGrave] una funzione definita in Util.m*)
 				conversionFromDec[base,numberDec] (*richiamo conversionFromDec[base,numberDec] per mostrare i passaggi della conversione del numero in base scelta*)
 			}],12] (*dimensione del testo*)
 		]
@@ -225,8 +225,8 @@ helpUser[base_Integer]:=PopupWindow[
 
 
 
-PlaceUserShip[startRaw_String, endRaw_String] := Module[
-(* Definizione della funzione PlaceUserShip:
+placeUserShip[startRaw_String, endRaw_String] := Module[
+(* Definizione della funzione placeUserShip:
    - Argomenti:
      - startRaw: coordinate di inizio della nave (come stringa)
      - endRaw: coordinate di fine della nave (come stringa)
@@ -252,10 +252,12 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
   ];
 
   start = verifyInput[GridSize, UserBase, startRaw];  
-  (* Verifica la validit\[AGrave] della coordinata iniziale e la converte *)
+  (* Verifica la validit\[AGrave] della coordinata iniziale e la converte
+  verifyInput \[EGrave] definita in Util.m *)
 
   end = verifyInput[GridSize, UserBase, endRaw];
-  (* Verifica la validit\[AGrave] della coordinata finale e la converte *)
+  (* Verifica la validit\[AGrave] della coordinata finale e la converte 
+  verifyInput \[EGrave] definita in Util.m *)
 
   If[start[[1]] === $Failed, 
     (* Se la verifica di start ha fallito *)
@@ -368,29 +370,29 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
   {True, "Nave piazzata con successo!"}
   (* Restituisce successo *)
 ];
-(* Fine della funzione PlaceUserShip *)
+(* Fine della funzione placeUserShip *)
 
 
 (* Getters *)
 
-GetUserShips[] := UserShips;
+getUserShips[] := UserShips;
 (* Restituisce la lista delle navi dell'utente:
    - Ogni elemento della lista \[EGrave] una nave (cio\[EGrave] un'altra lista di coordinate)
    - Serve per leggere le navi gi\[AGrave] piazzate
 *)
 
-GetUserGrid[] := UserGrid;
+getUserGrid[] := UserGrid;
 (* Restituisce la matrice della griglia utente:
    - Griglia di gioco che contiene celle vuote e celle occupate da navi
    - Utile per visualizzare lo stato attuale della griglia
 *)
 
-GetRemainingShipLengths[] := ShipLengths;
+getRemainingShipLengths[] := ShipLengths;
 (* Restituisce le lunghezze delle navi che devono ancora essere piazzate:
    - Serve per capire quali navi sono ancora disponibili
 *)
 
-GetDifficultyLevels[] := DifficultyLevels;
+getDifficultyLevels[] := DifficultyLevels;
 (* Restituisce la lista dei livelli di difficolt\[AGrave]:
    - Ogni livello \[EGrave] una lista del tipo: {Nome, DimensioneGriglia, ListaLunghezzeNavi}
    - Serve per mostrare le opzioni di difficolt\[AGrave] disponibili
@@ -398,19 +400,19 @@ GetDifficultyLevels[] := DifficultyLevels;
 
 getShipSize[]:=ShipSize;
 
-GetCpuShip[]:=CpuShips;
+getCpuShip[]:=CpuShips;
 (* Restituisce la lista delle navi della CPU:
    - Ogni elemento della lista \[EGrave] una nave (cio\[EGrave] un'altra lista di coordinate)
    - Serve per leggere le navi gi\[AGrave] piazzate
 *)
-GetCpuGrid[]:=CpuGrid;
+getCpuGrid[]:=CpuGrid;
 (* Restituisce la matrice della griglia della CPU:
    - Griglia di gioco che contiene celle vuote e celle occupate da navi
    - Utile per visualizzare lo stato attuale della griglia
 *)
 
-GetGridSize[]:= GridSize;
-(* Restiruisce la GridSize *)
+getGridSize[]:= GridSize;
+(* Restiruisce la GridSize, dimensione della griglia di gioco*)
 
 
 
@@ -418,48 +420,49 @@ GetGridSize[]:= GridSize;
 
 (* Setter *)
 
-SetShipLengths[shipLengths_List] := ShipLengths = shipLengths;
+setShipLengths[shipLengths_List] := ShipLengths = shipLengths;
 (* Imposta la variabile globale ShipLengths:
    - Deve essere una lista (shipLengths_List)
    - Serve per definire le lunghezze delle navi disponibili
 *)
 
-SetUserBase[base_Integer] := If[isBase[base], UserBase = base, UserBase];
+setUserBase[base_Integer] := If[isBase[base], UserBase = base, UserBase];
 (* Imposta la base numerica scelta dall'utente:
    - Solo se la base \[EGrave] valida (controllata da isBase[base], deve essere 2, 8 o 16)
    - Se non \[EGrave] valida, lascia invariato il valore attuale
 *)
 
-SetGridSize[size_Integer] := If[size > 0, GridSize = size, GridSize];
+setGridSize[size_Integer] := If[size > 0, GridSize = size, GridSize];
 (* Imposta la dimensione della griglia:
    - Solo se size > 0 (griglia almeno 1x1)
    - Altrimenti lascia invariato il valore
 *)
 
-SetUserShips[ships_List] := UserShips = ships;
+setUserShips[ships_List] := UserShips = ships;
 (* Imposta la lista delle navi dell'utente:
    - Permette di caricare direttamente uno stato salvato o ripristinare navi
 *)
 
-SetUserGrid[grid_List] := UserGrid = grid;
+setUserGrid[grid_List] := UserGrid = grid;
 (* Imposta la griglia utente:
    - Griglia di gioco con le navi piazzate dall'utente
    - Utile per ripristinare una partita salvata
 *)
 
-SetCPUShips[ships_List] := CpuShips = ships;
+setCPUShips[ships_List] := CpuShips = ships;
 (* Imposta la lista delle navi della CPU:
    - Permette di caricare direttamente uno stato salvato o ripristinare navi
 *)
 
 
-SetCPUGrid[grid_List] := CpuGrid = grid;
+setCPUGrid[grid_List] := CpuGrid = grid;
 (* Imposta la griglia della CPU:
    - Griglia di gioco con le navi piazzate dalla CPU
    - Utile per ripristinare una partita salvata
 *)
 
-SetSeed[number_Integer] := Seed = number;
+setSeed[number_Integer] := Seed = number;
+(*Imposta il seed della partita che verr\[AGrave] usato per permettere all'utente di ripetere ua stessa partita pi\[UGrave] volte*)
 
 
 End[];

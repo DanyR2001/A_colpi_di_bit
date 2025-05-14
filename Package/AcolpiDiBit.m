@@ -42,10 +42,10 @@ placementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
 
   },  (* Fine lista variabili *)
 
-  difficultyLevels = GetDifficultyLevels[];  (* Ottiene l'elenco dei livelli di difficolt\[AGrave] dal pacchetto Interaction *)
-  SetSeed[ToExpression[seedValue]];
+  difficultyLevels = getDifficultyLevels[];  (* Ottiene l'elenco dei livelli di difficolt\[AGrave] dal pacchetto Interaction.m *)
+  setSeed[ToExpression[seedValue]]; (*set definito in Interaction.m*)
 
-  Column[{  (* La struttura principale \[EGrave] una colonna verticale di elementi *)
+  Style[Column[{  (* La struttura principale \[EGrave] una colonna verticale di elementi *)
 
     Dynamic[Which[  (* Dynamic aggiorna l'interfaccia quando cambiano variabili; Which seleziona il blocco attivo *)
 
@@ -53,11 +53,12 @@ placementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
       
       Column[{  (* Crea una colonna di elementi per l'interfaccia di configurazione *)
 
-        AskSeedInput[Function[input, seedValue = input]],  (* Campo per inserire il seed, aggiorna seedValue *)
+        askSeedInput[Function[input, seedValue = input]],  (* Campo per inserire il seed, aggiorna seedValue *)
 
         Spacer[10],  (* Aggiunge spazio verticale di 10 punti *)
 
-        AskBaseChoice[Function[input, baseValue = input]],  (* Scelta della base numerica, aggiorna baseValue *)
+        askBaseChoice[Function[input, baseValue = input]],  (* Scelta della base numerica, aggiorna baseValue *)
+        (*askSeedInput e askBaseChoice sono definiti in Interaction.m*)
 
         Spacer[10],  (* Altro spazio verticale *)
 
@@ -72,8 +73,8 @@ placementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
         Spacer[10],  (* Aggiunge spazio verticale *)
 
         Button["Conferma Impostazioni",(* Bottone per confermare le impostazioni iniziali *)
-          If[isSeed[seedValue] && isBase[baseValue], message="";(* Controlla che il seed e la base siano validi *)
-            If[InitPhase[ToExpression[seedValue], baseValue, difficultyLevel],  (* Inizializza la fase, se va a buon fine... *)
+          If[isSeed[seedValue] && isBase[baseValue], message="";(* Controlla che il seed e la base siano validi, controlli definiti in Util.m *)
+            If[initPhase[ToExpression[seedValue], baseValue, difficultyLevel],  (* Inizializza la fase tramite initPhase definita in Battle.m, se va a buon fine... *)
               phase = 2;  (* Passa alla fase 2: posizionamento navi *)
               initDone = True;,  (* Segna che l'inizializzazione \[EGrave] avvenuta *)
               message = "Errore durante l'inizializzazione. Riprova.";  (* Altrimenti mostra errore *)
@@ -95,7 +96,7 @@ placementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
         DynamicModule[{  (* Modulo interno per la fase di posizionamento *)
           currentShip = 1, start = "", end = "",  (* Stato della nave corrente e input coordinate *)
           shipPlacementMsg = "", placementDone = False,  (* Messaggi e stato del posizionamento *)
-          gridSize = GetGridSize[]  (* Dimensione della griglia presa dalla costante globale *)
+          gridSize = getGridSize[]  (* Dimensione della griglia presa dalla costante globale definita in Interaction.m *)
         },
 
         Column[{  (* Colonna di layout della fase 2 *)
@@ -119,11 +120,12 @@ placementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
                 {"Fine:", InputField[Dynamic[end], String, Enabled -> Dynamic[!placementDone]]},
 
                 {"", Button["Conferma",  (* Bottone per posizionare la nave *)
-                  Module[{result = PlaceUserShip[start, end]},  (* Chiama la funzione che tenta il posizionamento *)
+                  Module[{result = placeUserShip[start, end]},  (* Chiama la funzione in Interaction.m che tenta il posizionamento *)
                     If[result[[1]],  (* Se il posizionamento ha successo... *)
                       start = ""; end = "";  (* Pulisce gli input *)
-
-                      If[Length[GetRemainingShipLengths[]] == 0,  (* Controlla se restano navi da posizionare *)
+					
+                      If[Length[getRemainingShipLengths[]] == 0, (*get definito in Interaction.m*) 
+                      (* Controlla se restano navi da posizionare *)
                         placementDone = True;  (* Flag: tutte le navi piazzate *)
                         shipPlacementMsg = "Tutte le navi sono state posizionate!";,
                         currentShip++;  (* Altrimenti passa alla successiva *)
@@ -136,13 +138,14 @@ placementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
                 ]},
 
                 {"", Button["Avvia Battaglia",  (* Bottone per iniziare la battaglia *)
-                  userShips = GetUserShips[];  (* Recupera le navi utente *)
-                  userGrid = GetUserGrid[];  (* Recupera la griglia utente *)
+                  userShips = getUserShips[];  (* Recupera le navi utente *)
+                  userGrid = getUserGrid[];  (* Recupera la griglia utente *)
                   phase = 3;,  (* Passa alla fase 3 *)
                   Enabled -> Dynamic[placementDone]
                 ]},
 
                 {"", Row[{  (* Pulsanti di aiuto per la base selezionata *)
+                (*pulsanti generati tramite funzioni definite in Interaction.m*)
                   helpUser[baseValue],
                   Spacer[30],
                   helpUserPersonalized[baseValue]
@@ -161,10 +164,10 @@ placementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
             Column[{  (* Colonna destra con visualizzazione griglia *)
 
               Style["La tua flotta", Bold, 14],
-              Dynamic[Util`showGrid[GetUserGrid[], True]],
+              Dynamic[Util`showGrid[getUserGrid[], True]], (*getter definito in Ineraction.m e showGrid definita in Util.m*)
 
               Style["Navi da posizionare:", Bold, 12],
-              Dynamic[Module[{remaining = GetRemainingShipLengths[]},
+              Dynamic[Module[{remaining = getRemainingShipLengths[]}, (*getter definito in Interaction.m*)
                 If[Length[remaining] > 0,
                   "Lunghezze rimanenti: " <> ToString[remaining],
                   "Tutte le navi sono state posizionate!"
@@ -189,23 +192,24 @@ placementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
 
         Style["Battaglia Navale in Base " <> ToString[baseValue], Bold, 20, Red],
         Spacer[10],
-        Dynamic[StartGame[  (* Inizia la battaglia vera e propria con le griglie e navi *)
-          GetUserShips[],
-          GetCpuShip[],
-          GetUserGrid[],
-          GetCpuGrid[],
+        Dynamic[startGame[  (* Inizia la battaglia vera e propria con le griglie e navi tramite startGame definita in Battle.m *)
+        (*getters definiti in Interaction.m*)
+          getUserShips[],
+          getCpuShip[],
+          getUserGrid[],
+          getCpuGrid[],
           baseValue,
-          GetGridSize[]
+          getGridSize[]
         ]],
         Spacer[10],
-        Button["Reset Game", ResetGame[]; phase = 1;]  (* Pulsante per ricominciare *)
+        Button["Reset Game", resetGame[]; phase = 1;]  (* Pulsante per ricominciare, esegue il reset delle variabili globali tramite resetGame definita in Battle.m*)
 
       }]  (* Fine colonna fase 3 *)
 
     ]]  (* Fine Dynamic[Which[...] ] *)
 
   }]  (* Fine Column principale *)
-
+,FontFamily->"Arial"] (*imposto Arial come font per tutto il testo*)
 ];  (* Fine funzione PlacementUI *)
 
 End[];  (* Chiude il contesto privato *)

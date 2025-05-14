@@ -20,12 +20,12 @@
 
 BeginPackage["Util`"];
 
-initSeed::usage="initSeed[seed] serve per inizializzare il PRNG prima di richimare le varie random"
+initSeed::usage="initSeed[seed] serve per inizializzare il seed prima di richiamare le varie random"
 convertToDecimal::usage = "convertToDecimal[input,base] converte una stringa da base specificata a base 10";
 verifyInput::usage = "verifyInput[gridSize, base, input]controlla che l'input sia accettabile secondo la base scelta e la dimensione della griglia";
-createGrid::usage="createGrid[ships, gridSize] crea una matrice gridSizexgridSize a partire dalle navi";
+createGrid::usage="createGrid[ships, gridSize] crea una matrice gridSize x gridSize a partire dalle navi";
 showGrid::usage="showGrid[grid_, gridSize_] disegna la griglia di gioco mostrando le navi e gli attacchi";
-conversionFromDec::usage="conversionFromDec[base,numberDec] mostra i passaggi della conversione di un numero da base 10 a base qualsiasi tra 2,8 e 16";
+conversionFromDec::usage="conversionFromDec[base,numberDec] restituisce i passaggi della conversione di un numero da base 10 a base qualsiasi";
 conversionToDec::usage = "conversionToDec[base, number] restituisce i passaggi per la conversione di un numero da base qualsiasi a base 10."
 
 Colpito::usage = "Valore costante per cella colpita.";
@@ -81,7 +81,7 @@ convertToDecimal[input_String, base_Integer] := Module[
   
   (* Verifica che l'input contenga solo caratteri validi per la base specificata *)
   If[!AllTrue[Characters[input], MemberQ[validChars, #] &] || input=="" || input==" ",
-    Return[$Failed] (* Restituisce errore se l'input non è valido *)
+    Return[$Failed] (* Restituisce errore se l'input non \[EGrave] valido *)
   ];
   
   (* Conversione da base specificata a base 10 *)
@@ -204,7 +204,7 @@ conversionFromDec[base_, numberDec_]:=Module[{colors, isNumberDec}, (*numero con
 	];
 		
 
-(* funzione per inizializzare il PRNG la prima volta*)
+(* funzione per inizializzare il seed la prima volta*)
 initSeed[seed_Integer] := Module[{},
   SeedRandom[seed];
   (* restituiamo Null, l\[CloseCurlyQuote]importante \[EGrave] che il generatore sia resettato *)
@@ -216,7 +216,7 @@ verifyInput[gridSize_, base_, input_] := Module[{decimal, coordinates, row, col,
   (* Conversione dell'input in base 10 *)
   decimal = convertToDecimal[input, base];
   
-  (* Verifica se la conversione è avvenuta correttamente *)
+  (* Verifica se la conversione \[EGrave] avvenuta correttamente *)
   If[decimal === $Failed,
     (* Messaggio di errore specifico per conversione fallita *)
     errorMsg = "Input non valido! Inserisci un numero corretto in base " <> ToString[base];
@@ -248,10 +248,10 @@ verifyInput[gridSize_, base_, input_] := Module[{decimal, coordinates, row, col,
 createGrid[ships_,gridSize_]:=Module[{
   grid=ConstantArray[Vuoto,{gridSize,gridSize}]},     (* Inizializza griglia vuota *)
   (* Itera attraverso tutte le coordinate delle navi e le posiziona sulla griglia *)
-  (* ships è una lista di liste, dove ogni sottolista contiene coordinate {riga, colonna} *)
+  (* ships \[EGrave] una lista di liste, dove ogni sottolista contiene coordinate {riga, colonna} *)
 	Do[
     (* Imposta la cella alla posizione indicata come contenente una nave (valore = 1) *)
-    (* +1 perché gli indici in Mathematica partono da 1, ma le coordinate sono 0-based *)
+    (* +1 perch\[EAcute] gli indici in Mathematica partono da 1, ma le coordinate sono 0-based *)
     grid[[coord[[1]]+1,coord[[2]]+1]]=Nave,
     {coordList,ships},      (* Itera attraverso ogni nave *)
     {coord,coordList}];     (* Itera attraverso ogni coordinata della nave *)

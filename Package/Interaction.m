@@ -22,7 +22,7 @@ AskSeedInput::usage = "AskSeedInput[inputSeed] chiede all'utente di inserire il 
 AskBaseChoice::usage = "AskBaseChoice[inputBase] chiede all'utente di inserire la base su cui si vuole esercitare (2, 8, 16)";
 
 isBase::usage="isBase[base] controlla che base sia 2, 8 o 16";
-isSeed::usage="isSeed[seedStr_String] controlla che seed sia un numero intero";
+isSeed::usage="isSeed[seedStr_String] controlla che seed sia un numero intero decimale";
 helpUser::usage="helpUser[base] mostra in una nuova finestra la conversione in base scelta di un numero decimale casuale";
 helpUserPersonalized::usage="helpUserPersonalized[base] chiede in una nuova finestra all'utente di inserire un numero decimale e mostra la sua conversione in base scelta";
 
@@ -50,12 +50,16 @@ SetUserShips::usage="SetUserShips[ships_List] imposta navi dell'utente";
 SetUserGrid::usage="SetUserGrid[grid_List] imposta matrice griglia utente";
 SetCPUShips::usage="SetCPUShips[ships_List] imposta navi della cpu";
 SetCPUGrid::usage="SetCPUGrid[grid_List] imposta matrice griglia cpu";
-SetSeed::usage="SetSeed[number_Integer] imposta il seed"
-SetupNotebookClosing::usage="SetupNotebookClosing[nb_NotebookObject]";
+SetSeed::usage="SetSeed[number_Integer] imposta il seed";
 
 Begin["`Private`"];
 
-(*livelli di difficolt\[AGrave]*)
+(*livelli di difficolt\[AGrave]
+Un livello \[EGrave] definito da "livello", dimensione della griglia, lista delle lunghezze delle navi.
+- La dimensione equivale sia al numero di colonne che di righe (si ha una griglia quadrata)
+- La lista delle lunghezze delle navi indica quante navi devono avere una certa lunghezza, 
+quindi, se ci sono due 5 (per esempio) due navi devono avere lunghezza 5,
+se invece c'\[EGrave] solo un 5 allora solo una nave deve avere lunghezza 5*)
 DifficultyLevels = {
   {"Facile", 3, {1}},         (* Livello facile: griglia 3x3, 1 nave di lunghezza 1 *)
   {"Medio", 6, {3, 2, 1}},    (* Livello medio: griglia 6x6, 3 navi di lunghezza 3,2,1 *)
@@ -64,61 +68,79 @@ DifficultyLevels = {
 
 
 (* Stati globali *)
-CpuShips = {}; (*lista delle navi della cpu \[RightArrow] ogni nave \[EGrave] a sua volta una lista delle coordinate delle celle occupate dalla nave stessa *)
-(*esempio a scopo puramente illustrativo (per mostrare la gestione delle navi): 
-{1,2} coordinate di una cella
-{{1,2},{1,3},{1,4}} nave (lista delle coordinate di tre celle)
-{ {{1,2},{1,3},{1,4}} , {{2,1},{2,3},{2,4}} } lista di navi (lista di due navi, entrambe occupano 3 celle)
+CpuShips = {}; (*lista delle navi della cpu \[RightArrow] ogni nave \[EGrave] a sua volta una lista delle celle occupate dalla nave stessa *)
+UserShips      = {}; (*lista delle navi dell'utente*)
+(*Di seguito un esempio a scopo puramente illustrativo per mostrare la gestione delle navi.
+Tenendo a mente che una cella \[EGrave] definita dalle sue coordinate abbiamo:
+{1,2} \[RightArrow] cella (riga 1 colonna 2)
+{{1,2},{1,3},{1,4}} \[RightArrow] nave \[RightArrow] lista delle celle occupate da una nave, in questo caso la nave ha dimensione 3.
+{ {{1,2},{1,3},{1,4}} , {{2,1},{2,3},{2,4}} } \[RightArrow] lista di navi (in questo caso \[EGrave] una lista di due navi che occupano entrambe 3 celle)
 *)
 
-UserShips      = {}; (*lista delle navi dell'utente*)
+(*La griglia di gioco \[EGrave] invece una matrice dove ogni cella \[EGrave] rappresentata da un numero ne indica lo stato.
+(vedi Util.m per la spiegazione degli stati di una cella)*)
 CpuGrid        = {}; (*griglia di gioco con le navi della cpu*)
 UserGrid       = {}; (*griglia di gioco con le navi dell'utente*)
 UserBase       = 10; (*base di conversione scelta dall'utente, sar\[AGrave] la base su cui si eserciter\[AGrave] a fare le conversioni*)
 ShipLengths    = {5, 4, 3, 2, 1}; (*lista delle lunghezze possibili, quante celle una nave pu\[OGrave] occupare*)
-GridSize       = 10; (*varibile che indica la grandezza del campo da gioco*)
+GridSize       = 10; (*variabile che indica la grandezza del campo da gioco, pi\[UGrave] precisamente indica il numero di righe e di colonne*)
 Seed           = 0; (*variabile per il seed*)
 
 (* SEED E BASE *)
 (*richiedi seed*)
 AskSeedInput[inputSeed_] := DynamicModule[{value = ToString[Seed]},
+(*il valore della variabile value \[EGrave] impostato di default a Seed (variabile globale del Seed) che , 
+in questo modo se l'utente non seleziona nulla comunque un valore alla base viene assegnato*)
   Row[{
     "Inserisci seed: ",
-    (*Tramite InputField si richiede all'utente di inserire un numero*)
-    (*il valore inserito viene assegnato a value dinamicamente 
-    e passato alla funzione inputSeed[value] ricevuta come parametro di AskSeedInput *)
+   (*Tramite InputField si richiede all'utente di inserire un numero*)
+    (*il valore inserito viene assegnato a value dinamicamente e passato alla funzione inputSeed[value].
+    inputSeed \[EGrave] una funzione anonima, passata ad AskSeedInput in Main.m da PlacementUI, che prende in input 
+    il valore inserito dall'utente in AskSeedInput e lo assegna ad una variabile dinamica 
+    (variabile usata per il seed in PlacementUI in Main.m) *)
     InputField[Dynamic[value, (value = #; inputSeed[value])&], String, ImageSize -> Small]
-    (*Number \[RightArrow] non permette di inserire lettere o caratteri speciali, 
-	permette esclusivamente di inserire valori numerici:
-	- positivi (+),
-	- negativi (-)
-	- e con la virgola (.) *)
   }]
 ];
 
 (* richiedi base *)
-AskBaseChoice[inputBase_]:= DynamicModule[{value = 2}, (*il valore della variabile \[EGrave] impostato di default a 2*)
+(*AskBaseChoice prende in input una funzione inputBase. 
+inputBase \[EGrave] una funzione anonima passata ad AskBaseChoice quando quest'ultima viene richiamata da PlacementUI in Main.m.
+Il compito di inputBase \[EGrave] quello di assegnare il valore scelto per la base tramite AskBaseChoice ad una variabile dinamica in Main.m.*)
+AskBaseChoice[inputBase_]:= DynamicModule[{value = 2}, 
+(*il valore della variabile value \[EGrave] impostato di default a 2, 
+in questo modo se l'utente non seleziona nulla comunque un valore alla base viene assegnato*)
   Row[{
     "Inserisci la base su cui ti vuoi esercitare: ",
-    (*Mostra un menu a tendina (PopUpMenu) che permette di selezionare solo uno tra i valori 2,8 e 16.
-    Questi rappresentano le tre basi possibili su cui l'utente pu\[OGrave] esercitarsi*)
+    (*Mostra un menu a tendina (PopUpMenu) che permette di selezionare solo uno tra i valori 2,8 e 16
+    (le tre basi possibili su cui l'utente pu\[OGrave] esercitarsi).
+     Il menu a tendina permette di evitare che l'utente sbagli l'inserimento della base.*)
     PopupMenu[Dynamic[value, (value = #; inputBase[value])&], {2, 8, 16}]
     (*come in AskSeedInput (vedi funzione sopra) il valore selezionato viene dinamicamente assegnato a value 
-    e passato in input alla funzione inputBase[value], ricevuta come parametro di AskBaseChoice*)
+    e passato in input alla funzione inputBase[value], ricevuta come parametro*)
   }]
 ];
 
-(*controlli per la base e il seed*)
+(*controlli per la base*) 
 isBase[base_]:=MemberQ[{2,8,16}, base]; (*restituisce vero se base \[EGrave] un numero tra 2,8 e 16, falso altrimenti*)
+
+(*controlli per il seed*)
+(*visto che AskSeedInput restituisce un valore come stringa, isSeed che controlla se tale valore sia corretto o meno
+ prende in input una stringa*)
 isSeed[seedStr_String] := Module[{validChars = CharacterRange["0", "9"], chars},
-  chars = Characters[seedStr];
+(*validChars \[EGrave] la lista di caratteri accettabili.
+Dato che il seed deve essere decimale, i caratteri accettabili sono i numeri da 0 a 9*)
+  chars = Characters[seedStr]; (*lista dei caratteri in seedStr*)
   
   (* Gestisce il caso di numeri con segno (+/-) *)
   If[Length[chars] > 0 && MemberQ[{"+", "-"}, First[chars]],
+  (*quando c'\[EGrave] almeno un caratterre,cio\[EGrave] la stringa non \[EGrave] vuota, e il primo carattere \[EGrave] un segno:*)
     chars = Rest[chars]; (* Rimuove il primo carattere (il segno) *)
   ];
+  (*il segno viene rimosso, solo se \[EGrave] il primo carattere, perch\[EGrave] si accettano numeri negativi e positivi,
+  non rientra tra i caratteri accettabili perch\[EGrave] comunque rimane non accettabile 
+  se il segno si trova in una posizione diversa dalla prima cifra*)
   
-  (* Verifica che tutti i caratteri restanti siano cifre e che ci sia almeno un carattere *)
+  (* Verifica che tutti i caratteri restanti siano cifre accettabili e che ci sia almeno un carattere *)
   Length[chars] > 0 && AllTrue[chars, MemberQ[validChars, #]&]
 ];
 
@@ -134,21 +156,27 @@ helpUserPersonalized[base_Integer]:=PopupWindow[
 	(*al click del bottone viene aperta una finestra 
 		che chiede all'utente di inserire un numero decimale,
 		poi mostra la conversione in base scelta del numero inserito*)
-	DynamicModule[{numberDec=0,error="",ex=""}, (*numero da convertire, messaggio di errore, esercizio (conversione passaggio per passaggio del numero)*)
+	DynamicModule[{numberDec="",error="",ex=""}, 
+	(*numberDec \[RightArrow] numero da convertire, 
+	error\[RightArrow] messaggio di errore, 
+	ex \[RightArrow] esercizio (conversione passaggio per passaggio del numero)*)
 		Style[ (*imposto uno stesso stile di base per tutti i testi nella finestra*)
 			Column[{ (*uno di seguito all'altro (in colonna) vengono mostrati:
 						- inserimento del numero e bottone, 
 						- eventuale messaggio di errore,
-						- conversione del numero se inserito *)
+						- conversione del numero *)
 				"Inserisci un numero decimale intero e positivo da convertire in base "<>ToString[base],
-				Row[{
+				Row[{ (*richiesta del nummero da convertire*)
 					(*viene mostrato in una sola riga:
 					- il campo per l'inserimento del numero decimale
 					- e il bottone per mostrare la conversione*)
-					InputField[Dynamic[numberDec], Number, ImageSize -> Small], (*permette di inserire solo valori numerici*)
+					InputField[Dynamic[numberDec], String, ImageSize -> Small], 
+					(*numberDec deve essere un numero intero decimale positivo, quindi faccio il controllo con convertToDecimal in Util.m*)
+										
 					Button["Converti in base "<>ToString[base],
 						(*al click del bottone viene controllato che il valore sia un numero intero positivo*)
-						If[IntegerQ[numberDec]&&numberDec>=0,
+						If[convertToDecimal[numberDec,10]=!=$Failed, (*per il controllo richiamo convertToDecimal definita i Util.m*)
+							numberDec=convertToDecimal[numberDec];
 							error=""; (*se i controlli vanno a buon fine non c'\[EGrave] nessun messaggio di errore*)
 							(*aggiorno la variabile ex assegnandogli i passaggi per la conversione del numero*)
 							ex=Column[{
@@ -169,7 +197,7 @@ helpUserPersonalized[base_Integer]:=PopupWindow[
 			}]
 		,12] (*dimensione del testo*)
 	]
-, WindowTitle -> "Chiedi Una Cella" (*titolo della finestra*), WindowFloating -> True, WindowMargins -> {{0, Automatic}, {0, Automatic}}]//singlePopup (*per evitare di aprire la finestra pi\[UGrave] volte se gi\[AGrave] \[EGrave] aperta*); 
+, WindowTitle -> "Chiedi Una Cella" (*titolo della finestra*), WindowFloating -> True]//singlePopup (*per evitare di aprire la finestra pi\[UGrave] volte se gi\[AGrave] \[EGrave] aperta*); 
 
 (* suggerimento non personalizzato, esempio di conversione*)
 helpUser[base_Integer]:=PopupWindow[
@@ -180,16 +208,19 @@ helpUser[base_Integer]:=PopupWindow[
 			(*suggerimento*)
 			Style[ (*imposta stile di base per il testo*)
 			Column[{
+				(*titolo*)
 				Style["Ripassiamo le conversioni tra basi 10 e "<>ToString[base],Bold,Red,15,TextAlignment->Center], (*titolo*)
 				Spacer[10],
+				(*sottotitolo*)
 				Style["Da base 10 a base "<>ToString[base]<>" :",Underlined,Italic,13], (*sottotitolo*)
 				Spacer[5],
-				Row[{"Consideriamo il numero: ",Subscript[numberDec,10]}], (*indico il numero da convertire*)
+				(*esercizio conversione*)
+				Row[{"Consideriamo il numero: ",Subscript[numberDec,10]}], (*indico il numero da convertire, specificando con Subscript la base numerica*)
 				(*conversionFromDec[base,numberDec] \[EGrave] una funzione definita Util.m*)
 				conversionFromDec[base,numberDec] (*richiamo conversionFromDec[base,numberDec] per mostrare i passaggi della conversione del numero in base scelta*)
 			}],12] (*dimensione del testo*)
 		]
-,WindowTitle->"Suggerimento", WindowFloating->True,WindowMargins->{{0,Automatic},{0,Automatic}}]//singlePopup (*per evitare di aprire la finestra pi\[UGrave] volte se gi\[AGrave] \[EGrave] aperta*);
+,WindowTitle->"Suggerimento", WindowFloating->True]//singlePopup (*per evitare di aprire la finestra pi\[UGrave] volte se gi\[AGrave] \[EGrave] aperta*);
 
 
 

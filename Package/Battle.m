@@ -285,6 +285,8 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
     Column[{
       (* Titolo *)
       Style["Inizia la battaglia!!!", Bold, 24, Red],
+      Dynamic[Style["Stato del gioco: "<>gameState, Bold, 14, Darker[Green]]],
+      Spacer[5],
       Row[{
         (* Griglia utente *)
         Column[{
@@ -365,8 +367,7 @@ StartGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
         Dynamic[messageUser],
         Spacer[15],
         Style["Attacco CPU:", Bold, 12],
-        Dynamic[messageCpu],
-      Dynamic[Style[gameState, Bold, 14, Darker[Green]]]
+        Dynamic[messageCpu]     
     }]
   ]
 ]

@@ -663,7 +663,7 @@ createExplainationConversion[] := Module[{},
   
   (* Cella per la sezione introduttiva *)
   CellPrint[Cell[
-    BoxData[ToBoxes[Style[Column[IntroSection[], Alignment -> Left], FontFamily -> "Arial"]]],
+    BoxData[ToBoxes[Style[Column[introSection[], Alignment -> Left], FontFamily -> "Arial"]]],
     "Output",
     CellTags -> "Tutorial: Conversioni tra sistemi numerici"
   ]];

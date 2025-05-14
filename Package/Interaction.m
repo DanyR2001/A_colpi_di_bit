@@ -176,7 +176,7 @@ helpUserPersonalized[base_Integer]:=PopupWindow[
 					Button["Converti in base "<>ToString[base],
 						(*al click del bottone viene controllato che il valore sia un numero intero positivo*)
 						If[convertToDecimal[numberDec,10]=!=$Failed, (*per il controllo richiamo convertToDecimal definita i Util.m*)
-							numberDec=convertToDecimal[numberDec];
+							numberDec=convertToDecimal[numberDec,10];
 							error=""; (*se i controlli vanno a buon fine non c'\[EGrave] nessun messaggio di errore*)
 							(*aggiorno la variabile ex assegnandogli i passaggi per la conversione del numero*)
 							ex=Column[{

@@ -22,12 +22,12 @@ BeginPackage["Util`"];
 
 initSeed::usage="initSeed[seed] serve per inizializzare il PRNG prima di richimare le varie random"
 convertToDecimal::usage = "convertToDecimal[input,base] converte una stringa da base specificata a base 10";
-mapCoordinate::usage = "mapCoordinate[decimal, gridSize] converte un numero decimale in coordinate {riga, colonna}";
 verifyInput::usage = "verifyInput[gridSize, base, input]controlla che l'input sia accettabile secondo la base scelta e la dimensione della griglia";
 createGrid::usage="createGrid[ships, gridSize] crea una matrice gridSizexgridSize a partire dalle navi";
-showGrid::usage="drawGrid[grid_, gridSize_, ships_Bool] disegna la griglia di gioco mostrando le navi e gli attacchi";
+showGrid::usage="showGrid[grid_, gridSize_] disegna la griglia di gioco mostrando le navi e gli attacchi";
 conversionFromDec::usage="conversionFromDec[base,numberDec] mostra i passaggi della conversione di un numero da base 10 a base qualsiasi tra 2,8 e 16";
 conversionToDec::usage = "conversionToDec[base, number] restituisce i passaggi per la conversione di un numero da base qualsiasi a base 10."
+
 Colpito::usage = "Valore costante per cella colpita.";
 Mancato::usage = "Valore costante per cella mancata.";
 Nave::usage = "Valore costante per cella contenente nave.";
@@ -72,16 +72,16 @@ convertToDecimal[input_String, base_Integer] := Module[
   
   (* Definizione dei caratteri validi per ciascuna base *)
   validChars = Switch[base,
-    2, {"0", "1"},
-    8, CharacterRange["0", "7"],
-    10, CharacterRange["0", "9"],
-    16, Join[CharacterRange["0", "9"], CharacterRange["A", "F"], CharacterRange["a", "f"]],
-    _, {}
+    2, {"0", "1"},                                                                              (* Base binaria *)
+    8, CharacterRange["0", "7"],                                                                (* Base ottale *)
+    10, CharacterRange["0", "9"],                                                               (* Base decimale *)
+    16, Join[CharacterRange["0", "9"], CharacterRange["A", "F"], CharacterRange["a", "f"]],     (* Base esadecimale *)
+    _, {}                                                                                       (* Base non supportata - restituisce lista vuota *)
   ];
   
   (* Verifica che l'input contenga solo caratteri validi per la base specificata *)
   If[!AllTrue[Characters[input], MemberQ[validChars, #] &] || input=="" || input==" ",
-    Return[$Failed]
+    Return[$Failed] (* Restituisce errore se l'input non è valido *)
   ];
   
   (* Conversione da base specificata a base 10 *)
@@ -89,8 +89,8 @@ convertToDecimal[input_String, base_Integer] := Module[
   
   (* Verifica che la conversione sia avvenuta correttamente *)
   If[!IntegerQ[result] || result < 0,
-    Return[$Failed],
-    result
+    Return[$Failed],      (* Conversione fallita *)
+    result                (* Restituisce il numero convertito *)
   ]
 ];
 
@@ -216,18 +216,22 @@ verifyInput[gridSize_, base_, input_] := Module[{decimal, coordinates, row, col,
   (* Conversione dell'input in base 10 *)
   decimal = convertToDecimal[input, base];
   
+  (* Verifica se la conversione è avvenuta correttamente *)
   If[decimal === $Failed,
     (* Messaggio di errore specifico per conversione fallita *)
     errorMsg = "Input non valido! Inserisci un numero corretto in base " <> ToString[base];
     Return[{$Failed, errorMsg}]  (* Restituisce una tupla con $Failed e il messaggio *)
   ];
   
-  (* Calcolo della riga e colonna direttamente qui *)
+  (* Calcolo delle coordinate dalla rappresentazione decimale *)
+  (* La cifra meno significativa rappresenta la colonna *)
   col = Mod[decimal, 10];
+  (* La parte intera della divisione per 10 rappresenta la riga *)
   row = Quotient[decimal, 10];
   
   
   (* Verifica che sia riga che colonna siano all'interno dei limiti della griglia *)
+  (* Entrambe devono essere >= 0 e < gridSize *)
   If[row < 0 || row >= gridSize || col < 0 || col >= gridSize,
     (* Messaggio di errore specifico per coordinate fuori griglia *)
     errorMsg = "Coordinate fuori dalla griglia! Riga e colonna devono essere comprese tra 0 e " <> 
@@ -240,52 +244,70 @@ verifyInput[gridSize_, base_, input_] := Module[{decimal, coordinates, row, col,
 ];
 
 
-
-createGrid[ships_,gridSize_]:=Module[{grid=ConstantArray[Vuoto,{gridSize,gridSize}]},
-	Do[grid[[coord[[1]]+1,
-    coord[[2]]+1]]=1,
-    {coordList,ships},
-    {coord,coordList}];
+(* Crea una griglia di gioco posizionando le navi *)
+createGrid[ships_,gridSize_]:=Module[{
+  grid=ConstantArray[Vuoto,{gridSize,gridSize}]},     (* Inizializza griglia vuota *)
+  (* Itera attraverso tutte le coordinate delle navi e le posiziona sulla griglia *)
+  (* ships è una lista di liste, dove ogni sottolista contiene coordinate {riga, colonna} *)
+	Do[
+    (* Imposta la cella alla posizione indicata come contenente una nave (valore = 1) *)
+    (* +1 perché gli indici in Mathematica partono da 1, ma le coordinate sono 0-based *)
+    grid[[coord[[1]]+1,coord[[2]]+1]]=Nave,
+    {coordList,ships},      (* Itera attraverso ogni nave *)
+    {coord,coordList}];     (* Itera attraverso ogni coordinata della nave *)
 	grid
 ];
 
+(* FUNZIONE per mostrare la griglia*)
+(*prende in input la griglia del giocatore 
+e un valore booleano che indica se la posizione delle navi deve essere nascosta o meno*)
 showGrid[grid_, ships_] := Module[{
     gridSize = Length[grid],
     gridWithLabels
   },
-  (* Crea una nuova griglia con spazio per le etichette *)
-  gridWithLabels = ConstantArray["", {gridSize + 1, gridSize + 1}];
+  (*di seguito si aggiungono una colonna a sinistra e una riga in alto 
+  per inserire la numerazione delle righe e delle colonne*)
   
-  (* Aggiungi gli indici riga (0-9) sul lato sinistro *)
+  (* Creazione di una nuova griglia con spazio per le etichette (numerazione)*)
+  gridWithLabels = ConstantArray["", {gridSize + 1, gridSize + 1}];
+  (*la nuova griglia avr\[AGrave] dimensione gridSize+1*)
+  
+  (* Aggiungi gli indici riga (range 0-9) sul lato sinistro (prima colonna a sinistra) *)
   Do[
-    gridWithLabels[[i + 1, 1]] = ToString[i - 1],
+    gridWithLabels[[i + 1, 1]] = ToString[i - 1], 
+    (*gli indici partono dalla cella (2,1) e arrivano all'ultima cella (gridSize+1, 1)*)
     {i, 1, gridSize}
   ];
   
-  (* Aggiungi gli indici colonna (0-9) in alto *)
+  (* Aggiungi gli indici colonna (range 0-9) in alto (prima riga in alto) *)
   Do[
     gridWithLabels[[1, j + 1]] = ToString[j - 1],
+    (*gli indici partono dalla cella (1,2) e arrivano all'ultima cella (1, gridSize+1)*)
     {j, 1, gridSize}
   ];
   
-  (* Copia i contenuti della griglia *)
+  (* copio nella nuova griglia (gridWithLabels) il contenuto della griglia del giocatore (grid)
+  ma al posto dei valori numerici inserisco un quadrato colorato 
+  cos\[IGrave] da poter mostrare all'utente una griglia di pi\[UGrave] facile comprensione *)
   Do[
-    gridWithLabels[[i + 1, j + 1]] = 
-      If[grid[[i, j]] == Colpito,
-        Style["\[FilledSquare]", Red],      (* colpito *)
-      If[grid[[i, j]] == Mancato,
-        Style["\[FilledSquare]", Gray],     (* mancato *)
-      If[grid[[i, j]] == Affondato,
-        Style["\[Dagger]", Blue, Bold, 18],     (* affondato *)
-      If[grid[[i, j]] == Nave && ships,
-        Style["\[FilledSquare]", Black],    (* nave visibile solo se ships=True *)
-        ""                   (* altrimenti vuoto *)
+	gridWithLabels[[i + 1, j + 1]] = 
+      If[grid[[i, j]] == Colpito,          (* Se Nave Colpita*)
+        Style["\[FilledSquare]", Red],      (*inserisco un quadrato rosso*)
+      If[grid[[i, j]] == Mancato,          (*Se Cella Colpita senza nave*)
+        Style["\[FilledSquare]", Gray],     (* inserisco un quadrato grigio *)
+      If[grid[[i, j]] == Affondato,        (*Se Nave Affondata *)
+        Style["\[Dagger]", Blue, Bold, 18], (* inserisco una croce *)
+      If[grid[[i, j]] == Nave && ships,    (*Se c'\[EGrave] una Nave *)
+                                            (* nave visibile solo se ships=True, in questo modo per la cpu possiamo non mostrare le navi impostando ships=False*)
+        Style["\[FilledSquare]", Black],    (* inserisco un quadrato nero *)
+        ""                                  (* altrimenti vuoto *)
       ]]]],
     {i, 1, gridSize}, {j, 1, gridSize}
   ];
   
+  (*mostro la griglia con gli indici*)
   Grid[gridWithLabels, 
-    Frame -> All,
+    Frame -> All, 
     FrameStyle -> GrayLevel[0.5],
     Background -> {
       {GrayLevel[0.9], None, None, None, None, None, None, None, None, None, None},  (* Prima colonna in grigio *)
@@ -295,7 +317,6 @@ showGrid[grid_, ships_] := Module[{
     ItemSize -> {1.5, 1.5}
   ]
 ];
-
 
 (*FUNZIONE che indica i passagi di una conversione da base specificata a base 10, usata negli esempi del tutorial*)
 (*prende in input il numero e la base numerica del numero stesso*) 

@@ -233,7 +233,7 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
    - Usa Module per avere variabili locali
 *)
 
-  {start, end, r1, c1, r2, c2, len, coords, usedLens, surroundingCells, isValid = True, errorMsg = "", maxDecimal, maxInBase},
+  {start, end, r1, c1, r2, c2, len, coords, usedLens, surroundingCells, isValid = True, errorMsg = ""},
   (* Definizione delle variabili locali:
      - start, end: coordinate elaborate
      - r1, c1, r2, c2: righe e colonne di inizio/fine
@@ -243,15 +243,7 @@ PlaceUserShip[startRaw_String, endRaw_String] := Module[
      - surroundingCells: celle attorno alla nave
      - isValid: flag booleano per controlli
      - errorMsg: messaggio di errore
-     - maxDecimal: massimo valore decimale per la griglia
-     - maxInBase: massimo valore rappresentabile nella base dell'utente
   *)
-
-  maxDecimal = GridSize^2 - 1;
-  (* Calcola il valore massimo decimale basato sulla dimensione della griglia (es. 10x10 \[RightArrow] 99) *)
-
-  maxInBase = IntegerString[maxDecimal, UserBase];
-  (* Calcola la rappresentazione in base dell'utente del valore massimo decimale *)
 
   If[Length[ShipLengths] == 0, 
     (* Controlla se non ci sono pi\[UGrave] navi disponibili da posizionare *)

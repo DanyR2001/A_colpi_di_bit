@@ -19,11 +19,11 @@
 
 BeginPackage["AcolpiDiBit`", {"Util`", "Battle`", "Interaction`"}];  (* Apre il pacchetto Main e importa gli altri pacchetti richiesti *)
 
-PlacementUI::usage = "PlacementUI[] interfaccia per il posizionamento navi";  (* Descrizione accessibile dell'interfaccia pubblica *)
+placementUI::usage = "placementUI[] interfaccia per il posizionamento navi";  (* Descrizione accessibile dell'interfaccia pubblica *)
 
 Begin["`Private`"];  (* Entra nella sezione Private, dove si definisce la logica interna del pacchetto *)
 
-PlacementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo stato interattivo e aggiornato *)
+placementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo stato interattivo e aggiornato *)
   
   {  (* Inizio della lista delle variabili locali del modulo *)
 

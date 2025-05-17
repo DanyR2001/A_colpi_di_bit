@@ -79,13 +79,13 @@ placementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
               initDone = True;,  (* Segna che l'inizializzazione \[EGrave] avvenuta *)
               message = "Errore durante l'inizializzazione. Riprova.";  (* Altrimenti mostra errore *)
             ],
-            message = "Seed (Intero non negativo) o base (2,8,16) non validi!";  (* Messaggio se input non valido *)
+            message = "Seed non valido!\nInserisci un numero decimale intero negativo o positivo.";  (* Messaggio se input non valido *)
           ]
         ],
 
         Spacer[10],  (* Spazio verticale *)
 
-        Dynamic[message]  (* Mostra messaggi dinamicamente in base alla variabile message *)
+        Dynamic[Style[message, Red]]  (* Mostra messaggi dinamicamente in base alla variabile message *)
 
       }],  (* Fine colonna fase 1 *)
 

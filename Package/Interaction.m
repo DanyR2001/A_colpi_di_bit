@@ -18,14 +18,13 @@
 (* File: Interaction.m *)
 
 BeginPackage["Interaction`", {"Util`"}];
-askSeedInput::usage = "askSeedInput[inputSeed] chiede all'utente di inserire il seed";
-askBaseChoice::usage = "askBaseChoice[inputBase] chiede all'utente di inserire la base su cui si vuole esercitare (2, 8, 16)";
+askSeedInput::usage = "askSeedInput[inputSeed] chiede all'utente di inserire il seed.";
+askBaseChoice::usage = "askBaseChoice[inputBase] chiede all'utente di inserire la base su cui si vuole esercitare (2, 8, 16).";
 
-isBase::usage="isBase[base] controlla che base sia 2, 8 o 16";
-isSeed::usage="isSeed[seedStr_String] controlla che seed sia un numero intero decimale";
-helpUser::usage="helpUser[base] mostra in una nuova finestra la conversione in base scelta di un numero decimale casuale";
-helpUserPersonalized::usage="helpUserPersonalized[base] chiede in una nuova finestra all'utente di inserire un numero decimale e mostra la sua conversione in base scelta";
-
+isBase::usage="isBase[base] controlla che la base sia 2, 8 o 16.";
+isSeed::usage="isSeed[seedStr_String] controlla che il seed sia un numero intero decimale.";
+helpUser::usage="helpUser[base] mostra in una nuova finestra la conversione in base scelta di un numero decimale casuale.";
+helpUserPersonalized::usage="helpUserPersonalized[base] chiede in una nuova finestra all'utente di inserire un numero decimale e mostra la sua conversione in base scelta.";
 placeUserShip::usage =
   "placeUserShip[startRaw, endRaw] piazza in UserGrid una nave.\
 startRaw e endRaw sono stringhe di un intero in base UserBase (0..gridSize^2-1),\
@@ -34,32 +33,32 @@ Restituisce {True, grid} in caso di successo o {False, errorMsg} in caso di erro
 
 
 (*Getters delle variabili globali *)
-getUserShips::usage = "getUserShips[] restituisce lista di blocchi delle navi utente.";
-getUserGrid::usage = "getUserGrid[] restituisce matrice griglia utente.";
+getUserShips::usage = "getUserShips[] restituisce la lista di blocchi delle navi utente.";
+getUserGrid::usage = "getUserGrid[] restituisce la matrice della griglia utente.";
 getRemainingShipLengths::usage = "getRemainingShipLengths[] restituisce le lunghezze delle navi ancora da piazzare.";
-getDifficultyLevels::usage = "getDifficultyLevels[] restituisce i livelli di difficolt\[AGrave] disponibili";
-getCpuShip::usage="getCpuShip[] restituisce le navi della CPU";
-getCpuGrid::usage="getCpuGrid[] resitiruisce la griglia delle CPU";
-getGridSize::usage="setGridSize[] restituisce la grandezza della griglia";
+getDifficultyLevels::usage = "getDifficultyLevels[] restituisce i livelli di difficolt\[AGrave] disponibili.";
+getCpuShip::usage="getCpuShip[] restituisce le navi della CPU.";
+getCpuGrid::usage="getCpuGrid[] restituisce la griglia della CPU.";
+getGridSize::usage="getGridSize[] restituisce la grandezza della griglia.";
 
 (*Setters delle variabili globali*)
-setShipLengths::usage="setShipLengths[shipLengths_List] imposta le lunghezze delle navi";
-setUserBase::usage="setUserBase[base_Integer] imposta la base";
-setGridSize::usage="setGridSize[size_Integer] imposta dimensione delle griglie";
-setUserShips::usage="setUserShips[ships_List] imposta navi dell'utente";
-setUserGrid::usage="setUserGrid[grid_List] imposta matrice griglia utente";
-setCPUShips::usage="setCPUShips[ships_List] imposta navi della cpu";
-setCPUGrid::usage="setCPUGrid[grid_List] imposta matrice griglia cpu";
-setSeed::usage="setSeed[number_Integer] imposta il seed";
+setShipLengths::usage="setShipLengths[shipLengths_List] imposta le lunghezze delle navi.";
+setUserBase::usage="setUserBase[base_Integer] imposta la base.";
+setGridSize::usage="setGridSize[size_Integer] imposta la dimensione delle griglie.";
+setUserShips::usage="setUserShips[ships_List] imposta le navi dell'utente.";
+setUserGrid::usage="setUserGrid[grid_List] imposta la matrice della griglia utente.";
+setCPUShips::usage="setCPUShips[ships_List] imposta le navi della CPU.";
+setCPUGrid::usage="setCPUGrid[grid_List] imposta la matrice della griglia della CPU.";
+setSeed::usage="setSeed[number_Integer] imposta il seed.";
 
 Begin["`Private`"];
 
-(*livelli di difficolt\[AGrave]
+(* Livelli di difficolt\[AGrave]
 Un livello \[EGrave] definito da "livello", dimensione della griglia, lista delle lunghezze delle navi.
-- La dimensione equivale sia al numero di colonne che di righe (si ha una griglia quadrata)
-- La lista delle lunghezze delle navi indica quante navi devono avere una certa lunghezza, 
-quindi, se ci sono due 5 (per esempio) due navi devono avere lunghezza 5,
-se invece c'\[EGrave] solo un 5 allora solo una nave deve avere lunghezza 5*)
+- La dimensione equivale sia al numero di colonne che di righe (si ha una griglia quadrata).
+- La lista delle lunghezze delle navi indica quante navi devono avere una certa lunghezza. 
+  Quindi, se ci sono due 5 (per esempio), due navi devono avere lunghezza 5;
+  se invece c'\[EGrave] solo un 5, allora solo una nave deve avere lunghezza 5. *)
 DifficultyLevels = {
   {"Facile", 3, {1}},         (* Livello facile: griglia 3x3, 1 nave di lunghezza 1 *)
   {"Medio", 6, {3, 2, 1}},    (* Livello medio: griglia 6x6, 3 navi di lunghezza 3,2,1 *)
@@ -68,7 +67,8 @@ DifficultyLevels = {
 
 
 (* Stati globali *)
-CpuShips = {}; (*lista delle navi della cpu \[RightArrow] ogni nave \[EGrave] a sua volta una lista delle celle occupate dalla nave stessa *)
+CpuShips = {}; (*lista delle navi della CPU \[RightArrow] ogni nave \[EGrave] a sua volta una lista delle celle occupate dalla nave stessa *)
+
 UserShips      = {}; (*lista delle navi dell'utente*)
 (*Di seguito un esempio a scopo puramente illustrativo per mostrare la gestione delle navi.
 Tenendo a mente che una cella \[EGrave] definita dalle sue coordinate abbiamo:
@@ -77,7 +77,7 @@ Tenendo a mente che una cella \[EGrave] definita dalle sue coordinate abbiamo:
 { {{1,2},{1,3},{1,4}} , {{2,1},{2,3},{2,4}} } \[RightArrow] lista di navi (in questo caso \[EGrave] una lista di due navi che occupano entrambe 3 celle)
 *)
 
-(*La griglia di gioco \[EGrave] invece una matrice dove ogni cella \[EGrave] rappresentata da un numero ne indica lo stato.
+(*La griglia di gioco \[EGrave] invece una matrice dove ogni cella \[EGrave] rappresentata da un numero che ne indica lo stato.
 (vedi Util.m per la spiegazione degli stati di una cella)*)
 CpuGrid        = {}; (*griglia di gioco con le navi della cpu*)
 UserGrid       = {}; (*griglia di gioco con le navi dell'utente*)
@@ -166,7 +166,7 @@ helpUserPersonalized[base_Integer]:=PopupWindow[
 						- eventuale messaggio di errore,
 						- conversione del numero *)
 				"Inserisci un numero decimale intero e positivo da convertire in base "<>ToString[base],
-				Row[{ (*richiesta del nummero da convertire*)
+				Row[{ (*richiesta del numero da convertire*)
 					(*viene mostrato in una sola riga:
 					- il campo per l'inserimento del numero decimale
 					- e il bottone per mostrare la conversione*)
@@ -193,7 +193,7 @@ helpUserPersonalized[base_Integer]:=PopupWindow[
 					]
 				}],
 				Dynamic[error], (*mostro dinamicamente un messaggio di errore*)
-				Dynamic[ex] (*mostro dinamicamente i passaggi per effettuare la converisione del numero*)
+				Dynamic[ex] (*mostro dinamicamente i passaggi per effettuare la conversione del numero*)
 			}]
 		,12] (*dimensione del testo*)
 	]
@@ -252,11 +252,11 @@ placeUserShip[startRaw_String, endRaw_String] := Module[
   ];
 
   start = verifyInput[GridSize, UserBase, startRaw];  
-  (* Verifica la validit\[AGrave] della coordinata iniziale e la converte
+  (* Verifica la validit\[AGrave] della coordinata iniziale e la converte.
   verifyInput \[EGrave] definita in Util.m *)
 
   end = verifyInput[GridSize, UserBase, endRaw];
-  (* Verifica la validit\[AGrave] della coordinata finale e la converte 
+  (* Verifica la validit\[AGrave] della coordinata finale e la converte.
   verifyInput \[EGrave] definita in Util.m *)
 
   If[start[[1]] === $Failed, 
@@ -298,7 +298,7 @@ placeUserShip[startRaw_String, endRaw_String] := Module[
     errorMsg = "Hai gi\[AGrave] piazzato una nave di lunghezza " <> ToString[len] <> "!";
 
     If[Length[ShipLengths] > 0,
-      (* Se ci sono altre lunghezze da piazzare, le elenca *)
+      (* Se ci sono altre lunghezze da piazzare, le elenca. *)
       errorMsg = errorMsg <> " Mancano ancora le navi di lunghezza: " <> 
                 ToString[Complement[ShipLengths, usedLens]]
     ];
@@ -330,7 +330,7 @@ placeUserShip[startRaw_String, endRaw_String] := Module[
       {i, 1, Length[coords]}
     ], 2];
   (* Calcola le celle circostanti alla nave:
-     - Per ogni cella occupata, genera tutte le 8 celle intorno (matrice 3x3), cosi non si possono piazzare navi adiacenti *)
+     - Per ogni cella occupata, genera tutte le 8 celle intorno (matrice 3x3), cos\[IGrave] non si possono piazzare navi adiacenti *)
 
   surroundingCells = Select[surroundingCells, 
     !MemberQ[coords, #] && 
@@ -352,7 +352,7 @@ placeUserShip[startRaw_String, endRaw_String] := Module[
 
   If[!isValid,
     (* Se trova una nave adiacente *)
-    Return[{False, "Non puoi posizionare una nave adiacente ad un'altra nave!"}]
+    Return[{False, "Non puoi posizionare una nave adiacente a un'altra nave!"}]
   ];
 
   Do[
@@ -377,42 +377,42 @@ placeUserShip[startRaw_String, endRaw_String] := Module[
 
 getUserShips[] := UserShips;
 (* Restituisce la lista delle navi dell'utente:
-   - Ogni elemento della lista \[EGrave] una nave (cio\[EGrave] un'altra lista di coordinate)
-   - Serve per leggere le navi gi\[AGrave] piazzate
+   - Ogni elemento della lista \[EGrave] una nave (cio\[EGrave] un'altra lista di coordinate),
+   - Serve per leggere le navi gi\[AGrave] piazzate.
 *)
 
 getUserGrid[] := UserGrid;
 (* Restituisce la matrice della griglia utente:
-   - Griglia di gioco che contiene celle vuote e celle occupate da navi
-   - Utile per visualizzare lo stato attuale della griglia
+   - Griglia di gioco che contiene celle vuote e celle occupate da navi,
+   - Utile per visualizzare lo stato attuale della griglia.
 *)
 
 getRemainingShipLengths[] := ShipLengths;
 (* Restituisce le lunghezze delle navi che devono ancora essere piazzate:
-   - Serve per capire quali navi sono ancora disponibili
+   - Serve per capire quali navi sono ancora disponibili.
 *)
 
 getDifficultyLevels[] := DifficultyLevels;
 (* Restituisce la lista dei livelli di difficolt\[AGrave]:
-   - Ogni livello \[EGrave] una lista del tipo: {Nome, DimensioneGriglia, ListaLunghezzeNavi}
-   - Serve per mostrare le opzioni di difficolt\[AGrave] disponibili
+   - Ogni livello \[EGrave] una lista del tipo: {Nome, DimensioneGriglia, ListaLunghezzeNavi},
+   - Serve per mostrare le opzioni di difficolt\[AGrave] disponibili.
 *)
 
 getShipSize[]:=ShipSize;
 
 getCpuShip[]:=CpuShips;
 (* Restituisce la lista delle navi della CPU:
-   - Ogni elemento della lista \[EGrave] una nave (cio\[EGrave] un'altra lista di coordinate)
-   - Serve per leggere le navi gi\[AGrave] piazzate
+   - Ogni elemento della lista \[EGrave] una nave (cio\[EGrave] un'altra lista di coordinate),
+   - Serve per conoscere le navi gi\[AGrave] piazzate.
 *)
 getCpuGrid[]:=CpuGrid;
 (* Restituisce la matrice della griglia della CPU:
-   - Griglia di gioco che contiene celle vuote e celle occupate da navi
-   - Utile per visualizzare lo stato attuale della griglia
+   - Griglia di gioco che contiene celle vuote e celle occupate da navi,
+   - Utile per visualizzare lo stato attuale della griglia.
 *)
 
 getGridSize[]:= GridSize;
-(* Restiruisce la GridSize, dimensione della griglia di gioco*)
+(* Restituisce la GridSize, dimensione della griglia di gioco*)
 
 
 
@@ -422,47 +422,47 @@ getGridSize[]:= GridSize;
 
 setShipLengths[shipLengths_List] := ShipLengths = shipLengths;
 (* Imposta la variabile globale ShipLengths:
-   - Deve essere una lista (shipLengths_List)
-   - Serve per definire le lunghezze delle navi disponibili
+   - Deve essere una lista (shipLengths_List),
+   - Serve per definire le lunghezze delle navi disponibili.
 *)
 
 setUserBase[base_Integer] := If[isBase[base], UserBase = base, UserBase];
 (* Imposta la base numerica scelta dall'utente:
-   - Solo se la base \[EGrave] valida (controllata da isBase[base], deve essere 2, 8 o 16)
-   - Se non \[EGrave] valida, lascia invariato il valore attuale
+   - Solo se la base \[EGrave] valida (controllata da isBase[base], deve essere 2, 8 o 16),
+   - Se non \[EGrave] valida, lascia invariato il valore attuale.
 *)
 
 setGridSize[size_Integer] := If[size > 0, GridSize = size, GridSize];
 (* Imposta la dimensione della griglia:
-   - Solo se size > 0 (griglia almeno 1x1)
-   - Altrimenti lascia invariato il valore
+   - Solo se size > 0 (griglia almeno 1x1),
+   - Altrimenti lascia invariato il valore.
 *)
 
 setUserShips[ships_List] := UserShips = ships;
 (* Imposta la lista delle navi dell'utente:
-   - Permette di caricare direttamente uno stato salvato o ripristinare navi
+   - Permette di caricare direttamente uno stato salvato o ripristinare navi.
 *)
 
 setUserGrid[grid_List] := UserGrid = grid;
 (* Imposta la griglia utente:
-   - Griglia di gioco con le navi piazzate dall'utente
-   - Utile per ripristinare una partita salvata
+   - Griglia di gioco con le navi piazzate dall'utente,
+   - Utile per ripristinare una partita salvata.
 *)
 
 setCPUShips[ships_List] := CpuShips = ships;
 (* Imposta la lista delle navi della CPU:
-   - Permette di caricare direttamente uno stato salvato o ripristinare navi
+   - Permette di caricare direttamente uno stato salvato o ripristinare navi.
 *)
 
 
 setCPUGrid[grid_List] := CpuGrid = grid;
 (* Imposta la griglia della CPU:
-   - Griglia di gioco con le navi piazzate dalla CPU
-   - Utile per ripristinare una partita salvata
+   - Griglia di gioco con le navi piazzate dalla CPU.
 *)
 
 setSeed[number_Integer] := Seed = number;
-(*Imposta il seed della partita che verr\[AGrave] usato per permettere all'utente di ripetere ua stessa partita pi\[UGrave] volte*)
+(*Imposta il seed della partita:
+- Il seed permettere all'utente di ripetere una stessa partita pi\[UGrave] volte.*)
 
 
 End[];

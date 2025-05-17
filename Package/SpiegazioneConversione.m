@@ -18,7 +18,7 @@ BeginPackage["SpiegazioneConversione`", {"Util`","Interaction`"}]
 (* Inizio del package Tutorial, specificando che importa anche il package Util` *)
 
 createExplainationConversion::usage = "createExplainationConversion[] inserisce il tutorial nel notebook corrente."
-(* Definisce la descrizione della built-in createTutorial *)
+(* Definisce la descrizione della built-in createExplainationConversion *)
 
 introSection::usage = "introSection[] crea l'intestazione e il sommario."
 (* Definisce la descrizione della built-in introSection *)
@@ -423,7 +423,7 @@ Framed[TextCell[
         Dynamic[
           (* Blocco dinamico che si aggiorna automaticamente quando l'utente modifica l'input *)
           If[isSeed[d],
-            (* Verifica se l'input è un numero valido (usando la funzione isSeed dal package Util che prende una stringa e ci dice se è un numero) -  è stata riciclate per non duplicare codice *)
+            (* Verifica se l'input \[EGrave] un numero valido (usando la funzione isSeed dal package Util che prende una stringa e ci dice se \[EGrave] un numero) -  \[EGrave] stata riciclate per non duplicare codice *)
             Module[{numD = ToExpression[d]},
               (* Converte la stringa in un numero *)
               If[NumericQ[numD] && numD >= 0,
@@ -434,11 +434,11 @@ Framed[TextCell[
                  - numD = il numero inserito convertito in valore numerico
                 *)
                 "Inserisci un numero decimale valido (>= 0)"
-                (* Messaggio di errore se il numero non è valido o è negativo *)
+                (* Messaggio di errore se il numero non \[EGrave] valido o \[EGrave] negativo *)
               ]
             ],
             "Inserisci un numero decimale valido (>= 0)"
-            (* Messaggio di errore se l'input non è un numero *)
+            (* Messaggio di errore se l'input non \[EGrave] un numero *)
           ]
         ]
       (* Mostra dinamicamente la conversione o un messaggio d'errore *)
@@ -522,7 +522,7 @@ decToOctSection[] := {
           Dynamic[
             (* Blocco dinamico che si aggiorna quando l'utente modifica l'input *)
             If[isSeed[d],
-            (* Verifica se l'input è un numero valido (usando la funzione isSeed dal package Util che prende una stringa e ci dice se è un numero) -  è stata riciclate per non duplicare codice *)
+            (* Verifica se l'input \[EGrave] un numero valido (usando la funzione isSeed dal package Util che prende una stringa e ci dice se \[EGrave] un numero) -  \[EGrave] stata riciclate per non duplicare codice *)
               Module[{numD = ToExpression[d]},
                 (* Converte la stringa input in un numero *)
                 If[NumericQ[numD] && numD >= 0,
@@ -533,11 +533,11 @@ decToOctSection[] := {
                     - numD = il numero inserito convertito
                   *)
                   "Inserisci un numero decimale valido (>= 0)"
-                  (* Messaggio di errore se il numero non è valido o è negativo *)
+                  (* Messaggio di errore se il numero non \[EGrave] valido o \[EGrave] negativo *)
                 ]
               ],
               "Inserisci un numero decimale valido (>= 0)"
-              (* Messaggio di errore se l'input non è un numero *)
+              (* Messaggio di errore se l'input non \[EGrave] un numero *)
             ]
           ]
           (* Mostra dinamicamente la conversione o un messaggio d'errore *)
@@ -619,7 +619,7 @@ decToHexSection[] := {
           Dynamic[
             (* Blocco dinamico che si aggiorna quando l'utente modifica l'input *)
             If[isSeed[d],
-              (* Verifica se l'input è un numero valido (usando la funzione isSeed dal package Util che prende una stringa e ci dice se è un numero) -  è stata riciclate per non duplicare codice *)
+              (* Verifica se l'input \[EGrave] un numero valido (usando la funzione isSeed dal package Util che prende una stringa e ci dice se \[EGrave] un numero) -  \[EGrave] stata riciclate per non duplicare codice *)
               Module[{numD = ToExpression[d]},
                 (* Converte la stringa input in un numero *)
                 If[NumericQ[numD] && numD >= 0,
@@ -628,14 +628,14 @@ decToHexSection[] := {
                   (* Chiama la funzione di conversione da decimale con:
                       - base = 16 (esadecimale)
                       - numD = il numero inserito convertito
-                      - La funzione mostrerà la conversione passo passo
+                      - La funzione mostrer\[AGrave] la conversione passo passo
                     *)
                   "Inserisci un numero decimale valido (>= 0)"
-                (* Messaggio di errore se il numero non è valido o è negativo *)
+                (* Messaggio di errore se il numero non \[EGrave] valido o \[EGrave] negativo *)
                 ]
               ],
               "Inserisci un numero decimale valido (>= 0)"
-              (* Messaggio di errore se l'input non è un numero *)
+              (* Messaggio di errore se l'input non \[EGrave] un numero *)
             ]
           ]
           (* Mostra dinamicamente la conversione o un messaggio d'errore *)
@@ -653,7 +653,7 @@ decToHexSection[] := {
 (* =================== FUNZIONE PRINCIPALE =================== *)
 (* Definizione della built-in principale che unisce tutte le sezioni *)
 createExplainationConversion[] := Module[{},
-(* Definizione della built-in CreateTutorial che non ha argomenti:
+(* Definizione della built-in createExplainationConversion che non ha argomenti:
    - Usa Module per definire variabili locali
    - Non abbiamo pi\[UGrave] bisogno della variabile 'sezioni' perch\[EAcute] creiamo celle separate
 *)
@@ -713,7 +713,7 @@ createExplainationConversion[] := Module[{},
   (* Non restituiamo nulla perch\[EAcute] abbiamo gi\[AGrave] stampato tutte le celle *)
   Null
 ];
-(* Fine della built-in CreateTutorial *)
+(* Fine della built-in createExplainationConversion *)
 
 
 

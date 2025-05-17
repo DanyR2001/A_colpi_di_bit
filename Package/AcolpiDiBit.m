@@ -210,7 +210,7 @@ placementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
 
   }]  (* Fine Column principale *)
 ,FontFamily->"Arial"] (*imposto Arial come font per tutto il testo*)
-];  (* Fine funzione PlacementUI *)
+];  (* Fine funzione placementUI *)
 
 End[];  (* Chiude il contesto privato *)
 EndPackage[];  (* Chiude il pacchetto Main *)

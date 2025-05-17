@@ -646,7 +646,7 @@ decToHexSection[] := {
       ]
       (* Chiude il Framed della parte interattiva *)
   };
-(* Fine della built-in decToHexToDecSection *)
+(* Fine della built-in decToHexSection *)
 
 
 

@@ -21,12 +21,16 @@
 BeginPackage["Battle`", {"Util`", "Interaction`"}]; 
 
 
-generateCoordinate::usage = "generateCoordinate[gridSize] genera casualmente una coppia di coordinate(x,y)";
-attack::usage = "attack[attackCoords, grid, ships] attacca alle coordinate specificate, restituisce: attackResult \[RightArrow] messaggio, newGrid \[RightArrow] griglia aggiornata, hit\[RightArrow]booleano che indica se l'attacco \[EGrave] andato a buon fine, naveAffondata \[RightArrow] booleano, indica se l'attacco ha affondato una nave";
-generateCPUShips::usage = "generateCPUShips[gridSize, seed] genera casualmente le navi della CPU";
-startGame::usage = "startGame[userShips, CPUShips, userGridInit, cpuGridInit,userBase, gridSize] avvia il gioco (battaglia)";
+generateCoordinate::usage = "generateCoordinate[gridSize] genera casualmente una coppia di coordinate (x,y).";
+attack::usage = "attack[attackCoords, grid, ships] attacca alle coordinate specificate, restituisce:\
+attackResult \[RightArrow] messaggio,
+newGrid \[RightArrow] griglia aggiornata,
+hit\[RightArrow]booleano che indica se l'attacco \[EGrave] andato a buon fine,
+naveAffondata \[RightArrow] booleano, indica se l'attacco ha affondato una nave.";
+generateCPUShips::usage = "generateCPUShips[gridSize, seed] genera casualmente le navi della CPU.";
+startGame::usage = "startGame[userShips, CPUShips, userGridInit, cpuGridInit,userBase, gridSize] avvia il gioco (battaglia).";
 initPhase::usage =
-  "initPhase[base, gridSize] inizializza il gioco: base \[Element] {2,8,16}, gridSize \[EGrave] lato griglia.\
+  "initPhase[base, gridSize] inizializza il gioco: base \[Element] {2,8,16}, gridSize \[EGrave] la dimensione della griglia.\
 Imposta UserBase, GridSize, CpuGrid e UserGrid, resetta gli stati.";
 resetGame::usage =
   "resetGame[] svuota tutte le liste e ripristina le variabili globali all'inizio del gioco.";
@@ -36,8 +40,8 @@ Begin["`Private`"];
 cos\[IGrave] possiamo evitare di far attaccare al pc una stessa cella*)
 CPUAttackedCoordinates = {};
 
-(* Inizializza contesto PC e utente *)
-(*prende i valori inseriti dall'utente per il seed, la base e il livello di difficolt\[AGrave]*)
+(* Inizializza contesto CPU e utente *)
+(*Prende i valori inseriti dall'utente per il seed, la base e il livello di difficolt\[AGrave]*)
 initPhase[seed_Integer, base_Integer, difficultyLevel_Integer] := Module[
   {gridSize, shipLengths},
   
@@ -171,7 +175,7 @@ attack[attackCoordsWithMsg_, grid_, ships_] := Module[
       newGrid[[r, c]] = Colpito; 
       hit = True; (*l'attacco ha avuto successo*)
       
-      (* Controlla se oltre ha colpire ha anche affondato la nave*)
+      (* Controlla se oltre a colpire ha anche affondato la nave*)
       Do[
       (* Per ogni nave controlla se la cella attaccata \[EGrave] una cella occupata della nave stessa.
        L'indice \[EGrave] scalato di -1, perch\[EGrave] le coordinate delle navi siano basate su 0 *)
@@ -205,7 +209,7 @@ attack[attackCoordsWithMsg_, grid_, ships_] := Module[
     Colpito, (* la cella attaccata \[EGrave] colpita: quindi GI\[CapitalAGrave] COLPITO *)
       attackResult = "Hai gi\[AGrave] colpito qui!"
   ];
-  (*  Ritorna un quattro-uple *)
+  (*  Ritorna una quadrupla *)
   {attackResult, newGrid, hit, naveAffondata}
 ];
 

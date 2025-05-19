@@ -164,7 +164,7 @@ placementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
             Column[{  (* Colonna destra con visualizzazione griglia *)
 
               Style["La tua flotta", Bold, 14],
-              Dynamic[Util`showGrid[getUserGrid[], True]], (*getter definito in Ineraction.m e showGrid definita in Util.m*)
+              Dynamic[showGrid[getUserGrid[], True]], (*getter definito in Ineraction.m e showGrid definita in Util.m*)
 
               Style["Navi da posizionare:", Bold, 12],
               Dynamic[Module[{remaining = getRemainingShipLengths[]}, (*getter definito in Interaction.m*)

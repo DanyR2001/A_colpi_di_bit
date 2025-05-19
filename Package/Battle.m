@@ -49,8 +49,8 @@ initPhase[seed_Integer, base_Integer, difficultyLevel_Integer] := Module[
   resetGame[];
   
   (* Ottieni gridSize e shipLengths in base al livello di difficolt\[AGrave].*)
-  gridSize = Interaction`getDifficultyLevels[][[difficultyLevel, 2]]; (*prendo il secondo elemento di difficultyLevels (dimensione della griglia)*)
-  shipLengths = Interaction`getDifficultyLevels[][[difficultyLevel, 3]]; (*prendo il terzo elemento di difficultyLevels (lunghezza delle navi)*)
+  gridSize = getDifficultyLevels[][[difficultyLevel, 2]]; (*prendo il secondo elemento di difficultyLevels (dimensione della griglia)*)
+  shipLengths = getDifficultyLevels[][[difficultyLevel, 3]]; (*prendo il terzo elemento di difficultyLevels (lunghezza delle navi)*)
   (*difficultyLevels \[EGrave] definita in Interaction.m e definisce le impostazioni dei livelli di difficolt\[AGrave]:
   - livello (primo elemento della lista)
   - dimensione della griglia (secondo elemento della lista)

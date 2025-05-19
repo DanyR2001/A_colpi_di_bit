@@ -302,6 +302,82 @@ generateCPUShips[gridSize_Integer] := Module[
   ships
 ];
 
+attackHandler[input_, gridSize_, userBase_, cpuGrid_, CPUShips_, userGrid_, userShips_, 
+              gameState_, gameOver_, countAffondato_, cpuAffondato_] := Module[
+  {attackCoordsResult, messageUser = "", messageCpu = "", userAttack, cpuAttack, 
+   attackCpuCoords, newCpuGrid = cpuGrid, newUserGrid = userGrid, 
+   newGameState = gameState, newGameOver = gameOver, 
+   newCountAffondato = countAffondato, newCpuAffondato = cpuAffondato},
+  
+  (* Attacco dell'Utente *)
+  attackCoordsResult = verifyInput[gridSize, userBase, input]; (* controllo l'input inserito con verifyInput definita in Util.m *)
+  
+  (* Gestione dei messaggi di errore di verifyInput *)
+  If[ListQ[attackCoordsResult] && Length[attackCoordsResult] == 2 && attackCoordsResult[[1]] === $Failed,
+    messageUser = attackCoordsResult[[2]],
+    (* Esegui l'attacco se l'input è valido *)
+    userAttack = attack[attackCoordsResult[[1]], cpuGrid, CPUShips]; 
+    
+    (* Stato del gioco parte utente *)
+    messageUser = "Coordinate attaccate " <> ToString[attackCoordsResult[[1]]] <> ". " <> userAttack[[1]];
+    
+    (* Controllo nave affondata e incremento del contatore *)
+    If[userAttack[[4]], 
+      (* Assegnazione esplicita invece di incremento *)
+      newCountAffondato = countAffondato + 1
+    ];
+    
+    (* Controllo in caso di vittoria dell'UTENTE *)
+    If[userAttack[[3]] && newCountAffondato >= Length[CPUShips] && Length[CPUShips] > 0, 
+      newGameState = "Complimenti! Hai vinto!";
+      newGameOver = True;
+      newCpuGrid = userAttack[[2]];
+    ];
+    
+    (* Solo se l'attacco dell'utente è andato a buon fine, la CPU attacca *)
+    If[userAttack[[3]] && !newGameOver, (* input valido e attacco utente effettuato *)
+      
+      (* Attacco della CPU *)
+      newCpuGrid = userAttack[[2]];
+      (* Genera nuove coordinate CPU fino a trovare una cella non attaccata *)
+      attackCpuCoords = generateCoordinate[gridSize];
+      cpuAttack = attack[attackCpuCoords, userGrid, userShips];
+      newUserGrid = cpuAttack[[2]];
+      
+      (* Stato del gioco parte CPU *)
+      If[cpuAttack[[4]], 
+        (* Assegnazione esplicita invece di incremento *)
+        newCpuAffondato = cpuAffondato + 1
+      ];
+      
+      (* Controllo in caso di vittoria della CPU *)
+      If[newCpuAffondato >= Length[userShips], 
+        newGameState = "La CPU ha vinto!";
+        newGameOver = True;
+      ];
+      
+      (* Impostazione di un messaggio *)
+      messageCpu = Column[{
+        "Coordinate attaccate " <> ToString[attackCpuCoords] <> ". " <> cpuAttack[[1]],
+        (* mostro anche conversione in binario della cella attaccata dalla cpu come aiuto per l'utente *)
+        Row[{"La conversione è: ", Subscript[FromDigits[attackCpuCoords, 10], 10], " = ", BaseForm[FromDigits[attackCpuCoords], userBase]}]
+      }];
+    ];
+  ];
+  
+  (* Ritorna una Association con tutti i valori aggiornati *)
+  <|
+    "messageUser" -> messageUser,
+    "messageCpu" -> messageCpu,
+    "cpuGrid" -> newCpuGrid,
+    "userGrid" -> newUserGrid,
+    "gameState" -> newGameState,
+    "gameOver" -> newGameOver,
+    "countAffondato" -> newCountAffondato,
+    "cpuAffondato" -> newCpuAffondato
+  |>
+];
+
 (*ANNIDATO DynamicModule in module*)
 (* FUNZIONE per fare lo startGame *)
 startGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSize_] := 
@@ -337,60 +413,23 @@ DynamicModule[
         {"Inserisci la cella da attaccare:", 
           InputField[Dynamic[input], String, ImageSize -> {150, 30}, Enabled -> Dynamic[!gameOver]],
           Button["Fire!",
-            (*Attacco dell'Utente*)
-            attackCoordsResult = verifyInput[gridSize, userBase, input]; (*controllo l'input inserito con verifyInput definita in Util.m*)
-            
-            (* Gestione dei messaggi di errore di verifyInput *)
-            If[ListQ[attackCoordsResult] && Length[attackCoordsResult] == 2 && attackCoordsResult[[1]] === $Failed,
-              messageUser = attackCoordsResult[[2]],
-              (* Esegui l'attacco se l'input \[EGrave] valido *)
-              userAttack = attack[attackCoordsResult[[1]], cpuGrid, CPUShips]; 
-              
-              (* Stato del gioco parte utente *)
-              messageUser = "Coordinate attaccate " <> ToString[attackCoordsResult[[1]]] <> ". " <> userAttack[[1]];
-              
-              (* Controllo nave affondata e incremento del contatore *)
-              If[userAttack[[4]], 
-                (* Assegnazione esplicita invece di incremento *)
-                countAffondato = countAffondato + 1
-              ];
-              (* Controllo in caso di vittoria dell'UTENTE *)
-              If[userAttack[[3]] && countAffondato >= Length[CPUShips] && Length[CPUShips]>0, 
-                gameState = "Complimenti! Hai vinto!";
-                gameOver = True;
-                cpuGrid = userAttack[[2]];
-              ];
-              
-              (* Solo se l'attacco dell'utente \[EGrave] andato a buon fine, la CPU attacca *)
-              If[userAttack[[3]] && !gameOver, (*input valido e attacco utente effettuato*)
-              
-                (*Attacco della CPU*)
-                cpuGrid = userAttack[[2]];
-                (* Genera nuove coordinate CPU fino a trovare una cella non attaccata *)
-                attackCpuCoords = generateCoordinate[gridSize];
-                cpuAttack = attack[attackCpuCoords, userGrid, userShips];
-                userGrid = cpuAttack[[2]];
-                
-                (* Stato del gioco parte CPU *)
-                If[cpuAttack[[4]], 
-                  (* Assegnazione esplicita invece di incremento *)
-                  cpuAffondato = cpuAffondato + 1
-                ];
-                (* Controllo in caso di vittoria della CPU *)
-                If[cpuAffondato >= Length[userShips], 
-                  gameState = "La CPU ha vinto!";
-                  gameOver = True;
-                ];
-                (* Impostazione di un messaggio *)
-                messageCpu = Column[{
-                "Coordinate attaccate " <> ToString[attackCpuCoords] <> ". " <> cpuAttack[[1]],
-                (*mostro anche conversione in binario della cella attaccata dalla cpu come aiuto per l'utente*)
-                Row[{"La conversione \[EGrave]: ", Subscript[FromDigits[attackCpuCoords,10],10], " = ",BaseForm[FromDigits[attackCpuCoords],userBase]}]
-                }];
-              ];
-            ]
-            (* Impostazione della dimensione del pulsante di attacco "Fire" e abilitiamo l\[CloseCurlyQuote]interazione dinamicamente *)
-          , ImageSize -> {80, 30}, Enabled -> Dynamic[!gameOver]]
+          result = attackHandler[input, gridSize, userBase, cpuGrid, CPUShips, 
+                                 userGrid, userShips, gameState, gameOver, 
+                                 countAffondato, cpuAffondato];
+          
+          (* Aggiorna tutte le variabili con i risultati *)
+          messageUser = result["messageUser"];
+          messageCpu = result["messageCpu"];
+          cpuGrid = result["cpuGrid"];
+          userGrid = result["userGrid"];
+          gameState = result["gameState"];
+          gameOver = result["gameOver"];
+          countAffondato = result["countAffondato"];
+          cpuAffondato = result["cpuAffondato"];
+          
+          (* Pulisce l'input dopo l'attacco *)
+          input = "";, 
+          ImageSize -> {80, 30}, Enabled -> Dynamic[!gameOver]]
         }
       }],
       Row[{helpUser[userBase],Spacer[10], helpUserPersonalized[userBase]}], (*pulsanti per chiedere suggerimento*)

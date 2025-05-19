@@ -133,7 +133,11 @@ placementUI[] := DynamicModule[
               getGridSize[]
             ]],
             Spacer[10],
-            Button["Reset Game", resetGame[]; phase = 1]
+            Button["Reset Game", resetGame[]; 
+                                placementDone=False;
+                                shipPlacementMsg="";
+                                message=""; 
+                                phase = 1]
           }]
         ]
       ]

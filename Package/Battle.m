@@ -171,20 +171,14 @@ attack[attackCoordsWithMsg_, grid_, ships_] := Module[
   (* Controlla il contenuto della cella (r, c) della griglia *)
   Switch[grid[[r, c]], 
     Nave, (* nella cella c'\[EGrave] una nave: quindi COLPITO *)
-	(* Aggiorna la nuova griglia (newGrid) segnando la cella come colpita *)    
       newGrid[[r, c]] = Colpito; 
       hit = True; (*l'attacco ha avuto successo*)
       
       (* Controlla se oltre a colpire ha anche affondato la nave*)
       Do[
-      (* Per ogni nave controlla se la cella attaccata \[EGrave] una cella occupata della nave stessa.
-       L'indice \[EGrave] scalato di -1, perch\[EGrave] le coordinate delle navi siano basate su 0 *)
         If[MemberQ[nave, {r - 1, c - 1}],
-        (*Se appartiene alla nave*)
-        (* Controlla se tutte le celle di questa nave sono state colpite (Colpito). Se s\[IGrave], la nave \[EGrave] affondata *)
           If[AllTrue[nave, (newGrid[[#[[1]] + 1, #[[2]] + 1]] == Colpito) &], 
             naveAffondata = True;
-            (* Per ogni coordinata della nave, si aggiorna la griglia per segnare tutte le sue celle come affondate *)
             Do[
               newGrid[[coord[[1]] + 1, coord[[2]] + 1]] = Affondato;,
               {coord, nave}
@@ -195,7 +189,6 @@ attack[attackCoordsWithMsg_, grid_, ships_] := Module[
         {nave, ships}
       ];
       
-      (* Assegna un messaggio di esito *)    
       If[naveAffondata,
         attackResult = "Colpito e affondato!",
         attackResult = "Colpito!"
@@ -204,12 +197,22 @@ attack[attackCoordsWithMsg_, grid_, ships_] := Module[
     Vuoto, (* la cella attaccata \[EGrave] vuota: quindi MANCATO *)
       hit = True; (*l'attacco \[EGrave] andato a buon fine*)
       newGrid[[r, c]] = Mancato;
-      (*Assegna un messaggio di esito*)
       attackResult = "Mi dispiace. Colpo non andato a segno, tenta di nuovo...";,
-    Colpito, (* la cella attaccata \[EGrave] colpita: quindi GI\[CapitalAGrave] COLPITO *)
-      attackResult = "Hai gi\[AGrave] colpito qui!"
+      
+    Colpito, (* la cella attaccata \[EGrave] gi\[AGrave] stata colpita: quindi GI\[AGrave] COLPITO *)
+      attackResult = "Hai già attaccato qui!";,
+      
+    Affondato, (* la cella \[EGrave] parte di una nave affondata: quindi GI\[AGrave] AFFONDATO *)
+      attackResult = "Hai già attaccato qui!";,
+      
+    Mancato, (* la cella \[EGrave] gi\[AGrave] stata attaccata e mancata: quindi GI\[AGrave] MANCATO *)
+      attackResult = "Hai già attaccato qui!";,
+      
+    _, (* caso di default per valori non previsti *)
+      attackResult = "Stato della cella non riconosciuto!"
   ];
-  (*  Ritorna una quadrupla *)
+  
+  (* Ritorna una quadrupla *)
   {attackResult, newGrid, hit, naveAffondata}
 ];
 
@@ -378,7 +381,6 @@ attackHandler[input_, gridSize_, userBase_, cpuGrid_, CPUShips_, userGrid_, user
   |>
 ];
 
-(*ANNIDATO DynamicModule in module*)
 (* FUNZIONE per fare lo startGame *)
 startGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSize_] := 
 DynamicModule[

@@ -304,12 +304,11 @@ generateCPUShips[gridSize_Integer] := Module[
 
 (*ANNIDATO DynamicModule in module*)
 (* FUNZIONE per fare lo startGame *)
-startGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSize_] := Module[
-  {attackCoordsResult, attackCpuCoords, result, userAttack, cpuAttack},
-
-  DynamicModule[
-  {gameState = "In corso...", messageUser = "", messageCpu = "", cpuGrid = cpuGridInit, userGrid = userGridInit, 
-   countAffondato = 0, cpuAffondato = 0, gameOver = False, input = ""},
+startGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSize_] := 
+DynamicModule[
+  {gameState = "In corso...", messageUser = "", messageCpu = "", cpuGrid = cpuGridInit, 
+   userGrid = userGridInit, countAffondato = 0, cpuAffondato = 0, gameOver = False, input = "",
+   attackCoordsResult, attackCpuCoords, result, userAttack, cpuAttack},
     (* Reset dell'insieme delle coordinate attaccate dalla CPU *)
     CPUAttackedCoordinates = {};
     
@@ -403,7 +402,6 @@ startGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSiz
         Style["Attacco CPU:", Bold, 12],
         Dynamic[messageCpu]     
     }]
-  ]
 ]
 
 End[];

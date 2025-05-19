@@ -65,7 +65,7 @@ placementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
         Row[{  (* Riga con etichetta e menu a tendina per la difficolt\[AGrave] *)
           "Livello di difficolt\[AGrave]: ",
           PopupMenu[  (* Menu a tendina per scegliere la difficolt\[AGrave] *)
-            difficultyLevel,  (* Selezione dinamica collegata a difficultyLevel *)
+            Dynamic[difficultyLevel],  (* Selezione dinamica collegata a difficultyLevel *)
             Table[i -> difficultyLevels[[i, 1]], {i, Length[difficultyLevels]}]  (* Popola il menu con i nomi dei livelli *)
           ]
         }],
@@ -88,7 +88,7 @@ placementUI[] := DynamicModule[  (* Definisce una DynamicModule per mantenere lo
         Dynamic[Style[message, Red]]  (* Mostra messaggi dinamicamente in base alla variabile message *)
 
       }],  (* Fine colonna fase 1 *)
-      
+
       phase == 2,  (* Se siamo nella fase 2: posizionamento delle navi *)
 
       Column[{  (* Colonna per la UI della fase 2 *)

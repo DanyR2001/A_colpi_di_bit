@@ -302,6 +302,7 @@ generateCPUShips[gridSize_Integer] := Module[
   ships
 ];
 
+(*ANNIDATO DynamicModule in module*)
 (* FUNZIONE per fare lo startGame *)
 startGame[userShips_, CPUShips_, userGridInit_, cpuGridInit_, userBase_, gridSize_] := Module[
   {attackCoordsResult, attackCpuCoords, result, userAttack, cpuAttack},

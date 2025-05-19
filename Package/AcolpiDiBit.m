@@ -1,22 +1,5 @@
 (* ::Package:: *)
 
-(* ::Package:: *)
-
-(* :Title: Main *)
-(* :Context: Main` *)
-(* :Author: Daniele Russo, Nicola Modugno *)
-(* :Version: 3.5 *)
-(* :Date: 2025-05-19 *)
-
-(* :Summary: 
-   Questo pacchetto coordina le diverse fasi del gioco, dall'inizializzazione
-   alla battaglia, e gestisce l'interfaccia utente principale.
-*)
-
-(* :Copyright: A colpi di Bit (C) 2025 *)
-(* :Keywords: battaglia navale, gioco, interfaccia *)
-(* :Requirements: Mathematica 12.0+, Util`, Battle`, Interaction` *)
-
 (* File: AcolpiDiBit.m *)
 
 BeginPackage["AcolpiDiBit`", {"Util`", "Battle`", "Interaction`"}];  (* Apre il pacchetto Main e importa gli altri pacchetti richiesti *)
@@ -94,17 +77,17 @@ placementUI[] := DynamicModule[
                   {"Inizio:", InputField[Dynamic[start], String, Enabled -> Dynamic[!placementDone]]},
                   {"Fine:", InputField[Dynamic[end], String, Enabled -> Dynamic[!placementDone]]},
                   {"", Button["Conferma", 
-                    (* Blocco di codice per posizionamento nave *)
-                    Module[{result = placeUserShip[start, end]},
-                      If[result[[1]],
+                    (* Codice diretto per posizionamento nave, senza costrutti di scoping *)
+                    With[{tmpResult = placeUserShip[start, end]},
+                      If[tmpResult[[1]],
                         start = ""; end = "";
                         If[Length[getRemainingShipLengths[]] == 0,
                           placementDone = True;
                           shipPlacementMsg = "Tutte le navi sono state posizionate!";,
                           currentShip++;
-                          shipPlacementMsg = result[[2]];
+                          shipPlacementMsg = tmpResult[[2]];
                         ],
-                        shipPlacementMsg = result[[2]];
+                        shipPlacementMsg = tmpResult[[2]];
                       ]
                     ],
                     Enabled -> Dynamic[!placementDone]]},

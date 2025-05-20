@@ -21,13 +21,6 @@
 BeginPackage["Battle`", {"Util`", "Interaction`"}]; 
 
 
-(*generateCoordinate::usage = "generateCoordinate[gridSize] genera casualmente una coppia di coordinate (x,y).";
-attack::usage = "attack[attackCoords, grid, ships] attacca alle coordinate specificate, restituisce:\
-attackResult \[RightArrow] messaggio,
-newGrid \[RightArrow] griglia aggiornata,
-hit\[RightArrow]booleano che indica se l'attacco \[EGrave] andato a buon fine,
-naveAffondata \[RightArrow] booleano, indica se l'attacco ha affondato una nave."; 
-generateCPUShips::usage = "generateCPUShips[gridSize, seed] genera casualmente le navi della CPU.";*)
 startGame::usage = "startGame[userShips, CPUShips, userGridInit, cpuGridInit,userBase, gridSize] avvia il gioco (battaglia).";
 initPhase::usage =
   "initPhase[base, gridSize] inizializza il gioco: base \[Element] {2,8,16}, gridSize \[EGrave] la dimensione della griglia.\

@@ -21,12 +21,14 @@
 BeginPackage["Util`"];
 
 initSeed::usage="initSeed[seed] serve per inizializzare il seed prima di richiamare le varie random"
-convertToDecimal::usage = "convertToDecimal[input,base] converte una stringa da base specificata a base 10";
+(*convertToDecimal::usage = "convertToDecimal[input,base] converte una stringa da base specificata a base 10";*)
 verifyInput::usage = "verifyInput[gridSize, base, input]controlla che l'input sia accettabile secondo la base scelta e la dimensione della griglia";
 createGrid::usage="createGrid[ships, gridSize] crea una matrice gridSize x gridSize a partire dalle navi";
 showGrid::usage="showGrid[grid_, gridSize_] disegna la griglia di gioco mostrando le navi e gli attacchi";
 conversionFromDec::usage="conversionFromDec[base,numberDec] restituisce i passaggi della conversione di un numero da base 10 a base qualsiasi";
 conversionToDec::usage = "conversionToDec[base, number] restituisce i passaggi per la conversione di un numero da base qualsiasi a base 10."
+helpUser::usage="helpUser[base] mostra in una nuova finestra la conversione in base scelta di un numero decimale casuale.";
+helpUserPersonalized::usage="helpUserPersonalized[base] chiede in una nuova finestra all'utente di inserire un numero decimale e mostra la sua conversione in base scelta.";
 
 Colpito::usage = "Valore costante per cella colpita.";
 Mancato::usage = "Valore costante per cella mancata.";
@@ -378,6 +380,86 @@ conversionToDec[base_, number_] := Module[{colors, numberDec, digits, powers, te
   ]
 ];
   
+
+
+(*funzione per evitare di aprire una finestra se \[EGrave] gi\[AGrave] aperta*)
+singlePopup[popupWindow_] := With[{p = Unique["popup"]}, (*creo nome unico che far\[AGrave] riferimento al popup*)
+  popupWindow /. Button[a_, b_, c___] :> (*cerca tutti i Button per popupWindow e li sostituisce con una nuova versione*)
+    Button[a, If[! ValueQ[p] || Options[p] == $Failed, p = b], c]]; (*la nuova versione dei Button esegue l'azione solo se
+    non esiste ancora un valore unico associato (ValueQ[p]) o il valore associato non \[EGrave] valido*)
+
+(*funzione di suggerimento personalizzata*)
+helpUserPersonalized[base_Integer]:=PopupWindow[
+	Button["Chiedi una cella"], 
+	(*al click del bottone viene aperta una finestra 
+		che chiede all'utente di inserire un numero decimale,
+		poi mostra la conversione in base scelta del numero inserito*)
+	DynamicModule[{numberDec="",error="",ex=""}, 
+	(*numberDec \[RightArrow] numero da convertire, 
+	error\[RightArrow] messaggio di errore, 
+	ex \[RightArrow] esercizio (conversione passaggio per passaggio del numero)*)
+		Style[ (*imposto uno stesso stile di base per tutti i testi nella finestra*)
+			Column[{ (*uno di seguito all'altro (in colonna) vengono mostrati:
+						- inserimento del numero e bottone, 
+						- eventuale messaggio di errore,
+						- conversione del numero *)
+				"Inserisci un numero decimale intero e positivo da convertire in base "<>ToString[base],
+				Row[{ (*richiesta del numero da convertire*)
+					(*viene mostrato in una sola riga:
+					- il campo per l'inserimento del numero decimale
+					- e il bottone per mostrare la conversione*)
+					InputField[Dynamic[numberDec], String, ImageSize -> Small], 
+					(*numberDec deve essere un numero intero decimale positivo, quindi faccio il controllo con convertToDecimal in Util.m*)
+										
+					Button["Converti in base "<>ToString[base],
+						(*al click del bottone viene controllato che il valore sia un numero intero positivo*)
+						If[convertToDecimal[numberDec,10]=!=$Failed, (*per il controllo richiamo convertToDecimal definita i Util.m*)
+							numberDec=convertToDecimal[numberDec,10];
+							error=""; (*se i controlli vanno a buon fine non c'\[EGrave] nessun messaggio di errore*)
+							(*aggiorno la variabile ex assegnandogli i passaggi per la conversione del numero*)
+							ex=Column[{
+								Style["Conversione del numero: "<>ToString[numberDec],15,Red,Bold], (*indico numero da convertire*)
+								Spacer[5],
+								conversionFromDec[base,numberDec] (*richiamo conversionFromDec[base, numberDec], definita in Util.m,
+									 restituisce i passaggi per convertire un numero (numberDec) da decimale a base scelta*)
+							}];,
+							(*se i controlli non vanno a buon fine, cio\[EGrave] il numero inserito non \[EGrave] accettabile (con la virgola o negativo)
+							imposto un messaggio di errore e non faccio nessuna conversione*)
+							ex="";
+							error=Style["Attenzione: Inserisci un numero intero positivo!", Red];
+						]
+					]
+				}],
+				Dynamic[error], (*mostro dinamicamente un messaggio di errore*)
+				Dynamic[ex] (*mostro dinamicamente i passaggi per effettuare la conversione del numero*)
+			}]
+		,12] (*dimensione del testo*)
+	]
+, WindowTitle -> "Chiedi Una Cella" (*titolo della finestra*), WindowFloating -> True]//singlePopup (*per evitare di aprire la finestra pi\[UGrave] volte se gi\[AGrave] \[EGrave] aperta*); 
+
+(* suggerimento non personalizzato, esempio di conversione*)
+helpUser[base_Integer]:=PopupWindow[
+	Button["Suggerimento"], (*al click del pulsante viene aperta una finestra che mostra
+	tutti i passagi per fare la conversione di un numero casuale tra 1 e 300 in base scelta*)
+		Module[{numberDec},(*numero casuale da convertire*)
+			numberDec=RandomInteger[{1,300}];
+			(*suggerimento*)
+			Style[ (*imposta stile di base per il testo*)
+			Column[{
+				(*titolo*)
+				Style["Ripassiamo le conversioni tra basi 10 e "<>ToString[base],Bold,Red,15,TextAlignment->Center], (*titolo*)
+				Spacer[10],
+				(*sottotitolo*)
+				Style["Da base 10 a base "<>ToString[base]<>" :",Underlined,Italic,13], (*sottotitolo*)
+				Spacer[5],
+				(*esercizio conversione*)
+				Row[{"Consideriamo il numero: ",Subscript[numberDec,10]}], (*indico il numero da convertire, specificando con Subscript la base numerica*)
+				(*conversionFromDec[base,numberDec] \[EGrave] una funzione definita in Util.m*)
+				conversionFromDec[base,numberDec] (*richiamo conversionFromDec[base,numberDec] per mostrare i passaggi della conversione del numero in base scelta*)
+			}],12] (*dimensione del testo*)
+		]
+,WindowTitle->"Suggerimento", WindowFloating->True]//singlePopup (*per evitare di aprire la finestra pi\[UGrave] volte se gi\[AGrave] \[EGrave] aperta*);
+
 
 
 End[];

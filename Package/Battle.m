@@ -71,7 +71,7 @@ initPhase[seed_Integer, base_Integer, difficultyLevel_Integer] := Module[
 ];
 
 (* Reset di tutte le variabili e liste *)
-resetGame[] := Module[{},
+resetGame[] := DynamicModule[{},
   setUserBase[10];
   setGridSize[10];
   setCPUShips[{}];
@@ -193,13 +193,13 @@ attack[attackCoordsWithMsg_, grid_, ships_] := Module[
       attackResult = "Mi dispiace. Colpo non andato a segno, tenta di nuovo...";,
       
     Colpito, (* la cella attaccata \[EGrave] gi\[AGrave] stata colpita: quindi GI\[AGrave] COLPITO *)
-      attackResult = "Hai già attaccato qui!";,
+      attackResult = "Hai gi\[AGrave] attaccato qui!";,
       
     Affondato, (* la cella \[EGrave] parte di una nave affondata: quindi GI\[AGrave] AFFONDATO *)
-      attackResult = "Hai già attaccato qui!";,
+      attackResult = "Hai gi\[AGrave] attaccato qui!";,
       
     Mancato, (* la cella \[EGrave] gi\[AGrave] stata attaccata e mancata: quindi GI\[AGrave] MANCATO *)
-      attackResult = "Hai già attaccato qui!";,
+      attackResult = "Hai gi\[AGrave] attaccato qui!";,
       
     _, (* caso di default per valori non previsti *)
       attackResult = "Stato della cella non riconosciuto!"
@@ -311,7 +311,7 @@ attackHandler[input_, gridSize_, userBase_, cpuGrid_, CPUShips_, userGrid_, user
   (* Gestione dei messaggi di errore di verifyInput *)
   If[ListQ[attackCoordsResult] && Length[attackCoordsResult] == 2 && attackCoordsResult[[1]] === $Failed,
     messageUser = attackCoordsResult[[2]],
-    (* Esegui l'attacco se l'input è valido *)
+    (* Esegui l'attacco se l'input \[EGrave] valido *)
     userAttack = attack[attackCoordsResult[[1]], cpuGrid, CPUShips]; 
     
     (* Stato del gioco parte utente *)
@@ -330,7 +330,7 @@ attackHandler[input_, gridSize_, userBase_, cpuGrid_, CPUShips_, userGrid_, user
       newCpuGrid = userAttack[[2]];
     ];
     
-    (* Solo se l'attacco dell'utente è andato a buon fine, la CPU attacca *)
+    (* Solo se l'attacco dell'utente \[EGrave] andato a buon fine, la CPU attacca *)
     If[userAttack[[3]] && !newGameOver, (* input valido e attacco utente effettuato *)
       
       (* Attacco della CPU *)
@@ -356,7 +356,7 @@ attackHandler[input_, gridSize_, userBase_, cpuGrid_, CPUShips_, userGrid_, user
       messageCpu = Column[{
         "Coordinate attaccate " <> ToString[attackCpuCoords] <> ". " <> cpuAttack[[1]],
         (* mostro anche conversione in binario della cella attaccata dalla cpu come aiuto per l'utente *)
-        Row[{"La conversione è: ", Subscript[FromDigits[attackCpuCoords, 10], 10], " = ", BaseForm[FromDigits[attackCpuCoords], userBase]}]
+        Row[{"La conversione \[EGrave]: ", Subscript[FromDigits[attackCpuCoords, 10], 10], " = ", BaseForm[FromDigits[attackCpuCoords], userBase]}]
       }];
     ];
   ];

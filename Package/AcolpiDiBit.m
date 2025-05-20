@@ -117,7 +117,11 @@ placementUI[] := DynamicModule[
                 ]
               }]
             }],
-            Button["Reset Game", phase = 1]
+            Button["Reset Game", resetGame[]; 
+                                placementDone=False;
+                                shipPlacementMsg="";
+                                message=""; 
+                                phase = 1]
           }],
           
           (* FASE 3: Battaglia *)
